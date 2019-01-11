@@ -1,0 +1,46 @@
+language: node_js
+node_js:
+  - "11"
+dist: xenial
+sudo: false
+
+addons:
+  chrome: stable
+
+before_script:
+  - pushd SelfAssessment
+  - npm install
+  - popd
+
+cache:
+  directories:
+    - SelfAssessment/node_modules
+
+jobs:
+  include:
+    - stage: lint
+      script:
+        - pushd SelfAssessment
+        - npm run lint
+        - popd
+    - stage: build
+      script:
+        - pushd SelfAssessment
+        - npm run build
+        - popd
+#    - stage: test
+#      script:
+#        - pushd SelfAssessment
+#        - npm run test:headless
+#        - popd
+#    - stage: e2e
+#      script:
+#        - pushd SelfAssessment
+#        - xvfb-run npm run e2e
+#        - popd
+
+stages:
+  - lint
+  - build
+#  - test
+#  - e2e
