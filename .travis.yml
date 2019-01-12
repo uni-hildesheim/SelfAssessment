@@ -8,9 +8,7 @@ addons:
   chrome: stable
 
 before_script:
-  - pushd SelfAssessment
-  - npm install
-  - popd
+  - bash .travis.sh install
 
 cache:
   directories:
@@ -20,24 +18,16 @@ jobs:
   include:
     - stage: lint
       script:
-        - pushd SelfAssessment
-        - npm run lint
-        - popd
+        - bash .travis.sh lint
     - stage: build
       script:
-        - pushd SelfAssessment
-        - npm run build
-        - popd
+        - bash .travis.sh build
 #    - stage: test
 #      script:
-#        - pushd SelfAssessment
-#        - npm run test:headless
-#        - popd
+#        - bash .travis.sh test
 #    - stage: e2e
 #      script:
-#        - pushd SelfAssessment
-#        - xvfb-run npm run e2e
-#        - popd
+#        - bash .travis.sh e2e
 
 stages:
   - lint
