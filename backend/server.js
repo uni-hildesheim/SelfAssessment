@@ -1,8 +1,14 @@
+// static configuration
+var PORT = 8000;
+
+for (arg of process.argv) {
+  if (arg.startsWith('--port=')) {
+    PORT = arg.split('=')[1];
+  }
+}
+
 // load dependencies
 const express = require('express');
-
-// static configuration
-const PORT = 8000;
 
 // create the app
 const app = express();
