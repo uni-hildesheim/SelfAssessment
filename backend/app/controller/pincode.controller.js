@@ -1,9 +1,9 @@
 module.exports = {
-    createPin
+    create
 }
 
 // create a pseudo-random pin code
-function createPin(req, res) {
+function create(req, res) {
     // length of the pin code, where each element is a digit
     // 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
     const LENGTH = 8
