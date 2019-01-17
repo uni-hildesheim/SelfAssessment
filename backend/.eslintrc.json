@@ -7,6 +7,14 @@
         "node/prefer-global/console": ["error", "always"],
         "node/prefer-global/process": ["error", "always"],
         "node/prefer-global/url-search-params": ["error", "always"],
-        "node/prefer-global/url": ["error", "always"]
+        "node/prefer-global/url": ["error", "always"],
+        "no-console": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+                "message": "Unexpected property on console object was called"
+            }
+        ]
     }
 }
