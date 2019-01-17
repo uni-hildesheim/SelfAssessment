@@ -22,3 +22,6 @@
 # System Files
 .DS_Store
 Thumbs.db
+
+# mongodb data
+data
