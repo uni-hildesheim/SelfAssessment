@@ -34,7 +34,7 @@ function create(req, res) {
         pin: Number.parseInt(string),
         created: new Date()
     }).then(pincode => {
-        res.json(pincode);
+        res.status(201).json(pincode);
     }).catch(err => {
         console.log(err);
         res.status(500).json({ error: err });
