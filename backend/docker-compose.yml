@@ -1,0 +1,19 @@
+version: "3"
+services:
+  app:
+    container_name: selfassessment-backend
+    restart: always
+    image: app:selfassessment-backend
+    build: .
+    ports:
+      - "8000:8000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
