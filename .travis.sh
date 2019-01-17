@@ -37,6 +37,7 @@ FRONTEND_TASKS=(
     ["install"]="pushd $FRONTEND_DIR; npm install; popd;"
 )
 BACKEND_TASKS=(
+    ["lint"]="pushd $BACKEND_DIR; npm run lint; popd;"
     ["install"]="pushd $BACKEND_DIR; npm install; popd;"
 )
 

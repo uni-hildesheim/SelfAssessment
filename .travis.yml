@@ -8,6 +8,7 @@ addons:
   chrome: stable
 
 before_script:
+  - npm install -g eslint eslint-plugin-node
   - bash .travis.sh install
 
 cache:
