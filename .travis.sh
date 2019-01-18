@@ -56,7 +56,6 @@ FRONTEND_TASK=""
 for i in "${!FRONTEND_TASKS[@]}"; do
     if [ "$i" == "$TASK" ]; then
         FRONTEND_TASK="${FRONTEND_TASKS[$i]}"
-        echo "[Frontend] Executing task: $TASK"
         break
     fi
 done
@@ -65,7 +64,6 @@ BACKEND_TASK=""
 for i in "${!BACKEND_TASKS[@]}"; do
     if [ "$i" == "$TASK" ]; then
         BACKEND_TASK="${BACKEND_TASKS[$i]}"
-        echo "[Backend] Executing task: $TASK"
         break
     fi
 done
@@ -73,9 +71,11 @@ done
 if [[ $CHANGED_COMPONENTS == *"SelfAssessment"* ]]; then
     if [ "$FRONTEND_TASK" == "" ]; then
         echo "[Frontend] Task $TASK undefined, skipping"
+        break
     fi
 
-    echo "[Frontend] Task: \"$FRONTEND_TASK\""
+    echo "[Frontend] Task: $TASK"
+    echo "[Frontend] Executing task: \"$FRONTEND_TASK\""
     if ! eval $FRONTEND_TASK; then
         echo "[Frontend] Task $TASK failed"
         exit 1
@@ -85,9 +85,11 @@ fi
 if [[ $CHANGED_COMPONENTS == *"backend"* ]]; then
     if [ "$BACKEND_TASK" == "" ]; then
         echo "[Backend] Task $TASK undefined, skipping"
+        break
     fi
 
-    echo "[Backend] Task: \"$BACKEND_TASK\""
+    echo "[Backend] Task: $TASK"
+    echo "[Backend] Executing task: \"$BACKEND_TASK\""
     if ! eval $BACKEND_TASK; then
         echo "[Backend] Task $TASK failed"
         exit 1
