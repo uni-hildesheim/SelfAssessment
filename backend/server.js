@@ -23,12 +23,7 @@ require('./app/routes/index.js')(app);
 
 // database initialization
 console.log('MongoDB URI: ' + DB_URI);
-db.mongoose.connect(DB_URI, db.config.options);
-
-db.mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-db.mongoose.connection.once('connected', function () {
-    console.log('MongoDB connected successfully!');
-});
+db.connect(DB_URI, db.config.options);
 
 app.listen(PORT, () => {
     console.log('Server running on port: ' + PORT);
