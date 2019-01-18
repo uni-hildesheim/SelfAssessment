@@ -1,6 +1,10 @@
-module.exports = function(app) {
+module.exports = {
+    v1
+}
+
+function v1(app) {
     const controller = require('../controller/pincode.controller.js');
 
     // request a new pseudo-random PIN code
-    app.get('/api/misc/pincode/create', controller.create);
+    app.get('/api/v1/pincode/create', controller.create);
 }

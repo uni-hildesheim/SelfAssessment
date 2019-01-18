@@ -1,7 +1,11 @@
-module.exports = function(app) {
+module.exports = {
+    v1
+}
+
+function v1(app) {
     const controller = require('../controller/journal.controller.js');
 
     // raw journal object exchange
-    app.post('/api/misc/journal/load', controller.load);
-    app.post('/api/misc/journal/save', controller.save);
+    app.post('/api/v1/journal/load', controller.load);
+    app.post('/api/v1/journal/save', controller.save);
 }
