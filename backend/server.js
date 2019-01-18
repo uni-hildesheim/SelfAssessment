@@ -14,9 +14,11 @@ for (var arg of process.argv) {
 
 // load dependencies
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // create the app
 const app = express();
+app.use(bodyParser.json())
 
 // load the API routes
 require('./app/routes/index.js')(app);
