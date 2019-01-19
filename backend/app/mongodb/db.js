@@ -42,7 +42,7 @@ function connect(dbURL, options) {
             // Wait for a bit, then try to connect again
             setTimeout(function () {
                 console.log("Retrying first connect...");
-                connection.openUri(dbURL).catch(() => {});
+                connection.openUri(dbURL, options).catch(() => {});
                 // Why the empty catch?
                 // Well, errors thrown by db.open() will also be passed to .on('error'),
                 // so we can handle them there, no need to log anything in the catch here.
