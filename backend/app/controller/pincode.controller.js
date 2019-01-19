@@ -9,32 +9,37 @@ function create(req, res) {
     // length of the pin code, where each element is a digit
     // 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
     const LENGTH = 8
-    const MAX_TRIES = Math.pow(10, 8);
+    const MAX_PINCODES = Math.pow(10, LENGTH);
 
     var digits = new Array(LENGTH)
     var string = ''
-    var tries = 0
 
-    do {
-        tries++;
-        if (tries > MAX_TRIES) {
+    // get all current pincodes
+    db.Pincode.find().then(pincodes => {
+        if (pincodes.length === MAX_PINCODES) {
             res.status(500).json({ error: 'Exhausted random pincode possibilities' });
             return;
         }
 
-        string = ''
-        for (var i = 0; i < LENGTH; i++) {
-            digits[i] = Math.floor(Math.random() * 10)
-            string += digits[i]
-        }
+        // generate a new pincode
+        do {
+            string = ''
+            for (var i = 0; i < LENGTH; i++) {
+                digits[i] = Math.floor(Math.random() * 10)
+                string += digits[i]
+            }
+        } while (pincodes.indexOf(Number.parseInt(string)) > -1);
 
-    } while (db.Pincode.pinExists(Number.parseInt(string)));
-
-    db.Pincode.create({
-        pin: Number.parseInt(string),
-        created: new Date()
-    }).then(pincode => {
-        res.status(201).json(pincode);
+        // add the new pincode to the db collection
+        db.Pincode.create({
+            pin: Number.parseInt(string),
+            created: new Date()
+        }).then(pincode => {
+            res.status(201).json(pincode);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
     }).catch(err => {
         console.log(err);
         res.status(500).json({ error: err });
