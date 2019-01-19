@@ -67,6 +67,6 @@ module.exports = {
     connect: connect,
 
     // models
-    Journal: require('../model/journal.model.js')(mongoose),
-    Pincode: require('../model/pincode.model.js')(mongoose)
+    Journal: require('../model/journal.model.js'),
+    Pincode: require('../model/pincode.model.js')
 };

@@ -1,24 +1,10 @@
-module.exports = (mongoose) => {
-    const pincodeSchema = new mongoose.Schema({
-        pin: Number,
-        created: Date
-    });
+const mongoose = require('mongoose');
 
-    /*
-     * static model methods
-     */
+const PincodeSchema = new mongoose.Schema({
+    pin: Number,
+    created: Date
+});
 
-    pincodeSchema.statics.pinExists = function(pin) {
-        this.model('Pincode').find({ pin: pin }, (err, docs) => {
-            if (err) {
-                console.log(err);
-                return false;
-            }
+const PincodeModel = mongoose.model('Pincode', PincodeSchema);
 
-            return docs.length == 0;
-        });
-    }
-
-    const Pincode = mongoose.model('Pincode', pincodeSchema);
-    return Pincode;
-}
+module.exports = PincodeModel;

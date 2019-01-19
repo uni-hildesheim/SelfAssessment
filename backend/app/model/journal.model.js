@@ -1,29 +1,10 @@
-module.exports = (mongoose) => {
-    const journalSchema = new mongoose.Schema({
-        associatedPin: Number,
-        data: Object
-    });
+const mongoose = require('mongoose');
 
-    /*
-     * static model methods
-     */
+const JournalSchema = new mongoose.Schema({
+    associatedPin: Number,
+    data: Object
+});
 
-    journalSchema.statics.get = function(pin) {
-        this.model('Journal').find({ associatedPin: pin }, (err, docs) => {
-            if (err) {
-                console.log(err);
-                return false;
-            }
+const JournalModel = mongoose.model('Journal', JournalSchema);
 
-            // there can only be exactly one document for a given pin
-            if (docs.length == 0) {
-                return null;
-            }
-
-            return docs[0];
-        });
-    }
-
-    const Journal = mongoose.model('Journal', journalSchema);
-    return Journal;
-}
+module.exports = JournalModel;
