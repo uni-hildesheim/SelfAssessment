@@ -15,6 +15,7 @@ for (var arg of process.argv) {
 // load dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // create the app
 const app = express();
@@ -22,6 +23,12 @@ app.use(bodyParser.json())
 
 // load the API routes
 require('./app/routes/index.js')(app);
+
+// enable cross-origin resource sharing
+const corsOptions = {
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
 
 // database initialization
 console.log('MongoDB URI: ' + DB_URI);
