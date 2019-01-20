@@ -11,6 +11,12 @@ describe('PincodeController', () => {
         }
     ];
 
+    beforeEach( () => {
+        // stub out DB model methods
+        sinon.stub(PincodeModel, 'find');
+        sinon.stub(PincodeModel, 'create');
+    });
+
     afterEach( () => {
         // cleanup and remove stubs
         sinon.restore();
@@ -18,8 +24,8 @@ describe('PincodeController', () => {
 
     describe('PincodeController.create', () => {
         it('should create a pseudo-random pincode (8 digits)', async () => {
-            sinon.stub(PincodeModel, 'find').resolves(docs);
-            sinon.stub(PincodeModel, 'create').resolves(docs[0]);
+            PincodeModel.find.resolves(docs);
+            PincodeModel.create.resolves(docs[0]);
 
             const req = {};
             var res = {

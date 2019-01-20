@@ -11,14 +11,19 @@ describe('JournalController', () => {
         }
     ];
 
-    afterEach(function () {
+    beforeEach( () => {
+        // stub out DB model methods
+        sinon.stub(JournalModel, 'findOne');
+    });
+
+    afterEach( () => {
         // cleanup and remove stubs
         sinon.restore();
     });
 
     describe('JournalController.load', () => {
         it('should return HTTP 404 for invalid pins', async () => {
-            sinon.stub(JournalModel, 'findOne').resolves(null);
+            JournalModel.findOne.resolves(null);
             const req = {
                 body: {
                     pin: 'dummy'
@@ -38,7 +43,7 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal from the stub DB', async () => {
-            sinon.stub(JournalModel, 'findOne').resolves(docs[0]);
+            JournalModel.findOne.resolves(docs[0]);
             const req = {
                 body: {
                     pin: docs[0].associatedPin
