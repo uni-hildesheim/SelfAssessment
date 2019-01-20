@@ -32,14 +32,14 @@ declare -A FRONTEND_TASKS
 declare -A BACKEND_TASKS
 
 FRONTEND_TASKS=(
-    ["lint"]="pushd $FRONTEND_DIR; npm run lint; popd;"
-    ["build"]="pushd $FRONTEND_DIR; npm run build; popd;"
-    ["install"]="pushd $FRONTEND_DIR; npm install; popd;"
+    ["lint"]="npm run lint"
+    ["build"]="npm run build"
+    ["install"]="npm install"
 )
 BACKEND_TASKS=(
-    ["lint"]="pushd $BACKEND_DIR; npm run lint; popd;"
-    ["install"]="pushd $BACKEND_DIR; npm install; popd;"
-    ["test"]="pushd $BACKEND_DIR; npm run test; popd;"
+    ["lint"]="npm run lint"
+    ["install"]="npm install"
+    ["test"]="npm run test"
 )
 
 CHANGED_COMPONENTS=`git diff --name-only HEAD^ | cut -d"/" -f1 | uniq | xargs echo -n`
@@ -75,10 +75,12 @@ if [[ $CHANGED_COMPONENTS == *"SelfAssessment"* ]]; then
     else
         echo "[Frontend] Task: $TASK"
         echo "[Frontend] Executing task: \"$FRONTEND_TASK\""
+        pushd $FRONTEND_DIR
         if ! eval $FRONTEND_TASK; then
             echo "[Frontend] Task $TASK failed"
             exit 1
         fi
+        popd
     fi
 fi
 
@@ -88,10 +90,12 @@ if [[ $CHANGED_COMPONENTS == *"backend"* ]]; then
     else
         echo "[Backend] Task: $TASK"
         echo "[Backend] Executing task: \"$BACKEND_TASK\""
+        pushd $BACKEND_DIR
         if ! eval $BACKEND_TASK; then
             echo "[Backend] Task $TASK failed"
             exit 1
         fi
+        popd
     fi
 fi
 
