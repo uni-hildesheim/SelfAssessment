@@ -9,7 +9,7 @@
 # yet not all of the subprojects have to implement all the steps.
 # If, for example, the backend project does not support the 'lint' step, the
 # script will return 0 but not perform any actions.
-TASKS=("lint" "build" "install")
+TASKS=("lint" "build" "install" "test")
 
 TASK=""
 for i in "${TASKS[@]}"; do
@@ -39,6 +39,7 @@ FRONTEND_TASKS=(
 BACKEND_TASKS=(
     ["lint"]="pushd $BACKEND_DIR; npm run lint; popd;"
     ["install"]="pushd $BACKEND_DIR; npm install; popd;"
+    ["test"]="pushd $BACKEND_DIR; npm run test; popd;"
 )
 
 CHANGED_COMPONENTS=`git diff --name-only HEAD^ | cut -d"/" -f1 | uniq | xargs echo -n`

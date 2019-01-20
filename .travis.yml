@@ -8,7 +8,6 @@ addons:
   chrome: stable
 
 before_script:
-  - npm install -g eslint eslint-plugin-node
   - bash .travis.sh install
 
 cache:
@@ -23,9 +22,9 @@ jobs:
     - stage: build
       script:
         - bash .travis.sh build
-#    - stage: test
-#      script:
-#        - bash .travis.sh test
+    - stage: test
+      script:
+        - bash .travis.sh test
 #    - stage: e2e
 #      script:
 #        - bash .travis.sh e2e
@@ -33,5 +32,5 @@ jobs:
 stages:
   - lint
   - build
-#  - test
+  - test
 #  - e2e
