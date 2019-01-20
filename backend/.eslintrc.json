@@ -1,5 +1,9 @@
 {
-    "extends": ["eslint:recommended", "plugin:node/recommended"],
+    "plugins": ["jasmine"],
+    "env": {
+        "jasmine": true
+    },
+    "extends": ["eslint:recommended", "plugin:node/recommended", "plugin:jasmine/recommended"],
     "rules": {
         "indent": ["error", 4],
         "node/exports-style": ["error", "module.exports"],
