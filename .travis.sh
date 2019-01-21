@@ -35,7 +35,7 @@ FRONTEND_TASKS=(
     ["lint"]="npm run lint"
     ["build"]="npm run build"
     ["install"]="npm install"
-    ["test"]="npm run test"
+    ["test"]="npm run test-headless"
 )
 BACKEND_TASKS=(
     ["lint"]="npm run lint"
