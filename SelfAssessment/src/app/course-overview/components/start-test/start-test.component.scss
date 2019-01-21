@@ -1,0 +1,42 @@
+$info-img-width: 500px;
+$info-img-height: 400px;
+
+mat-card{
+    padding:50px;
+    max-width: 1300px;
+    margin: auto;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+.start-test-info {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+
+    .info-img{
+        order: 2;
+        flex: 1;
+        img {
+            display: block;
+            margin: auto;
+            max-width: $info-img-width;
+            max-height: $info-img-height;
+        }
+    }
+
+    .info-content{
+        order:1;
+        flex: 1;
+
+    }
+
+    .pin-note {
+        order: 3;
+        flex: 100%;
+        padding: 20px;
+        background-color: beige;
+        margin-bottom: 10px;
+    }
+}

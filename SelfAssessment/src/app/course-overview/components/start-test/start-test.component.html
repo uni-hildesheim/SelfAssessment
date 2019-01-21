@@ -1,0 +1,37 @@
+<mat-card>
+
+  <div class="start-test-info">
+
+    <div class="info-img">
+      <img src="assets/images/platzhalter.png" />
+    </div>
+
+    <div class="info-content">
+
+      <p>{{infoContent}}</p>
+
+      <mat-list role="list">
+        <h3 mat-header>{{notesLbl}}</h3>
+        <mat-list-item role="listitem" *ngFor="let note of notes">
+          <mat-icon matListIcon>done</mat-icon> {{note}}
+        </mat-list-item>
+      </mat-list>
+
+      <h4>{{encouragement}}</h4>
+    </div>
+    <div class="pin-note">
+      <i>Hinweis:</i>
+      <p>
+        {{pinNote}}
+      </p>
+      <p>
+        <b>PIN: {{this.pin}}</b>
+      </p>
+    </div>
+
+  </div>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="startSelfAssessment()">{{startTestLbl}}</button>
+
+  </mat-card-actions>
+</mat-card>
