@@ -1,0 +1,43 @@
+<mat-horizontal-stepper #stepper>
+
+  <mat-step *ngFor="let set of journalStructure.sets">
+
+    <div class="wrapper-main">
+
+      <div class="navigate-btn">
+        <button [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"
+          (click)="moveToNextSetElement(false, stepper)">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <div class="main-test" *ngIf="set.elements[setElemIndex]">
+        <p>Fortschritt dieses Kapitels:</p>
+        <mat-progress-bar></mat-progress-bar>
+        <div [ngSwitch]="set.elements[setElemIndex].setType">
+
+
+          <div class="single-test" *ngSwitchCase="'test'">
+            <app-single-test-card [singleTest]="set.elements[setElemIndex]"></app-single-test-card>
+            <p></p>
+          </div>
+          <div class="single-test" *ngSwitchCase="'infopage'">
+            <app-infopage [infopage]="set.elements[setElemIndex]"></app-infopage>
+          </div>
+        </div>
+      </div>
+
+      <div class="navigate-btn">
+        <button [disabled]="setIndex === journalStructure.sets.length-1 && setElemIndex === journalStructure.sets[journalStructure.sets.length-1].elements.length-1"
+          mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+
+
+    </div>
+
+  </mat-step>
+
+</mat-horizontal-stepper>
