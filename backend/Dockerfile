@@ -1,4 +1,4 @@
-FROM node:11
+FROM node:11-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -8,12 +8,12 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
 # If you are building your code for production
-# RUN npm install --only=production
+RUN npm install --only=production
 
 # Bundle app source
-COPY . .
+COPY server.js ./server.js
+COPY app ./app
 
 # Expose port 8000 (what our Express.js server wants)
 EXPOSE 8000
@@ -24,7 +24,7 @@ EXPOSE 8000
 # container instances, which means they do not run on the same host, so localhost cannot be used.
 # Instead, we just override the hostname here and set it to the one specified as link target in
 # docker-compose.yml ('mongo').
-CMD [ "npm", "start", "--", "--mongouri=mongodb://mongo:27017/selfassessment" ]
+CMD [ "node", "server.js", "--", "--mongouri=mongodb://mongo:27017/selfassessment" ]
 
-# TODO: Don't run as root
-#USER node
+# Don't run as root
+USER node
