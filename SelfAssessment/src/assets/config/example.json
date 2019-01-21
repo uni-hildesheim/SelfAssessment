@@ -1,0 +1,96 @@
+{
+    "title": "IMIT",  
+    "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+
+    "tests": [
+        {
+            "id": 1001,
+            "type": "logic",
+            "category": "multiple-options",
+            "description": "This is the description of the first test.",
+            "task": "This is the task of the first test.",
+            "options": [
+                {
+                    "text": "Ja",
+                    "correct": true
+                },
+                {
+                    "text": "Nein"
+                }
+            ],
+            "header": [
+                "head1",
+                "head2"
+            ],
+            "evaluated": true
+        },
+        {
+            "id": 1002,
+            "type": "logic",
+            "category": "radio-buttons",
+            "description": "Zweiter, simpler Test mit zwei Radio Buttons + OK Button zum absenden.",
+            "task": "3*3=9",
+            "options": [
+                {
+                    "text": "Ja",
+                    "correct": true
+                },
+                {
+                    "text": "Nein"
+                }
+            ],
+            "evaluated": true
+        },
+        {
+            "id": 1003,
+            "type": "logic",
+            "category": "multiple-choice",
+            "description": "This is the description.",
+            "task": "This is the task.",
+            "options": [
+                {
+                    "text": "Option 1",
+                    "correct": true
+                },
+                {
+                    "text": "Option 2"
+                },
+                {
+                    "text": "Option 3"
+                }
+            ],
+            "evaluated": true
+        }
+    ],
+
+    "testgroups": [
+        {
+            "id": 2001,
+            "tests": [1001, 1002],
+            "select": 1
+        },
+        {
+            "id": 2002,
+            "tests": [1002]
+        }
+    ],
+
+    "infopages": [
+        {
+            "id": 4001,
+            "text": "Wählen Sie einen der beiden Radio Buttons aus und bestätigen Sie die Eingabe mit 'OK'.",
+            "belongs": 2001
+        }
+    ],
+
+    "sets": [
+        {
+            "id": 3001,
+            "elements": [1001, 2001, 1003]
+        },
+        {
+            "id": 3002,
+            "elements": [1001, 2001]
+        }
+    ]
+}
