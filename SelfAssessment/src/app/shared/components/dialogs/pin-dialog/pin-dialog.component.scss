@@ -1,0 +1,16 @@
+p{
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+
+}
+
+.errorMessage{
+    color: crimson;
+}
+
+
+.load{
+    overflow: hidden;
+    mat-spinner{
+        margin: auto;
+    }
+}

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>PIN Eingabe</h1>
+<div mat-dialog-content>
+  <p class="errorMessage" *ngIf="errorMessage">{{errorMessage}}</p>
+  <div *ngIf="!loading">
+  <p>Please Enter your Pin.</p>
+  <form>
+  <mat-form-field>
+    <input matInput [formControl]="pinFormControl">
+    <mat-error *ngIf="pinFormControl.hasError('pattern')">
+      Please enter a valid PIN.
+    </mat-error>
+  </mat-form-field>
+</form>
+</div>
+<div *ngIf="loading" class="load">
+    <mat-spinner diameter="65"></mat-spinner>
+</div>
+</div>
+<div mat-dialog-actions *ngIf="!loading">
+  <button [disabled]="pinFormControl.hasError('pattern')" mat-button (click)="getProtocol()">OK</button>
+</div>
