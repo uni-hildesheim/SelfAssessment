@@ -7,13 +7,15 @@ import { SingleTestCardComponent } from './components/single-test-card/single-te
 import { MaterialModule } from '../material/material.module';
 import { GlobalIndicator } from './global.indicators';
 import { InfopageComponent } from './components/infopage/infopage.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [MainPanelComponent, SingleTestCardComponent, InfopageComponent],
   imports: [
     CommonModule,
     MaterialModule,
-    TestpanelRoutingModule
+    TestpanelRoutingModule,
+    SharedModule
   ],
   providers: [
     GlobalIndicator

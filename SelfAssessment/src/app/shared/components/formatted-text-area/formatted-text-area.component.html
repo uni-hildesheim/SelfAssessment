@@ -1,0 +1,7 @@
+<span *ngFor="let partial of formattedText; index as i">
+  <span *ngIf="i%2==0; else showEquation;" [innerHTML]="partial"></span>
+
+  <ng-template #showEquation>
+    <i><ng-katex equation="{{partial}}"></ng-katex></i>
+  </ng-template>
+</span>

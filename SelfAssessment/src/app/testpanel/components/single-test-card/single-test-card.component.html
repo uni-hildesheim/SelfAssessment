@@ -3,9 +3,13 @@
 
     <h3>Card for Test: {{singleTest.id}}</h3>
 
-    <h3>Description: {{singleTest.description}}</h3>
+    <h3>
+      <app-formatted-text-area [rawText]="singleTest.description"></app-formatted-text-area>
+    </h3>
 
-    <h3>Task: {{singleTest.task}}</h3>
+    <h3>
+      <app-formatted-text-area [rawText]="singleTest.task"></app-formatted-text-area>
+    </h3>
 
 
     <div [ngSwitch]="singleTest.category">
@@ -15,7 +19,7 @@
         <mat-radio-group class="type1-category">
           <span *ngFor="let option of singleTest.options; index as i">
             <mat-radio-button value="{{i}}" [checked]="models[i]" (change)="changeValue(singleTest.category, true, i)">
-              {{option.text}}
+              <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
             </mat-radio-button><br>
           </span>
         </mat-radio-group>
@@ -25,7 +29,7 @@
       <div *ngSwitchCase="'multiple-choice'">
         <span *ngFor="let option of singleTest.options; index as i">
           <mat-checkbox value="option" [checked]="models[i]" (change)="changeValue(singleTest.category, $event.checked, i)">
-            {{option.text}}
+            <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
           </mat-checkbox><br>
         </span>
 
@@ -38,11 +42,13 @@
           <mat-grid-tile></mat-grid-tile>
           <span *ngFor="let head of singleTest.header">
             <mat-grid-tile>
-              {{head}}
+              <app-formatted-text-area [rawText]="head"></app-formatted-text-area>
             </mat-grid-tile>
           </span>
           <span *ngFor="let option of singleTest.options; index as i">
-            <mat-grid-tile [colspan]=2><span class="text-element">{{ option.text }}</span></mat-grid-tile>
+            <mat-grid-tile [colspan]=2><span class="text-element">
+                <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
+              </span></mat-grid-tile>
             <mat-radio-group>
               <mat-grid-tile *ngFor="let head of singleTest.header; index as j">
                 <mat-radio-button value="{{head}}" [checked]="models[i][j]" (change)="changeValue(singleTest.category, true, i, j)"></mat-radio-button>
