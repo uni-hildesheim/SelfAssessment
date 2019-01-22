@@ -5,6 +5,9 @@ services:
     restart: always
     image: app:selfassessment-backend
     build: .
+    volumes:
+      - ./data/assets:/usr/src/app/data/assets
+      - ./data/configs:/usr/src/app/data/configs
     ports:
       - "8000:8000"
     links:
@@ -14,6 +17,6 @@ services:
     restart: always
     image: mongo
     volumes:
-      - ./data:/data/db
+      - ./data/db:/data/db
     ports:
       - "27017:27017"
