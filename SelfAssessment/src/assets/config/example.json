@@ -1,96 +1,155 @@
 {
-    "title": "IMIT",  
+    "title": "IMIT",
     "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
-
-    "tests": [
-        {
-            "id": 1001,
-            "type": "logic",
-            "category": "multiple-options",
-            "description": "This is the description of the $$3b^{2}$$ first test.",
-            "task": "This is the task of the first test.",
-            "options": [
-                {
-                    "text": "Ja",
-                    "correct": true
-                },
-                {
-                    "text": "Nein"
-                }
-            ],
-            "header": [
-                "head1",
-                "head2"
-            ],
-            "evaluated": true
+  
+    "tests": [{
+        "id": 1001,
+        "type": "logic",
+        "category": "multiple-options",
+        "description": "Drei Ingenieure (Meyer, Schmitz, Müller) entwickeln ein neues Mobiltelefon. Jeder Ingenieur ist für eine andere Komponente (Platine, Touchscreen,Prozessor) zuständig. Die Ingenieure kommen aus unterschiedlichen Abteilungen (A, B, C). Die Komponenten haben drei unterschiedliche Deadlines(Dezember 2013, Januar 2014, Mai 2014). <ol><li>In Abteilung A wird die Platine bearbeitet. Diese Abteilung hat weniger Zeit dafür als mindestens eine andere Abteilung</li><li>Abteilung C muss ihre Aufgabe bis Januar erledigt haben</li><li> Sowohl Abteilung B als auch Ingenieur Schmitzarbeiten nicht am Prozessor</li><li> Im Mai muss Ingenieur Müller seine Aufgabefertig stellen</li></ol>",
+        "task": "Sind die folgenden Aussagen richtig oder falsch?",
+        "options": [
+          {
+            "text": "In Abteilung B wird der Prozessor entwickelt."
+          },
+          {
+            "text": "Abteilung C entwickelt nicht den Prozessor."
+          },
+          {
+            "text": "Abteilung B muss nicht im Mai fertig sein."
+          },
+          {
+            "text": "Ingenieur Müller arbeitet in Abteilung B."
+          },
+          {
+            "text": "Abteilung B ist die Abteilung von Ingenieur Schmitz."
+          },
+          {
+            "text": "Ingenieur Meyer arbeitet nicht in Abteilung C."
+          }
+        ],
+        "header": [
+          "falsch",
+          "richtig"
+        ],
+        "evaluated": true
+      },
+      {
+        "id": 1002,
+        "type": "logic",
+        "category": "multiple-options",
+        "description": "Die drei Freundinnen Anne, Anja und Anke haben gerade ihre Module in Energietechnik, Nanoelektronik und Technische Informatik unterschiedlich gut (1,7 /2,6 / 3,8) abgeschlossen. In einer Liste des Prüfungsamtes suchen sie unter Becker, Kramer und Wolff ihre Ergebnisse.<ol><li>Anne besteht ihr Modul mit 2,6.</li><li> Anja belegte Nanoelektronik. Sie hat ein besseres Ergebnis als die Studentin Wolff.</li><li>. Anke belegte nicht Technische Informatik. Sie und die Studentin Kramer schneiden schlechte rals 1,7 ab.</li></ol>",
+        "task": "Sind die folgenden Aussagen richtig oder falsch?",
+        "options": [
+          {
+              "text": "Anke belegte Energietechnik."
+            },
+            {
+              "text": "Die schlechteste Note gab es in Energietechnik."
+            },
+            {
+              "text": "Anja heißt Kramer mit Nachnamen."
+            },
+            {
+              "text": "Frau Becker belegte nicht Nanoelektronik."
+            },
+            {
+              "text": "Anne heißt nicht Kramer mit Nachnamen."
+            }
+      ],
+      "header": [
+          "falsch",
+          "richtig"
+      ],
+        "evaluated": true
+      },
+      {
+        "id": 1003,
+        "type": "logic",
+        "category": "radio-buttons",
+        "description": "Die Abbildung stellt die Grundfläche eines Werkstücks dar.<br> Gegeben:<br> Schnittstelle der Graphen: $$x = 0$$ und $$x = 2$$<br>Angaben in cm<br>$$f(x)=x^{2}-2x +1$$<br>$$g(x)=-x^{2}+2x+1$$",
+        "task": "Wie groß ist diese Fläche ?",
+        "options": [{
+            "text": "$$8cm^{2}$$",
+            "correct": true
+          },
+          {
+            "text": "$$\\frac{10}{3}cm^{2}$$"
+          },
+          {
+            "text": "$$\\frac{8}{3}cm^{2}$$"
+          },
+          {
+            "text": "$$\\frac{8}{3}cm^{2}$$"
+          }
+        ],
+        "evaluated": true
+      },
+      {
+          "id": 1004,
+          "type": "logic",
+          "category": "radio-buttons",
+          "description": "Ein Geländeprofil wird nährerungsweise durch die Funktion<br> $$f(x) = \\begin{cases}-x^{2} + 4x -3, & \\text{für } x \\in [1;2.38]\\\\-3x^{2} + 18x -24, & \\text{für } x \\in [2.38;3.82] \\\\\\end{cases}$$<br>beschrieben.<br>Von den Berggipfeln führt jeweils ein Schacht senkrecht nach unten und trifft auf einen Stollen.",
+          "task": "Wie viele Kilometer sind die Schächte A und B von einander entfernt ?",
+          "options": [{
+              "text": "2,38 km",
+              "correct": true
+            },
+            {
+              "text": "2 km"
+            },
+            {
+              "text": "3 km"
+            },
+            {
+              "text": "1 km"
+            }
+          ],
+          "evaluated": true
         },
         {
-            "id": 1002,
-            "type": "logic",
-            "category": "radio-buttons",
-            "description": "Zweiter, simpler Test mit zwei Radio Buttons + OK Button zum absenden.",
-            "task": "3*3=9",
-            "options": [
-                {
-                    "text": "Ja",
-                    "correct": true
-                },
-                {
-                    "text": "Nein"
-                }
-            ],
-            "evaluated": true
-        },
-        {
-            "id": 1003,
-            "type": "logic",
-            "category": "multiple-choice",
-            "description": "This is the description.",
-            "task": "This is the task.",
-            "options": [
-                {
-                    "text": "Option 1",
-                    "correct": true
-                },
-                {
-                    "text": "Option 2"
-                },
-                {
-                    "text": "Option 3"
-                }
-            ],
-            "evaluated": true
+          "id": 1005,
+          "type": "logic",
+          "category": "radio-buttons",
+          "description": "Description",
+          "task": "Task",
+          "options": [{
+              "text": "JA",
+              "correct": true
+            },
+            {
+              "text": "NEIN"
+            }
+  
+          ],
+          "evaluated": true
         }
     ],
-
-    "testgroups": [
-        {
-            "id": 2001,
-            "tests": [1001, 1002],
-            "select": 1
-        },
-        {
-            "id": 2002,
-            "tests": [1002]
-        }
+  
+    "testgroups": [{
+        "id": 2001,
+        "tests": [1001, 1002],
+        "select": 1
+      },
+      {
+        "id": 2002,
+        "tests": [1002]
+      }
     ],
-
-    "infopages": [
-        {
-            "id": 4001,
-            "text": "Wählen Sie einen der beiden Radio Buttons aus und bestätigen Sie die Eingabe mit 'OK'.",
-            "belongs": 2001
-        }
-    ],
-
-    "sets": [
-        {
-            "id": 3001,
-            "elements": [1001, 2001, 1003]
-        },
-        {
-            "id": 3002,
-            "elements": [1001, 2001]
-        }
+  
+    "infopages": [{
+      "id": 4001,
+      "text": "Wählen Sie einen der beiden Radio Buttons aus und bestätigen Sie die Eingabe mit 'OK'.",
+      "belongs": 2001
+    }],
+  
+    "sets": [{
+        "id": 3001,
+        "elements": [2001, 1005]
+      },
+      {
+        "id": 3002,
+        "elements": [1003, 1004]
+      }
     ]
-}
+  }
