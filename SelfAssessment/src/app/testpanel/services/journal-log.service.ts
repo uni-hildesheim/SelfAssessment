@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
 import { SetElement } from 'src/app/shared/models/testspecific/set.element.model';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
-import { JournalService } from 'src/app/shared/services/journal.service';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class JournalLogService {
 
   constructor(
     private globals: GlobalIndicator,
-    private journalService: JournalService
+    private storageService: LocalStorageService
   ) { }
 
   getModelByID(id: number) {
@@ -62,13 +62,13 @@ export class JournalLogService {
 
   getJournalLogAsObservable() {
     if (!this.journalLog) {
-      const journalLogLocal: JournalLog = this.journalService.extractSavedJournalLog(localStorage.getItem('journallog'));
-      this.journalLog = new BehaviorSubject(journalLogLocal);
+      this.journalLog = new BehaviorSubject(this.storageService.getJournalLog());
     }
     return this.journalLog.asObservable();
   }
 
   refreshJournalLog() {
+    this.storageService.storeJournalLog(this.journalLogInstance);
     this.journalLog.next(this.journalLogInstance);
   }
 

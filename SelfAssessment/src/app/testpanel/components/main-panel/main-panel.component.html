@@ -2,7 +2,7 @@
 
   <mat-step *ngFor="let set of journalStructure.sets">
 
-    <div class="wrapper-main">
+    <div class="wrapper-main" *ngIf="set === journalStructure.sets[setIndex]">
 
       <div class="navigate-btn">
         <button [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"

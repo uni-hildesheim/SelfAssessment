@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { JournalLog } from '../models/state/journal.log.model';
 import { JournalStructure } from '../models/state/journal.structure.model';
-import { TestSet } from '../models/testspecific/testset.model';
-import { Test } from '../models/testspecific/test.model';
-import { Infopage } from '../models/testspecific/infopage.model';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
 
@@ -30,8 +26,8 @@ export class JournalService {
     return this.http.post(JournalService.LOAD_JOURNAL_LOG, { pin }).pipe(
       map(entry => {
         const journal = new Journal();
-        journal.structure = this.extractSavedJournalStructure(entry['structure']);
-        journal.log = this.extractSavedJournalLog(entry['log']);
+        journal.structure = this.storageService.extractSavedJournalStructure(entry['structure']);
+        journal.log = this.storageService.extractSavedJournalLog(entry['log']);
         return journal;
       })
     );
@@ -51,38 +47,5 @@ export class JournalService {
       pin: this.storageService.getPin(),
       structure: journalStructure
     });
-  }
-
-  extractSavedJournalLog(protoObj) {
-    const singleton = new JournalLog();
-    singleton.sets = [];
-    (protoObj)['sets'].forEach(set => {
-      const protoSet = new Map<number, any[]>();
-      set['maps'].forEach((obj) => {
-        protoSet.set(obj.key, obj.val);
-      });
-      singleton.sets.push(protoSet);
-    });
-    return singleton;
-  }
-
-  extractSavedJournalStructure(journalStrucRaw) {
-    const journalStructure = new JournalStructure();
-    journalStructure.sets = [];
-    journalStrucRaw['sets'].forEach(setRaw => {
-      const set = new TestSet();
-      set.id = setRaw.id;
-      set.elements = [];
-      setRaw['elements'].forEach(element => {
-        if (element['setType'] === 'test') {
-          set.elements.push(element as Test);
-        } else if (element['setType'] === 'infopage') {
-          set.elements.push(element as Infopage);
-        }
-      });
-      journalStructure.sets.push(set);
-    });
-
-    return journalStructure;
   }
 }

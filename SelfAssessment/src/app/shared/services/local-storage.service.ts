@@ -19,6 +19,10 @@ export class LocalStorageService {
     localStorage.setItem('journalstructure', JSON.stringify(journal.structure));
   }
 
+  storeJournalLog(journallog: JournalLog) {
+    localStorage.setItem('journallog', JSON.stringify(this.prepareJournalLogForSaving(journallog)));
+  }
+
   storePin(pin) {
     localStorage.setItem('pin', pin);
   }
