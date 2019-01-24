@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from 'src/app/shared/services/config.service';
-import { forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ConfigFile } from 'src/app/shared/models/config.file.model';
-import { RouterModule, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
@@ -13,24 +11,29 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 })
 export class DashboardComponent implements OnInit {
 
-  courses: ConfigFile[];
+  courses: string[];
 
   constructor(
     private configService: ConfigService,
     private router: Router,
     private storageService: LocalStorageService
-    ) { }
+  ) { }
 
   ngOnInit() {
-    this.configService.extractCourseConfigFileNames().subscribe(
-      data => {
-        data.subscribe(test => this.courses = test);
-      }
+
+    this.configService.getAllCourses().subscribe(
+      (data: string[]) => this.courses = data
     );
   }
 
   startTheTest(course) {
-    this.storageService.storeConfigFile(course);
+
+    this.configService.loadConfigFromCourse(course).subscribe(
+      (config: ConfigFile) => {
+        this.storageService.storeConfigFile(config);
+      }
+    );
+
     this.router.navigateByUrl('/test-start');
   }
 

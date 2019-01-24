@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ConfigFile } from 'src/app/shared/models/config.file.model';
 
 @Component({
   selector: 'app-course-card',
@@ -8,9 +7,8 @@ import { ConfigFile } from 'src/app/shared/models/config.file.model';
 })
 export class CourseCardComponent implements OnInit {
 
-  @Input() course: ConfigFile;
-  @Output() start = new EventEmitter<ConfigFile>();
-
+  @Input() course: string;
+  @Output() start = new EventEmitter<string>();
 
   constructor() { }
 

@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 import { Infopage } from 'src/app/shared/models/testspecific/infopage.model';
@@ -11,11 +9,15 @@ import { JournalStructure } from '../models/state/journal.structure.model';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
+
+  private static readonly SHOW_COURSES = environment.apiUrl + '/api/v1/course';
+  private static readonly LOAD_CONFIG = environment.apiUrl + '/api/v1/course/loadConfig';
 
   constructor(
     private http: HttpClient,
@@ -23,6 +25,13 @@ export class ConfigService {
     private storageService: LocalStorageService
   ) { }
 
+  getAllCourses() {
+    return this.http.get(ConfigService.SHOW_COURSES);
+  }
+
+  loadConfigFromCourse(course: string) {
+    return this.http.post(ConfigService.LOAD_CONFIG, { name: course });
+  }
 
   initJournalFromConfigFile(configFile: ConfigFile) {
     const journal = new Journal();
@@ -37,20 +46,6 @@ export class ConfigService {
   initJournalFromPin(journal: Journal) {
     this.journalLogService.initJournalLogFromPin(journal.log);
     this.storageService.storeJournal(journal);
-  }
-
-  extractCourseConfigFileNames(): Observable<any> {
-    return this.http.get('./assets/definition.files.json').pipe(
-      map((data: Object) => {
-        const myObservables = [];
-        (<string[]>data['files']).forEach((file) => {
-          myObservables.push(this.http.get('./assets/config/' + file).pipe(
-            map((course: Object) => course as ConfigFile)
-          ));
-        });
-        return forkJoin(myObservables);
-      })
-    );
   }
 
   createJournalStructureFromConfigFile(course: ConfigFile): JournalStructure {
