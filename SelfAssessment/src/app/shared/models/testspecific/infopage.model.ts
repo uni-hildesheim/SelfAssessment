@@ -6,6 +6,6 @@ import { SetElement } from './set.element.model';
 export class Infopage implements SetElement {
     id: number;
     text: string;
-    belongs: number;
+    belongs: number[];
     setType = 'infopage';
 }

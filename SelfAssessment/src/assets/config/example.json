@@ -140,7 +140,7 @@
     "infopages": [{
       "id": 4001,
       "text": "Wählen Sie einen der beiden Radio Buttons aus und bestätigen Sie die Eingabe mit 'OK'.",
-      "belongs": 2001
+      "belongs": [2001, 1004]
     }],
   
     "sets": [{

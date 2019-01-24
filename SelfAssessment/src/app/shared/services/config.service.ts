@@ -69,7 +69,9 @@ export class ConfigService {
     // get all the infopages
     course.infopages.forEach((page: any) => {
       page.setType = 'infopage';
-      allInfopages.set(page.belongs, <Infopage>page);
+      page.belongs.forEach(belongsId => {
+        allInfopages.set(belongsId, <Infopage>page);
+      });
     });
 
     // assign single tests to correct group
