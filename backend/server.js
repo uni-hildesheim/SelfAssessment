@@ -1,3 +1,5 @@
+const logger = require('./app/utils/logger');
+
 // static configuration
 var PORT = 8000;
 
@@ -31,9 +33,9 @@ app.use(cors(corsOptions));
 require('./app/routes/index.js')(app);
 
 // database initialization
-console.log('MongoDB URI: ' + DB_URI);
+logger.log(logger.Level.INFO, 'MongoDB URI: ' + DB_URI);
 db.connect(DB_URI, db.config.options);
 
 app.listen(PORT, () => {
-    console.log('Server running on port: ' + PORT);
+    logger.log(logger.Level.INFO, 'Server running on port: ' + PORT);
 });

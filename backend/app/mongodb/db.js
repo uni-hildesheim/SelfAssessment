@@ -1,5 +1,6 @@
 const config = require('./config.js');
 const mongoose = require('mongoose');
+const logger = require('../utils/logger');
 
 //mongoose.connection.on('error', console.error.bind(
 //    console, 'MongoDB connection error: ')
@@ -9,22 +10,22 @@ mongoose.connection.on('error', function (err) {
         // we handle this special case in connect() down below
         return;
     }
-    console.log('MongoDB error: ' + err);
+    logger.log(logger.Level.ERROR, 'MongoDB error: ' + err);
 });
 mongoose.connection.on('connecting', function () {
-    console.log('MongoDB connecting');
+    logger.log(logger.Level.INFO, 'MongoDB connecting');
 });
 mongoose.connection.once('connected', function () {
-    console.log('MongoDB connected successfully!');
+    logger.log(logger.Level.INFO, 'MongoDB connected successfully!');
 });
 mongoose.connection.on('disconnected', function() {
-    console.log('MongoDB disconnected');
+    logger.log(logger.Level.INFO, 'MongoDB disconnected');
 });
 mongoose.connection.on('reconnected', function () {
-    console.log('MongoDB reconnected');
+    logger.log(logger.Level.INFO, 'MongoDB reconnected');
 });
 mongoose.connection.on('reconnectFailed', function () {
-    console.error('MongoDB reconnecting failed');
+    logger.log(logger.Level.INFO, 'MongoDB reconnecting failed');
 });
 
 // https://github.com/Automattic/mongoose/issues/5169#issuecomment-314983113
@@ -37,11 +38,9 @@ function connect(dbURL, options) {
         // This is only needed for first connect, not for runtime reconnects.
         // See: https://github.com/Automattic/mongoose/issues/5169
         if (err.message && err.message.match(/failed to connect to server .* on first connect/)) {
-            //console.log(new Date(), String(err));
-
             // Wait for a bit, then try to connect again
             setTimeout(function () {
-                console.log("Retrying first connect...");
+                logger.log(logger.Level.INFO, 'MongoDB retrying first connect...');
                 connection.openUri(dbURL, options).catch(() => {});
                 // Why the empty catch?
                 // Well, errors thrown by db.open() will also be passed to .on('error'),
@@ -50,12 +49,12 @@ function connect(dbURL, options) {
             }, 1000);
         } else {
             // Some other error occurred.  Log it.
-            console.error(new Date(), String(err));
+            logger.log(logger.Level.ERROR, 'MongoDB error: ' + err);
         }
     });
 
     connection.once('open', function () {
-        console.log("Connection to db established.");
+        logger.log(logger.Level.INFO, 'MongoDB connection established');
     });
 
     return connection;

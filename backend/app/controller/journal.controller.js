@@ -1,4 +1,5 @@
 const db = require('../mongodb/db.js');
+const logger = require('../utils/logger');
 
 module.exports = {
     load,
@@ -15,13 +16,14 @@ function load(req, res) {
         associatedPin: bodyPin
     }).then(journal => {
         if (!journal) {
+            logger.log(logger.Level.WARN, 'No journal for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal for pin: ' + bodyPin });
             return;
         }
-        console.log('Loaded journal for pin: ' + bodyPin);
+        logger.log(logger.Level.INFO, 'Loaded journal for pin: ' + bodyPin);
         res.status(200).json(journal);
     }).catch(err => {
-        console.log(err);
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
     });
 }
@@ -35,10 +37,10 @@ function save(req, res) {
         log: req.body.log,
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        console.log('Updated journal for pin: ' + bodyPin);
+        logger.log(logger.Level.INFO, 'Updated journal for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        console.log(err);
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
     });
 }
@@ -51,10 +53,10 @@ function saveLog(req, res) {
     db.Journal.updateOne({ associatedPin: bodyPin }, {
         log: req.body.log
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        console.log('Updated journal log for pin: ' + bodyPin);
+        logger.log(logger.Level.INFO, 'Updated journal log for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        console.log(err);
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
     });
 }
@@ -67,10 +69,10 @@ function saveStructure(req, res) {
     db.Journal.updateOne({ associatedPin: bodyPin }, {
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        console.log('Updated journal structure for pin: ' + bodyPin);
+        logger.log(logger.Level.INFO, 'Updated journal structure for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        console.log(err);
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
     });
 }

@@ -1,4 +1,5 @@
 const db = require('../mongodb/db.js');
+const logger = require('../utils/logger');
 
 module.exports = {
     create
@@ -15,11 +16,13 @@ async function create(req, res) {
     try {
         var pincodes = await db.Pincode.find();
     } catch(err) {
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: 'DB error' });
         return;
     }
 
     if (pincodes.length === MAX_PINCODES) {
+        logger.log(logger.Level.ERROR, 'Exhausted random pincode possibilities');
         res.status(500).json({ error: 'Exhausted random pincode possibilities' });
         return;
     }
@@ -40,9 +43,10 @@ async function create(req, res) {
         pin: Number.parseInt(string),
         created: new Date()
     }).then(pincode => {
+        logger.log(logger.Level.INFO, 'Created pincode: ' + pincode.pin);
         res.status(201).json(pincode);
     }).catch(err => {
-        console.log(err);
+        logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
     });
 }
