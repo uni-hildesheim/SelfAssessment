@@ -66,6 +66,7 @@ module.exports = {
     connect: connect,
 
     // models
+    Course: require('../model/course.model.js'),
     Journal: require('../model/journal.model.js'),
     Pincode: require('../model/pincode.model.js')
 };
