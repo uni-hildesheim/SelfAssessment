@@ -8,6 +8,7 @@ const express = require('express');
 const fs = require('fs');
 
 // load local dependencies
+const courseUtils = require('./app/utils/course');
 const db = require('./app/mongodb/db.js');
 const logger = require('./app/utils/logger');
 const router = require('./app/routes/index.js');
@@ -80,7 +81,6 @@ function loadCourses(path) {
     });
 
     // read available configs from local data dir
-    // TODO: validate configs
     fs.readdir(path, (err, items) => {
         if (err) {
             logger.log(logger.Level.ERROR, err);
@@ -100,14 +100,15 @@ function loadCourses(path) {
                 logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + item + ': ' + err);
                 continue;
             }
-            const courseName = courseConfig['title'];
-            if (!courseName) {
-                logger.log(logger.Level.WARN, 'Config file does not have a valid title: ' + item);
+
+            // validate config
+            if (!courseUtils.validateConfig(courseConfig)) {
+                logger.log(logger.Level.WARN, 'Not a valid config file: ' + item);
                 continue;
             }
 
             db.Course.create({
-                name: courseName,
+                name: courseConfig['title'],
                 config: courseConfig
             }).then(course => {
                 logger.log(logger.Level.INFO, 'Created course in db: ' + course.name);
