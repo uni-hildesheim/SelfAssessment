@@ -6,6 +6,7 @@ services:
     image: app:selfassessment-backend
     build: .
     volumes:
+      - ./.env:/usr/src/app/.env
       - ./data/assets:/usr/src/app/data/assets
       - ./data/configs:/usr/src/app/data/configs
     ports:

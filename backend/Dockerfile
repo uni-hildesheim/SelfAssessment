@@ -18,13 +18,15 @@ COPY app ./app
 # Expose port 8000 (what our Express.js server wants)
 EXPOSE 8000
 
-# Start server.js
 # By default, the backend server will try to connect to localhost to reach the db server.
 # That approach cannot work with docker because the backend and the db server are two separate
 # container instances, which means they do not run on the same host, so localhost cannot be used.
 # Instead, we just override the hostname here and set it to the one specified as link target in
 # docker-compose.yml ('mongo').
-CMD [ "node", "server.js", "--", "--mongouri=mongodb://mongo:27017/selfassessment" ]
+ENV DB_URI "mongodb://mongo:27017/selfassessment"
+
+# Start server.js
+CMD [ "node", "server.js" ]
 
 # Don't run as root
 USER node

@@ -1,3 +1,6 @@
+// load environment config
+require('dotenv').config();
+
 const fs = require('fs');
 const logger = require('./app/utils/logger');
 
@@ -7,12 +10,28 @@ var PORT = 8000;
 const db = require('./app/mongodb/db.js');
 var DB_URI = db.config.uri;
 
-for (var arg of process.argv) {
-    if (arg.startsWith('--port=')) {
-        PORT = arg.split('=')[1];
-    } else if (arg.startsWith('--mongouri=')) {
-        DB_URI = arg.split('=')[1];
+if (process.env.DB_URI) {
+    DB_URI = process.env.DB_URI;
+}
+
+if (process.env.DB_USER) {
+    db.config.options.user = process.env.DB_USER;
+}
+
+if (process.env.DB_PASS) {
+    db.config.options.pass = process.env.DB_PASS;
+}
+
+if (process.env.APP_LOGLEVEL) {
+    if (!(process.env.APP_LOGLEVEL in logger.Level)) {
+        logger.log(logger.Level.ERROR, 'Invalid log level specified: ' + process.env.APP_LOGLEVEL);
+    } else {
+        logger.setLogLevel(process.env.APP_LOGLEVEL);
     }
+}
+
+if (process.env.APP_PORT) {
+    PORT = process.env.APP_PORT;
 }
 
 // load dependencies
