@@ -22,6 +22,7 @@ const cors = require('cors');
 
 // create the app
 const app = express();
+app.use(express.static('data/assets/public'));
 app.use(bodyParser.json())
 
 // enable cross-origin resource sharing
