@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const JournalSchema = new mongoose.Schema({
     associatedPin: Number,
+    lastChanged: Date,
     log: Object,
     structure: Object
 });

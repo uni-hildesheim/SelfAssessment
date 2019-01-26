@@ -34,6 +34,7 @@ function save(req, res) {
 
     // update the document if it exists
     db.Journal.updateOne({ associatedPin: bodyPin }, {
+        lastChanged: new Date(),
         log: req.body.log,
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
@@ -51,6 +52,7 @@ function saveLog(req, res) {
 
     // update the document if it exists
     db.Journal.updateOne({ associatedPin: bodyPin }, {
+        lastChanged: new Date(),
         log: req.body.log
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
         logger.log(logger.Level.INFO, 'Updated journal log for pin: ' + bodyPin);
@@ -67,6 +69,7 @@ function saveStructure(req, res) {
 
     // update the document if it exists
     db.Journal.updateOne({ associatedPin: bodyPin }, {
+        lastChanged: new Date(),
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
         logger.log(logger.Level.INFO, 'Updated journal structure for pin: ' + bodyPin);
