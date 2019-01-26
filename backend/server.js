@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 // load 3rdparty dependencies
+const AdmZip = require('adm-zip');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
@@ -119,6 +120,77 @@ function loadCourses(path) {
     });
 }
 
+function setupAutodeploy(inputPath, outputPath) {
+    fs.watch(inputPath, (eventType, filename) => {
+        // apparently eventType is bogus on various platforms: on macOS, it is always 'rename',
+        // regardless of whether a new file is inserted, one is deleted, etc.
+        // -> ignore eventType for now
+
+        // only handle zip files
+        if (!filename.endsWith('.zip')) {
+            logger.log(logger.Level.WARN, 'autodeploy: ' + filename + ' is not a zip file');
+            return;
+        }
+
+        let zip;
+        let zipEntries;
+        let extractZip = true;
+
+        // this ugly try/catch block is necessary because of sudden file removals which we cannot
+        // detect - see the comment above - due to inconsistent library behavior
+        try {
+            zip = new AdmZip(inputPath + '/' + filename);
+            zipEntries = zip.getEntries();
+        } catch (err) {
+            return;
+        }
+
+        zipEntries.forEach(zipEntry => {
+            // determine whether this entry is a top-level file:
+            //   1. entryName contains exactly zero slashes
+            //   2. isDirectory is false
+            const isTopLevelFile = (zipEntry.entryName.split('/').length - 1 == 0) &&
+                (!zipEntry.isDirectory);
+            if (isTopLevelFile) {
+                logger.log(logger.Level.WARN, 'autodeploy: ' + filename +
+                    ' contains non-directory top-level entry: ' + zipEntry.name);
+                extractZip = false;
+                return;
+            }
+
+            // top-level directory entries must exist in our local fs structure
+            // determine whether this entry is a top-level dir:
+            //   1. entryName contains exactly two slashes
+            //   2. isDirectory is true
+            const isTopLevelDir = (zipEntry.entryName.split('/').length - 1 == 2) &&
+                (zipEntry.isDirectory);
+            if (isTopLevelDir) {
+                if (!fs.existsSync(outputPath + '/' + zipEntry.entryName)) {
+                    logger.log(logger.Level.WARN, 'autodeploy: top-level directory entry: ' +
+                        zipEntry.entryName + ' does not exist in local filesystem: ' + outputPath +
+                        ' is not a zip file');
+                    extractZip = false;
+                    return;
+                }
+            }
+        });
+
+        if (extractZip) {
+            logger.log(logger.Level.INFO, 'autodeploy: extracting archive: ' + filename + ' to: ' +
+                outputPath);
+            zip.extractAllTo(outputPath, true /* overwrite */);
+            // force config file reload
+            logger.log(logger.Level.INFO, 'autodeploy: forcing course reload');
+            loadCourses('./data/configs');
+        } else {
+            logger.log(logger.Level.WARN, 'autodeploy: not extracting file: ' + filename);
+        }
+
+        // remove the zip in all cases
+        fs.unlinkSync(inputPath + '/' + filename);
+    });
+}
+
 function main() {
     loadEnvironment();
 
@@ -131,6 +203,9 @@ function main() {
 
     // sync course configs
     loadCourses('./data/configs');
+
+    // enable autodeploy support
+    setupAutodeploy('./data/autodeploy', './data');
 
     // actually start the Express.js server
     app.listen(APP_LISTEN_PORT, () => {
