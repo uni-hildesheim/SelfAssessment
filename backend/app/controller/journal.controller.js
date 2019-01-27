@@ -3,6 +3,8 @@ const logger = require('../utils/logger');
 
 module.exports = {
     load,
+    loadLog,
+    loadStructure,
     save,
     saveLog,
     saveStructure
@@ -22,6 +24,46 @@ function load(req, res) {
         }
         logger.log(logger.Level.INFO, 'Loaded journal for pin: ' + bodyPin);
         res.status(200).json(journal);
+    }).catch(err => {
+        logger.log(logger.Level.ERROR, err);
+        res.status(500).json({ error: err });
+    });
+}
+
+// load a journal log (JSON object)
+function loadLog(req, res) {
+    const bodyPin = Number.parseInt(req.body.pin);
+
+    db.Journal.findOne({
+        associatedPin: bodyPin
+    }).then(journal => {
+        if (!journal) {
+            logger.log(logger.Level.WARN, 'No journal log for pin: ' + bodyPin);
+            res.status(404).json({ error: 'No journal log for pin: ' + bodyPin });
+            return;
+        }
+        logger.log(logger.Level.INFO, 'Loaded journal log for pin: ' + bodyPin);
+        res.status(200).json(journal.log);
+    }).catch(err => {
+        logger.log(logger.Level.ERROR, err);
+        res.status(500).json({ error: err });
+    });
+}
+
+// load a journal structure (JSON object)
+function loadStructure(req, res) {
+    const bodyPin = Number.parseInt(req.body.pin);
+
+    db.Journal.findOne({
+        associatedPin: bodyPin
+    }).then(journal => {
+        if (!journal) {
+            logger.log(logger.Level.WARN, 'No journal structure for pin: ' + bodyPin);
+            res.status(404).json({ error: 'No journal structure for pin: ' + bodyPin });
+            return;
+        }
+        logger.log(logger.Level.INFO, 'Loaded journal structure for pin: ' + bodyPin);
+        res.status(200).json(journal.structure);
     }).catch(err => {
         logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });

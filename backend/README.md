@@ -200,6 +200,25 @@ mongod --dbpath <path>
   }
   ```
 
+* POST `/api/v1/journal/log/load`  
+  Retrieve the journal log object for a given pincode. The request body must contain exactly one attribute 'pin'. Returns the raw object from DB as JSON.
+
+  Example input:
+
+  ```
+  {
+      "pin": 62211357
+  }
+  ```
+
+  Example output:
+
+  ```
+  {
+      ...
+  }
+  ```
+
 * POST `/api/v1/journal/log/save`  
   Write the journal log object for a given pincode into the DB. The request body must contain exactly one attribute 'pin'. Returns HTTP 200 on success, HTTP 500 otherwise.
 
@@ -208,6 +227,25 @@ mongod --dbpath <path>
   ```
   {
       "pin": 62211357
+  }
+  ```
+
+* POST `/api/v1/journal/structure/load`  
+  Retrieve the journal structure object for a given pincode. The request body must contain exactly one attribute 'pin'. Returns the raw object from DB as JSON.
+
+  Example input:
+
+  ```
+  {
+      "pin": 62211357
+  }
+  ```
+
+  Example output:
+
+  ```
+  {
+      ...
   }
   ```
 
