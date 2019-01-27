@@ -44,7 +44,7 @@ async function create(req, res) {
         created: new Date()
     }).then(pincode => {
         logger.log(logger.Level.INFO, 'Created pincode: ' + pincode.pin);
-        res.status(201).json(pincode);
+        res.status(201).json(pincode.pin);
     }).catch(err => {
         logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
