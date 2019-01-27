@@ -7,6 +7,8 @@ import { AppRoutingModule } from '../app-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
 
 @NgModule({
   declarations: [EntryComponent, NavbarComponent],
@@ -20,6 +22,11 @@ import { SharedModule } from '../shared/shared.module';
   ],
   exports: [
     EntryComponent
-  ]
+  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+     useClass: HttpErrorInterceptor,
+     multi: true
+  }]
 })
 export class CoreModule { }

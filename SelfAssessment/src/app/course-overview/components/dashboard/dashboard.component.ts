@@ -3,6 +3,7 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 })
 export class DashboardComponent implements OnInit {
 
-  courses: string[];
+  courses: Observable<Object>;
 
   constructor(
     private configService: ConfigService,
@@ -20,10 +21,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.configService.getAllCourses().subscribe(
-      (data: string[]) => this.courses = data
-    );
+    this.courses = this.configService.getAllCourses();
   }
 
   startTheTest(course) {

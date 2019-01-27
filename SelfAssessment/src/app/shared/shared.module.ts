@@ -5,11 +5,12 @@ import { MaterialModule } from '../material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormattedTextAreaComponent } from './components/formatted-text-area/formatted-text-area.component';
 import { KatexModule } from 'ng-katex';
+import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 
 
 @NgModule({
-  entryComponents: [PinDialogComponent],
-  declarations: [PinDialogComponent, FormattedTextAreaComponent],
+  entryComponents: [PinDialogComponent, ErrorDialogComponent],
+  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent],
   imports: [
     CommonModule,
     KatexModule,
@@ -19,6 +20,7 @@ import { KatexModule } from 'ng-katex';
   ],
   exports: [
     PinDialogComponent,
+    ErrorDialogComponent,
     FormattedTextAreaComponent
   ]
 })

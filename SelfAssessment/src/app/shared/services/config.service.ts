@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 import { Infopage } from 'src/app/shared/models/testspecific/infopage.model';
 import { TestSet } from 'src/app/shared/models/testspecific/testset.model';
@@ -10,6 +10,8 @@ import { JournalLogService } from 'src/app/testpanel/services/journal-log.servic
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
 import { environment } from 'src/environments/environment';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
