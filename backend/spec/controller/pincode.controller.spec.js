@@ -12,9 +12,13 @@ describe('PincodeController', () => {
     ];
 
     beforeEach( () => {
-        // stub out DB model methods
-        sinon.stub(PincodeModel, 'find');
-        sinon.stub(PincodeModel, 'create');
+        // common response object with spies
+        this.res = {
+            json: sinon.spy(),
+            status: sinon.stub().returns({
+                json: sinon.spy()
+            })
+        };
     });
 
     afterEach( () => {
@@ -24,21 +28,20 @@ describe('PincodeController', () => {
 
     describe('PincodeController.create', () => {
         it('should create a pseudo-random pincode (8 digits)', async () => {
-            PincodeModel.find.resolves(docs);
-            PincodeModel.create.resolves(docs[0]);
+            sinon.stub(PincodeModel, 'find').resolves(docs);
+            sinon.stub(PincodeModel, 'create').resolves(docs[0]);
 
-            const req = {};
-            var res = {
-                status: sinon.stub().returns({
-                    json: sinon.spy()
-                })
+            const req = {
+                // dummy
             };
-            await PincodeController.create(req, res);
+
+            await PincodeController.create(req, this.res);
             sinon.assert.calledOnce(PincodeModel.find);
             sinon.assert.calledOnce(PincodeModel.create);
-            sinon.assert.calledOnce(res.status);
-            sinon.assert.calledWith(res.status, 201);
-            sinon.assert.calledOnce(res.status().json);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 201);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json, docs[0].pin);
         });
     });
 });
