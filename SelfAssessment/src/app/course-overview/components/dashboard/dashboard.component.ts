@@ -25,15 +25,11 @@ export class DashboardComponent implements OnInit {
   }
 
   startTheTest(course) {
-
     this.configService.loadConfigFromCourse(course).subscribe(
       (config: ConfigFile) => {
         this.storageService.storeConfigFile(config);
       }
     );
-
     this.router.navigateByUrl('/test-start');
   }
-
-
 }
