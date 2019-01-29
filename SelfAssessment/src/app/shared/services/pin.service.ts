@@ -25,9 +25,8 @@ export class PinService {
     }
 
     return this.http.get(PinService.CREATE_PIN).pipe(
-      map(rawPin => {
-        const pin = rawPin['pin'];
-        localStorage.setItem('pin', pin);
+      map((pin: number) => {
+        localStorage.setItem('pin', pin.toString());
         return pin;
       })
     );

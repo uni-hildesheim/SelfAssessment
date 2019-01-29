@@ -12,7 +12,7 @@ import { LocalStorageService } from './local-storage.service';
 export class JournalService {
 
   private static readonly SAVE_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/log/save';
-  private static readonly LOAD_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/load';
+  private static readonly LOAD_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/log/load';
   private static readonly SAVE_JOURNAL_STRUCTURE = environment.apiUrl + '/api/v1/journal/structure/save';
 
   constructor(
