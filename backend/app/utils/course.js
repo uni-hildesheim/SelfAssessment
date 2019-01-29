@@ -83,6 +83,7 @@ function validateConfig(config) {
         "type": "object",
         "properties": {
             "title": {"type": "string"},
+            "icon": {"type": "string"},
             "checksum_regex": {"type": "string"},
             "tests": {
                 "type": "array",

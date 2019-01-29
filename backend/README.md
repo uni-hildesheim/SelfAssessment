@@ -151,7 +151,14 @@ mongod --dbpath <path>
 
   ```
   [
-      "IMIT"
+      {
+        "name": "IMIT",
+        "icon": "imit.png"
+      },
+      {
+        "name": "WINF",
+        "icon": "winf.png"
+      }
   ]
   ```
 

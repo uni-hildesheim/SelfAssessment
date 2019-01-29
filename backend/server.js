@@ -110,6 +110,7 @@ function loadCourses(path) {
 
             db.Course.create({
                 name: courseConfig['title'],
+                icon: courseConfig['icon'],
                 config: courseConfig
             }).then(course => {
                 logger.log(logger.Level.INFO, 'Created course in db: ' + course.name);

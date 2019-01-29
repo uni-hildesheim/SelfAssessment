@@ -31,12 +31,15 @@ function showCourses(req, res) {
     db.Course.find({
         // wildcard filter
     }).then(courses => {
-        let names = []
+        let meta = []
         for (let course of courses) {
             logger.log(logger.Level.INFO, 'Available course: ' + course.name);
-            names.push(course.name);
+            meta.push({
+                "name": course.name,
+                "icon": course.icon
+            });
         }
-        res.status(200).json(names);
+        res.status(200).json(meta);
     }).catch(err => {
         logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
