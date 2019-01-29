@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Course } from 'src/app/shared/models/course-object';
 
 @Component({
   selector: 'app-course-card',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class CourseCardComponent implements OnInit {
 
-  @Input() course: string;
+  @Input() course: Course;
   @Output() start = new EventEmitter<string>();
 
   constructor() { }
@@ -16,7 +17,6 @@ export class CourseCardComponent implements OnInit {
   }
 
   startTest() {
-    this.start.emit(this.course);
+    this.start.emit(this.course.name);
   }
-
 }

@@ -6,11 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormattedTextAreaComponent } from './components/formatted-text-area/formatted-text-area.component';
 import { KatexModule } from 'ng-katex';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
+import { DefaultImgDirective } from './directives/default-image.directive';
 
 
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
-  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent],
+  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent, DefaultImgDirective],
   imports: [
     CommonModule,
     KatexModule,
@@ -21,7 +22,8 @@ import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-di
   exports: [
     PinDialogComponent,
     ErrorDialogComponent,
-    FormattedTextAreaComponent
+    FormattedTextAreaComponent,
+    DefaultImgDirective
   ]
 })
 export class SharedModule { }

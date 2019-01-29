@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 import { Infopage } from 'src/app/shared/models/testspecific/infopage.model';
 import { TestSet } from 'src/app/shared/models/testspecific/testset.model';
@@ -10,8 +10,8 @@ import { JournalLogService } from 'src/app/testpanel/services/journal-log.servic
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
 import { environment } from 'src/environments/environment';
-import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Course } from '../models/course-object';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,8 @@ export class ConfigService {
     private storageService: LocalStorageService
   ) { }
 
-  getAllCourses() {
-    return this.http.get(ConfigService.SHOW_COURSES);
+  getAllCourses(): Observable<Course[]> {
+    return this.http.get<Course[]>(ConfigService.SHOW_COURSES);
   }
 
   loadConfigFromCourse(course: string) {

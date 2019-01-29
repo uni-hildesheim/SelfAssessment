@@ -10,7 +10,7 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { of } from 'rxjs';
 
-describe('DashboardComponent', () => {
+xdescribe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let configServiceStub: any;

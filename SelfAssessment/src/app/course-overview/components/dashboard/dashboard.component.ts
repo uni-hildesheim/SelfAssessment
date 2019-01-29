@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
-  courses: Observable<Object>;
+  public courses: Observable<Object>;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private configService: ConfigService,
@@ -24,12 +26,19 @@ export class DashboardComponent implements OnInit {
     this.courses = this.configService.getAllCourses();
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   startTheTest(course) {
-    this.configService.loadConfigFromCourse(course).subscribe(
+    this.configService.loadConfigFromCourse(course)
+    .pipe(takeUntil(this.ngUnsubscribe))
+    .subscribe(
       (config: ConfigFile) => {
         this.storageService.storeConfigFile(config);
+        this.router.navigateByUrl('/test-start');
       }
     );
-    this.router.navigateByUrl('/test-start');
   }
 }

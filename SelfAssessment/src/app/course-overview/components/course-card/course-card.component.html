@@ -1,11 +1,9 @@
 <mat-card>
-
   <mat-card-header>
-    <mat-card-title>{{course}}</mat-card-title>
+    <mat-card-title>{{course.name}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src="assets/images/platzhalter.png">
+  <img mat-card-image appImg [src]="course.icon"/>
   <mat-card-actions>
     <button mat-raised-button color="primary" (click)="startTest()">Starten</button>
   </mat-card-actions>
-
 </mat-card>
