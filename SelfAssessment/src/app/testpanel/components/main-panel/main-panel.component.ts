@@ -39,9 +39,7 @@ export class MainPanelComponent implements OnInit {
   moveToNextSetElement(foward: boolean, stepper: MatStepper) {
 
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
-      this.journalService.saveJournalLog(
-        this.storageService.prepareJournalLogForSaving(this.journalLogService.journalLogInstance)
-        ).subscribe(
+      this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         data => {
           console.log(data);
           this.updateProtocol = false;
