@@ -1,5 +1,6 @@
 export class ConfigFile {
     title: string;
+    icon: string;
     checksumRegex: string;
     tests: any[];
     testgroups: any[];
