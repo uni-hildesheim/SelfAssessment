@@ -9,7 +9,7 @@ import { Course } from 'src/app/shared/models/course-object';
 export class CourseCardComponent implements OnInit {
 
   @Input() course: Course;
-  @Output() start = new EventEmitter<string>();
+  @Output() start = new EventEmitter<Course>();
 
   constructor() { }
 
@@ -17,6 +17,6 @@ export class CourseCardComponent implements OnInit {
   }
 
   startTest() {
-    this.start.emit(this.course.name);
+    this.start.emit(this.course);
   }
 }

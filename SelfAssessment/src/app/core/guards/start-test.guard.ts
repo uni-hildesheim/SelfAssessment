@@ -16,7 +16,7 @@ export class StartTestGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      if (this.storageService.getConfigFile() == null) {
+      if (this.storageService.getCourse() == null) {
         this.router.navigate(['dashboard']);
         return false;
       }

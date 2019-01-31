@@ -9,6 +9,7 @@ import { ConfigFile } from '../models/config.file.model';
 import { SetElement } from '../models/testspecific/set.element.model';
 import { JournalStructureRaw } from '../models/state/raw/journal.structure.raw';
 import { SetRaw } from '../models/state/raw/journal.struc.set.raw';
+import { Course } from '../models/course-object';
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +31,16 @@ export class LocalStorageService {
     localStorage.setItem('pin', pin);
   }
 
-  storeConfigFile(configFile: ConfigFile) {
-    localStorage.setItem('configFile', JSON.stringify(configFile));
+  storeCourse(course: Course) {
+    localStorage.setItem('course', JSON.stringify(course));
   }
 
   getPin(): number {
     return parseInt(localStorage.getItem('pin'), 0);
   }
 
-  getConfigFile(): ConfigFile {
-    return JSON.parse(localStorage.getItem('configFile'));
+  getCourse(): Course {
+    return JSON.parse(localStorage.getItem('course'));
   }
 
   getJournalLog(): JournalLog {
@@ -77,7 +78,7 @@ export class LocalStorageService {
 
   prepareJournalStructureForSaving(journalStructure: JournalStructure) {
     const rawSet: JournalStructureRaw = {
-      course: this.getConfigFile().title,
+      course: this.getCourse().name,
       sets: []
     };
     journalStructure.sets.forEach(set => {

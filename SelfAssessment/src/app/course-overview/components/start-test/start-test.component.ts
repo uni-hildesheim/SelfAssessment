@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { PinService } from 'src/app/shared/services/pin.service';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { Course } from 'src/app/shared/models/course-object';
 
 @Component({
   selector: 'app-start-test',
@@ -14,7 +15,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 })
 export class StartTestComponent implements OnInit {
 
-  course: ConfigFile;
+  course: Course;
   notes: string[];
   infoContent: string;
   notesLbl: string;
@@ -36,7 +37,7 @@ export class StartTestComponent implements OnInit {
 
     this.pinService.createNewPin().subscribe(pin => this.pin = pin);
 
-    this.course = this.storageService.getConfigFile();
+    this.course = this.storageService.getCourse();
 
     this.notes = [
       'Plane in etwa 60 Minuten für eine gewissenhafte Bearbeitung ein!',
@@ -67,13 +68,18 @@ export class StartTestComponent implements OnInit {
 
 
   startSelfAssessment() {
-    const journal: Journal = this.configService.initJournalFromConfigFile(this.course);
-    this.journalService.saveJournalStructure(journal.structure).subscribe(
-      data => console.log(data),
-      err => console.log(err)
-    );
-    this.router.navigateByUrl('/testpanel');
-
+    this.configService.loadConfigFromCourse(this.course.name)
+      .subscribe(
+        (configFile: ConfigFile) => {
+          const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
+          this.journalService.saveJournalStructure(journal.structure)
+            .subscribe(
+              data => console.log(data),
+              err => console.log(err)
+            );
+          this.router.navigateByUrl('/testpanel');
+        }
+      );
   }
 
 }

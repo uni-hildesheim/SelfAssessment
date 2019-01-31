@@ -54,8 +54,6 @@ export class JournalService {
 
   saveJournalStructure(journalStructure: JournalStructure) {
     console.log('SAVE JOURNAL STRUCTURE');
-    const test = this.storageService.prepareJournalStructureForSaving(journalStructure);
-    console.log(test);
     return this.http.post(JournalService.SAVE_JOURNAL_STRUCTURE, {
       pin: this.storageService.getPin(),
       structure: this.storageService.prepareJournalStructureForSaving(journalStructure)

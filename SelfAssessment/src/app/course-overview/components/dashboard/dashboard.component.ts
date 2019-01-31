@@ -32,13 +32,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   startTheTest(course) {
-    this.configService.loadConfigFromCourse(course)
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(
-      (config: ConfigFile) => {
-        this.storageService.storeConfigFile(config);
-        this.router.navigateByUrl('/test-start');
-      }
-    );
+    this.storageService.storeCourse(course);
+    this.router.navigate(['/test-start', course]);
+
+    // this.configService.loadConfigFromCourse(course)
+    // .pipe(takeUntil(this.ngUnsubscribe))
+    // .subscribe(
+    //   (config: ConfigFile) => {
+    //     // this.storageService.storeConfigFile(config);
+    //     this.router.navigate(['/test-start', {icon: config.icon}]);
+    //   }
+    // );
   }
 }
