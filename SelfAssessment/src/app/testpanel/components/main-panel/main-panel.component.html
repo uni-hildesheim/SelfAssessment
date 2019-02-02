@@ -13,7 +13,7 @@
 
       <div class="main-test" *ngIf="set.elements[setElemIndex]">
         <p>Fortschritt dieses Kapitels:</p>
-        <mat-progress-bar></mat-progress-bar>
+        <mat-progress-bar mode="determinate" [value]="progressVal"></mat-progress-bar>
         <div [ngSwitch]="set.elements[setElemIndex].setType">
 
 

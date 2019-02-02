@@ -15,6 +15,7 @@ export class MainPanelComponent implements OnInit {
 
   public journalStructure: JournalStructure;
   private updateProtocol: boolean;
+  public progressVal = 0;
 
   constructor(
     private journalService: JournalService,
@@ -67,6 +68,8 @@ export class MainPanelComponent implements OnInit {
         this.setElemIndex = this.setElemIndex - 1;
       }
     }
+
+    this.progressVal = Math.ceil(this.setElemIndex / (this.currentElements.length - 1) * 100);
   }
 
   get currentSet() {
