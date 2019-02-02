@@ -28,7 +28,7 @@ export class LocalStorageService {
   }
 
   storePin(pin) {
-    localStorage.setItem('pin', pin);
+    localStorage.setItem('pin', pin.toString());
   }
 
   storeCourse(course: Course) {

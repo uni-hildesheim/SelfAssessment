@@ -10,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class PinService {
 
-  private static readonly CREATE_PIN = environment.apiUrl + '/api/v1/pincode/create';
+  public static readonly CREATE_PIN = environment.apiUrl + '/api/v1/pincode/create';
 
   constructor(
     private http: HttpClient,
@@ -26,7 +26,7 @@ export class PinService {
 
     return this.http.get(PinService.CREATE_PIN).pipe(
       map((pin: number) => {
-        localStorage.setItem('pin', pin.toString());
+        this.storageService.storePin(pin);
         return pin;
       })
     );

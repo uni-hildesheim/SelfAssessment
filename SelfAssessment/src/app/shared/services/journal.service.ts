@@ -15,9 +15,9 @@ import { ConfigFile } from '../models/config.file.model';
 })
 export class JournalService {
 
-  private static readonly SAVE_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/log/save';
-  private static readonly LOAD_JOURNAL = environment.apiUrl + '/api/v1/journal/load';
-  private static readonly SAVE_JOURNAL_STRUCTURE = environment.apiUrl + '/api/v1/journal/structure/save';
+  public static readonly SAVE_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/log/save';
+  public static readonly LOAD_JOURNAL = environment.apiUrl + '/api/v1/journal/load';
+  public static readonly SAVE_JOURNAL_STRUCTURE = environment.apiUrl + '/api/v1/journal/structure/save';
 
   constructor(
     private http: HttpClient,

@@ -13,8 +13,8 @@ import { Course } from '../models/course-object';
 })
 export class ConfigService {
 
-  private static readonly SHOW_COURSES = environment.apiUrl + '/api/v1/course';
-  private static readonly LOAD_CONFIG = environment.apiUrl + '/api/v1/course/loadConfig';
+  public static readonly SHOW_COURSES = environment.apiUrl + '/api/v1/course';
+  public static readonly LOAD_CONFIG = environment.apiUrl + '/api/v1/course/loadConfig';
 
   constructor(
     private http: HttpClient,
@@ -26,8 +26,8 @@ export class ConfigService {
     return this.http.get<Course[]>(ConfigService.SHOW_COURSES);
   }
 
-  loadConfigFromCourse(course: string) {
-    return this.http.post(ConfigService.LOAD_CONFIG, { name: course });
+  loadConfigFromCourse(course: string): Observable<ConfigFile> {
+    return this.http.post<ConfigFile>(ConfigService.LOAD_CONFIG, { name: course });
   }
 
   initJournalFromConfigFile(configFile: ConfigFile) {
