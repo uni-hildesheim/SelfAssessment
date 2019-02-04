@@ -1,8 +1,10 @@
 <div *ngIf="started; else starttask">
 
-<app-countdown *ngIf="!done" [seconds]="5" (finished)="endTask()"></app-countdown>
+<div class="countdown">
+  <app-countdown *ngIf="!done" [seconds]="singleTest.seconds" (finished)="endTask()"></app-countdown>
+</div>
 
-<div *ngIf="singleTest">
+<div *ngIf="singleTest" class="options-container">
   <ul>
     <li *ngFor="let optionArr of optionsSplit; index as i">
       <div class="mat-div-replacement" [ngClass]="{'disabled-test-card': done}">
@@ -31,5 +33,6 @@
 </div>
 
 <ng-template #starttask>
-    <button mat-raised-button color="primary" (click)="startTask()">Start Task</button>
-  </ng-template>
+    <h3>Diese Aufgabe muss innerhalb von {{singleTest.seconds}} Sekunden bearbeitet werden.</h3>
+    <button mat-raised-button color="primary" (click)="startTask()">Starte die Aufgabe</button>
+</ng-template>

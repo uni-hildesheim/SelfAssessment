@@ -1,10 +1,18 @@
-
 .mat-div-replacement{
     display: flex;
     flex-direction: row;
     flex-flow: wrap;
     justify-content: space-between;
     // max-width: 350px;
+}
+
+h3{
+    background-color: beige;
+    padding:15px;
+}
+
+.options-container{
+    margin-top: 40px;
 }
 
 .li-option {

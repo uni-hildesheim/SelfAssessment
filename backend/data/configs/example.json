@@ -129,8 +129,9 @@
           "id": 1006,
           "type": "logic",
           "category": "speed",
-          "description": "<p>Zum Lösen der Aufgaben musst du mit dem Mauszeiger an die Stelle im Text gehen, an der du den Fehler vermutest und per Doppelklick eine gelbe Markierung setzen.</p> <p>Möchtest du deine Auswahl korrigieren, klicke auf das rote X. Dann kannst du eine neue Auswahl treffen.</p> <p>Bitte nutze nun die Möglichkeit, dies zu üben:</p>",
-          "task": "Task",
+          "seconds": 10,
+          "description": "<p>Zum Lösen der Aufgaben musst du mit dem Mauszeiger an die Stelle im Text gehen, an der du den Fehler vermutest und per Doppelklick eine Markierung setzen.</p>",
+          "task": "",
           "options": [{
               "text": "Reiß, s. (2009). Online-Self-Assessments zur Erfassung studienrelevanter Kompetenzen. Zeitschrift für Hochschulentwicklung, 4(1), 60-71."
             },

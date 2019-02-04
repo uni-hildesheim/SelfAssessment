@@ -53,4 +53,9 @@ export class Test implements SetElement {
      * Type for the SelElement.
      */
     setType = 'test';
+
+    /**
+     * Countdown for test of the speed category.
+     */
+    seconds: number;
 }
