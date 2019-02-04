@@ -7,11 +7,12 @@ import { FormattedTextAreaComponent } from './components/formatted-text-area/for
 import { KatexModule } from 'ng-katex';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { DefaultImgDirective } from './directives/default-image.directive';
+import { CountdownComponent } from './components/countdown/countdown.component';
 
 
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
-  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent, DefaultImgDirective],
+  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent, DefaultImgDirective, CountdownComponent],
   imports: [
     CommonModule,
     KatexModule,
@@ -23,7 +24,8 @@ import { DefaultImgDirective } from './directives/default-image.directive';
     PinDialogComponent,
     ErrorDialogComponent,
     FormattedTextAreaComponent,
-    DefaultImgDirective
+    DefaultImgDirective,
+    CountdownComponent
   ]
 })
 export class SharedModule { }

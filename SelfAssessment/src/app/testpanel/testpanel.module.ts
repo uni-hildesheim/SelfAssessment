@@ -8,9 +8,10 @@ import { MaterialModule } from '../material/material.module';
 import { GlobalIndicator } from './global.indicators';
 import { InfopageComponent } from './components/infopage/infopage.component';
 import { SharedModule } from '../shared/shared.module';
+import { SpeedTestCardComponent } from './components/speed-test-card/speed-test-card.component';
 
 @NgModule({
-  declarations: [MainPanelComponent, SingleTestCardComponent, InfopageComponent],
+  declarations: [MainPanelComponent, SingleTestCardComponent, InfopageComponent, SpeedTestCardComponent],
   imports: [
     CommonModule,
     MaterialModule,

@@ -58,6 +58,12 @@
         </mat-grid-list>
       </div>
 
+      <!--TYPE 4: MUTLIPLE OPTIONS-->
+      <div *ngSwitchCase="'speed'">
+        <app-speed-test-card [singleTest]="singleTest"></app-speed-test-card>
+      </div>
+
+
     </div>
   </mat-card-content>
 </mat-card>

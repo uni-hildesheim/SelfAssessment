@@ -4,7 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule,
   MatIconModule, MatButtonModule, MatProgressBarModule, MatGridListModule,
-  MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule, MatSnackBarModule,
+  MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
+  MatSnackBarModule, MatChipsModule,
 } from '@angular/material';
 @NgModule({
   declarations: [],
@@ -27,7 +28,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule { }

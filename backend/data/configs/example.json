@@ -124,6 +124,31 @@
   
           ],
           "evaluated": true
+        },
+        {
+          "id": 1006,
+          "type": "logic",
+          "category": "speed",
+          "description": "<p>Zum Lösen der Aufgaben musst du mit dem Mauszeiger an die Stelle im Text gehen, an der du den Fehler vermutest und per Doppelklick eine gelbe Markierung setzen.</p> <p>Möchtest du deine Auswahl korrigieren, klicke auf das rote X. Dann kannst du eine neue Auswahl treffen.</p> <p>Bitte nutze nun die Möglichkeit, dies zu üben:</p>",
+          "task": "Task",
+          "options": [{
+              "text": "Reiß, s. (2009). Online-Self-Assessments zur Erfassung studienrelevanter Kompetenzen. Zeitschrift für Hochschulentwicklung, 4(1), 60-71."
+            },
+            {
+              "text": "Reimann, G. (2005). Arbeits- und Anforderungsanalyse. Grundwissen für die berufsbezogene Eignungsbeurteilung nach DIN 33430, 2(3), 111 127."
+            },
+            {
+              "text": "Heine, C. W. 2008). Studienanfänger im Wintersemester 2007/08. HIS Forum Hochschule, 16(7), 63-111."
+            },
+            {
+              "text": "Müller, P. (2014). Forschung und Entwicklung im Bildungswesen. Zeitschrift für Bildungsforschung, 54(2) 128-156."
+            },
+            {
+              "text": "Bargel, T. (2014). Das Bachelor- und Masterstudium im Spiegel des Studienqualitätsmonitors. Entwicklungen der Studienbedingungen und Studienqualität 2009 bis 2012, 5[4), 61-87."
+            }
+  
+          ],
+          "evaluated": true
         }
     ],
   
@@ -146,7 +171,7 @@
   
     "sets": [{
         "id": 3001,
-        "elements": [2001, 1005]
+        "elements": [2001, 1005, 1006]
       },
       {
         "id": 3002,

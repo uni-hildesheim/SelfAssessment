@@ -1,0 +1,41 @@
+
+.mat-div-replacement{
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: space-between;
+    // max-width: 350px;
+}
+
+.li-option {
+    order: 1;
+    max-width: 380px;
+
+}
+
+.li-chip {
+    order: 2;
+}
+
+
+ul{ 
+    padding:0px;
+    li{
+        text-decoration: none;
+        margin-bottom: 30px;
+        font-size: 14px;
+        list-style: none;
+
+    }
+}
+
+.hover-class{
+    background-color: rgb(233, 233, 162);
+    cursor: pointer;
+}
+
+
+.disabled-test-card{
+    pointer-events: none;
+    opacity: 0.5;
+  }
