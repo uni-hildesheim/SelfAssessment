@@ -198,6 +198,21 @@ function main() {
     // create the app
     const app = createApp();
 
+    // log to a file
+    const logFiles = fs.readdirSync('./data/logs/');
+
+    const date = new Date();
+    let logFileName = date.getFullYear() + '-' + date.getMonth()+1 + '-' + date.getDate();
+    let logFileIndex = 0;
+    let logFilePostfix = '.log';
+
+    while (logFiles.includes(logFileName + '_' + logFileIndex + logFilePostfix)) {
+        logFileIndex++;
+    }
+
+    const logFilePath = './data/logs/' + logFileName + "_" + logFileIndex + logFilePostfix;
+    logger.setLogFile(logFilePath, 0);
+
     // connect to DB
     logger.log(logger.Level.INFO, 'MongoDB URI: ' + db.config.uri);
     db.connect(db.config.uri, db.config.options);

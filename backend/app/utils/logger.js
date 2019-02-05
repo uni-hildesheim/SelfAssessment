@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 /**
  * Logging levels.
  * Depending on the level, messages are directed to stdout (ALL, INFO, WARN) or stderr (ERROR).
@@ -16,8 +18,14 @@ module.exports = {
     setLogFile
 }
 
-/* default log level */
-var LOGLEVEL = Level.ERROR;
+/* Default settings */
+var SETTINGS = {
+    level: Level.ERROR,
+    fileStream: null,
+    fileStreamBufferSize: 0
+}
+
+var BUFFER = []
 
 /*
  * Logging colors for terminal output.
@@ -58,7 +66,7 @@ const Color = {
  * @param {string} message The log message to display
  */
 function log(level, message) {
-    if (level < LOGLEVEL) {
+    if (level < SETTINGS.level) {
         return;
     }
 
@@ -75,9 +83,33 @@ function log(level, message) {
         color = Color.FgRed;
     }
 
-    fn('%s[%s] %d-%d-%d %d:%d:%d %s%s', color, Level[level], date.getFullYear(), date.getMonth()+1,
-        date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), message,
-        Color.Reset);
+    const logLine = `[${Level[level]}]` +
+                    ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
+                    ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
+                    ` ${message}`;
+    const coloredLogLine = `${color}${logLine}${Color.Reset}`;
+
+    // log to console-based transport
+    fn(coloredLogLine);
+
+    // log to file-based transport
+    if (SETTINGS.fileStream) {
+        if (BUFFER.length < SETTINGS.fileBufferSize) {
+            // fill log buffer
+            BUFFER.push(logLine);
+        } else {
+            if (SETTINGS.fileStreamBufferSize == 0) {
+                // bypass buffering, directly write to console
+                SETTINGS.fileStream.write(logLine + '\n');
+            } else {
+                // clear the buffer, write everything to console
+                for (const line of BUFFER) {
+                    SETTINGS.fileStream.write(line + '\n');
+                }
+                BUFFER = [];
+            }
+        }
+    }
 }
 
 /**
@@ -92,16 +124,40 @@ function setLogLevel(level) {
         return false;
     }
 
-    LOGLEVEL = level;
+    SETTINGS.level = level;
     return true;
 }
 
 /**
  * Pipe log messages to a file.
- * CURRENTLY NOT IMPLEMENTED!
  *
- * @param {string} file Path to a file where log output is written
+ * @param {string} filePath Path to a file where log output is written
+ * @param {number} bufferSize Number of lines to buffer before the log is written to the file
  */
-function setLogFile(file) { // eslint-disable-line no-unused-vars
-    // TODO
+function setLogFile(filePath, bufferSize = 0) {
+    if (filePath === null) {
+        SETTINGS.filePath = null;
+        return false;
+    }
+
+    // sanity check: bufferSize must not be smaller than 0
+    if (bufferSize < 0) {
+        bufferSize = 0;
+    }
+
+    SETTINGS.fileStream = fs.createWriteStream(
+        filePath,
+        {
+            'flags': 'w'
+        }
+    );
+
+    SETTINGS.fileStream.on('error', (err) => {
+        log(Level.ERROR, "Failed to create logger file-based transport: " + err);
+        SETTINGS.fileStream.end();
+        return false;
+    });
+
+    SETTINGS.fileBufferSize = bufferSize;
+    return true;
 }
