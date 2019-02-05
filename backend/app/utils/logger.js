@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 /**
  * Logging levels.
  * Depending on the level, messages are directed to stdout (ALL, INFO, WARN) or stderr (ERROR).
@@ -11,21 +9,44 @@ const Level = {
     ERROR: 'ERROR'
 };
 
-module.exports = {
-    Level: Level,
-    log,
-    setLogLevel,
-    setLogFile
+class ConsoleTransport {
+    constructor(priority = 1) {
+        this.priority = priority;
+    }
+    log(level, message) {
+        let fn = console.log;
+        let color = Color.FgGreen;
+    
+        // determine logging function and color if necessary
+        if (level == Level.WARN) {
+            fn = console.warn;
+            color = Color.FgYellow;
+        } else if (level == Level.ERROR) {
+            fn = console.error;
+            color = Color.FgRed;
+        }
+
+        const line = `${color}${message}${Color.Reset}`
+        fn(line);
+    }
+}
+
+class FileTransport {
+    constructor(priority = 1, fileStream) {
+        this.priority = priority;
+        this.fileStream = fileStream;
+    }
+    log(level, message) {
+        this.fileStream.write(message + '\n');
+    }
 }
 
 /* Default settings */
 var SETTINGS = {
-    level: Level.ERROR,
-    fileStream: null,
-    fileStreamBufferSize: 0
-}
+    level: Level.ERROR
+};
 
-var BUFFER = []
+var TRANSPORTS = [];
 
 /*
  * Logging colors for terminal output.
@@ -57,7 +78,7 @@ const Color = {
     BgMagenta: '\x1b[45m',
     BgCyan: '\x1b[46m',
     BgWhite: '\x1b[47m'
-}
+};
 
 /**
  * A wrapper for console.{log, warn, error} with extended features such as timestamp printing.
@@ -71,44 +92,13 @@ function log(level, message) {
     }
 
     const date = new Date();
-    let fn = console.log;
-    let color = Color.FgGreen;
-
-    // determine logging function and color if necessary
-    if (level == Level.WARN) {
-        fn = console.warn;
-        color = Color.FgYellow;
-    } else if (level == Level.ERROR) {
-        fn = console.error;
-        color = Color.FgRed;
-    }
-
     const logLine = `[${Level[level]}]` +
                     ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
                     ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
                     ` ${message}`;
-    const coloredLogLine = `${color}${logLine}${Color.Reset}`;
 
-    // log to console-based transport
-    fn(coloredLogLine);
-
-    // log to file-based transport
-    if (SETTINGS.fileStream) {
-        if (BUFFER.length < SETTINGS.fileBufferSize) {
-            // fill log buffer
-            BUFFER.push(logLine);
-        } else {
-            if (SETTINGS.fileStreamBufferSize == 0) {
-                // bypass buffering, directly write to console
-                SETTINGS.fileStream.write(logLine + '\n');
-            } else {
-                // clear the buffer, write everything to console
-                for (const line of BUFFER) {
-                    SETTINGS.fileStream.write(line + '\n');
-                }
-                BUFFER = [];
-            }
-        }
+    for (const transport of TRANSPORTS) {    
+        transport.log(level, logLine);
     }
 }
 
@@ -129,35 +119,30 @@ function setLogLevel(level) {
 }
 
 /**
- * Pipe log messages to a file.
+ * Add a new transport for logging.
  *
- * @param {string} filePath Path to a file where log output is written
- * @param {number} bufferSize Number of lines to buffer before the log is written to the file
+ * @param {Transport} transport The log transport to use for logging 
  */
-function setLogFile(filePath, bufferSize = 0) {
-    if (filePath === null) {
-        SETTINGS.filePath = null;
-        return false;
+function addTransport(transport) {
+    if (TRANSPORTS.length === 0) {
+        TRANSPORTS.push(transport);
+        return true;
     }
 
-    // sanity check: bufferSize must not be smaller than 0
-    if (bufferSize < 0) {
-        bufferSize = 0;
+    if (TRANSPORTS[0].priority >= transport.priority) {
+        // insert at the end
+        TRANSPORTS.push(transport);
+    } else {
+        // insert at the beginning
+        TRANSPORTS.splice(0, 0, transport);
     }
+}
 
-    SETTINGS.fileStream = fs.createWriteStream(
-        filePath,
-        {
-            'flags': 'w'
-        }
-    );
-
-    SETTINGS.fileStream.on('error', (err) => {
-        log(Level.ERROR, "Failed to create logger file-based transport: " + err);
-        SETTINGS.fileStream.end();
-        return false;
-    });
-
-    SETTINGS.fileBufferSize = bufferSize;
-    return true;
+module.exports = {
+    Level: Level,
+    ConsoleTransport,
+    FileTransport,
+    log,
+    setLogLevel,
+    addTransport
 }

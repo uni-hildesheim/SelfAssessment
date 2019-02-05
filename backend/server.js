@@ -193,6 +193,11 @@ function setupAutodeploy(inputPath, outputPath) {
 }
 
 function main() {
+    // add console transport for non-production environments
+    if (process.env.NODE_ENV !== 'production') {
+        logger.addTransport(new logger.ConsoleTransport(1));
+    }
+
     loadEnvironment();
 
     // create the app
@@ -211,7 +216,20 @@ function main() {
     }
 
     const logFilePath = './data/logs/' + logFileName + "_" + logFileIndex + logFilePostfix;
-    logger.setLogFile(logFilePath, 0);
+
+    let fileStream = fs.createWriteStream(
+        logFilePath,
+        {
+            'flags': 'w'
+        }
+    );
+
+    fileStream.on('error', (err) => {
+        console.error("Failed to create logger file-based transport: " + err);
+        fileStream.end();
+    });
+
+    logger.addTransport(new logger.FileTransport(0, fileStream));
 
     // connect to DB
     logger.log(logger.Level.INFO, 'MongoDB URI: ' + db.config.uri);
