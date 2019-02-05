@@ -1,0 +1,60 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+/* For use in src/lib/core/theming/_palette.scss */
+$university-color: (
+    50 : #f8e7e6,
+    100 : #ecc3c1,
+    200 : #e09c98,
+    300 : #d4746f,
+    400 : #ca5650,
+    500 : #c13831,
+    600 : #bb322c,
+    700 : #b32b25,
+    800 : #ab241f,
+    900 : #9e1713,
+    A100 : #ffd1d0,
+    A200 : #ff9f9d,
+    A400 : #ff6d6a,
+    A700 : #ff5551,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+$uni-app-primary: mat-palette($university-color);
+$uni-app-accent:  mat-palette($mat-red, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$uni-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$uni-app-theme: mat-light-theme($uni-app-primary, $uni-app-accent, $uni-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($uni-app-theme);
