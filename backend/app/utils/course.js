@@ -22,6 +22,7 @@ function validateConfig(config) {
             "category": {"type": "string"},
             "description": {"type": "string"},
             "task": {"type": "string"},
+            "seconds": {"type": "integer"},
             "options": {
                 "type": "array",
                 "items": {
