@@ -7,6 +7,7 @@ import { JournalService } from 'src/app/shared/services/journal.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Course } from 'src/app/shared/models/course-object';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 @Component({
   selector: 'app-start-test',
@@ -30,7 +31,8 @@ export class StartTestComponent implements OnInit {
     private router: Router,
     private pinService: PinService,
     private journalService: JournalService,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   ngOnInit() {
@@ -74,10 +76,12 @@ export class StartTestComponent implements OnInit {
           const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
           this.journalService.saveJournalStructure(journal.structure)
             .subscribe(
-              data => console.log(data),
-              err => console.log(err)
+              () => {
+                this.logging.info('Start the test procedure');
+                this.router.navigateByUrl('/testpanel');
+              },
+              err => this.logging.error('Error occurred', err)
             );
-          this.router.navigateByUrl('/testpanel');
         }
       );
   }

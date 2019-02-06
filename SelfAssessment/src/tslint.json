@@ -7,6 +7,7 @@
             "app",
             "camelCase"
         ],
+        "no-console": false,
         "component-selector": [
             true,
             "element",

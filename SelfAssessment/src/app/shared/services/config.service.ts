@@ -7,6 +7,8 @@ import { LocalStorageService } from './local-storage.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Course } from '../models/course-object';
+import { LoggingService } from '../logging/logging.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +21,28 @@ export class ConfigService {
   constructor(
     private http: HttpClient,
     private journalLogService: JournalLogService,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   getAllCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(ConfigService.SHOW_COURSES);
+    return this.http.get<Course[]>(ConfigService.SHOW_COURSES)
+    .pipe(
+      tap(data => {
+        this.logging.info('Loaded all courses');
+        this.logging.debug(undefined, data, true);
+      })
+    );
   }
 
   loadConfigFromCourse(course: string): Observable<ConfigFile> {
-    return this.http.post<ConfigFile>(ConfigService.LOAD_CONFIG, { name: course });
+    return this.http.post<ConfigFile>(ConfigService.LOAD_CONFIG, { name: course })
+    .pipe(
+      tap(data => {
+        this.logging.info(`Loaded config for course: ${course}`);
+        this.logging.debug(undefined, data);
+      })
+    );
   }
 
   initJournalFromConfigFile(configFile: ConfigFile) {

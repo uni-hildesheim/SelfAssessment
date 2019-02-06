@@ -9,11 +9,15 @@ import { Observable, TimeoutError, Subject, of } from 'rxjs';
 import { timeout, retryWhen, map, switchMap } from 'rxjs/operators';
 import { ErrorDialogService } from 'src/app/shared/services/error-dialog.service';
 import { Injectable } from '@angular/core';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-    constructor(private dialogService: ErrorDialogService) { }
+    constructor(
+        private dialogService: ErrorDialogService,
+        private logging: LoggingService
+    ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -31,7 +35,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                                 }
                             })
                         )
-                    )
+                )
 
             );
     }

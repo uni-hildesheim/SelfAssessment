@@ -6,6 +6,7 @@ import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
 import { SetElement } from 'src/app/shared/models/testspecific/set.element.model';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class JournalLogService {
 
   constructor(
     private globals: GlobalIndicator,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   getModelByID(id: number) {
@@ -29,7 +31,6 @@ export class JournalLogService {
 
   initJournalLog(journalStruc: JournalStructure): JournalLog {
     const sets = journalStruc.sets;
-    console.log('INIT JOURNAL LOG FROM JOURNAL STRUCTURE');
 
     const journalLog = new JournalLog();
     journalLog.sets = [];
@@ -55,6 +56,9 @@ export class JournalLogService {
       });
       journalLog.sets.push(journalSet);
     });
+
+    this.logging.info('Init journal log from journal structure');
+
     // init the observable
     this.journalLog = new BehaviorSubject(journalLog);
     return journalLog;

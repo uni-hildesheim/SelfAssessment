@@ -1,9 +1,12 @@
+import { LogLevel } from 'src/app/shared/logging/log.level.enum';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
   apiUrl: 'http://localhost:8000',
+  loglevel: LogLevel.ALL,
   production: false
 };
 

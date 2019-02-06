@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './local-storage.service';
+import { LoggingService } from '../logging/logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class PinService {
 
   constructor(
     private http: HttpClient,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   createNewPin(): Observable<number> {
@@ -28,6 +30,9 @@ export class PinService {
       map((pin: number) => {
         this.storageService.storePin(pin);
         return pin;
+      }),
+      tap((pin: number) => {
+        this.logging.info(`Loaded pin: ${pin}`);
       })
     );
   }

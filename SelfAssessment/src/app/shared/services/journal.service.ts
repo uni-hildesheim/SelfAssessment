@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { JournalStructure } from '../models/state/journal.structure.model';
 import { Journal } from '../models/state/journal.model';
@@ -9,6 +9,7 @@ import { JournalLog } from '../models/state/journal.log.model';
 import { ConfigService } from './config.service';
 import { Observable } from 'rxjs';
 import { ConfigFile } from '../models/config.file.model';
+import { LoggingService } from '../logging/logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,12 @@ export class JournalService {
   constructor(
     private http: HttpClient,
     private storageService: LocalStorageService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private logging: LoggingService
   ) { }
 
 
   loadJournal(pin: number): Observable<Journal> {
-    console.log('LOAD JOURNAL');
     return this.http.post(JournalService.LOAD_JOURNAL, { pin })
       .pipe(
         switchMap(entry => {
@@ -38,6 +39,10 @@ export class JournalService {
                 journal.structure = this.storageService.createJournalStructure(configFile, entry['structure']);
                 journal.log = this.storageService.extractSavedJournalLog(entry['log']);
                 return journal;
+              }),
+              tap((data) => {
+                this.logging.info(`Loaded journal for pin: ${pin}`);
+                this.logging.debug(undefined, data);
               })
             );
         })
@@ -45,18 +50,25 @@ export class JournalService {
   }
 
   saveJournalLog(journalLog: JournalLog) {
-    console.log('SAVE JOURNAL LOG');
     return this.http.post(JournalService.SAVE_JOURNAL_LOG, {
       pin: this.storageService.getPin(),
       log: this.storageService.prepareJournalLogForSaving(journalLog)
-    });
+    }).pipe(
+      tap(() => {
+        this.logging.info('Saved journal log');
+      })
+    );
   }
 
   saveJournalStructure(journalStructure: JournalStructure) {
-    console.log('SAVE JOURNAL STRUCTURE');
     return this.http.post(JournalService.SAVE_JOURNAL_STRUCTURE, {
       pin: this.storageService.getPin(),
       structure: this.storageService.prepareJournalStructureForSaving(journalStructure)
-    });
+    }).pipe(
+      tap(() => {
+        this.logging.info('Saved journal structure');
+        this.logging.debug(undefined, journalStructure);
+      })
+    );
   }
 }

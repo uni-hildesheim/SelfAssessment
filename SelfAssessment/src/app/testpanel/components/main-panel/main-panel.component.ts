@@ -5,6 +5,7 @@ import { MatStepper } from '@angular/material';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
 import { JournalLogService } from '../../services/journal-log.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 @Component({
   selector: 'app-main-panel',
@@ -21,7 +22,8 @@ export class MainPanelComponent implements OnInit {
     private journalService: JournalService,
     private journalLogService: JournalLogService,
     private globals: GlobalIndicator,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   ngOnInit() {
@@ -30,8 +32,7 @@ export class MainPanelComponent implements OnInit {
     this.journalLogService.getJournalLogAsObservable().subscribe(
       (data) => {
         this.updateProtocol = true;
-        console.log('JOURNAL LOG CHANGED');
-        console.log(data);
+        this.logging.debug('Journal log changed', this.storageService.prepareJournalLogForSaving(data));
       }
     );
   }
@@ -41,11 +42,10 @@ export class MainPanelComponent implements OnInit {
 
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
-        data => {
-          console.log(data);
+        () => {
           this.updateProtocol = false;
         },
-        err => console.log(err)
+        err => this.logging.error('Error occurred', err)
       );
     }
 
