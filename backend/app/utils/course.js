@@ -111,7 +111,7 @@ function validateConfig(config) {
     const validate = ajv.addSchema(singleTestSchema).addSchema(testGroupSchema)
         .addSchema(testSetSchema).addSchema(infoPageSchema).compile(testSchema);
     if (!validate(config)) {
-        console.log(validate.errors);
+        logger.log(logger.Level.WARN, JSON.stringify(validate.errors));
         return false;
     }
 
