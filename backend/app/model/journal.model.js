@@ -14,7 +14,15 @@ const JournalSchema = new mongoose.Schema({
             }]
         }]
     },
-    structure: Object
+    structure: {
+        _id: false, // stop generating id for nested document object
+        course: String,
+        sets: [{
+            _id: false, // stop generating id for nested document object
+            set: Object,
+            tests: Array
+        }]
+    }
 });
 
 const JournalModel = mongoose.model('Journal', JournalSchema);
