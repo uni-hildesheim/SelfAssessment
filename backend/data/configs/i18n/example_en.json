@@ -1,0 +1,18 @@
+{
+  "?refs": {
+    "1001-1": "This is a simple radio-buttons test.",
+    "1001-2": "Can you <i>see</i> the <b>nice</b> HTML<sup>5</sup> formatting?",
+    "1001-3": "Yes",
+    "1001-4": "<b>Yes, but in big</b>",
+    "1002-1": "This is a simple multiple-options test featuring three distinct answer options.",
+    "1002-2": "Please choose the correct answers.",
+    "1003-1": "Another radio-buttons test demonstrating LaTeX support.<br> Given: <br> $$f(x)=x^{2}$$ and <br> $$x = 2$$",
+    "1003-2": "Determine",
+    "1005-1": "This is a speed test! You only got ten seconds for this one, so hurry up!",
+    "1005-2": "Mark every <ins>animal</ins> in the text below.",
+    "1005-3": "The quick brown fox does not jump, at all.",
+    "1005-4": "Global warming is dangerous. Or is it? My cat seems to enjoy the warm weather.",
+    "1005-5": "Just kidding, it certainly is not. Just think of the poor penguins.",
+    "4001-1": "Select one of the radio buttons."
+  }
+}

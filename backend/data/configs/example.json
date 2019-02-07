@@ -7,14 +7,14 @@
       "id": 1001,
       "type": "logic",
       "category": "radio-buttons",
-      "description": "This is a simple radio-buttons test.",
-      "task": "Can you <i>see</i> the <b>nice</b> HTML<sup>5</sup> formatting?",
+      "description": "?ref{1001-1}",
+      "task": "?ref{1001-2}",
       "options": [
         {
-          "text": "Yes"
+          "text": "?ref{1001-3}"
         },
         {
-          "text": "<b>Yes, but in big</b>"
+          "text": "?ref{1001-4}"
         }
       ],
       "evaluated": false
@@ -23,8 +23,8 @@
       "id": 1002,
       "type": "logic",
       "category": "multiple-options",
-      "description": "This is a simple multiple-options test featuring three distinct answer options.",
-      "task": "Please choose the correct answers.",
+      "description": "?ref{1002-1}",
+      "task": "?ref{1002-2}",
       "options": [
         {
           "text": "2+2",
@@ -46,8 +46,8 @@
       "id": 1003,
       "type": "logic",
       "category": "radio-buttons",
-      "description": "Another radio-buttons test demonstrating LaTeX support.<br> Given: <br> $$f(x)=x^{2}$$ and <br> $$x = 2$$",
-      "task": "Determine $$f(x)$$.",
+      "description": "?ref{1003-1}",
+      "task": "?ref{1003-2} $$f(x)$$.",
       "options": [
         {
           "text": "$$0$$"
@@ -64,17 +64,17 @@
       "type": "logic",
       "category": "speed",
       "seconds": 10,
-      "description": "This is a speed test! You only got ten seconds for this one, so hurry up!",
-      "task": "Mark every <ins>animal</ins> in the text below.",
+      "description": "?ref{1005-1}",
+      "task": "?ref{1005-2}",
       "options": [
         {
-          "text": "The quick brown fox does not jump, at all."
+          "text": "?ref{1005-3}"
         },
         {
-          "text": "Global warming is dangerous. Or is it? My cat seems to enjoy the warm weather."
+          "text": "?ref{1005-4}"
         },
         {
-          "text": "Just kidding, it certainly is not. Just think of the poor penguins."
+          "text": "?ref{1005-5}"
         }
       ],
       "evaluated": true
@@ -114,7 +114,7 @@
   "infopages": [
     {
       "id": 4001,
-      "text": "Select one of the radio buttons.",
+      "text": "?ref{4001-1}",
       "belongs": [
         1001,
         1003
