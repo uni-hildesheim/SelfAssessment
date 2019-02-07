@@ -54,7 +54,7 @@ export class LoggingService {
     // dont log to the console if prod mode is enabled
     if (LoggingService.PRODUCTION) {
       if (object) {
-        logMessage += JSON.stringify(object, null, 2);
+        logMessage += JSON.stringify(object);
       }
       return;
     }

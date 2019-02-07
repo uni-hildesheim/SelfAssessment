@@ -4,7 +4,6 @@ import { ConfigFile } from '../models/config.file.model';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Course } from '../models/course-object';
 import { LoggingService } from '../logging/logging.service';
