@@ -28,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     err =>
                         err.pipe(
                             switchMap(e => {
-                                if (e.status === 404) {
+                                if (e.status === 404 || e.status === 500) {
                                     throw e;
                                 } else {
                                     return this.dialogService.openDialog('Cannot reach server.');

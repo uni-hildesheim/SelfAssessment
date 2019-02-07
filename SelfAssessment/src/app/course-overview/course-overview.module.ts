@@ -7,9 +7,10 @@ import { CourseCardComponent } from './components/course-card/course-card.compon
 import { MaterialModule } from '../material/material.module';
 import { StartTestComponent } from './components/start-test/start-test.component';
 import { SharedModule } from '../shared/shared.module';
+import { PinComponent } from './components/pin/pin.component';
 
 @NgModule({
-  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent],
+  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, PinComponent],
   imports: [
     CommonModule,
     CourseOverviewRoutingModule,
