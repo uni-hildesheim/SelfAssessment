@@ -11,22 +11,28 @@
         "task": "Sind die folgenden Aussagen richtig oder falsch?",
         "options": [
           {
-            "text": "In Abteilung B wird der Prozessor entwickelt."
+            "text": "In Abteilung B wird der Prozessor entwickelt.",
+            "correct": 0
           },
           {
-            "text": "Abteilung C entwickelt nicht den Prozessor."
+            "text": "Abteilung C entwickelt nicht den Prozessor.",
+            "correct": 0
           },
           {
-            "text": "Abteilung B muss nicht im Mai fertig sein."
+            "text": "Abteilung B muss nicht im Mai fertig sein.",
+            "correct": 0
           },
           {
-            "text": "Ingenieur Müller arbeitet in Abteilung B."
+            "text": "Ingenieur Müller arbeitet in Abteilung B.",
+            "correct": 0
           },
           {
-            "text": "Abteilung B ist die Abteilung von Ingenieur Schmitz."
+            "text": "Abteilung B ist die Abteilung von Ingenieur Schmitz.",
+            "correct": 0
           },
           {
-            "text": "Ingenieur Meyer arbeitet nicht in Abteilung C."
+            "text": "Ingenieur Meyer arbeitet nicht in Abteilung C.",
+            "correct": 0
           }
         ],
         "header": [
@@ -43,19 +49,24 @@
         "task": "Sind die folgenden Aussagen richtig oder falsch?",
         "options": [
           {
-              "text": "Anke belegte Energietechnik."
+              "text": "Anke belegte Energietechnik.",
+              "correct": 0
             },
             {
-              "text": "Die schlechteste Note gab es in Energietechnik."
+              "text": "Die schlechteste Note gab es in Energietechnik.",
+              "correct": 0
             },
             {
-              "text": "Anja heißt Kramer mit Nachnamen."
+              "text": "Anja heißt Kramer mit Nachnamen.",
+              "correct": 1
             },
             {
-              "text": "Frau Becker belegte nicht Nanoelektronik."
+              "text": "Frau Becker belegte nicht Nanoelektronik.",
+              "correct": 0
             },
             {
-              "text": "Anne heißt nicht Kramer mit Nachnamen."
+              "text": "Anne heißt nicht Kramer mit Nachnamen.",
+              "correct": 1
             }
       ],
       "header": [

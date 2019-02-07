@@ -29,7 +29,7 @@ function validateConfig(config) {
                     "type": "object",
                     "properties": {
                         "text": {"type": "string"},
-                        "correct": {"type": "boolean"}
+                        "correct": {}
                     }
                 }
             },
@@ -123,6 +123,20 @@ function validateConfig(config) {
         if (testIDs.indexOf(test['id']) > -1) {
             logger.log(logger.Level.WARN, 'validateConfig: "id" not unique: ' + test['id']);
             return false;
+        }
+
+        // special case: multiple-options test
+        // here, each "option" MUST have a "correct" attribute, specifying the index of the correct
+        // option in the header
+        if (test['category'] === 'multiple-options') {
+            for (const option of test['options']) {
+                if (!('correct' in option)) {
+                    // abort, this is not a valid test definition
+                    logger.log(logger.Level.WARN, 'validateConfig: multiple-options test: ' +
+                               test['id'] + ' requires the "correct" attribute for each option!');
+                    return false;
+                }
+            }
         }
 
         // keep track of all single test IDs
