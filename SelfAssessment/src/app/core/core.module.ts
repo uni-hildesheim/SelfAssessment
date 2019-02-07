@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
 import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
+import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
 
 @NgModule({
   declarations: [EntryComponent, NavbarComponent],
@@ -24,15 +25,21 @@ import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
   exports: [
     EntryComponent
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-     useClass: HttpErrorInterceptor,
-     multi: true
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-     useClass: HttpLoggingInterceptor,
-     multi: true
-  }]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpApiInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpLoggingInterceptor,
+      multi: true
+    }]
 })
 export class CoreModule { }

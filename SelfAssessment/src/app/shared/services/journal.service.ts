@@ -16,9 +16,9 @@ import { LoggingService } from '../logging/logging.service';
 })
 export class JournalService {
 
-  public static readonly SAVE_JOURNAL_LOG = environment.apiUrl + '/api/v1/journal/log/save';
-  public static readonly LOAD_JOURNAL = environment.apiUrl + '/api/v1/journal/load';
-  public static readonly SAVE_JOURNAL_STRUCTURE = environment.apiUrl + '/api/v1/journal/structure/save';
+  public static readonly SAVE_JOURNAL_LOG = 'api/v1/journal/log/save';
+  public static readonly LOAD_JOURNAL = 'api/v1/journal/load';
+  public static readonly SAVE_JOURNAL_STRUCTURE = 'api/v1/journal/structure/save';
 
   constructor(
     private http: HttpClient,

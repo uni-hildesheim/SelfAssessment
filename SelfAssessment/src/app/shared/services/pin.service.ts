@@ -11,7 +11,7 @@ import { LoggingService } from '../logging/logging.service';
 })
 export class PinService {
 
-  public static readonly CREATE_PIN = environment.apiUrl + '/api/v1/pincode/create';
+  public static readonly CREATE_PIN = 'api/v1/pincode/create';
 
   constructor(
     private http: HttpClient,

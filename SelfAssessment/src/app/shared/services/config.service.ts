@@ -15,8 +15,8 @@ import { tap } from 'rxjs/operators';
 })
 export class ConfigService {
 
-  public static readonly SHOW_COURSES = environment.apiUrl + '/api/v1/course';
-  public static readonly LOAD_CONFIG = environment.apiUrl + '/api/v1/course/loadConfig';
+  public static readonly SHOW_COURSES = 'api/v1/course';
+  public static readonly LOAD_CONFIG = 'api/v1/course/loadConfig';
 
   constructor(
     private http: HttpClient,
