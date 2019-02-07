@@ -18,7 +18,9 @@ class ConsoleTransport {
         let color = Color.FgGreen;
     
         // determine logging function and color if necessary
-        if (level == Level.WARN) {
+        if (level == Level.ALL) {
+            color = Color.FgCyan;
+        } else if (level == Level.WARN) {
             fn = console.warn;
             color = Color.FgYellow;
         } else if (level == Level.ERROR) {
@@ -87,18 +89,26 @@ const Color = {
  * @param {string} message The log message to display
  */
 function log(level, message) {
+    let logLevel = level;
+
+    // don't just silently swallow messages for invalid log leves
+    // - force level to ALL instead
+    if (!(level in Level)) {
+        logLevel = Level.ALL;
+    }
+
     if (level < SETTINGS.level) {
         return;
     }
 
     const date = new Date();
-    const logLine = `[${Level[level]}]` +
+    const logLine = `[${Level[logLevel]}]` +
                     ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
                     ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
                     ` ${message}`;
 
     for (const transport of TRANSPORTS) {    
-        transport.log(level, logLine);
+        transport.log(logLevel, logLine);
     }
 }
 
