@@ -9,6 +9,7 @@ module.exports = {
 // load a course from the DB
 function loadConfig(req, res) {
     const name = req.body.name;
+    const language = req.body.language;
 
     db.Course.findOne({
         name: name
@@ -18,8 +19,20 @@ function loadConfig(req, res) {
             res.status(404).json({ error: 'No such course: ' + name });
             return;
         }
-        logger.log(logger.Level.INFO, 'Loaded course config: ' + name);
-        res.status(200).json(course.config);
+
+        for (const config of course.configs) {
+            if (language === config.language) {
+                logger.log(logger.Level.INFO, 'Loaded course config: ' + name + ' for language: ' +
+                           language);
+                res.status(200).json(config.config);
+                return;
+            }
+        }
+
+        logger.log(logger.Level.WARN, 'Language: ' + language + ' not available for course: ' +
+                   name);
+        res.status(404).json({ error: 'Language: ' + language + ' not available for course: ' +
+                               name });
     }).catch(err => {
         logger.log(logger.Level.ERROR, err);
         res.status(500).json({ error: err });
@@ -32,11 +45,18 @@ function showCourses(req, res) {
         // wildcard filter
     }).then(courses => {
         let meta = []
-        for (let course of courses) {
-            logger.log(logger.Level.INFO, 'Available course: ' + course.name);
+        for (const course of courses) {
+            let languages = [];
+            for (const config of course.configs) {
+                languages.push(config.language);
+            }
+
+            logger.log(logger.Level.INFO, 'Available course: ' + course.name + ', languages: ' +
+                       languages);
             meta.push({
                 "name": course.name,
-                "icon": course.icon
+                "icon": course.icon,
+                "languages": languages
             });
         }
         res.status(200).json(meta);

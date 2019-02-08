@@ -7,17 +7,20 @@ describe('CourseController', () => {
     const docs = [
         {
             name: 'IMIT',
-            config: {
-                "title": "IMIT",
-                "icon": "imit.png",
-                "image": "",
-                "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+            language: 'en',
+            configs: [
+                {
+                    "title": "IMIT",
+                    "icon": "imit.png",
+                    "image": "",
+                    "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
 
-                "tests": [],
-                "testgroups": [],
-                "infopages": [],
-                "sets": []
-            }
+                    "tests": [],
+                    "testgroups": [],
+                    "infopages": [],
+                    "sets": []
+                }
+            ]
         }
     ];
 
@@ -83,7 +86,8 @@ describe('CourseController', () => {
 
             const expectedResult = [{
                 "name": docs[0].name,
-                "icon": docs[0].icon
+                "icon": docs[0].icon,
+                "languages": [docs[0].configs[0].language]
             }];
             await CourseController.showCourses(req, this.res);
             sinon.assert.calledOnce(CourseModel.find);

@@ -72,6 +72,12 @@ function createApp() {
 }
 
 function loadCourses(path) {
+    let configFiles = [];
+    let languageFiles = [];
+
+    // TODO: Make this configurable
+    const i18nPath = path + '/i18n';
+
     // drop all current course configs from the db
     db.Course.deleteMany({
         // wildcard filter
@@ -81,44 +87,107 @@ function loadCourses(path) {
         logger.log(logger.Level.WARN, 'Failed to drop course documents from db: ' + err);
     });
 
-    // read available configs from local data dir
-    fs.readdir(path, (err, items) => {
-        if (err) {
-            logger.log(logger.Level.ERROR, err);
-            return;
+    try {
+        // read available configs from local data dir
+        configFiles = fs.readdirSync(path);
+    } catch (err) {
+        logger.log(logger.Level.ERROR, err);
+        return;
+    }
+
+    try {
+        // read available configs from local data dir
+        languageFiles = fs.readdirSync(i18nPath);
+    } catch (err) {
+        logger.log(logger.Level.ERROR, err);
+        return;
+    }
+
+    for (const item of configFiles) {
+        let courseConfigs = [];
+        const configName = item.split('.')[0];
+        if (!item.endsWith('.json')) {
+            // we only handle JSON files, so just exit in this case
+            continue;
         }
 
-        for (const item of items) {
-            if (!item.endsWith('.json')) {
+        let courseConfig;
+        try {
+            courseConfig = JSON.parse(fs.readFileSync(path + '/' + item));
+        } catch (err) {
+            logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + item + ': ' + err);
+            continue;
+        }
+
+        // see what languages are available
+        for (const lang of languageFiles) {
+            if (!lang.endsWith('.json')) {
                 // we only handle JSON files, so just exit in this case
                 continue;
             }
 
-            let courseConfig;
+            let elems = lang.split('_');
+            if (elems.length < 2) {
+                logger.log(logger.Level.WARN, 'Not a valid language file: ' + lang);
+                continue
+            }
+
+            if (elems[0] !== configName) {
+                // looks like this language file does not belong to this config
+                continue;
+            }
+
+            elems = elems[1].split('.');
+            if (elems.length < 2) {
+                // what language is this? no idea
+                continue;
+            }
+
+            let languageConfig;
             try {
-                courseConfig = JSON.parse(fs.readFileSync(path + '/' + item));
+                languageConfig = JSON.parse(fs.readFileSync(i18nPath + '/' + lang));
             } catch (err) {
-                logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + item + ': ' + err);
+                logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + lang + ': ' + err);
                 continue;
             }
 
-            // validate config
-            if (!courseUtils.validateConfig(courseConfig)) {
-                logger.log(logger.Level.WARN, 'Not a valid config file: ' + item);
+            // attempt to merge the course with the language config to see if all references
+            // resolve correctly
+            const mergedConfig = courseUtils.mergeConfigs([courseConfig, languageConfig]);
+            if (mergedConfig === null) {
+                logger.log(logger.Level.WARN, 'Failed to merge course config: ' + item + ' with' +
+                           ' language config: ' + lang);
                 continue;
             }
 
-            db.Course.create({
-                name: courseConfig['title'],
-                icon: courseConfig['icon'],
-                config: courseConfig
-            }).then(course => {
-                logger.log(logger.Level.INFO, 'Created course in db: ' + course.name);
-            }).catch(err => {
-                logger.log(logger.Level.ERROR, err);
+            // add the translated config to our set
+            courseConfigs.push({
+                'language': elems[0],
+                'config': mergedConfig
             });
         }
-    });
+
+        // validate merged config
+        if (!courseUtils.validateConfig(courseConfig)) {
+            logger.log(logger.Level.WARN, 'Not a valid config file: ' + item);
+            continue;
+        }
+
+        db.Course.create({
+            name: courseConfig['title'],
+            icon: courseConfig['icon'],
+            configs: courseConfigs
+        }).then(course => {
+            let languageNames = []
+            for (const obj of course.configs) {
+                languageNames.push(obj.language);
+            }
+            logger.log(logger.Level.INFO, 'Created course in db: ' + course.name +
+                       ', languages: ' + languageNames);
+        }).catch(err => {
+            logger.log(logger.Level.ERROR, err);
+        });
+    }
 }
 
 function setupAutodeploy(inputPath, outputPath) {

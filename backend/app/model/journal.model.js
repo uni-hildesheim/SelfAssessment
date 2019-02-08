@@ -17,6 +17,7 @@ const JournalSchema = new mongoose.Schema({
     structure: {
         _id: false, // stop generating id for nested document object
         course: String,
+        language: String,
         sets: [{
             _id: false, // stop generating id for nested document object
             set: Object,
