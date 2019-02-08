@@ -15,12 +15,10 @@ class ConsoleTransport {
     }
     log(level, message) {
         let fn = console.log;
-        let color = Color.FgGreen;
+        let color = '';
     
         // determine logging function and color if necessary
-        if (level == Level.ALL) {
-            color = Color.FgCyan;
-        } else if (level == Level.WARN) {
+        if (level == Level.WARN) {
             fn = console.warn;
             color = Color.FgYellow;
         } else if (level == Level.ERROR) {
