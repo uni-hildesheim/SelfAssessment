@@ -4,6 +4,7 @@
  */
 const Level = {
     ALL: 'ALL',
+    DEBUG: 'DEBUG',
     INFO: 'INFO',
     WARN: 'WARN',
     ERROR: 'ERROR'
