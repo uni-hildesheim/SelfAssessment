@@ -96,17 +96,19 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
    */
   public spanMouseAction(over: boolean, i: number, j: number): void {
 
+    const distance = Math.ceil(this.singleTest.options[i].correct.toString().length / 2.0);
+
     if (this.done) {
       return;
     }
 
-    if (j < 3) {
-      j = 3;
-    } else if (j > this.coloredOptions[i].length - 3) {
-      j = this.coloredOptions[i].length - 3;
+    if (j < distance) {
+      j = distance;
+    } else if (j > this.coloredOptions[i].length - distance) {
+      j = this.coloredOptions[i].length - distance;
     }
 
-    for (let k = j - 3; k < j + 3; k++) {
+    for (let k = j - distance; k < j + distance; k++) {
       this.coloredOptions[i][k] = over;
     }
   }
@@ -120,17 +122,20 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
    */
   public spanClickAction(i: number, j: number): void {
 
+    const distance = Math.ceil(this.singleTest.options[i].correct.toString().length / 2.0);
+
+
     if (this.done) {
       return;
     }
 
-    if (j < 3) {
-      j = 3;
-    } else if (j > this.coloredOptions[i].length - 3) {
-      j = this.coloredOptions[i].length - 3;
+    if (j < distance) {
+      j = distance;
+    } else if (j > this.coloredOptions[i].length - distance) {
+      j = this.coloredOptions[i].length - distance;
     }
 
-    this.choosenOptions[i] = this.optionsSplit[i].slice(j - 3, j + 3).join('');
+    this.choosenOptions[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
     this.journalLogService.refreshJournalLog();
   }
 
