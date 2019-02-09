@@ -16,10 +16,14 @@ const router = require('./app/routes/index.js');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;
+let CORS_OPTIONS = {
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 function loadEnvironment() {
     const APP_LOGLEVEL = process.env.APP_LOGLEVEL;
     const APP_PORT = process.env.APP_PORT;
+    const CORS_ORIGINS = process.env.CORS_ORIGINS;
     const DB_URI = process.env.DB_URI;
     const DB_USER = process.env.DB_USER;
     const DB_PASS = process.env.DB_PASS;
@@ -52,6 +56,18 @@ function loadEnvironment() {
         logger.log(logger.Level.INFO, 'env: APP_PORT=' + APP_PORT);
         APP_LISTEN_PORT = APP_PORT;
     }
+
+    if (CORS_ORIGINS) {
+        logger.log(logger.Level.INFO, 'env: CORS_ORIGINS=' + CORS_ORIGINS);
+        CORS_OPTIONS.origin = function (origin, callback) {
+            if (CORS_ORIGINS.indexOf(origin) !== -1) {
+                callback(null, true)
+            } else {
+                logger.log(logger.Level.WARN, 'CORS: denying request from: ' + origin);
+                callback('Not allowed by CORS');
+            }
+        }
+    }
 }
 
 function createApp() {
@@ -60,10 +76,7 @@ function createApp() {
     app.use(bodyParser.json());
 
     // enable cross-origin resource sharing
-    const corsOptions = {
-        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-    };
-    app.use(cors(corsOptions));
+    app.use(cors(CORS_OPTIONS));
 
     // load the API routes
     router(app);
