@@ -12,5 +12,5 @@ export class TestOption {
     /**
      * Indicates whether the answer is correct.
      */
-    correct?: boolean;
+    correct: boolean | string;
 }

@@ -60,11 +60,11 @@ export class ConfigService {
   * @param course The course to fetch.
   * @returns Observable containing the config file.
   */
-  public loadConfigFromCourse(course: string): Observable<ConfigFile> {
-    return this.http.post<ConfigFile>(ConfigService.LOAD_CONFIG, { name: course })
+  public loadConfigFromCourse(course: string, language: string): Observable<ConfigFile> {
+    return this.http.post<ConfigFile>(ConfigService.LOAD_CONFIG, { name: course, language: language })
       .pipe(
         tap(data => {
-          this.logging.info(`Loaded config for course: ${course}`);
+          this.logging.info(`Loaded course config: ${course} for language: ${language}`);
           this.logging.debug(undefined, data);
         })
       );

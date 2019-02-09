@@ -11,9 +11,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
 import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
 import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
+import { LanguagePipe } from './pipes/language.pipe';
 
 @NgModule({
-  declarations: [EntryComponent, NavbarComponent],
+  declarations: [EntryComponent, NavbarComponent, LanguagePipe],
   imports: [
     CommonModule,
     TestpanelModule,

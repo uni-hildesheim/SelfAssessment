@@ -96,6 +96,14 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem('journalstructure'));
   }
 
+  public getLanguage(): string {
+    return localStorage.getItem('language');
+  }
+
+  public storeLanguage(lang: string): void {
+    localStorage.setItem('language', lang);
+  }
+
   /**
    * Retrieves the complete journal from the local storage.
    *
@@ -144,6 +152,7 @@ export class LocalStorageService {
   public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureRaw {
     const rawSet: JournalStructureRaw = {
       course: this.getCourse().name,
+      language: this.getLanguage(),
       sets: []
     };
     journalStructure.sets.forEach(set => {
@@ -216,6 +225,8 @@ export class LocalStorageService {
       rawTest.setType = 'test';
       allSingleTests.set(rawTest.id, <Test>rawTest);
     });
+
+    console.log(allSingleTests);
 
     // get all the infopages
     course.infopages.forEach((page: any) => {

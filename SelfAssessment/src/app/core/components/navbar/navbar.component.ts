@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { MatSelectChange } from '@angular/material';
 
 /**
  * The top panel for the title.
@@ -10,10 +12,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  lang = ['de', 'en', 'fr'];
+
+  constructor(
+    private storageService: LocalStorageService
+  ) { }
 
   ngOnInit() {
+    this.storageService.storeLanguage(this.lang[0]);
+  }
 
+  langChange(matselect: MatSelectChange) {
+    this.storageService.storeLanguage(matselect.value);
   }
 
 

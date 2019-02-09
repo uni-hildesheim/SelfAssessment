@@ -5,7 +5,7 @@ import {
   MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule,
   MatIconModule, MatButtonModule, MatProgressBarModule, MatGridListModule,
   MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatChipsModule,
+  MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule,
 } from '@angular/material';
 @NgModule({
   declarations: [],
@@ -29,7 +29,10 @@ import {
     MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatChipsModule
+    MatChipsModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

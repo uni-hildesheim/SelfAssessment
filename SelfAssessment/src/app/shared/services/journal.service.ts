@@ -50,7 +50,7 @@ export class JournalService {
     return this.http.post(JournalService.LOAD_JOURNAL, { pin })
       .pipe(
         switchMap(entry => {
-          return this.configService.loadConfigFromCourse(entry['structure'].course)
+          return this.configService.loadConfigFromCourse(entry['structure'].course, entry['structure'].language)
             .pipe(
               map((configFile: ConfigFile) => {
                 const journal = new Journal();

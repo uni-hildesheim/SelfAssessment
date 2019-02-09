@@ -14,6 +14,11 @@ export interface JournalStructureRaw {
     course: string;
 
     /**
+     * The desired language.
+     */
+    language: string;
+
+    /**
      * The minimal representation of the structure sets.
      */
     sets: SetRaw[];

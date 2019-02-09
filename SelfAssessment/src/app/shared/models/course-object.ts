@@ -13,4 +13,9 @@ export interface Course {
      * The name of the image icon.
      */
     icon?: string;
+
+    /**
+     * Possible languages for this course.
+     */
+    languages: string[];
 }

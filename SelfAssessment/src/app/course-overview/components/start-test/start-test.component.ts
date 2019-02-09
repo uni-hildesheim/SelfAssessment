@@ -8,6 +8,8 @@ import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Course } from 'src/app/shared/models/course-object';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
+import { MatSelectChange, MatSnackBar } from '@angular/material';
+import { SnackBarLanguageComponent } from './snack-bar-language/snack-bar-language.component';
 
 /**
  * The component displayed before the actual test procedure.
@@ -59,6 +61,11 @@ export class StartTestComponent implements OnInit {
    */
   public pin: number;
 
+  /**
+   * The desired language.
+   */
+  // public language: string;
+
 
   constructor(
     private configService: ConfigService,
@@ -66,7 +73,8 @@ export class StartTestComponent implements OnInit {
     private pinService: PinService,
     private journalService: JournalService,
     private storageService: LocalStorageService,
-    private logging: LoggingService
+    private logging: LoggingService,
+    private snackBar: MatSnackBar
   ) { }
 
   /**
@@ -77,6 +85,8 @@ export class StartTestComponent implements OnInit {
     this.pinService.createNewPin().subscribe(pin => this.pin = pin);
 
     this.course = this.storageService.getCourse();
+
+    // this.language = this.course.languages[0];
 
     this.notes = [
       'Plane in etwa 60 Minuten für eine gewissenhafte Bearbeitung ein!',
@@ -105,13 +115,26 @@ export class StartTestComponent implements OnInit {
     this.notesLbl = 'Bearbeitungshinweise';
   }
 
+//   languageChoosen(matselect: MatSelectChange) {
+//     this.language = matselect.value;
+//  }
+
 
   /**
    * Start the selfassessment by loading the specific config file for the course and
    * saving the generated journal structure in the local storage.
    */
   public startSelfAssessment(): void {
-    this.configService.loadConfigFromCourse(this.course.name)
+    // this.storageService.storeLanguage(this.language);
+    const lang = this.storageService.getLanguage();
+
+    if (!this.course.languages.includes(lang)) {
+      this.openSnackBar();
+      return;
+    }
+
+
+    this.configService.loadConfigFromCourse(this.course.name, lang)
       .subscribe(
         (configFile: ConfigFile) => {
           const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
@@ -120,11 +143,17 @@ export class StartTestComponent implements OnInit {
               () => {
                 this.logging.info('Start the test procedure');
                 this.router.navigateByUrl('/testpanel');
-              },
-              err => this.logging.error('Error occurred', err)
+              }
             );
         }
       );
+  }
+
+  openSnackBar() {
+    this.snackBar.openFromComponent(SnackBarLanguageComponent, {
+      duration: 3000,
+      data: this.course.languages,
+    });
   }
 
 }

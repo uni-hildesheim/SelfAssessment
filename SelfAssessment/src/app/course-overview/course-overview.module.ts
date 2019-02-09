@@ -7,9 +7,11 @@ import { MaterialModule } from '../material/material.module';
 import { StartTestComponent } from './components/start-test/start-test.component';
 import { SharedModule } from '../shared/shared.module';
 import { PinComponent } from './components/pin/pin.component';
+import { SnackBarLanguageComponent } from './components/start-test/snack-bar-language/snack-bar-language.component';
 
 @NgModule({
-  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, PinComponent],
+  entryComponents: [SnackBarLanguageComponent],
+  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, PinComponent, SnackBarLanguageComponent],
   imports: [
     CommonModule,
     MaterialModule,

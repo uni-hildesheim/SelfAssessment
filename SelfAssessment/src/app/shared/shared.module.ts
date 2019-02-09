@@ -17,7 +17,8 @@ import { CountdownComponent } from './components/countdown/countdown.component';
  */
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
-  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent, DefaultImgDirective, CountdownComponent],
+  declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent,
+    DefaultImgDirective, CountdownComponent],
   imports: [
     CommonModule,
     KatexModule,
