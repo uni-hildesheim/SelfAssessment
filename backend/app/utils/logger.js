@@ -3,11 +3,18 @@
  * Depending on the level, messages are directed to stdout (ALL, INFO, WARN) or stderr (ERROR).
  */
 const Level = {
-    ALL: 'ALL',
-    DEBUG: 'DEBUG',
-    INFO: 'INFO',
-    WARN: 'WARN',
-    ERROR: 'ERROR'
+    ERROR: 1,
+    WARN: 2,
+    INFO: 3,
+    DEBUG: 4,
+    ALL: 5,
+    properties: {
+        1: { string: "ERROR" },
+        2: { string: "WARN" },
+        3: { string: "INFO" },
+        4: { string: "DEBUG" },
+        5: { string: "ALL" }
+    }
 };
 
 class ConsoleTransport {
@@ -92,16 +99,16 @@ function log(level, message) {
 
     // don't just silently swallow messages for invalid log leves
     // - force level to ALL instead
-    if (!(level in Level)) {
+    if (!(level in Level.properties)) {
         logLevel = Level.ALL;
     }
 
-    if (level < SETTINGS.level) {
+    if (SETTINGS.level < logLevel) {
         return;
     }
 
     const date = new Date();
-    const logLine = `[${Level[logLevel]}]` +
+    const logLine = `[${Level.properties[logLevel].string}]` +
                     ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
                     ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
                     ` ${message}`;
@@ -119,8 +126,14 @@ function log(level, message) {
  */
 function setLogLevel(level) {
     // ignore invalid levels
-    if (!(level in Level)) {
-        return false;
+    if (!(level in Level.properties)) {
+        // in the past, we supported settings the string as level, so check that as well
+        if (level in Level) {
+            SETTINGS.level = Level[level];
+            return true;
+        } else {
+            return false;
+        }
     }
 
     SETTINGS.level = level;
