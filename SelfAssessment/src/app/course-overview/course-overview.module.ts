@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CourseOverviewRoutingModule } from './course-overview-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
 import { MaterialModule } from '../material/material.module';
@@ -13,7 +12,6 @@ import { PinComponent } from './components/pin/pin.component';
   declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, PinComponent],
   imports: [
     CommonModule,
-    CourseOverviewRoutingModule,
     MaterialModule,
     SharedModule
   ],

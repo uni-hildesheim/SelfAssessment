@@ -9,7 +9,12 @@ import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-di
 import { DefaultImgDirective } from './directives/default-image.directive';
 import { CountdownComponent } from './components/countdown/countdown.component';
 
-
+/**
+ * The shared module.
+ *
+ * Contains Components, Directives, Services and models used throughout the application.
+ *
+ */
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
   declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent, DefaultImgDirective, CountdownComponent],

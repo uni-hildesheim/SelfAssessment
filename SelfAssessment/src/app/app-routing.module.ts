@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './course-overview/components/dashboard/dashboard.component';
@@ -8,7 +9,7 @@ import { TestpanelGuard } from './core/guards/testpanel.guard';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'test-start', component: StartTestComponent, canActivate: [StartTestGuard]},
+  { path: 'test-start', component: StartTestComponent, canActivate: [StartTestGuard] },
   { path: 'testpanel', component: MainPanelComponent, canActivate: [TestpanelGuard] },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', component: DashboardComponent }

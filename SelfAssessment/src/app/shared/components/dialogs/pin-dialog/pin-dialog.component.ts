@@ -4,6 +4,9 @@ import { Validators, FormControl } from '@angular/forms';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
+/**
+ * Realizes the Pin Dialog.
+ */
 @Component({
   selector: 'app-pin-dialog',
   templateUrl: './pin-dialog.component.html',
@@ -11,10 +14,20 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 })
 export class PinDialogComponent implements OnInit {
 
-  loading = false;
-  errorMessage: string;
+  /**
+   * Specifies whether there is an api call that is not finished.
+   */
+  public loading = false;
 
-  pinFormControl = new FormControl('', [
+  /**
+   * The potential error message.
+   */
+  public errorMessage: string;
+
+  /**
+   * The form controll for the pin input.
+   */
+  public pinFormControl = new FormControl('', [
     Validators.required,
     Validators.pattern('[0-9]{8}')
   ]);
@@ -27,7 +40,11 @@ export class PinDialogComponent implements OnInit {
 
   ngOnInit() { }
 
-  getProtocol() {
+  /**
+   * Gets the protocol associated with the pin that the user provided.
+   * If the pin does not exist the user is notified.
+   */
+  public getProtocol(): void {
     this.loading = true;
     this.errorMessage = null;
 

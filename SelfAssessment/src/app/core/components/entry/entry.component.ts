@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * The entry component for the application.
+ */
 @Component({
   selector: 'app-entry',
   templateUrl: './entry.component.html',
@@ -9,7 +12,6 @@ export class EntryComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

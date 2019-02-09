@@ -7,6 +7,9 @@ import { JournalLogService } from '../../services/journal-log.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 
+/**
+ * Handles the testing procedure.
+ */
 @Component({
   selector: 'app-main-panel',
   templateUrl: './main-panel.component.html',
@@ -14,8 +17,22 @@ import { LoggingService } from 'src/app/shared/logging/logging.service';
 })
 export class MainPanelComponent implements OnInit {
 
+  /**
+   * The journal structure which is beeing iterated inside
+   * the template of this component.
+   */
   public journalStructure: JournalStructure;
+
+  /**
+   * Inidcates if the user made any changes that would update
+   * the protocol and would consequently be updated in the database
+   * if the user goes to the next test.
+   */
   private updateProtocol: boolean;
+
+  /**
+   * The progess value of the current set.
+   */
   public progressVal = 0;
 
   constructor(
@@ -37,9 +54,17 @@ export class MainPanelComponent implements OnInit {
     );
   }
 
+  /**
+   * Moves the test procedure forward.
+   * If any changes to the journal log occurred, store the update the current
+   * instance in the backend.
+   *
+   * @param foward Indicates the direction.
+   * @param stepper The stepper element from the template.
+   */
+  public moveToNextSetElement(foward: boolean, stepper: MatStepper): void {
 
-  moveToNextSetElement(foward: boolean, stepper: MatStepper) {
-
+    // update the journal log if the current set element is a test and changes occured
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
@@ -49,6 +74,7 @@ export class MainPanelComponent implements OnInit {
       );
     }
 
+    // adjust the indices
     if (foward) {
       if (this.setElemIndex === this.currentElements.length - 1) {
         stepper.next();
@@ -69,31 +95,48 @@ export class MainPanelComponent implements OnInit {
       }
     }
 
+    // adjust the progess value
     this.progressVal = Math.ceil(this.setElemIndex / (this.currentElements.length - 1) * 100);
   }
 
+  /**
+   * Getter for the current set.
+   */
   get currentSet() {
     return this.journalStructure.sets[this.setIndex];
   }
 
+  /**
+   * Getter for the current set elements (test/infopage).
+   */
   get currentElements() {
     return this.journalStructure.sets[this.setIndex].elements;
   }
 
-  // getters and setters referencing the global indices
-
+  /**
+   * Setter for the set index.
+   */
   set setIndex(set: number) {
     this.globals.setIndex = set;
   }
 
+  /**
+   * Setter for the set element index.
+   */
   set setElemIndex(test: number) {
     this.globals.setElemIndex = test;
   }
 
+  /**
+   * Getter for the set index.
+   */
   get setIndex() {
     return this.globals.setIndex;
   }
 
+  /**
+   * Setter for the set element index.
+   */
   get setElemIndex() {
     return this.globals.setElemIndex;
   }

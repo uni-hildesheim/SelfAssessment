@@ -2,15 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './local-storage.service';
 import { LoggingService } from '../logging/logging.service';
 
+/**
+ * Contains the logic for all pin-related operations.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class PinService {
 
+  /**
+   * Api route that creates a new pin.
+   */
   public static readonly CREATE_PIN = 'api/v1/pincode/create';
 
   constructor(
@@ -19,7 +24,13 @@ export class PinService {
     private logging: LoggingService
   ) { }
 
-  createNewPin(): Observable<number> {
+
+  /**
+   * Retrieves generated pin from the database or locally stored pin.
+   *
+   * @returns Observable containing generated pin.
+   */
+  public createNewPin(): Observable<number> {
     const checkPin = this.storageService.getPin();
 
     if (checkPin) {

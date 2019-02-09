@@ -11,6 +11,11 @@ import { JournalStructureRaw } from '../models/state/raw/journal.structure.raw';
 import { SetRaw } from '../models/state/raw/journal.struc.set.raw';
 import { Course } from '../models/course-object';
 
+/**
+ * This Service contains the logic for storing/retrieving objects in/from
+ * the local stroage and should be the only place where the storage is accessed.
+ * It also provides helper methods for other storing use cases.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -18,47 +23,100 @@ export class LocalStorageService {
 
   constructor() { }
 
-  storeJournal(journal: Journal) {
+  /**
+   * Stores a journal instance in the local storage.
+   *
+   * @param journal The journal instance.
+   */
+  public storeJournal(journal: Journal): void {
     localStorage.setItem('journallog', JSON.stringify(this.prepareJournalLogForSaving(journal.log)));
     localStorage.setItem('journalstructure', JSON.stringify(journal.structure));
   }
 
-  storeJournalLog(journallog: JournalLog) {
+  /**
+   * Stores a journal log instance in the local storage.
+   *
+   * @param journallog The log instance.
+   */
+  public storeJournalLog(journallog: JournalLog): void {
     localStorage.setItem('journallog', JSON.stringify(this.prepareJournalLogForSaving(journallog)));
   }
 
-  storePin(pin) {
+  /**
+   * Stores the pin in the local storage.
+   *
+   * @param pin The pin.
+   */
+  public storePin(pin): void {
     localStorage.setItem('pin', pin.toString());
   }
 
-  storeCourse(course: Course) {
+  /**
+   * Stores a course in the local storage.
+   *
+   * @param course The course.
+   */
+  public storeCourse(course: Course): void {
     localStorage.setItem('course', JSON.stringify(course));
   }
 
-  getPin(): number {
+  /**
+   * Retrieves the pin from the local storage.
+   *
+   * @returns The pin.
+   */
+  public getPin(): number {
     return parseInt(localStorage.getItem('pin'), 0);
   }
 
-  getCourse(): Course {
+  /**
+   * Retrieves the course from the local storage.
+   *
+   * @returns The course.
+   */
+  public getCourse(): Course {
     return JSON.parse(localStorage.getItem('course'));
   }
 
-  getJournalLog(): JournalLog {
+  /**
+   * Retrieves the journal log from the local storage.
+   *
+   * @returns The journal log.
+   */
+  public getJournalLog(): JournalLog {
     return this.extractSavedJournalLog(JSON.parse(localStorage.getItem('journallog')));
   }
 
-  getJournalStructure(): JournalStructure {
+  /**
+   * Retrieves the journal structure from the local storage.
+   *
+   * @returns The journal structure.
+   */
+  public getJournalStructure(): JournalStructure {
     return JSON.parse(localStorage.getItem('journalstructure'));
   }
 
-  getJournal(): Journal {
+  /**
+   * Retrieves the complete journal from the local storage.
+   *
+   * @returns The journal
+   */
+  public getJournal(): Journal {
     const journal = new Journal();
     journal.log = this.getJournalLog();
     journal.structure = this.getJournalStructure();
     return journal;
   }
 
-  prepareJournalLogForSaving(journalLog: JournalLog) {
+  /**
+   * Helper method to format the journal log into a storable object,
+   * because javascript maps cannot be stored in local storage and
+   * cannot be send via http requests.
+   *
+   * @param journalLog The journal log.
+   * @returns The prepared journal log.
+   */
+  public prepareJournalLogForSaving(journalLog: JournalLog): Object {
 
     const protoObj = new Object();
     protoObj['sets'] = [];
@@ -76,7 +134,14 @@ export class LocalStorageService {
     return protoObj;
   }
 
-  prepareJournalStructureForSaving(journalStructure: JournalStructure) {
+
+  /**
+   * Helper method to formate the journal structure into
+   * a storable object.
+   *
+   * @param journalStructure The journal structure.
+   */
+  public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureRaw {
     const rawSet: JournalStructureRaw = {
       course: this.getCourse().name,
       sets: []
@@ -96,7 +161,14 @@ export class LocalStorageService {
     return rawSet;
   }
 
-  extractSavedJournalLog(protoObj) {
+  /**
+   * Helper method to extract the saved journal log from the local storage or
+   * the database.
+   *
+   * @param rawLog The raw log object.
+   * @returns The extracted journal log.
+   */
+  public extractSavedJournalLog(protoObj): JournalLog {
     const singleton = new JournalLog();
     singleton.sets = [];
     protoObj['sets'].forEach(set => {
@@ -109,8 +181,20 @@ export class LocalStorageService {
     return singleton;
   }
 
-
-  createJournalStructure(course: ConfigFile, journalStrucRaw?: JournalStructureRaw) {
+  /**
+   * Creates a journal structure element from a course-specific
+   * config file. This method is used in one of the two cases:
+   *
+   * 1. A new user starts the selfassessment test procedure.
+   * 2. An existing user continues via pin input.
+   *
+   * The second case requires a raw journal structure element to
+   * be provided, which was received from the backend.
+   *
+   * @param course  The course-specifig config file.
+   * @param journalStrucRaw The raw journal structure.
+   */
+  public createJournalStructure(course: ConfigFile, journalStrucRaw?: JournalStructureRaw): JournalStructure {
     const journalStructure = new JournalStructure();
     const sets = [];
     const allSingleTests = new Map<number, SetElement>();

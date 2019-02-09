@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Router } from '@angular/router';
 
+/**
+ * The dialog which displays an error message if an api request failed.
+ */
 @Component({
   selector: 'app-error-dialog',
   templateUrl: './error-dialog.component.html',
@@ -9,15 +11,22 @@ import { Router } from '@angular/router';
 })
 export class ErrorDialogComponent implements OnInit {
 
+  /**
+   * Constructor
+   * @param dialogRef The dialog reference.
+   * @param data The error message.
+   */
+  constructor(
+    public dialogRef: MatDialogRef<ErrorDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string
+  ) { }
 
+  ngOnInit() {}
 
-  constructor(public dialogRef: MatDialogRef<ErrorDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: string, private router: Router) {
-  }
-
-  ngOnInit() {
-  }
-
-  retry() {
+  /**
+   * Close the dialog.
+   */
+  public retry(): void {
     this.dialogRef.close(true);
   }
 

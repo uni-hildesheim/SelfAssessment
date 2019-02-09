@@ -2,6 +2,9 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { JournalLogService } from '../../services/journal-log.service';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 
+/**
+ * Realises the speed test category.
+ */
 @Component({
   selector: 'app-speed-test-card',
   templateUrl: './speed-test-card.component.html',
@@ -9,23 +12,40 @@ import { Test } from 'src/app/shared/models/testspecific/test.model';
 })
 export class SpeedTestCardComponent implements OnInit, OnChanges {
 
+  /**
+   * The speed test instance.
+   */
   @Input() singleTest: Test;
-  optionsSplit = [];
-  coloredOptions = [];
-  choosenOptions = [];
-  done = true;
-  started = true;
+
+  /**
+   * Every option splited into its individual chars.
+   */
+  public optionsSplit = [];
+
+  /**
+   * Contains the chars which are part of a substring that was choosen.
+   */
+  public coloredOptions = [];
+
+  /**
+   * Contains the strings of the options which the user choose.
+   */
+  public choosenOptions = [];
+
+  /**
+   * Specifies if the countdown is finished.
+   */
+  public done = true;
+
+  /**
+   * Specifies if at any point the test was executed.
+   * Makes sure the user can execute this test only once.
+   */
+  public started = true;
 
 
   constructor(private journalLogService: JournalLogService) { }
 
-  ngOnChanges() {
-    this.choosenOptions = this.journalLogService.getModelByID(this.singleTest.id);
-    if (this.choosenOptions.every(e => e === false)) {
-      this.done = false;
-      this.started = false;
-    }
-  }
 
   ngOnInit() {
     this.singleTest.options.forEach(rawOpt => {
@@ -39,11 +59,28 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
     });
   }
 
-  startTask() {
+  /**
+   * Executed if the user moves to the next test.
+   */
+  ngOnChanges() {
+    this.choosenOptions = this.journalLogService.getModelByID(this.singleTest.id);
+    if (this.choosenOptions.every(e => e === false)) {
+      this.done = false;
+      this.started = false;
+    }
+  }
+
+  /**
+   * Opens the speed test task and starts the countdown.
+   */
+  public startTask(): void {
     this.started = true;
   }
 
-  endTask() {
+  /**
+   * Ends the speed test and refreshes the journal log.
+   */
+  public endTask(): void {
     this.done = true;
 
     for (let i = 0; i < this.choosenOptions.length; i++) {
@@ -54,7 +91,10 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
     this.journalLogService.refreshJournalLog();
   }
 
-  spanMouseAction(over: boolean, i: number, j: number) {
+  /**
+   * Highlights 3 chars left and right from the hoverd char.
+   */
+  public spanMouseAction(over: boolean, i: number, j: number): void {
 
     if (this.done) {
       return;
@@ -71,7 +111,14 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
     }
   }
 
-  spanClickAction(i: number, j: number) {
+
+  /**
+   * Adds the clicked char and 3 chars left and right to the choosen options.
+   *
+   * @param i The index of the option.
+   * @param j The index of the char inside the option.
+   */
+  public spanClickAction(i: number, j: number): void {
 
     if (this.done) {
       return;
@@ -87,7 +134,12 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
     this.journalLogService.refreshJournalLog();
   }
 
-  removeOption(i) {
+  /**
+   * Removes a choosen string from the choosen options array.
+   *
+   * @param i Index of the option.
+   */
+  public removeOption(i): void {
     this.choosenOptions[i] = false;
   }
 

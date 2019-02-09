@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
 import { GlobalIndicator } from '../global.indicators';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
 import { SetElement } from 'src/app/shared/models/testspecific/set.element.model';
 import { Test } from 'src/app/shared/models/testspecific/test.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
+import { TestpanelModule } from '../testpanel.module';
 
+/**
+ * Keeps track of the journal log across the application.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class JournalLogService {
 
+  /**
+   * Observable that contains the instance of the journal log.
+   * Every Observer that is subscribed to this object, receives
+   * notifications when the journal log instances changes.
+   */
   public journalLog: BehaviorSubject<JournalLog>;
 
   constructor(
@@ -21,15 +30,38 @@ export class JournalLogService {
     private logging: LoggingService
   ) { }
 
-  getModelByID(id: number) {
+  /**
+   * The model is returned by this method is a pivotal element
+   * in sustaining the state across the application. It returns
+   * the model for the test specific element e.g the checkbox,
+   * the radio-buttons or the strings for the speed test.
+   *
+   * @param id The id of the single test.
+   * @returns The test specific model.
+   */
+  public getModelByID(id: number): any {
     return this.journalLogInstance.sets[this.globals.setIndex].get(id);
   }
 
-  initJournalLogFromPin(journalLog: JournalLog) {
+  /**
+   * Initalizes this service and its behaviour subject from a user
+   * specific journal log.
+   *
+   * @param journalLog The user specific journal log.
+   */
+  public initJournalLogFromPin(journalLog: JournalLog): void {
     this.journalLog = new BehaviorSubject(journalLog);
   }
 
-  initJournalLog(journalStruc: JournalStructure): JournalLog {
+
+  /**
+   * Initalizes this service and its behaviour subject from a previously
+   * created journal structure.
+   *
+   * @param journalStruc The journal structure.
+   * @return The journal log.
+   */
+  public initJournalLog(journalStruc: JournalStructure): JournalLog {
     const sets = journalStruc.sets;
 
     const journalLog = new JournalLog();
@@ -64,19 +96,34 @@ export class JournalLogService {
     return journalLog;
   }
 
-  getJournalLogAsObservable() {
+  /**
+   * Retrieves the observable from this behaviour subject.
+   *
+   * @returns The observable containing the journal log.
+   */
+  public getJournalLogAsObservable(): Observable<JournalLog> {
     if (!this.journalLog) {
       this.journalLog = new BehaviorSubject(this.storageService.getJournalLog());
     }
     return this.journalLog.asObservable();
   }
 
-  refreshJournalLog() {
+  /**
+   * Called after the journal log was updated.
+   * Notifies the observers which are subscribed to the journal log behaviour subject.
+   */
+  public refreshJournalLog(): void {
     this.storageService.storeJournalLog(this.journalLogInstance);
     this.journalLog.next(this.journalLogInstance);
   }
 
-  get journalLogInstance() {
+  /**
+   * Getter for the actual journal log instance inside the journal log
+   * behaviour subject.
+   *
+   * @returns The journal log instance.
+   */
+  get journalLogInstance(): JournalLog {
     return this.journalLog.getValue();
   }
 

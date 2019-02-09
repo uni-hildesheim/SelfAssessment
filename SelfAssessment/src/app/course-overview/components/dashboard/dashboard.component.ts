@@ -1,20 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfigService } from 'src/app/shared/services/config.service';
-import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
+/**
+ * Realizes the Dashboard which displays all the courses.
+ */
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
+  /**
+   * Observable containing the courses.
+   */
   public courses: Observable<Object>;
-  private ngUnsubscribe = new Subject();
 
   constructor(
     private configService: ConfigService,
@@ -22,26 +25,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private storageService: LocalStorageService
   ) { }
 
+  /**
+   * Get all the courses from the config service.
+   */
   ngOnInit() {
     this.courses = this.configService.getAllCourses();
   }
 
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
-  startTheTest(course) {
+  /**
+   * Navigate to the start-test page if the user choose a course.
+   * @param course The course.
+   */
+  public startTheTest(course): void {
     this.storageService.storeCourse(course);
     this.router.navigate(['/test-start', course]);
-
-    // this.configService.loadConfigFromCourse(course)
-    // .pipe(takeUntil(this.ngUnsubscribe))
-    // .subscribe(
-    //   (config: ConfigFile) => {
-    //     // this.storageService.storeConfigFile(config);
-    //     this.router.navigate(['/test-start', {icon: config.icon}]);
-    //   }
-    // );
   }
 }

@@ -9,6 +9,9 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { Course } from 'src/app/shared/models/course-object';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 
+/**
+ * The component displayed before the actual test procedure.
+ */
 @Component({
   selector: 'app-start-test',
   templateUrl: './start-test.component.html',
@@ -16,14 +19,45 @@ import { LoggingService } from 'src/app/shared/logging/logging.service';
 })
 export class StartTestComponent implements OnInit {
 
-  course: Course;
-  notes: string[];
-  infoContent: string;
-  notesLbl: string;
-  encouragement: string;
-  pinNote: string;
-  startTestLbl: string;
-  pin: number;
+  /**
+   * The course.
+   */
+  public course: Course;
+
+  /**
+   * The help notes.
+   */
+  public notes: string[];
+
+  /**
+   * The information content.
+   */
+  public infoContent: string;
+
+  /**
+   * The label for the notes.
+   */
+  public notesLbl: string;
+
+  /**
+   * The encouragement.
+   */
+  public encouragement: string;
+
+  /**
+   * The pin note.
+   */
+  public pinNote: string;
+
+  /**
+   * The start test lbl.
+   */
+  public startTestLbl: string;
+
+  /**
+   * The pin.
+   */
+  public pin: number;
 
 
   constructor(
@@ -35,6 +69,9 @@ export class StartTestComponent implements OnInit {
     private logging: LoggingService
   ) { }
 
+  /**
+   * Initalizes the variables.
+   */
   ngOnInit() {
 
     this.pinService.createNewPin().subscribe(pin => this.pin = pin);
@@ -69,7 +106,11 @@ export class StartTestComponent implements OnInit {
   }
 
 
-  startSelfAssessment() {
+  /**
+   * Start the selfassessment by loading the specific config file for the course and
+   * saving the generated journal structure in the local storage.
+   */
+  public startSelfAssessment(): void {
     this.configService.loadConfigFromCourse(this.course.name)
       .subscribe(
         (configFile: ConfigFile) => {
