@@ -47,7 +47,10 @@ function mergeConfigs(input) {
 
     // 2. merge all input objects
     for (const obj of input) {
-        Object.assign(mergedConfig, obj);
+        // HACK: this function shall not alter its parameters, thus we have to resort to the old
+        // JSON.parse(JSON.stringify(x)) hack to perform a deep copy of the object
+        const objCopy = JSON.parse(JSON.stringify(obj));
+        Object.assign(mergedConfig, objCopy);
     }
 
     // 3. resolve references
