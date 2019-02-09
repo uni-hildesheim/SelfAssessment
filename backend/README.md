@@ -131,13 +131,13 @@ can be used to halt the containers and thus the Node.js app and the MongoDB data
 Start the Node.js application using:
 
 ```sh
-node server.js
+$ node server.js
 ```
 
 A MongoDB instance should be started using:
 
 ```sh
-mongod --dbpath <path>
+$ mongod --dbpath <path>
 ```
 
 <a name="rest"></a>
@@ -153,23 +153,31 @@ mongod --dbpath <path>
   [
       {
         "name": "IMIT",
-        "icon": "imit.png"
+        "icon": "imit.png",
+        "languages": [
+          "en"
+        ]
       },
       {
         "name": "WINF",
-        "icon": "winf.png"
+        "icon": "winf.png",
+        "languages": [
+          "de",
+          "en"
+        ]
       }
   ]
   ```
 
 * POST `/api/v1/course/loadConfig`  
-  Retrieve the configuration of a course (which is required for the frontend). The request body must contain exactly one attribute 'name'. Returns the raw object from DB as JSON.
+  Retrieve the configuration of a course (which is required for the frontend). The request body must contain exactly two attributes: 'name' and 'language'. Returns the raw object from DB as JSON.
 
   Example input:
 
   ```
   {
-      "name": "IMIT"
+      "name": "IMIT",
+      "language": "en"
   }
   ```
 
@@ -184,7 +192,7 @@ mongod --dbpath <path>
   ```
 
 ### Journal (v1)
-* POST `/api/v1/journal/load`  
+* POST `/api/v1/journal/load` (DEPRECATED)  
   Retrieve the journal object for a given pincode. The request body must contain exactly one attribute 'pin'. Returns the raw object from DB as JSON.
 
   Example input:
@@ -202,8 +210,8 @@ mongod --dbpath <path>
       "_id": "5c41d3b7b32830eec3312e7a",
       "associatedPin": 62211357,
       "__v": 0,
-      "log": null,
-      "structure": null
+      "log": ...,
+      "structure": ...
   }
   ```
 
@@ -222,11 +230,34 @@ mongod --dbpath <path>
 
   ```
   {
-      ...
+      "sets": [
+        {
+          "maps": [
+            {
+              "val": [
+                false,
+                true
+              ],
+              "key": 1001
+            },
+          ]
+        },
+        {
+          "maps": [
+            {
+              "val": [
+                false,
+                false
+              ],
+              "key": 1003
+            }
+          ]
+        }
+      ]
   }
   ```
 
-* POST `/api/v1/journal/log/save`  
+* POST `/api/v1/journal/log/save` (DEPRECATED)  
   Write the journal log object for a given pincode into the DB. The request body must contain exactly one attribute 'pin'. Returns HTTP 200 on success, HTTP 500 otherwise.
 
   Example input:
@@ -252,7 +283,21 @@ mongod --dbpath <path>
 
   ```
   {
-      ...
+      "course": "IMIT",
+      "sets": [
+        {
+          "tests": [
+            1001,
+          ],
+          "set": 3001
+        },
+        {
+          "tests": [
+            1003
+          ],
+          "set": 3002
+        }
+      ]
   }
   ```
 
