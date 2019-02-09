@@ -122,7 +122,7 @@ function mergeConfigs(input) {
             const refString = value.substring(refStart, refEnd+1);
             logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: resolving: ' +
                        refString + ' to: ' + references[refName]);
-            input[key] = value.replace(refString, references[refName]);
+            input[key] = value.replace(refString, () => { return references[refName] });
         }
 
         return true;
