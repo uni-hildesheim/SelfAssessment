@@ -68,13 +68,16 @@
       "task": "?ref{1005-2}",
       "options": [
         {
-          "text": "?ref{1005-3}"
+          "text": "?ref{1005-3}",
+          "correct": "?ref{1005-3-1}"
         },
         {
-          "text": "?ref{1005-4}"
+          "text": "?ref{1005-4}",
+          "correct": "?ref{1005-4-1}"
         },
         {
-          "text": "?ref{1005-5}"
+          "text": "?ref{1005-5}",
+          "correct": "?ref{1005-5-1}"
         }
       ],
       "evaluated": true

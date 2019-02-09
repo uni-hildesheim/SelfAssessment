@@ -274,6 +274,20 @@ function validateConfig(config) {
             }
         }
 
+        // special case: speed test
+        // here, each "option" MUST have a "correct" attribute, specifying the expected substring
+        // to match against
+        if (test['category'] === 'speed') {
+            for (const option of test['options']) {
+                if (!('correct' in option)) {
+                    // abort, this is not a valid test definition
+                    logger.log(logger.Level.WARN, 'validateConfig: speed test: ' +
+                               test['id'] + ' requires the "correct" attribute for each option!');
+                    return false;
+                }
+            }
+        }
+
         // keep track of all single test IDs
         testIDs.push(test['id']);
     }

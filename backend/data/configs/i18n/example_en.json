@@ -11,8 +11,11 @@
     "1005-1": "This is a speed test! You only got ten seconds for this one, so hurry up!",
     "1005-2": "Mark every <ins>animal</ins> in the text below.",
     "1005-3": "The quick brown fox does not jump, at all.",
+    "1005-3-1": "fox",
     "1005-4": "Global warming is dangerous. Or is it? My cat seems to enjoy the warm weather.",
+    "1005-4-1": "cat",
     "1005-5": "Just kidding, it certainly is not. Just think of the poor penguins.",
+    "1005-5-1": "penguins",
     "4001-1": "Select one of the radio buttons."
   }
 }
