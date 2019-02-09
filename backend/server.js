@@ -181,7 +181,7 @@ function loadCourses(path) {
         }
 
         // validate merged config
-        if (!courseUtils.validateConfig(courseConfig)) {
+        if (!db.Course.validateConfig(courseConfig)) {
             logger.log(logger.Level.WARN, 'Not a valid config file: ' + item);
             continue;
         }
