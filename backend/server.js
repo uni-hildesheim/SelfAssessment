@@ -277,7 +277,7 @@ function setupAutodeploy(inputPath, outputPath) {
 function main() {
     // add console transport for non-production environments
     if (process.env.NODE_ENV !== 'production') {
-        logger.addTransport(new logger.ConsoleTransport(1));
+        logger.addTransport(new logger.Transport.ConsoleTransport(1));
     }
 
     loadEnvironment();
@@ -311,7 +311,7 @@ function main() {
         fileStream.end();
     });
 
-    logger.addTransport(new logger.FileTransport(0, fileStream));
+    logger.addTransport(new logger.Transport.FileTransport(0, fileStream));
 
     // connect to DB
     logger.log(logger.Level.INFO, 'MongoDB URI: ' + db.config.uri);

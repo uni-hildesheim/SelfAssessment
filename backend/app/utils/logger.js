@@ -17,45 +17,6 @@ const Level = {
     }
 };
 
-class ConsoleTransport {
-    constructor(priority = 1) {
-        this.priority = priority;
-    }
-    log(level, message) {
-        let fn = console.log;
-        let color = '';
-    
-        // determine logging function and color if necessary
-        if (level == Level.WARN) {
-            fn = console.warn;
-            color = Color.FgYellow;
-        } else if (level == Level.ERROR) {
-            fn = console.error;
-            color = Color.FgRed;
-        }
-
-        const line = `${color}${message}${Color.Reset}`
-        fn(line);
-    }
-}
-
-class FileTransport {
-    constructor(priority = 1, fileStream) {
-        this.priority = priority;
-        this.fileStream = fileStream;
-    }
-    log(level, message) {
-        this.fileStream.write(message + '\n');
-    }
-}
-
-/* Default settings */
-var SETTINGS = {
-    level: Level.ERROR
-};
-
-var TRANSPORTS = [];
-
 /*
  * Logging colors for terminal output.
  * See: https://stackoverflow.com/a/41407246.
@@ -88,83 +49,174 @@ const Color = {
     BgWhite: '\x1b[47m'
 };
 
-/**
- * A wrapper for console.{log, warn, error} with extended features such as timestamp printing.
- *
- * @param {Level} level The loglevel, indicating severity
- * @param {string} message The log message to display
- */
-function log(level, message) {
-    let logLevel = level;
-
-    // don't just silently swallow messages for invalid log leves
-    // - force level to ALL instead
-    if (!(level in Level.properties)) {
-        logLevel = Level.ALL;
+class ConsoleTransport {
+    constructor(priority = 1) {
+        this.priority = priority;
     }
+    log(level, message) {
+        let fn = console.log;
+        let color = '';
+    
+        // determine logging function and color if necessary
+        if (level == Level.WARN) {
+            fn = console.warn;
+            color = Color.FgYellow;
+        } else if (level == Level.ERROR) {
+            fn = console.error;
+            color = Color.FgRed;
+        }
 
-    if (SETTINGS.level < logLevel) {
-        return;
-    }
-
-    const date = new Date();
-    const logLine = `[${Level.properties[logLevel].string}]` +
-                    ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
-                    ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
-                    ` ${message}`;
-
-    for (const transport of TRANSPORTS) {    
-        transport.log(logLevel, logLine);
+        const line = `${color}${message}${Color.Reset}`
+        fn(line);
     }
 }
 
-/**
- * Set a new log level, immediately affecting logging output.
- * Previous log output is not replayed.
- *
- * @param {Level} level The loglevel, indicating severity
- */
-function setLogLevel(level) {
-    // ignore invalid levels
-    if (!(level in Level.properties)) {
-        // in the past, we supported settings the string as level, so check that as well
-        if (level in Level) {
-            SETTINGS.level = Level[level];
-            return true;
-        } else {
-            return false;
+class FileTransport {
+    constructor(priority = 1, fileStream) {
+        this.priority = priority;
+        this.fileStream = fileStream;
+    }
+    log(level, message) {
+        this.fileStream.write(message + '\n');
+    }
+}
+
+class Logger {
+    constructor() {
+        this.level = Level.ERROR;
+        this.transports = [];
+    }
+
+    /**
+     * A wrapper for console.{log, warn, error} with extended features such as timestamp printing.
+     *
+     * @param {Level} level The loglevel, indicating severity
+     * @param {string} message The log message to display
+     */
+    log(level, message) {
+        let logLevel = level;
+
+        // don't just silently swallow messages for invalid log leves
+        // - force level to ALL instead
+        if (!(level in Level.properties)) {
+            logLevel = Level.ALL;
+        }
+
+        if (this.level < logLevel) {
+            return;
+        }
+
+        const date = new Date();
+        const logLine = `[${Level.properties[logLevel].string}]` +
+                        ` ${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` +
+                        ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` +
+                        ` ${message}`;
+
+        for (const transport of this.transports) {    
+            transport.log(logLevel, logLine);
         }
     }
 
-    SETTINGS.level = level;
-    return true;
-}
+    /*
+     * Convenience wrappers with predefined log levels
+     */
 
-/**
- * Add a new transport for logging.
- *
- * @param {Transport} transport The log transport to use for logging 
- */
-function addTransport(transport) {
-    if (TRANSPORTS.length === 0) {
-        TRANSPORTS.push(transport);
+    /**
+     * Call log(Level.ERROR, message)
+     * @param {String} message 
+     */
+    error(message) {
+        this.log(Level.ERROR, message);
+    }
+
+    /**
+     * Call log(Level.ERROR, message)
+     * @param {String} message 
+     */
+    warn(message) {
+        this.log(Level.WARN, message);
+    }
+
+    /**
+     * Call log(Level.ERROR, message)
+     * @param {String} message 
+     */
+    info(message) {
+        this.log(Level.INFO, message);
+    }
+
+    /**
+     * Call log(Level.ERROR, message)
+     * @param {String} message 
+     */
+    debug(message) {
+        this.log(Level.DEBUG, message);
+    }
+
+    /**
+     * Set a new log level, immediately affecting logging output.
+     * Previous log output is not replayed.
+     *
+     * @param {Level} level The loglevel, indicating severity
+     * @returns {boolean} true on success, false otherwise
+     */
+    setLogLevel(level) {
+        // ignore invalid levels
+        if (!(level in Level.properties)) {
+            // in the past, we supported setting the string as level, so check that as well
+            if (level in Level) {
+                this.level = Level[level];
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        this.level = level;
         return true;
     }
 
-    if (TRANSPORTS[0].priority >= transport.priority) {
-        // insert at the end
-        TRANSPORTS.push(transport);
-    } else {
-        // insert at the beginning
-        TRANSPORTS.splice(0, 0, transport);
+    /**
+     * Add a new transport for logging.
+     *
+     * @param {Transport} transport The log transport to use for logging 
+     */
+    addTransport(transport) {
+        if (this.transports.length === 0) {
+            this.transports.push(transport);
+            return true;
+        }
+
+        if (this.transports[0].priority >= transport.priority) {
+            // insert at the end
+            this.transports.push(transport);
+        } else {
+            // insert at the beginning
+            this.transports.splice(0, 0, transport);
+        }
     }
 }
 
+/**
+ * Create and expose a default logger instance.
+ * It enables class users to access a logger without the need to create their own instance:
+ * @example
+ *   const logger = require('logger');
+ *   logger.log(logger.levels.ERROR, 'some error');
+ *   logger.error('another error');
+ */
+const defaultLogger = new Logger();
+
 module.exports = {
+    /* classes and data stores needed for public API */
     Level: Level,
-    ConsoleTransport,
-    FileTransport,
-    log,
-    setLogLevel,
-    addTransport
+    Transport: {
+        ConsoleTransport,
+        FileTransport
+    },
+
+    /* default instance methods */
+    log: (...args) => defaultLogger.log(...args),
+    setLogLevel: (...args) => defaultLogger.setLogLevel(...args),
+    addTransport: (...args) => defaultLogger.addTransport(...args)
 }
