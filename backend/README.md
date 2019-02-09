@@ -8,7 +8,8 @@ Node.js backend for the self assessment system.
 3. [Installation](#installation)
 4. [Configuration](#configuration)
 5. [Running](#running)  
-6. [REST API](#rest)  
+6. [Testing](#testing)  
+7. [REST API](#rest)  
 
 <a name="structure"></a>
 ## 1. Project Structure
@@ -140,8 +141,121 @@ A MongoDB instance should be started using:
 $ mongod --dbpath <path>
 ```
 
+<a name="testing"></a>
+## 6. Testing
+
+### Unit tests
+Unit tests reside in the `spec` subdirectory, as described in the project [structure](#structure). At the moment, only the Express.js controller part is covered, basic things like routing still need to be done.
+
+We use Jasmine as our test runner of choice.
+To run the unit tests, execute
+
+```sh
+$ npm run test
+```
+
+### Writing tests
+Implementing or extending a feature requires writing new unit tests for new codepaths. In Node.js projects, unit tests are often tightly coupled to the ORM (**O**bject **R**elational **M**apper). In this project, Mongoose is used as ORM for the MongoDB database.
+
+In this section, we are going to show how we write our own tests for this project to give you an idea of how your tests should look like when contributing.
+
+For a simple test with no database interaction, the following should suffice:
+
+```javascript
+describe('Jasmine unit test example', () => {
+    it('2+2 should equal 4', async () => {
+        const number1 = 2;
+        const number2 = 2;
+
+        expect(number1+number2).toBe(4);
+    });
+}
+```
+
+In case of a more complex test with some kind of database interaction, we make use of *sinonjs*. Sinon gives us the ability to stub methods, observe method execution and parameters as well as return values and more.
+
+To demonstrate the use of *sinonjs*, here is an example for a controller unit test:
+
+```javascript
+describe('CourseController', () => {
+    const docs = [
+        {
+            name: 'IMIT',
+            language: 'en',
+            configs: [
+                {
+                    "title": "IMIT",
+                    "icon": "imit.png",
+                    // ... redacted
+                }
+            ]
+        }
+    ];
+
+    beforeEach( () => {
+        // common response object with spies
+        this.res = {
+            json: sinon.spy(),
+            status: sinon.stub().returns({
+                json: sinon.spy()
+            })
+        };
+    });
+
+    afterEach( () => {
+        // cleanup and remove stubs
+        sinon.restore();
+    });
+
+	describe('.loadConfig(req, res)', () => {
+	    it('should return HTTP 404 for invalid name', async () => {
+	        sinon.stub(CourseModel, 'findOne').resolves(null);
+	
+	        const req = {
+	            body: {
+	                name: 'garbage'
+	            }
+	        };
+	
+	        await CourseController.loadConfig(req, this.res);
+	        sinon.assert.calledOnce(CourseModel.findOne);
+	        sinon.assert.calledOnce(this.res.status);
+	        sinon.assert.calledWith(this.res.status, 404);
+	        sinon.assert.calledOnce(this.res.status().json);
+	        sinon.assert.calledWith(this.res.status().json, { error: 'No such course: ' +
+	                                                          req.body.name });
+	    });
+	
+	    it('should load the dummy course from the stub DB', async () => {
+	        sinon.stub(CourseModel, 'findOne').resolves(docs[0]);
+	
+	        const req = {
+	            body: {
+	                name: docs[0].name
+	            }
+	        };
+	
+	        await CourseController.loadConfig(req, this.res);
+	        sinon.assert.calledOnce(CourseModel.findOne);
+	        sinon.assert.calledOnce(this.res.status);
+	        sinon.assert.calledWith(this.res.status, 200);
+	        sinon.assert.calledOnce(this.res.status().json);
+	        sinon.assert.calledWith(this.res.status().json, docs[0].config);
+	    });
+	});
+}
+```
+
+Here, we are testing the loadConfig method of the Course controller. There are five basic steps involved:
+
+1. Setting up a "stub" database with dummy documents (see the docs variable)
+2. Defining common actions to execute before and after each test (see beforeEach() and afterEach())
+3. Describing the actual tests
+
+The stub database is what will be used in the actual tests to operate on. We leverage the beforeEach() and afterEach() hooks to sanitize the sinon sandbox, reset stubbed objects and prepare common spies. Please consult the *sinonjs* documentation to get to know about spies, stubs and other basic sinon building blocks. Last but not least, we employ sinon asserts to check on the spy parameters, how often they were called, etc.
+
 <a name="rest"></a>
-## 6. REST API
+## 7. REST API
 
 ### Course (v1)
 * GET `/api/v1/course`  
