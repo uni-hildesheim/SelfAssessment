@@ -1,0 +1,24 @@
+<p>
+  evaluation-overview works!
+</p>
+
+<!-- <pre *ngIf="results">
+  {{results | async | json}}
+</pre> -->
+
+
+<mat-expansion-panel *ngFor="let set of results | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{set.id}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{set | result}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  
+    <pre>
+        {{set.tests | json}}
+      </pre>
+  
+  </mat-expansion-panel>

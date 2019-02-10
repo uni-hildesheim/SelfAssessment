@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material/material.module';
-import { LanguagePipe } from 'src/app/core/pipes/language.pipe';
 
 describe('EntryComponent', () => {
   let component: EntryComponent;
@@ -14,7 +13,7 @@ describe('EntryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EntryComponent, NavbarComponent, LanguagePipe ],
+      declarations: [ EntryComponent, NavbarComponent ],
       imports: [TestpanelModule, HttpClientModule, RouterTestingModule, MaterialModule]
      })
     .compileComponents();

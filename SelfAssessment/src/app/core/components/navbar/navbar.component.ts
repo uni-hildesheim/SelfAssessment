@@ -12,7 +12,7 @@ import { MatSelectChange } from '@angular/material';
 })
 export class NavbarComponent implements OnInit {
 
-  lang = ['de', 'en', 'fr'];
+  lang = ['de', 'English', 'fr'];
 
   constructor(
     private storageService: LocalStorageService

@@ -11,17 +11,18 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
 import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
 import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
-import { LanguagePipe } from './pipes/language.pipe';
+import { EvaluationModule } from '../evaluation/evaluation.module';
 
 @NgModule({
-  declarations: [EntryComponent, NavbarComponent, LanguagePipe],
+  declarations: [EntryComponent, NavbarComponent],
   imports: [
     CommonModule,
     TestpanelModule,
     CourseOverviewModule,
     AppRoutingModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    EvaluationModule
   ],
   exports: [
     EntryComponent

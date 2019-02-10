@@ -28,8 +28,7 @@
       </div>
 
       <div class="navigate-btn">
-        <button [disabled]="setIndex === journalStructure.sets.length-1 && setElemIndex === journalStructure.sets[journalStructure.sets.length-1].elements.length-1"
-          mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
+        <button mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </div>

@@ -6,6 +6,7 @@ import { JournalStructure } from 'src/app/shared/models/state/journal.structure.
 import { JournalLogService } from '../../services/journal-log.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
+import { Router } from '@angular/router';
 
 /**
  * Handles the testing procedure.
@@ -40,7 +41,8 @@ export class MainPanelComponent implements OnInit {
     private journalLogService: JournalLogService,
     private globals: GlobalIndicator,
     private storageService: LocalStorageService,
-    private logging: LoggingService
+    private logging: LoggingService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -63,6 +65,12 @@ export class MainPanelComponent implements OnInit {
    * @param stepper The stepper element from the template.
    */
   public moveToNextSetElement(foward: boolean, stepper: MatStepper): void {
+
+    if (this.setIndex === this.journalStructure.sets.length - 1 &&
+      this.setElemIndex === this.journalStructure.sets[this.journalStructure.sets.length - 1].elements.length - 1) {
+        this.router.navigateByUrl('/evaluation');
+        return;
+    }
 
     // update the journal log if the current set element is a test and changes occured
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
