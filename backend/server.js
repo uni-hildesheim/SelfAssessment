@@ -202,6 +202,116 @@ function loadCourses(path) {
     }
 }
 
+function loadFrontendResources(path) {
+    let configFiles = [];
+    let languageFiles = [];
+
+    // TODO: Make this configurable
+    const i18nPath = path + '/i18n';
+
+    // drop all current course configs from the db
+    db.Frontend.deleteMany({
+        // wildcard filter
+    }).then(res => { // eslint-disable-line no-unused-vars
+        // swallow
+    }).catch(err => {
+        logger.warn('Failed to drop frontend resources from db: ' + err);
+    });
+
+    try {
+        // read available configs from local data dir
+        configFiles = fs.readdirSync(path);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+
+    try {
+        // read available configs from local data dir
+        languageFiles = fs.readdirSync(i18nPath);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
+
+    for (const item of configFiles) {
+        let resourceConfigs = [];
+        const configName = item.split('.')[0];
+        if (!item.endsWith('.json')) {
+            // we only handle JSON files, so just exit in this case
+            continue;
+        }
+
+        let resourceConfig;
+        try {
+            resourceConfig = JSON.parse(fs.readFileSync(path + '/' + item));
+        } catch (err) {
+            logger.warn('Not a valid JSON file: ' + item + ': ' + err);
+            continue;
+        }
+
+        // see what languages are available
+        for (const lang of languageFiles) {
+            if (!lang.endsWith('.json')) {
+                // we only handle JSON files, so just exit in this case
+                continue;
+            }
+
+            let elems = lang.split('_');
+            if (elems.length < 2) {
+                logger.warn('Not a valid language file: ' + lang);
+                continue
+            }
+
+            if (elems[0] !== configName) {
+                // looks like this language file does not belong to this config
+                continue;
+            }
+
+            let languageConfig;
+            try {
+                languageConfig = JSON.parse(fs.readFileSync(i18nPath + '/' + lang));
+            } catch (err) {
+                logger.warn('Not a valid JSON file: ' + lang + ': ' + err);
+                continue;
+            }
+
+            // language files must have a 'language' attribute
+            if (!('language' in languageConfig)) {
+                logger.warn('Language config: ' + lang + ' lacks "language" attribute');
+                continue;
+            }
+
+            // attempt to merge the course with the language config to see if all references
+            // resolve correctly
+            const mergedConfig = courseUtils.mergeConfigs([resourceConfig, languageConfig]);
+            if (mergedConfig === null) {
+                logger.warn('Failed to merge resource config: ' + item + ' with language' +
+                            ' config: ' + lang);
+                continue;
+            }
+
+            // add the translated config to our set
+            resourceConfigs.push(mergedConfig);
+        }
+
+        db.Frontend.create({
+            name: resourceConfig['name'],
+            created: new Date(),
+            configs: resourceConfigs
+        }).then(resource => {
+            let languageNames = []
+            for (const obj of resource.configs) {
+                languageNames.push(obj.language);
+            }
+            logger.info('Created frontend resource config in db: ' + resource.name +
+                        ', languages: ' + languageNames);
+        }).catch(err => {
+            logger.error(err);
+        });
+    }
+}
+
 function setupAutodeploy(inputPath, outputPath) {
     fs.watch(inputPath, (eventType, filename) => {
         // apparently eventType is bogus on various platforms: on macOS, it is always 'rename',
@@ -315,6 +425,9 @@ function main() {
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);
     db.connect(db.config.uri, db.config.options);
+
+    // sync frontend resource configs
+    loadFrontendResources('./data/configs/frontend');
 
     // sync course configs
     loadCourses('./data/configs/courses');

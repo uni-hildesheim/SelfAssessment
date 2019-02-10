@@ -1,0 +1,12 @@
+{
+  "name": "Selfassessment v1.0",
+  "header": "SelfAssessment",
+  "footer": "&copy; 2019 Stiftung Universität Hildesheim",
+  "vendor": {
+    "name": "Stiftung Universität Hildesheim",
+    "logo": "uni_hildesheim_logo.svg"
+  },
+  "strings": {
+    "language": "?ref{language}"
+  }
+}
