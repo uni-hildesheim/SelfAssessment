@@ -25,3 +25,6 @@ Thumbs.db
 
 # mongodb data
 data/db
+
+# logs
+data/logs
