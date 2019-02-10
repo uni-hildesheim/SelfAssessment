@@ -150,17 +150,18 @@ function loadCourses(path) {
                 continue;
             }
 
-            elems = elems[1].split('.');
-            if (elems.length < 2) {
-                // what language is this? no idea
-                continue;
-            }
-
             let languageConfig;
             try {
                 languageConfig = JSON.parse(fs.readFileSync(i18nPath + '/' + lang));
             } catch (err) {
                 logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + lang + ': ' + err);
+                continue;
+            }
+
+            // language files must have a 'language' attribute
+            if (!('language' in languageConfig)) {
+                logger.log(logger.Level.WARN, 'Language config: ' + lang + ' lacks "language"' +
+                           ' attribute');
                 continue;
             }
 
@@ -175,7 +176,7 @@ function loadCourses(path) {
 
             // add the translated config to our set
             courseConfigs.push({
-                'language': elems[0],
+                'language': languageConfig['language'],
                 'config': mergedConfig
             });
         }
