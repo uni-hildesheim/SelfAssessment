@@ -205,7 +205,14 @@ async function load(req, res) {
         } else if (test.config['category'] === 'speed') {
             for (let i = 0; i < test.log.length; i++) {
                 const testOptions = test.config['options'];
-                const correctOption = testOptions[i]['correct']
+                const correctOption = testOptions[i]['correct'];
+                if (typeof test.log[i] !== 'string') {
+                    // not a string -> not something we can evaluate
+                    // this can occur when a user did not select any option in this test, in which
+                    // case the log will record a 'false' value for the option
+                    continue;
+                }
+
                 if (test.log[i].includes(correctOption)) {
                     // correct option was selected, award a point
                     result.correctOptions.push(i);
