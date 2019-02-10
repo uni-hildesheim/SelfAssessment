@@ -5,4 +5,5 @@ module.exports = function(app) {
     require('./journal.route.js').v1(app);
     require('./logger.route.js').v1(app);
     require('./pincode.route.js').v1(app);
+    require('./result.route.js').v1(app);
 }
