@@ -217,6 +217,10 @@ module.exports = {
 
     /* default instance methods */
     log: (...args) => defaultLogger.log(...args),
+    error: (...args) => defaultLogger.error(...args),
+    warn: (...args) => defaultLogger.warn(...args),
+    info: (...args) => defaultLogger.info(...args),
+    debug: (...args) => defaultLogger.debug(...args),
     setLogLevel: (...args) => defaultLogger.setLogLevel(...args),
     addTransport: (...args) => defaultLogger.addTransport(...args)
 }
