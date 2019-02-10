@@ -31,8 +31,8 @@ function mergeConfigs(input) {
 
         for (const ref in obj['?refs']) {
             if (ref in references) {
-                logger.log(logger.Level.WARN, 'mergeConfigs: Duplicate ref: ' + ref + ', but all' +
-                           'refs must be unique');
+                logger.warn('mergeConfigs: Duplicate ref: ' + ref + ', but all refs must be' +
+                            ' unique');
                 return null;
             }
 
@@ -63,25 +63,23 @@ function mergeConfigs(input) {
     function resolveReferences(input, references) {
         for (const key in input) {
             if (key.includes('?ref')) {
-                logger.log(logger.Level.WARN, 'mergeConfigs: keys must not contain references');
+                logger.warn('mergeConfigs: keys must not contain references');
                 return false;
             }
 
             const value = input[key];
-            logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: key: ' + key);
+            logger.debug('mergeConfigs: resolveReferences: key: ' + key);
 
             // if value is an array or an object, loop through it and resolve refs for each member
             if (value instanceof Array) {
-                logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: looks like' +
-                           ' value is an array');
+                logger.debug('mergeConfigs: resolveReferences: looks like value is an array');
                 for (const member of value) {
                     if (!resolveReferences(member, references)) {
                         return false;
                     }
                 }
             } else if (typeof value === 'object') {
-                logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: looks like' +
-                           ' value is an object');
+                logger.debug('mergeConfigs: resolveReferences: looks like value is an object');
                 if (!resolveReferences(value, references)) {
                     return false;
                 }
@@ -97,32 +95,29 @@ function mergeConfigs(input) {
                 continue;
             }
 
-            logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: found ?ref keyword' +
-                       + ' in value: ' + value);
+            logger.debug('mergeConfigs: resolveReferences: found ?ref keyword in value: ' + value);
 
             // replace the ref
             const refStart = value.indexOf('?ref{');
             const refEnd = value.indexOf('}', refStart);
             if (refStart === -1 || refEnd === -1) {
-                logger.log(logger.Level.WARN, 'mergeConfigs: Failed to parse ref name from' +
-                           ' value: ' + value);
+                logger.warn('mergeConfigs: Failed to parse ref name from value: ' + value);
                 return false;
             }
 
             // refStart needs to be offset by 5 (length of '?ref{')
             const refName = value.substring(refStart+5, refEnd);
-            logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: ref name: ' +
-                       refName);
+            logger.debug('mergeConfigs: resolveReferences: ref name: ' + refName);
 
             if (!(refName in references)) {
-                logger.log(logger.Level.WARN, 'mergeConfigs: Failed to resolve ref: ' + refName);
+                logger.warn('mergeConfigs: Failed to resolve ref: ' + refName);
                 return false;
             }
 
             // perform the actual string replacement
             const refString = value.substring(refStart, refEnd+1);
-            logger.log(logger.Level.DEBUG, 'mergeConfigs: resolveReferences: resolving: ' +
-                       refString + ' to: ' + references[refName]);
+            logger.debug('mergeConfigs: resolveReferences: resolving: ' + refString + ' to: ' +
+                         references[refName]);
             input[key] = value.replace(refString, () => { return references[refName] });
         }
 

@@ -18,14 +18,14 @@ function load(req, res) {
         associatedPin: bodyPin
     }).then(journal => {
         if (!journal) {
-            logger.log(logger.Level.WARN, 'No journal for pin: ' + bodyPin);
+            logger.warn('No journal for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal for pin: ' + bodyPin });
             return;
         }
-        logger.log(logger.Level.INFO, 'Loaded journal for pin: ' + bodyPin);
+        logger.info('Loaded journal for pin: ' + bodyPin);
         res.status(200).json(journal);
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -38,14 +38,14 @@ function loadLog(req, res) {
         associatedPin: bodyPin
     }).then(journal => {
         if (!journal) {
-            logger.log(logger.Level.WARN, 'No journal log for pin: ' + bodyPin);
+            logger.warn('No journal log for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal log for pin: ' + bodyPin });
             return;
         }
-        logger.log(logger.Level.INFO, 'Loaded journal log for pin: ' + bodyPin);
+        logger.info('Loaded journal log for pin: ' + bodyPin);
         res.status(200).json(journal.log);
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -58,14 +58,14 @@ function loadStructure(req, res) {
         associatedPin: bodyPin
     }).then(journal => {
         if (!journal) {
-            logger.log(logger.Level.WARN, 'No journal structure for pin: ' + bodyPin);
+            logger.warn('No journal structure for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal structure for pin: ' + bodyPin });
             return;
         }
-        logger.log(logger.Level.INFO, 'Loaded journal structure for pin: ' + bodyPin);
+        logger.info('Loaded journal structure for pin: ' + bodyPin);
         res.status(200).json(journal.structure);
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -80,10 +80,10 @@ function save(req, res) {
         log: req.body.log,
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        logger.log(logger.Level.INFO, 'Updated journal for pin: ' + bodyPin);
+        logger.info('Updated journal for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -97,10 +97,10 @@ function saveLog(req, res) {
         lastChanged: new Date(),
         log: req.body.log
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        logger.log(logger.Level.INFO, 'Updated journal log for pin: ' + bodyPin);
+        logger.info('Updated journal log for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -114,10 +114,10 @@ function saveStructure(req, res) {
         lastChanged: new Date(),
         structure: req.body.structure
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        logger.log(logger.Level.INFO, 'Updated journal structure for pin: ' + bodyPin);
+        logger.info('Updated journal structure for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }

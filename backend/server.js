@@ -29,41 +29,41 @@ function loadEnvironment() {
     const DB_PASS = process.env.DB_PASS;
 
     if (DB_URI) {
-        logger.log(logger.Level.INFO, 'env: DB_URI=' + DB_URI);
+        logger.info('env: DB_URI=' + DB_URI);
         db.config.uri = DB_URI;
     }
 
     if (DB_USER) {
-        logger.log(logger.Level.INFO, 'env: DB_USER=' + DB_USER);
+        logger.info('env: DB_USER=' + DB_USER);
         db.config.options.user = DB_USER;
     }
 
     if (DB_PASS) {
-        logger.log(logger.Level.INFO, 'env: DB_PASS=' + DB_PASS);
+        logger.info('env: DB_PASS=' + DB_PASS);
         db.config.options.pass = DB_PASS;
     }
 
     if (APP_LOGLEVEL) {
         if (!(APP_LOGLEVEL in logger.Level)) {
-            logger.log(logger.Level.ERROR, 'Invalid log level specified: ' + APP_LOGLEVEL);
+            logger.warn('Invalid log level specified: ' + APP_LOGLEVEL);
         } else {
-            logger.log(logger.Level.INFO, 'env: APP_LOGLEVEL=' + APP_LOGLEVEL);
+            logger.info('env: APP_LOGLEVEL=' + APP_LOGLEVEL);
             logger.setLogLevel(APP_LOGLEVEL);
         }
     }
 
     if (APP_PORT) {
-        logger.log(logger.Level.INFO, 'env: APP_PORT=' + APP_PORT);
+        logger.info('env: APP_PORT=' + APP_PORT);
         APP_LISTEN_PORT = APP_PORT;
     }
 
     if (CORS_ORIGINS) {
-        logger.log(logger.Level.INFO, 'env: CORS_ORIGINS=' + CORS_ORIGINS);
+        logger.info('env: CORS_ORIGINS=' + CORS_ORIGINS);
         CORS_OPTIONS.origin = function (origin, callback) {
             if (CORS_ORIGINS.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {
-                logger.log(logger.Level.WARN, 'CORS: denying request from: ' + origin);
+                logger.warn('CORS: denying request from: ' + origin);
                 callback('Not allowed by CORS');
             }
         }
@@ -97,14 +97,14 @@ function loadCourses(path) {
     }).then(res => { // eslint-disable-line no-unused-vars
         // swallow
     }).catch(err => {
-        logger.log(logger.Level.WARN, 'Failed to drop course documents from db: ' + err);
+        logger.warn('Failed to drop course documents from db: ' + err);
     });
 
     try {
         // read available configs from local data dir
         configFiles = fs.readdirSync(path);
     } catch (err) {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         return;
     }
 
@@ -112,7 +112,7 @@ function loadCourses(path) {
         // read available configs from local data dir
         languageFiles = fs.readdirSync(i18nPath);
     } catch (err) {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         return;
     }
 
@@ -128,7 +128,7 @@ function loadCourses(path) {
         try {
             courseConfig = JSON.parse(fs.readFileSync(path + '/' + item));
         } catch (err) {
-            logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + item + ': ' + err);
+            logger.warn('Not a valid JSON file: ' + item + ': ' + err);
             continue;
         }
 
@@ -141,7 +141,7 @@ function loadCourses(path) {
 
             let elems = lang.split('_');
             if (elems.length < 2) {
-                logger.log(logger.Level.WARN, 'Not a valid language file: ' + lang);
+                logger.warn('Not a valid language file: ' + lang);
                 continue
             }
 
@@ -154,14 +154,13 @@ function loadCourses(path) {
             try {
                 languageConfig = JSON.parse(fs.readFileSync(i18nPath + '/' + lang));
             } catch (err) {
-                logger.log(logger.Level.WARN, 'Not a valid JSON file: ' + lang + ': ' + err);
+                logger.warn('Not a valid JSON file: ' + lang + ': ' + err);
                 continue;
             }
 
             // language files must have a 'language' attribute
             if (!('language' in languageConfig)) {
-                logger.log(logger.Level.WARN, 'Language config: ' + lang + ' lacks "language"' +
-                           ' attribute');
+                logger.warn('Language config: ' + lang + ' lacks "language" attribute');
                 continue;
             }
 
@@ -169,8 +168,8 @@ function loadCourses(path) {
             // resolve correctly
             const mergedConfig = courseUtils.mergeConfigs([courseConfig, languageConfig]);
             if (mergedConfig === null) {
-                logger.log(logger.Level.WARN, 'Failed to merge course config: ' + item + ' with' +
-                           ' language config: ' + lang);
+                logger.warn('Failed to merge course config: ' + item + ' with language config: ' +
+                            lang);
                 continue;
             }
 
@@ -183,7 +182,7 @@ function loadCourses(path) {
 
         // validate merged config
         if (!db.Course.validateConfig(courseConfig)) {
-            logger.log(logger.Level.WARN, 'Not a valid config file: ' + item);
+            logger.warn('Not a valid config file: ' + item);
             continue;
         }
 
@@ -196,10 +195,9 @@ function loadCourses(path) {
             for (const obj of course.configs) {
                 languageNames.push(obj.language);
             }
-            logger.log(logger.Level.INFO, 'Created course in db: ' + course.name +
-                       ', languages: ' + languageNames);
+            logger.info('Created course in db: ' + course.name + ', languages: ' + languageNames);
         }).catch(err => {
-            logger.log(logger.Level.ERROR, err);
+            logger.error(err);
         });
     }
 }
@@ -212,7 +210,7 @@ function setupAutodeploy(inputPath, outputPath) {
 
         // only handle zip files
         if (!filename.endsWith('.zip')) {
-            logger.log(logger.Level.WARN, 'autodeploy: ' + filename + ' is not a zip file');
+            logger.warn('autodeploy: ' + filename + ' is not a zip file');
             return;
         }
 
@@ -236,7 +234,7 @@ function setupAutodeploy(inputPath, outputPath) {
             const isTopLevelFile = (zipEntry.entryName.split('/').length - 1 == 0) &&
                 (!zipEntry.isDirectory);
             if (isTopLevelFile) {
-                logger.log(logger.Level.WARN, 'autodeploy: ' + filename +
+                logger.warn('autodeploy: ' + filename +
                     ' contains non-directory top-level entry: ' + zipEntry.name);
                 extractZip = false;
                 return;
@@ -250,7 +248,7 @@ function setupAutodeploy(inputPath, outputPath) {
                 (zipEntry.isDirectory);
             if (isTopLevelDir) {
                 if (!fs.existsSync(outputPath + '/' + zipEntry.entryName)) {
-                    logger.log(logger.Level.WARN, 'autodeploy: top-level directory entry: ' +
+                    logger.warn('autodeploy: top-level directory entry: ' +
                         zipEntry.entryName + ' does not exist in local filesystem: ' + outputPath +
                         ' is not a zip file');
                     extractZip = false;
@@ -260,14 +258,14 @@ function setupAutodeploy(inputPath, outputPath) {
         });
 
         if (extractZip) {
-            logger.log(logger.Level.INFO, 'autodeploy: extracting archive: ' + filename + ' to: ' +
+            logger.info('autodeploy: extracting archive: ' + filename + ' to: ' +
                 outputPath);
             zip.extractAllTo(outputPath, true /* overwrite */);
             // force config file reload
-            logger.log(logger.Level.INFO, 'autodeploy: forcing course reload');
+            logger.info('autodeploy: forcing course reload');
             loadCourses('./data/configs');
         } else {
-            logger.log(logger.Level.WARN, 'autodeploy: not extracting file: ' + filename);
+            logger.warn('autodeploy: not extracting file: ' + filename);
         }
 
         // remove the zip in all cases
@@ -315,7 +313,7 @@ function main() {
     logger.addTransport(new logger.Transport.FileTransport(0, fileStream));
 
     // connect to DB
-    logger.log(logger.Level.INFO, 'MongoDB URI: ' + db.config.uri);
+    logger.info('MongoDB URI: ' + db.config.uri);
     db.connect(db.config.uri, db.config.options);
 
     // sync course configs
@@ -326,7 +324,7 @@ function main() {
 
     // actually start the Express.js server
     app.listen(APP_LISTEN_PORT, () => {
-        logger.log(logger.Level.INFO, 'Server running on port: ' + APP_LISTEN_PORT);
+        logger.info('Server running on port: ' + APP_LISTEN_PORT);
     });
 }
 

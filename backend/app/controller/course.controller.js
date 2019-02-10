@@ -15,26 +15,24 @@ function loadConfig(req, res) {
         name: name
     }).then(course => {
         if (!course) {
-            logger.log(logger.Level.WARN, 'No such course: ' + name);
+            logger.warn('No such course: ' + name);
             res.status(404).json({ error: 'No such course: ' + name });
             return;
         }
 
         for (const config of course.configs) {
             if (language === config.language) {
-                logger.log(logger.Level.INFO, 'Loaded course config: ' + name + ' for language: ' +
-                           language);
+                logger.info('Loaded course config: ' + name + ' for language: ' + language);
                 res.status(200).json(config.config);
                 return;
             }
         }
 
-        logger.log(logger.Level.WARN, 'Language: ' + language + ' not available for course: ' +
-                   name);
+        logger.warn('Language: ' + language + ' not available for course: ' + name);
         res.status(404).json({ error: 'Language: ' + language + ' not available for course: ' +
                                name });
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }
@@ -51,8 +49,7 @@ function showCourses(req, res) {
                 languages.push(config.language);
             }
 
-            logger.log(logger.Level.INFO, 'Available course: ' + course.name + ', languages: ' +
-                       languages);
+            logger.info('Available course: ' + course.name + ', languages: ' + languages);
             meta.push({
                 "name": course.name,
                 "icon": course.icon,
@@ -61,7 +58,7 @@ function showCourses(req, res) {
         }
         res.status(200).json(meta);
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }

@@ -18,13 +18,13 @@ async function load(req, res) {
             associatedPin: bodyPin
         });
     } catch(err) {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
         return;
     }
 
     if (!journal) {
-        logger.log(logger.Level.WARN, 'Could not find journal for pin: ' + bodyPin);
+        logger.warn('Could not find journal for pin: ' + bodyPin);
         res.status(404).send();
         return;
     }
@@ -35,14 +35,13 @@ async function load(req, res) {
             name: journal.structure.course
         });
     } catch(err) {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
         return;
     }
 
     if (!course) {
-        logger.log(logger.Level.WARN, 'Could not find course: ' + journal.structure.course +
-                   ' for pin: ' + bodyPin);
+        logger.warn('Could not find course: ' + journal.structure.course + ' for pin: ' + bodyPin);
         res.status(404).send();
         return;
     }
@@ -55,8 +54,8 @@ async function load(req, res) {
     }
 
     if (courseConfig === null) {
-        logger.log(logger.Level.WARN, 'Could not find course: ' + journal.structure.course +
-                   ' config for language: ' + journal.structure.language);
+        logger.warn('Could not find course: ' + journal.structure.course + ' config for' +
+                    ' language: ' + journal.structure.language);
         res.status(404).send();
         return;
     }
@@ -90,16 +89,14 @@ async function load(req, res) {
 
             // this should never happen, but just in case..
             if (testConfig === null) {
-                logger.log(logger.Level.WARN, 'Could not find test config for id: ' +
-                           singleTestID);
+                logger.warn('Could not find test config for id: ' + singleTestID);
                 res.status(500).send();
                 return;
             }
 
             // check whether this test should be evaluated at all
             if (testConfig['evaluated'] === false) {
-                logger.log(logger.Level.DEBUG, 'Skipping test: ' + singleTestID +
-                           '; it is not marked as evaluated');
+                logger.debug('Skipping test: ' + singleTestID + '; it is not marked as evaluated');
                 continue;
             }
 
@@ -116,8 +113,7 @@ async function load(req, res) {
 
             // again, this should never happen, but just in case..
             if (testLog === null) {
-                logger.log(logger.Level.WARN, 'Could not find test log for id: ' +
-                           singleTestID);
+                logger.warn('Could not find test log for id: ' + singleTestID);
                 res.status(500).send();
                 return;
             }
@@ -131,7 +127,7 @@ async function load(req, res) {
     }
 
     // we got the input data, now calculate the scores
-    logger.log(logger.Level.INFO, 'Calculating result for pin: ' + bodyPin);
+    logger.info('Calculating result for pin: ' + bodyPin);
 
     /*
      * OUTPUT DATA LAYOUT
@@ -207,10 +203,10 @@ async function load(req, res) {
         lastChanged: new Date(),
         tests: tests
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        logger.log(logger.Level.INFO, 'Updated result log for pin: ' + bodyPin);
+        logger.info('Updated result log for pin: ' + bodyPin);
         res.status(200).json(tests);
     }).catch(err => {
-        logger.log(logger.Level.ERROR, err);
+        logger.error(err);
         res.status(500).json({ error: err });
     });
 }

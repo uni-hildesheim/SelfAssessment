@@ -10,22 +10,22 @@ mongoose.connection.on('error', function (err) {
         // we handle this special case in connect() down below
         return;
     }
-    logger.log(logger.Level.ERROR, 'MongoDB error: ' + err);
+    logger.error('MongoDB error: ' + err);
 });
 mongoose.connection.on('connecting', function () {
-    logger.log(logger.Level.INFO, 'MongoDB connecting');
+    logger.info('MongoDB connecting');
 });
 mongoose.connection.once('connected', function () {
-    logger.log(logger.Level.INFO, 'MongoDB connected successfully!');
+    logger.info('MongoDB connected successfully!');
 });
 mongoose.connection.on('disconnected', function() {
-    logger.log(logger.Level.INFO, 'MongoDB disconnected');
+    logger.info('MongoDB disconnected');
 });
 mongoose.connection.on('reconnected', function () {
-    logger.log(logger.Level.INFO, 'MongoDB reconnected');
+    logger.info('MongoDB reconnected');
 });
 mongoose.connection.on('reconnectFailed', function () {
-    logger.log(logger.Level.INFO, 'MongoDB reconnecting failed');
+    logger.info('MongoDB reconnecting failed');
 });
 
 // https://github.com/Automattic/mongoose/issues/5169#issuecomment-314983113
@@ -40,7 +40,7 @@ function connect(dbURL, options) {
         if (err.message && err.message.match(/failed to connect to server .* on first connect/)) {
             // Wait for a bit, then try to connect again
             setTimeout(function () {
-                logger.log(logger.Level.INFO, 'MongoDB retrying first connect...');
+                logger.info('MongoDB retrying first connect...');
                 connection.openUri(dbURL, options).catch(() => {});
                 // Why the empty catch?
                 // Well, errors thrown by db.open() will also be passed to .on('error'),
@@ -49,12 +49,12 @@ function connect(dbURL, options) {
             }, 1000);
         } else {
             // Some other error occurred.  Log it.
-            logger.log(logger.Level.ERROR, 'MongoDB error: ' + err);
+            logger.error('MongoDB error: ' + err);
         }
     });
 
     connection.once('open', function () {
-        logger.log(logger.Level.INFO, 'MongoDB connection established');
+        logger.info('MongoDB connection established');
     });
 
     return connection;

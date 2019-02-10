@@ -272,7 +272,7 @@ CourseSchema.statics.validateConfig = function(config) {
     const validate = ajv.addSchema(SINGLE_TEST_SCHEMA).addSchema(TEST_GROUP_SCHEMA)
         .addSchema(TEST_SET_SCHEMA).addSchema(INFO_PAGE_SCHEMA).compile(TEST_SCHEMA);
     if (!validate(config)) {
-        logger.log(logger.Level.WARN, JSON.stringify(validate.errors));
+        logger.warn(JSON.stringify(validate.errors));
         return false;
     }
 
@@ -282,8 +282,7 @@ CourseSchema.statics.validateConfig = function(config) {
     for (const test of tests) {
         // check whether the test ID is unique
         if (testIDs.indexOf(test['id']) > -1) {
-            logger.log(logger.Level.WARN, 'CourseModel: validateConfig: "id" not unique: ' +
-                       test['id']);
+            logger.warn('CourseModel: validateConfig: "id" not unique: ' + test['id']);
             return false;
         }
 
@@ -294,9 +293,8 @@ CourseSchema.statics.validateConfig = function(config) {
             for (const option of test['options']) {
                 if (!('correct' in option)) {
                     // abort, this is not a valid test definition
-                    logger.log(logger.Level.WARN, 'CourseModel: validateConfig: multiple-options' + 
-                               ' test: ' + test['id'] + ' requires the "correct" attribute for ' +
-                               ' each option!');
+                    logger.warn('CourseModel: validateConfig: multiple-options test: ' + 
+                                test['id'] + ' requires the "correct" attribute for each option!');
                     return false;
                 }
             }
@@ -309,8 +307,8 @@ CourseSchema.statics.validateConfig = function(config) {
             for (const option of test['options']) {
                 if (!('correct' in option)) {
                     // abort, this is not a valid test definition
-                    logger.log(logger.Level.WARN, 'CourseModel: validateConfig: speed test: ' +
-                               test['id'] + ' requires the "correct" attribute for each option!');
+                    logger.warn('CourseModel: validateConfig: speed test: ' + test['id'] +
+                                ' requires the "correct" attribute for each option!');
                     return false;
                 }
             }
@@ -327,8 +325,7 @@ CourseSchema.statics.validateConfig = function(config) {
         for (const group of testgroups) {
             // check whether the testgroup ID is unique
             if (testgroupIDs.indexOf(group['id']) > -1) {
-                logger.log(logger.Level.WARN, 'CourseModel: validateConfig: "id" not unique: ' +
-                           group['id']);
+                logger.warn('CourseModel: validateConfig: "id" not unique: ' + group['id']);
                 return false;
             }
 
@@ -339,8 +336,8 @@ CourseSchema.statics.validateConfig = function(config) {
             const tests = group['tests'];
             for (const testID of tests) {
                 if (testIDs.indexOf(testID) == -1) {
-                    logger.log(logger.Level.WARN, 'CourseModel: validateConfig: testgroup' +
-                               ' references element ID: ' + testID + ', which is unknown');
+                    logger.warn('CourseModel: validateConfig: testgroup references element ID: ' +
+                                testID + ', which is unknown');
                     return false;
                 }
             }
@@ -354,8 +351,7 @@ CourseSchema.statics.validateConfig = function(config) {
         for (const set of testsets) {
             // check whether the testset ID is unique
             if (testsetIDs.indexOf(set['id']) > -1) {
-                logger.log(logger.Level.WARN, 'CourseModel: validateConfig: "id" not unique: ' +
-                           set['id']);
+                logger.warn('CourseModel: validateConfig: "id" not unique: ' + set['id']);
                 return false;
             }
 
@@ -367,8 +363,8 @@ CourseSchema.statics.validateConfig = function(config) {
 
             for (const elemID of elems) {
                 if (testIDs.indexOf(elemID) == -1 && testgroupIDs.indexOf(elemID) == -1) {
-                    logger.log(logger.Level.WARN, 'CourseModel: validateConfig: test set ' +
-                               ' references element ID: ' + elemID + ', which is unknown');
+                    logger.warn('CourseModel: validateConfig: test set references element ID: ' +
+                                elemID + ', which is unknown');
                     return false;
                 }
             }
@@ -382,8 +378,7 @@ CourseSchema.statics.validateConfig = function(config) {
         for (const page of infopages) {
             // check whether the infopage ID is unique
             if (infopageIDs.indexOf(page['id']) > -1) {
-                logger.log(logger.Level.WARN, 'CourseModel: validateConfig: "id" not unique: ' +
-                           page['id']);
+                logger.warn('CourseModel: validateConfig: "id" not unique: ' + page['id']);
                 return false;
             }
 
@@ -396,8 +391,8 @@ CourseSchema.statics.validateConfig = function(config) {
                 for (const elemID of elems) {
                     if (testIDs.indexOf(elemID) == -1 && testgroupIDs.indexOf(elemID) == -1 &&
                         testsetIDs.indexOf(elemID) == -1) {
-                        logger.log(logger.Level.WARN, 'CourseModel: validateConfig: infopage' +
-                                   ' references element ID: ' + elemID + ', which is unknown');
+                        logger.warn('CourseModel: validateConfig: infopage references element' +
+                                    ' ID: ' + elemID + ', which is unknown');
                         return false;
                     }
                 }
