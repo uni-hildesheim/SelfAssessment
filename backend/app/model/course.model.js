@@ -13,6 +13,55 @@ const CourseSchema = new mongoose.Schema({
     }]
 });
 
+/**
+ * Schema for a single test.
+ * A test definition contains the following elements:
+ *
+ * ================
+ * === REQUIRED ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   id           Integer: unique identifier (unique within a JSON document)
+ * ------------------------------------------------------------------------------------------------
+ *   type         String: type of the test (i.e. logic, concentration, ...)
+ *                As of now, this attribute is not taken into consideration by the backend and is
+ *                relevant only to the frontend.
+ * ------------------------------------------------------------------------------------------------
+ *   category     String: category of the test
+ *                Used by the frontend to build the test interface and by the backend to calculate
+ *                test scores and overall results. Thus, it must be one of the predefined values
+ *                [checkbox, multiple-options, radio-buttons, speed].
+ * ------------------------------------------------------------------------------------------------
+ *   description  String: describes the test to the user before reading the task
+ *                Providides illustrations or help text preparing the user for the upcoming task.
+ * ------------------------------------------------------------------------------------------------
+ *   task         String: task that is to be completed by the user
+ * ------------------------------------------------------------------------------------------------
+ *   options      Array: possible options for this task
+ *                A correct option will increase the test
+ *                score by one, a wrong one will not affect the score.
+ * ------------------------------------------------------------------------------------------------
+ *   evaluated    Boolean: whether the backend should evaluate this test
+ *                If false, no scores will be calculated for this test.
+ * ------------------------------------------------------------------------------------------------
+ *
+ * ================
+ * === OPTIONAL ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   header       Array: list of option labels
+ *                Only for multiple-options tests.
+ *                For example, the header for a test with three options per task might look like
+ *                the following:
+ *                "header": [
+ *                  "< 10",
+ *                  "10",
+ *                  "> 10"
+ *                ]
+ * ------------------------------------------------------------------------------------------------
+ */
 const SINGLE_TEST_SCHEMA = {
     "$id": "/SingleTest",
     "type": "object",
@@ -45,6 +94,30 @@ const SINGLE_TEST_SCHEMA = {
     "required": ["id", "type", "description", "task", "options", "evaluated"]
 };
 
+/**
+ * Schema for a test group.
+ * A test group contains the following elements:
+ *
+ * ================
+ * === REQUIRED ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   id           Integer: unique identifier (unique within a JSON document)
+ * ------------------------------------------------------------------------------------------------
+ *   tests        Array: single test ids
+ * ------------------------------------------------------------------------------------------------
+ *
+ * ================
+ * === OPTIONAL ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   select       Integer: make the frontend randomly pick a number of tests from the tests array
+ *                Allows for randomization of tests, so users have to possibly work on different
+ *                tasks.
+ * ------------------------------------------------------------------------------------------------
+ */
 const TEST_GROUP_SCHEMA = {
     "$id": "/TestGroup",
     "type": "object",
@@ -59,6 +132,20 @@ const TEST_GROUP_SCHEMA = {
     "required": ["id", "tests"]
 };
 
+/**
+ * Schema for a test set.
+ * A test set contains the following elements:
+ *
+ * ================
+ * === REQUIRED ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   id           Integer: unique identifier (unique within a JSON document)
+ * ------------------------------------------------------------------------------------------------
+ *   elements     Array: single test ids
+ * ------------------------------------------------------------------------------------------------
+ */
 const TEST_SET_SCHEMA = {
     "$id": "/TestSet",
     "type": "object",
@@ -72,6 +159,36 @@ const TEST_SET_SCHEMA = {
     "required": ["id", "elements"]
 };
 
+/**
+ * Schema for an info page.
+ * An info page contains the following elements:
+ *
+ * ================
+ * === REQUIRED ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   id           Integer: unique identifier (unique within a JSON document)
+ * ------------------------------------------------------------------------------------------------
+ *   text         String: information needed for the user to understand a task
+ *                Infopages are generally shown before the actual test (or any of its attributes,
+ *                such as task, description, etc.) is displayed.
+ * ------------------------------------------------------------------------------------------------
+ *   belongs      Integer: unique identifier (unique within a JSON document)
+ *                Infopages can be assigned to single tests, test groups or test sets.
+ *                This affects the place where the frontend renders the page.
+ * ------------------------------------------------------------------------------------------------
+ *
+ * ================
+ * === OPTIONAL ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   select       Integer: make the frontend randomly pick a number of tests from the tests array
+ *                Allows for randomization of tests, so users have to possibly work on different
+ *                tasks.
+ * ------------------------------------------------------------------------------------------------
+ */
 const INFO_PAGE_SCHEMA = {
     "$id": "/InfoPage",
     "type": "object",
@@ -86,6 +203,36 @@ const INFO_PAGE_SCHEMA = {
     "required": ["id"]
 };
 
+/**
+ * Schema for a complete test definition.
+ * An test contains the following elements:
+ *
+ * ================
+ * === REQUIRED ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   title        String: title of the test, e.g. "Computer Science"
+ *                The frontend uses this string to label a test in the course overview.
+ * ------------------------------------------------------------------------------------------------
+ *   icon         String: absolute path (URI) to an image
+ *                Again used by the frontend to present the course entity.
+ * ------------------------------------------------------------------------------------------------
+ *   tests        Array: list of SINGLE_TEST_SCHEMA instances
+ * ------------------------------------------------------------------------------------------------
+ *
+ * ================
+ * === OPTIONAL ===
+ * ================
+ *
+ * ------------------------------------------------------------------------------------------------
+ *   testsgroups  Array: list of TEST_GROUP_SCHEMA instances
+ * ------------------------------------------------------------------------------------------------
+ *   sets         Array: list of TEST_SET_SCHEMA instances
+ * ------------------------------------------------------------------------------------------------
+ *   infopages    Array: list of INFO_PAGE_SCHEMA instances
+ * ------------------------------------------------------------------------------------------------
+ */
 const TEST_SCHEMA = {
     "$id": "/Test",
     "type": "object",
