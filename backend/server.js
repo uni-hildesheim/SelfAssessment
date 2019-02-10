@@ -263,7 +263,7 @@ function setupAutodeploy(inputPath, outputPath) {
             zip.extractAllTo(outputPath, true /* overwrite */);
             // force config file reload
             logger.info('autodeploy: forcing course reload');
-            loadCourses('./data/configs');
+            loadCourses('./data/configs/courses');
         } else {
             logger.warn('autodeploy: not extracting file: ' + filename);
         }
@@ -317,7 +317,7 @@ function main() {
     db.connect(db.config.uri, db.config.options);
 
     // sync course configs
-    loadCourses('./data/configs');
+    loadCourses('./data/configs/courses');
 
     // enable autodeploy support
     setupAutodeploy('./data/autodeploy', './data');
