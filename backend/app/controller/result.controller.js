@@ -146,7 +146,8 @@ async function load(req, res) {
             id: key,
             score: 0,
             maxScore: 0,
-            correctOptions: []
+            correctOptions: [],
+            wrongOptions: []
         }
 
         // calculate max score for this test
@@ -162,8 +163,12 @@ async function load(req, res) {
                 const testOptions = test.config['options'];
                 const correctOption = testOptions[i]['correct'] === true ? true : false;
                 if (test.log[i] === true && test.log[i] === correctOption) {
+                    // correct option was selected, award a point
                     result.correctOptions.push(i);
                     result.score++;
+                } else if (test.log[i] === true) {
+                    // option was selected, but wrong
+                    result.wrongOptions.push(i);
                 }
             }
         } else if (test.config['category'] === 'multiple-options') {
@@ -171,8 +176,17 @@ async function load(req, res) {
                 const testOptions = test.config['options'];
                 const correctOption = testOptions[i]['correct'];
                 if (test.log[i][correctOption] === true) {
+                    // correct option was selected, award a point
                     result.correctOptions.push(i);
                     result.score++;
+                } else {
+                    for (const selection of test.log[i]) {
+                        if (selection === true) {
+                            // option was selected, but wrong
+                            result.wrongOptions.push(i);
+                            break;
+                        }
+                    }
                 }
             }
         } else if (test.config['category'] === 'radio-buttons') {
@@ -180,8 +194,12 @@ async function load(req, res) {
                 const testOptions = test.config['options'];
                 const correctOption = testOptions[i]['correct'] === true ? true : false;
                 if (test.log[i] === true && test.log[i] === correctOption) {
+                    // correct option was selected, award a point
                     result.correctOptions.push(i);
                     result.score++;
+                } else if (test.log[i] === true) {
+                    // option was selected, but wrong
+                    result.wrongOptions.push(i);
                 }
             }
         } else if (test.config['category'] === 'speed') {
@@ -189,8 +207,12 @@ async function load(req, res) {
                 const testOptions = test.config['options'];
                 const correctOption = testOptions[i]['correct']
                 if (test.log[i].includes(correctOption)) {
+                    // correct option was selected, award a point
                     result.correctOptions.push(i);
                     result.score++;
+                } else if (test.log[i].length > 0) {
+                    // option was selected, but wrong
+                    result.wrongOptions.push(i);
                 }
             }
         }

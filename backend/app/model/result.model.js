@@ -14,7 +14,9 @@ const ResultSchema = new mongoose.Schema({
         score: Number,
         maxScore: Number,
         /* the options that were correctly selected by the user */
-        correctOptions: [Number]
+        correctOptions: [Number],
+        /* the options that were wrongly selected by the user */
+        wrongOptions: [Number]
     }]
 });
 

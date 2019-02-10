@@ -224,23 +224,22 @@ describe('ResultController', () => {
                 "id": "1002",
                 "score": 1,
                 "maxScore": 2,
-                "correctOptions": [
-                    0
-                ]
+                "correctOptions": [0],
+                "wrongOptions": [1]
             },
             {
                 "id": "1003",
                 "score": 0,
                 "maxScore": 1,
-                "correctOptions": []
+                "correctOptions": [],
+                "wrongOptions": []
             },
             {
                 "id": "1005",
                 "score": 1,
                 "maxScore": 3,
-                "correctOptions": [
-                    1
-                ]
+                "correctOptions": [1],
+                "wrongOptions": [0, 2]
             }
         ]
     }];
