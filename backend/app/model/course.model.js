@@ -19,7 +19,10 @@ const SINGLE_TEST_SCHEMA = {
     "properties": {
         "id": {"type": "integer"},
         "type": {"type": "string"},
-        "category": {"type": "string"},
+        "category": {
+            "type": "string",
+            "enum": ["checkbox", "multiple-options", "radio-buttons", "speed"]
+        },
         "description": {"type": "string"},
         "task": {"type": "string"},
         "seconds": {"type": "integer"},
