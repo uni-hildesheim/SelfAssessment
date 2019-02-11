@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { GlobalIndicator } from '../../global.indicators';
 import { MatStepper } from '@angular/material';
@@ -66,20 +66,31 @@ export class MainPanelComponent implements OnInit {
    */
   public moveToNextSetElement(foward: boolean, stepper: MatStepper): void {
 
-    if (this.setIndex === this.journalStructure.sets.length - 1 &&
-      this.setElemIndex === this.journalStructure.sets[this.journalStructure.sets.length - 1].elements.length - 1) {
-        this.router.navigateByUrl('/evaluation');
-        return;
-    }
 
     // update the journal log if the current set element is a test and changes occured
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
           this.updateProtocol = false;
+          this.adjustIndices(foward, stepper);
         },
         err => this.logging.error('Error occurred', err)
       );
+    } else {
+      this.adjustIndices(foward, stepper);
+    }
+
+  }
+
+
+
+  private adjustIndices(foward: boolean, stepper: MatStepper): void {
+
+    // if this is the last test start the evaluation
+    if (this.setIndex === this.journalStructure.sets.length - 1 &&
+      this.setElemIndex === this.journalStructure.sets[this.journalStructure.sets.length - 1].elements.length - 1) {
+      this.router.navigateByUrl('/evaluation');
+      return;
     }
 
     // adjust the indices

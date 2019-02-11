@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { PinDialogComponent } from 'src/app/shared/components/dialogs/pin-dialog/pin-dialog.component';
+import { ResourceService } from 'src/app/core/services/resource.service';
+import { Observable } from 'rxjs';
+import { Resource } from 'src/app/shared/models/resources/resources.model';
 
 /**
  * The dialog component in which the user can input a pin.
@@ -25,7 +28,7 @@ export class PinComponent implements OnInit {
     private configService: ConfigService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   /**
    * Shows the pin dialog.

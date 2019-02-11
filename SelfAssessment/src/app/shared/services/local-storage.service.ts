@@ -10,6 +10,8 @@ import { SetElement } from '../models/testspecific/set.element.model';
 import { JournalStructureRaw } from '../models/state/raw/journal.structure.raw';
 import { SetRaw } from '../models/state/raw/journal.struc.set.raw';
 import { Course } from '../models/course-object';
+import { Resource } from '../models/resources/resources.model';
+import { resource } from 'selenium-webdriver/http';
 
 /**
  * This Service contains the logic for storing/retrieving objects in/from
@@ -102,6 +104,30 @@ export class LocalStorageService {
 
   public storeLanguage(lang: string): void {
     localStorage.setItem('language', lang);
+  }
+
+  public storeResources(res: Resource[]): void {
+    localStorage.setItem('resources', JSON.stringify(res));
+  }
+
+  public getAllResources(): Resource[] {
+    return JSON.parse(localStorage.getItem('resources'));
+  }
+
+  public getResources(): Resource {
+
+    let res: Resource;
+
+    const lang = this.getLanguage();
+
+    (<Resource[]>JSON.parse(localStorage.getItem('resources')))
+      .forEach(element => {
+        if (element.language === lang) {
+          res = element;
+        }
+      });
+
+    return res;
   }
 
   /**

@@ -17,21 +17,21 @@
     
     <div class="info-content">
 
-      <p>{{infoContent}}</p>
+      <p>{{'lbl-selfassement-intro' | language}}</p>
 
       <mat-list role="list">
-        <h3 mat-header>{{notesLbl}}</h3>
+        <h3 mat-header>{{'lbl-tip' | language}}</h3>
         <mat-list-item role="listitem" *ngFor="let note of notes">
-          <mat-icon matListIcon>done</mat-icon> {{note}}
+          <mat-icon matListIcon>done</mat-icon> {{ note | language}}
         </mat-list-item>
       </mat-list>
 
-      <h4>{{encouragement}}</h4>
+      <h4>{{'lbl-encouragement' | language}}</h4>
     </div>
     <div class="pin-note">
-      <i>Hinweis:</i>
+      <i>{{'lbl-note' | language}}</i>
       <p>
-        {{pinNote}}
+          {{'lbl-note-text' | language}}
       </p>
       <p>
         <b>PIN: {{this.pin}}</b>
@@ -40,7 +40,7 @@
 
   </div>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="startSelfAssessment()">{{startTestLbl}}</button>
+    <button mat-raised-button color="primary" (click)="startSelfAssessment()">{{'btn-start-assessment' | language}}</button>
 
   </mat-card-actions>
 </mat-card>

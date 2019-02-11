@@ -7,6 +7,25 @@
     "logo": "uni_hildesheim_logo.svg"
   },
   "strings": {
-    "language": "?ref{language}"
+    "language": "?ref{language}",
+    "btn-start": "?ref{btn-start}",
+    "lbl-pin-input": "?ref{lbl-pin-input}",
+    "btn-pin-input": "?ref{btn-pin-input}",
+    "lbl-pin-request": "?ref{lbl-pin-request}",
+    "lbl-not-valid-pin": "?ref{lbl-not-valid-pin}",
+    "lbl-selfassement-intro": "?ref{lbl-selfassement-intro}",
+    "lbl-tip": "?ref{lbl-tip}",
+    "list-tips-1": "?ref{list-tips-1}",
+    "list-tips-2": "?ref{list-tips-2}",
+    "list-tips-3": "?ref{list-tips-3}",
+    "list-tips-4": "?ref{list-tips-4}",
+    "list-tips-5": "?ref{list-tips-5}",
+    "lbl-encouragement": "?ref{lbl-encouragement}",
+    "lbl-note": "?ref{lbl-note}",
+    "lbl-note-text": "?ref{lbl-note-text}",
+    "btn-start-assessment": "?ref{btn-start-assessment}",
+    "lbl-course-language": "?ref{lbl-course-language}",
+    "lbl-set-progess": "?ref{lbl-set-progess}"
+
   }
 }

@@ -1,6 +1,24 @@
 {
   "language": "English",
   "?refs": {
-    "language": "Language"
+    "language": "Language",
+    "btn-start": "Start",
+    "lbl-pin-input": "If you already received a PIN, you can continue your test procedure:",
+    "btn-pin-input": "PIN Input",
+    "lbl-pin-request": "Please enter PIN.",
+    "lbl-not-valid-pin": "Not a valid pin.",
+    "lbl-selfassement-intro": "After you started the Assessment you get a pin. With this pin you are able to stop the Assessment and proceed at a different time as well as revisiting the final evaluation. So please keep the pin. The pin cannot be restored should you lose it.",
+    "lbl-tip": "Working Instructions ",
+    "list-tips-1": "The test should take about 60 minutes!",
+    "list-tips-2": "Read the task carefully.",
+    "list-tips-3": "Make sure you can concentrate in your enviroment!",
+    "list-tips-4": "Lay out paper and pen",
+    "list-tips-5": "Remember: You can continue the assessment at a later point in time .",
+    "lbl-encouragement": "Have fun and good luck!",
+    "lbl-note": "Note",
+    "lbl-note-text": "Please write down your pin so that you can retrieve your progess/evaluation.",
+    "btn-start-assessment": "Start the assessment",
+    "lbl-course-language": "Please choose your language.",
+    "lbl-set-progess": "Progress of this set:"
   }
 }

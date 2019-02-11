@@ -4,6 +4,8 @@
   </mat-card-header>
   <img mat-card-image appImg [src]="course.icon"/>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="startTest()">Starten</button>
+    <button mat-raised-button color="primary" (click)="startTest()">
+      {{'btn-start' | language}}
+    </button>
   </mat-card-actions>
 </mat-card>

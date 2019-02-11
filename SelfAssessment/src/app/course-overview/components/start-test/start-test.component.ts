@@ -8,8 +8,8 @@ import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Course } from 'src/app/shared/models/course-object';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { MatSelectChange, MatSnackBar } from '@angular/material';
-import { SnackBarLanguageComponent } from './snack-bar-language/snack-bar-language.component';
+import { MatBottomSheet } from '@angular/material';
+import { CourseLanguageBottomSheetComponent } from '../course-language-bottom-sheet/course-language-bottom-sheet.component';
 
 /**
  * The component displayed before the actual test procedure.
@@ -32,31 +32,6 @@ export class StartTestComponent implements OnInit {
   public notes: string[];
 
   /**
-   * The information content.
-   */
-  public infoContent: string;
-
-  /**
-   * The label for the notes.
-   */
-  public notesLbl: string;
-
-  /**
-   * The encouragement.
-   */
-  public encouragement: string;
-
-  /**
-   * The pin note.
-   */
-  public pinNote: string;
-
-  /**
-   * The start test lbl.
-   */
-  public startTestLbl: string;
-
-  /**
    * The pin.
    */
   public pin: number;
@@ -74,7 +49,7 @@ export class StartTestComponent implements OnInit {
     private journalService: JournalService,
     private storageService: LocalStorageService,
     private logging: LoggingService,
-    private snackBar: MatSnackBar
+    private bottomSheet: MatBottomSheet
   ) { }
 
   /**
@@ -86,55 +61,21 @@ export class StartTestComponent implements OnInit {
 
     this.course = this.storageService.getCourse();
 
-    // this.language = this.course.languages[0];
-
-    this.notes = [
-      'Plane in etwa 60 Minuten für eine gewissenhafte Bearbeitung ein!',
-      'Lies dir alle Erläuterungen gründlich durch.',
-      'Schalte Störquellen (z.B. Fernseher, Musik, Handy) für eine konzentrierte Bearbeitung aus!',
-      'Lege dir Papier und Stift bereit!',
-      'Es ist jederzeit möglich, das SelfAssessment zu unterbrechen und zu einem späteren Zeitpunkt fortzusetzen.'
-    ];
-
-    this.infoContent = `
-      Nach dem Du das SelfAssessment gestartet hast, erhältst Du einen PIN. Mit dieser kannst Du
-      Dein SelfAssessment - wenn gewünscht - zu einem späteren Zeitpunkt fortsetzen oder die
-      Ergebnisse und Deine Bescheinigung abrufen. Notiere sie daher bitte für den möglichen
-      späteren Gebrauch. Bitte beachte: Eine spätere Wiederherstellung des PINs ist nicht möglich.
-    `;
-
-    this.encouragement = 'Viel Spaß und viel Erfolg!';
-
-    this.pinNote = `
-      Bitte notiere deinen PIN, damit du zu einem späteren Zeitpunkt deine Teilnahmebescheinigung und/oder dein
-      Feedback noch einmal aufrufen kannst.
-    `;
-
-    this.startTestLbl = 'Starte das SelfAssessment';
-
-    this.notesLbl = 'Bearbeitungshinweise';
+    this.notes = [];
+    for (let i = 0; i < 5; i++) {
+      this.notes[i] = `list-tips-${i + 1}`;
+    }
   }
-
-//   languageChoosen(matselect: MatSelectChange) {
-//     this.language = matselect.value;
-//  }
-
 
   /**
    * Start the selfassessment by loading the specific config file for the course and
    * saving the generated journal structure in the local storage.
    */
   public startSelfAssessment(): void {
-    // this.storageService.storeLanguage(this.language);
-    const lang = this.storageService.getLanguage();
-
-    if (!this.course.languages.includes(lang)) {
-      this.openSnackBar();
-      return;
-    }
-
-
-    this.configService.loadConfigFromCourse(this.course.name, lang)
+    this.bottomSheet.open(CourseLanguageBottomSheetComponent, {data: this.course.languages})
+    .afterDismissed()
+    .subscribe((language: string) => {
+      this.configService.loadConfigFromCourse(this.course.name, language)
       .subscribe(
         (configFile: ConfigFile) => {
           const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
@@ -147,13 +88,8 @@ export class StartTestComponent implements OnInit {
             );
         }
       );
-  }
-
-  openSnackBar() {
-    this.snackBar.openFromComponent(SnackBarLanguageComponent, {
-      duration: 3000,
-      data: this.course.languages,
     });
   }
+
 
 }

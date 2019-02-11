@@ -5,7 +5,7 @@ import {
   MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule,
   MatIconModule, MatButtonModule, MatProgressBarModule, MatGridListModule,
   MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule, MatExpansionModule,
+  MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule, MatExpansionModule, MatBottomSheet, MatBottomSheetModule,
 } from '@angular/material';
 @NgModule({
   declarations: [],
@@ -32,7 +32,7 @@ import {
     MatChipsModule,
     MatOptionModule,
     MatSelectModule,
-    MatSnackBarModule,
+    MatBottomSheetModule,
     MatExpansionModule
   ]
 })

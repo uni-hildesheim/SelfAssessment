@@ -8,6 +8,7 @@ import { RawResultTest } from 'src/app/shared/models/evaluation/raw/raw.result.t
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
 import { TestSet } from 'src/app/shared/models/testspecific/testset.model';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
+import { Test } from 'src/app/shared/models/testspecific/test.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,32 @@ export class ResultService {
           const resultSet = new ResultSet();
           resultSet.id = set.id;
           resultSet.tests = [];
+
+
           set.elements.forEach(element => {
+
+            // if (element.setType === 'test' && (<Test>element).evaluated) {
+
+            //   const options = [];
+
+
+            // for (let i = 0; i < (<Test>element).options.length; i++) {
+
+            //   if (mapRawTests.get(element.id.toString()).correctOptions.includes(i)) {
+            //     options.push([true, (<Test>element).options[i].text]);
+
+            //   } else if (mapRawTests.get(element.id.toString()).wrongOptions.includes(i)) {
+            //     options.push([false, (<Test>element).options[i].text]);
+            //   }
+
+            // }
+
+            // mapRawTests.get(element.id.toString()).options = options;
+
+
+            // }
+
+
             if (mapRawTests.has(element.id.toString())) {
               resultSet.tests.push(mapRawTests.get(element.id.toString()));
             }

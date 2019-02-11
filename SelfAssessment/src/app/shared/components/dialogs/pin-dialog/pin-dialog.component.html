@@ -1,13 +1,13 @@
-<h1 mat-dialog-title>PIN Eingabe</h1>
+<h1 mat-dialog-title>{{'btn-pin-input' | language}}</h1>
 <div mat-dialog-content>
   <p class="errorMessage" *ngIf="errorMessage">{{errorMessage}}</p>
   <div *ngIf="!loading">
-  <p>Please Enter your Pin.</p>
+  <p>{{'lbl-pin-request' | language}}</p>
   <form>
   <mat-form-field>
     <input matInput [formControl]="pinFormControl">
     <mat-error *ngIf="pinFormControl.hasError('pattern')">
-      Please enter a valid PIN.
+      {{'lbl-not-valid-pin' | language}}
     </mat-error>
   </mat-form-field>
 </form>

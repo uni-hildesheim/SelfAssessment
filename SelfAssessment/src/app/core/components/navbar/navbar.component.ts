@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { MatSelectChange } from '@angular/material';
+import { ResourceService } from '../../services/resource.service';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 /**
  * The top panel for the title.
@@ -12,18 +14,23 @@ import { MatSelectChange } from '@angular/material';
 })
 export class NavbarComponent implements OnInit {
 
-  lang = ['de', 'English', 'fr'];
+  lang: string[];
 
   constructor(
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService,
+    private resourceService: ResourceService
   ) { }
 
   ngOnInit() {
-    this.storageService.storeLanguage(this.lang[0]);
+
+    this.lang = this.storageService.getAllResources()
+      .map(obj => obj.language);
   }
 
   langChange(matselect: MatSelectChange) {
-    this.storageService.storeLanguage(matselect.value);
+    this.logging.info(`Change language to ${matselect.value}`);
+    this.resourceService.changeLang(matselect.value);
   }
 
 

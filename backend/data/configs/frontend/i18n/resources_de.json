@@ -1,0 +1,24 @@
+{
+    "language": "Deutsch",
+    "?refs": {
+      "language": "Sprache",
+      "btn-start": "Starten",
+      "lbl-pin-input": "Wenn Du bereits einen PIN erhalten hast, kannst Du dich hier damit anmelden:",
+      "btn-pin-input": "PIN Eingabe",
+      "lbl-pin-request": "Bitte PIN eingeben.",
+      "lbl-not-valid-pin": "Kein gültiger PIN.",
+      "lbl-selfassement-intro": "Nach dem Du das SelfAssessment gestartet hast, erhältst Du einen PIN. Mit dieser kannst Du Dein SelfAssessment - wenn gewünscht - zu einem späteren Zeitpunkt fortsetzen oder die Ergebnisse und Deine Bescheinigung abrufen. Notiere sie daher bitte für den möglichen späteren Gebrauch. Bitte beachte: Eine spätere Wiederherstellung des PINs ist nicht möglich.",
+      "lbl-tip": "Bearbeitungshinweise",
+      "list-tips-1": "Plane in etwa 60 Minuten für eine gewissenhafte Bearbeitung ein!",
+      "list-tips-2": "Lies dir alle Erläuterungen gründlich durch.",
+      "list-tips-3": "Schalte Störquellen (z.B. Fernseher, Musik, Handy) für eine konzentrierte Bearbeitung aus!",
+      "list-tips-4": "Lege dir Papier und Stift bereit!",
+      "list-tips-5": "Es ist jederzeit möglich, das SelfAssessment zu unterbrechen und zu einem späteren Zeitpunkt fortzusetzen.",
+      "lbl-encouragement": "Viel Spaß und viel Erfolg!",
+      "lbl-note": "Hinweis",
+      "lbl-note-text": "Bitte notiere deinen PIN, damit du zu einem späteren Zeitpunkt deine Teilnahmebescheinigung und/oder dein Feedback noch einmal aufrufen kannst.",
+      "btn-start-assessment": "Starte das Assessment",
+      "lbl-course-language": "Bitte wähle die gewünschte Sprache:",
+      "lbl-set-progess": "Fortschritt dieses Kapitels:"
+    }
+  }

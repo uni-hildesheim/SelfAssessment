@@ -22,7 +22,12 @@ export const environment = {
   /**
    * Specifies the mode.
    */
-  production: false
+  production: false,
+
+  /**
+   * The default language.
+   */
+  defaultLanguage: 'English'
 };
 
 /*

@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Course } from 'src/app/shared/models/course-object';
+import { ResourceService } from 'src/app/core/services/resource.service';
+import { Resource } from 'src/app/shared/models/resources/resources.model';
+import { Observable, pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 /**
  * Displays a course.
@@ -21,10 +25,12 @@ export class CourseCardComponent implements OnInit {
    */
   @Output() start = new EventEmitter<Course>();
 
-  constructor() { }
+
+  constructor( ) { }
 
   ngOnInit() {
   }
+
 
   /**
    * Emits the event and tells the parent component that the user choose this course.

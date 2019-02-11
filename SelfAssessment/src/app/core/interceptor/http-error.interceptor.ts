@@ -23,7 +23,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
         return next.handle(request)
             .pipe(
-                timeout(3000),
+                timeout(10000),
                 retryWhen(
                     err =>
                         err.pipe(

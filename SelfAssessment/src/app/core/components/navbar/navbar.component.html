@@ -1,11 +1,14 @@
 <mat-toolbar color="primary">
-  SelfAssessment Universität Hildesheim
+    <img [routerLink]="['/dashboard']" class="logo" appImg [src]="'vendor' | resources:'logo'"/>
+
+  <span class="header">{{'header' | resources}}</span>
   <span class="fill-space"></span>
   <mat-form-field appearance="legacy" >
-    <mat-select placeholder="Language" [value]="lang[0]" (selectionChange)="langChange($event)">
+    <mat-select [placeholder]="'language'| language" [value]="'language' | resources" (selectionChange)="langChange($event)">
       <mat-option *ngFor="let la of lang" [value]="la">
         {{la}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </mat-toolbar>
+

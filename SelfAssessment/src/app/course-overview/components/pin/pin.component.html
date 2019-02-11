@@ -1,5 +1,7 @@
 <div class="pin-main">
-<p>Wenn Du bereits einen PIN erhalten hast, kannst Du dich hier damit anmelden:<p>
+<p>{{ 'lbl-pin-input' | language}}<p>
 
-<button mat-flat-button color="primary" (click)="showDialog()">PIN eingeben</button>
+<button mat-flat-button color="primary" (click)="showDialog()">
+   {{ 'btn-pin-input' | language}}
+</button>
 </div>

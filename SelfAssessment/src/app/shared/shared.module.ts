@@ -8,6 +8,8 @@ import { KatexModule } from 'ng-katex';
 import { ErrorDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { DefaultImgDirective } from './directives/default-image.directive';
 import { CountdownComponent } from './components/countdown/countdown.component';
+import { LanguagePipe } from './pipes/language.pipe';
+import { ResourcePipe } from './pipes/resource.pipe';
 
 /**
  * The shared module.
@@ -18,7 +20,7 @@ import { CountdownComponent } from './components/countdown/countdown.component';
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
   declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent,
-    DefaultImgDirective, CountdownComponent],
+    DefaultImgDirective, CountdownComponent, LanguagePipe, ResourcePipe],
   imports: [
     CommonModule,
     KatexModule,
@@ -31,7 +33,9 @@ import { CountdownComponent } from './components/countdown/countdown.component';
     ErrorDialogComponent,
     FormattedTextAreaComponent,
     DefaultImgDirective,
-    CountdownComponent
+    CountdownComponent,
+    LanguagePipe,
+    ResourcePipe
   ]
 })
 export class SharedModule { }

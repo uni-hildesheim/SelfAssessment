@@ -3,6 +3,8 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Observable } from 'rxjs';
+import { Resource } from 'src/app/shared/models/resources/resources.model';
+import { ResourceService } from 'src/app/core/services/resource.service';
 
 /**
  * Realizes the Dashboard which displays all the courses.

@@ -3,4 +3,6 @@ export interface RawResultTest {
     score: number;
     maxScore: number;
     correctOptions: number[];
+    wrongOptions: number[];
+    // options: any[];
 }

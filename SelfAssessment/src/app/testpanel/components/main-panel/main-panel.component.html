@@ -12,7 +12,7 @@
       </div>
 
       <div class="main-test" *ngIf="set.elements[setElemIndex]">
-        <p>Fortschritt dieses Kapitels:</p>
+        <p>{{'lbl-set-progess' | language}}</p>
         <mat-progress-bar mode="determinate" [value]="progressVal"></mat-progress-bar>
         <div [ngSwitch]="set.elements[setElemIndex].setType">
 
