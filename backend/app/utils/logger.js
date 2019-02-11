@@ -3,17 +3,17 @@
  * Depending on the level, messages are directed to stdout (ALL, INFO, WARN) or stderr (ERROR).
  */
 const Level = {
+    ALL: 0,
     ERROR: 1,
     WARN: 2,
     INFO: 3,
     DEBUG: 4,
-    ALL: 5,
     properties: {
+        0: { string: "ALL" },
         1: { string: "ERROR" },
         2: { string: "WARN" },
         3: { string: "INFO" },
-        4: { string: "DEBUG" },
-        5: { string: "ALL" }
+        4: { string: "DEBUG" }
     }
 };
 
@@ -122,6 +122,14 @@ class Logger {
      */
 
     /**
+     * Call log(Level.ALL, message)
+     * @param {String} message 
+     */
+    all(message) {
+        this.log(Level.ALL, message);
+    }
+
+    /**
      * Call log(Level.ERROR, message)
      * @param {String} message 
      */
@@ -217,6 +225,7 @@ module.exports = {
 
     /* default instance methods */
     log: (...args) => defaultLogger.log(...args),
+    all: (...args) => defaultLogger.all(...args),
     error: (...args) => defaultLogger.error(...args),
     warn: (...args) => defaultLogger.warn(...args),
     info: (...args) => defaultLogger.info(...args),
