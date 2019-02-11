@@ -9,7 +9,7 @@ const express = require('express');
 const fs = require('fs');
 
 // load local dependencies
-const courseUtils = require('./app/utils/course');
+const JSONUtils = require('./app/utils/json.js');
 const db = require('./app/mongodb/db.js');
 const logger = require('./app/utils/logger');
 const router = require('./app/routes/index.js');
@@ -166,7 +166,7 @@ function loadCourses(path) {
 
             // attempt to merge the course with the language config to see if all references
             // resolve correctly
-            const mergedConfig = courseUtils.mergeConfigs([courseConfig, languageConfig]);
+            const mergedConfig = JSONUtils.mergeObjects([courseConfig, languageConfig]);
             if (mergedConfig === null) {
                 logger.warn('Failed to merge course config: ' + item + ' with language config: ' +
                             lang);
@@ -284,7 +284,7 @@ function loadFrontendResources(path) {
 
             // attempt to merge the course with the language config to see if all references
             // resolve correctly
-            const mergedConfig = courseUtils.mergeConfigs([resourceConfig, languageConfig]);
+            const mergedConfig = JSONUtils.mergeObjects([resourceConfig, languageConfig]);
             if (mergedConfig === null) {
                 logger.warn('Failed to merge resource config: ' + item + ' with language' +
                             ' config: ' + lang);
