@@ -72,9 +72,14 @@ export class StartTestComponent implements OnInit {
    * saving the generated journal structure in the local storage.
    */
   public startSelfAssessment(): void {
-    this.bottomSheet.open(CourseLanguageBottomSheetComponent, {data: this.course.languages})
+    this.bottomSheet.open(CourseLanguageBottomSheetComponent,
+      {
+        data: this.course.languages,
+        disableClose: true
+      })
     .afterDismissed()
-    .subscribe((language: string) => {
+    .subscribe(
+      (language: string) => {
       this.configService.loadConfigFromCourse(this.course.name, language)
       .subscribe(
         (configFile: ConfigFile) => {
