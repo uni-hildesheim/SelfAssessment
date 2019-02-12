@@ -13,7 +13,7 @@ describe('ResultController', () => {
             "language": "English",
             "config": {
                 "title": "IMIT",
-                "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+                "validationSchema": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
                 "icon": "imit.jpg",
                 "tests": [
                     {
@@ -215,34 +215,12 @@ describe('ResultController', () => {
         },
     }];
 
-    const ResultDocs = [{
+    const ResultInstance = new ResultModel ({
         "associatedPin": '98667585',
         "lastChanged": new Date(),
-        "checksum": '',
-        "tests": [
-            {
-                "id": "1002",
-                "score": 1,
-                "maxScore": 2,
-                "correctOptions": [0],
-                "wrongOptions": [1]
-            },
-            {
-                "id": "1003",
-                "score": 0,
-                "maxScore": 1,
-                "correctOptions": [],
-                "wrongOptions": []
-            },
-            {
-                "id": "1005",
-                "score": 1,
-                "maxScore": 3,
-                "correctOptions": [1],
-                "wrongOptions": [0, 2]
-            }
-        ]
-    }];
+        "validationCode": '',
+        "tests": []
+    });
 
     beforeEach( () => {
         // common response object with spies
@@ -284,13 +262,37 @@ describe('ResultController', () => {
         it('should calculate result and save to the DB', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
             sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
-            sinon.stub(ResultModel, 'updateOne').resolves(null);
+            sinon.stub(ResultModel, 'updateOne').resolves(ResultInstance);
 
             const req = {
                 body: {
                     pin: "98667585"
                 }
             };
+
+            const expectedResult = [
+                {
+                    "id": "1002",
+                    "score": 1,
+                    "maxScore": 2,
+                    "correctOptions": [0],
+                    "wrongOptions": [1]
+                },
+                {
+                    "id": "1003",
+                    "score": 0,
+                    "maxScore": 1,
+                    "correctOptions": [],
+                    "wrongOptions": []
+                },
+                {
+                    "id": "1005",
+                    "score": 1,
+                    "maxScore": 3,
+                    "correctOptions": [1],
+                    "wrongOptions": [0, 2]
+                }
+            ]
 
             await ResultController.load(req, this.res);
             sinon.assert.calledOnce(JournalModel.findOne);
@@ -299,7 +301,84 @@ describe('ResultController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, ResultDocs[0].tests);
+            sinon.assert.calledWith(this.res.status().json, expectedResult);
+        });
+    });
+
+    describe('.freeze(req, res)', () => {
+        it('should return HTTP 404 for invalid pin', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(null);
+            sinon.stub(JournalModel, 'findOne').resolves(null);
+            sinon.stub(ResultModel, 'findOne').resolves(null);
+            sinon.stub(ResultModel, 'updateOne').resolves(null);
+
+            const req = {
+                body: {
+                    pin: "00000000"
+                }
+            };
+
+            await ResultController.freeze(req, this.res);
+            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.notCalled(CourseModel.findOne);
+            sinon.assert.notCalled(ResultModel.findOne);
+            sinon.assert.notCalled(ResultModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().send);
+        });
+
+        it('should generate a validation code', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
+            sinon.stub(ResultModel, 'findOne').resolves(ResultInstance);
+            sinon.stub(ResultModel, 'updateOne').resolves(null);
+
+            // TODO: Ideally, each test should get its own test data, or all tests should be
+            // executed in a specific, synchronous order (which Jasmine does not do).
+            // Because of that, the next test cannot use ResultInstance because there might
+            // be a race and the validationCode attribute ends up being modified in the wrong
+            // order.
+
+            const req = {
+                body: {
+                    pin: "98667585"
+                }
+            };
+
+            await ResultController.freeze(req, this.res);
+            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(ResultModel.findOne);
+            sinon.assert.calledOnce(ResultModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
+            sinon.assert.calledOnce(this.res.status().json);
+        });
+
+        it('should not overwrite existing validation codes', async () => {
+            const resultInstance = new ResultModel({ validationCode: 'DUMMY' });
+            sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
+            sinon.stub(ResultModel, 'findOne').resolves(resultInstance);
+            sinon.stub(ResultModel, 'updateOne').resolves(null);
+
+            const req = {
+                body: {
+                    pin: "98667585"
+                }
+            };
+
+            await ResultController.freeze(req, this.res);
+            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(ResultModel.findOne);
+            sinon.assert.notCalled(ResultModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
+            sinon.assert.calledOnce(this.res.status().json);
+
+            expect(resultInstance.validationCode).toBe('DUMMY');
         });
     });
 });

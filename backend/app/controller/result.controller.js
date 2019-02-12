@@ -2,7 +2,8 @@ const db = require('../mongodb/db.js');
 const logger = require('../utils/logger');
 
 module.exports = {
-    load
+    load,
+    freeze
 }
 
 // calculate result for a given pincode
@@ -232,8 +233,102 @@ async function load(req, res) {
         lastChanged: new Date(),
         tests: tests
     }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
-        logger.info('Updated result log for pin: ' + bodyPin);
+        logger.info('Loaded result for pin: ' + bodyPin);
         res.status(200).json(tests);
+    }).catch(err => {
+        logger.error(err);
+        res.status(500).json({ error: err });
+    });
+}
+
+async function freeze(req, res) {
+    const bodyPin = Number.parseInt(req.body.pin);
+
+    let course;
+    let journal;
+    let result;
+    let courseConfig = null;
+
+    // fetch the journal for the given pincode
+    try {
+        journal = await db.Journal.findOne({
+            associatedPin: bodyPin
+        });
+    } catch(err) {
+        logger.error(err);
+        res.status(500).json({ error: err });
+        return;
+    }
+
+    if (!journal) {
+        logger.warn('Could not find journal for pin: ' + bodyPin);
+        res.status(404).send();
+        return;
+    }
+
+    // fetch the course config for the given pincode
+    try {
+        course = await db.Course.findOne({
+            name: journal.structure.course
+        });
+    } catch(err) {
+        logger.error(err);
+        res.status(500).json({ error: err });
+        return;
+    }
+
+    if (!course) {
+        logger.warn('Could not find course: ' + journal.structure.course + ' for pin: ' + bodyPin);
+        res.status(404).send();
+        return;
+    }
+
+    // get the config for the selected language
+    for (const obj of course.configs) {
+        if (obj.language === journal.structure.language) {
+            courseConfig = obj.config;
+        }
+    }
+
+    if (courseConfig === null) {
+        logger.warn('Could not find course: ' + journal.structure.course + ' config for' +
+                    ' language: ' + journal.structure.language);
+        res.status(404).send();
+        return;
+    }
+
+    // fetch the result for the given pincode
+    try {
+        result = await db.Result.findOne({
+            associatedPin: bodyPin
+        });
+    } catch(err) {
+        logger.error(err);
+        res.status(500).json({ error: err });
+        return;
+    }
+
+    if (!course) {
+        logger.warn('Could not find result for pin: ' + bodyPin);
+        res.status(404).send();
+        return;
+    }
+
+    // validation codes are immutable
+    if (('validationCode' in result) && (result.validationCode)) {
+        logger.warn('Validation code already generated for pin: ' + bodyPin +
+                    ', using existing code');
+        res.status(200).json(result.validationCode);
+        return;
+    }
+
+    const validationCode = result.generateValidationCode(courseConfig['validationSchema']);
+
+    db.Result.updateOne({ associatedPin: bodyPin }, {
+        validationCode: validationCode
+    }).then(result => { // eslint-disable-line no-unused-vars
+        logger.info('Generated validation code for pin: ' + bodyPin);
+        res.status(200).json(validationCode);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });

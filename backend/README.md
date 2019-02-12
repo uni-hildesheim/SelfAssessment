@@ -300,7 +300,7 @@ The stub database is what will be used in the actual tests to operate on. We lev
   ```
   {
       "title": "IMIT",
-      "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+      "validationSchema": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
       ...
   }
   ```

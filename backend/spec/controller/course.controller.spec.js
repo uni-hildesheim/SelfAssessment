@@ -13,7 +13,7 @@ describe('CourseController', () => {
                     "title": "IMIT",
                     "icon": "imit.png",
                     "image": "",
-                    "checksum_regex": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+                    "validationSchema": "IMIT([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
 
                     "tests": [],
                     "testgroups": [],

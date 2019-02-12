@@ -239,7 +239,7 @@ const TEST_SCHEMA = {
     "properties": {
         "title": {"type": "string"},
         "icon": {"type": "string"},
-        "checksum_regex": {"type": "string"},
+        "validationSchema": {"type": "string"},
         "tests": {
             "type": "array",
             "items": {"$ref": "/SingleTest"}
@@ -257,7 +257,7 @@ const TEST_SCHEMA = {
             "items": {"$ref": "/InfoPage"}
         },
     },
-    "required": ["title", "checksum_regex", "tests"]
+    "required": ["title", "validationSchema", "tests"]
 };
 
 /**
