@@ -14,16 +14,22 @@ module.exports = {
 function load(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
-    db.Journal.findOne({
-        associatedPin: bodyPin
-    }).then(journal => {
-        if (!journal) {
+    db.User.findOne({
+        pin: bodyPin
+    }).then(user => {
+        if (!user) {
+            logger.warn('No user for pin: ' + bodyPin);
+            res.status(404).json({ error: 'No user for pin: ' + bodyPin });
+            return;
+        }
+
+        if (!user.journal) {
             logger.warn('No journal for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal for pin: ' + bodyPin });
             return;
         }
         logger.info('Loaded journal for pin: ' + bodyPin);
-        res.status(200).json(journal);
+        res.status(200).json(user.journal);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });
@@ -34,16 +40,22 @@ function load(req, res) {
 function loadLog(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
-    db.Journal.findOne({
-        associatedPin: bodyPin
-    }).then(journal => {
-        if (!journal) {
+    db.User.findOne({
+        pin: bodyPin
+    }).then(user => {
+        if (!user) {
+            logger.warn('No user for pin: ' + bodyPin);
+            res.status(404).json({ error: 'No user for pin: ' + bodyPin });
+            return;
+        }
+
+        if (!user.journal) {
             logger.warn('No journal log for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal log for pin: ' + bodyPin });
             return;
         }
         logger.info('Loaded journal log for pin: ' + bodyPin);
-        res.status(200).json(journal.log);
+        res.status(200).json(user.journal.log);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });
@@ -54,16 +66,22 @@ function loadLog(req, res) {
 function loadStructure(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
-    db.Journal.findOne({
-        associatedPin: bodyPin
-    }).then(journal => {
-        if (!journal) {
+    db.User.findOne({
+        pin: bodyPin
+    }).then(user => {
+        if (!user) {
+            logger.warn('No user for pin: ' + bodyPin);
+            res.status(404).json({ error: 'No user for pin: ' + bodyPin });
+            return;
+        }
+
+        if (!user.journal) {
             logger.warn('No journal structure for pin: ' + bodyPin);
             res.status(404).json({ error: 'No journal structure for pin: ' + bodyPin });
             return;
         }
         logger.info('Loaded journal structure for pin: ' + bodyPin);
-        res.status(200).json(journal.structure);
+        res.status(200).json(user.journal.structure);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });
@@ -75,11 +93,13 @@ function save(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // update the document if it exists
-    db.Journal.updateOne({ associatedPin: bodyPin }, {
-        lastChanged: new Date(),
-        log: req.body.log,
-        structure: req.body.structure
-    }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
+    db.User.updateOne({ pin: bodyPin }, {
+        journal: {
+            lastChanged: new Date(),
+            log: req.body.log,
+            structure: req.body.structure
+        }
+    }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated journal for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
@@ -93,10 +113,10 @@ function saveLog(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // update the document if it exists
-    db.Journal.updateOne({ associatedPin: bodyPin }, {
-        lastChanged: new Date(),
-        log: req.body.log
-    }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
+    db.User.updateOne({ pin: bodyPin }, {
+        'journal.lastChanged': new Date(),
+        'journal.log': req.body.log
+    }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated journal log for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {
@@ -110,10 +130,10 @@ function saveStructure(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // update the document if it exists
-    db.Journal.updateOne({ associatedPin: bodyPin }, {
-        lastChanged: new Date(),
-        structure: req.body.structure
-    }, { upsert: true }).then(result => { // eslint-disable-line no-unused-vars
+    db.User.updateOne({ pin: bodyPin }, {
+        'journal.lastChanged': new Date(),
+        'journal.structure': req.body.structure
+    }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated journal structure for pin: ' + bodyPin);
         res.status(200).send();
     }).catch(err => {

@@ -1,23 +1,48 @@
 const mongoose = require('mongoose');
 
-const ResultSchema = new mongoose.Schema({
-    associatedPin: Number,
-    lastChanged: Date,
-    /* 
-     * validation code that is calculated at the end of the assessment procedure
-     * -- > generated once, immutable
-     */
-    validationCode: String,
-    tests: [{
-        _id: false, // stop generating id for nested document object
-        id: Object, // TODO: allow only a specific type once the spec is final
-        score: Number,
-        maxScore: Number,
-        /* the options that were correctly selected by the user */
-        correctOptions: [Number],
-        /* the options that were wrongly selected by the user */
-        wrongOptions: [Number]
-    }]
+const UserSchema = new mongoose.Schema({
+    pin: Number,
+    created: Date,
+    journal: {
+        log: {
+            _id: false, // stop generating id for nested document object
+            sets: [{
+                _id: false, // stop generating id for nested document object
+                maps: [{
+                    _id: false, // stop generating id for nested document object
+                    key: Object, // TODO: allow only a specific type once the spec is final
+                    val: Array
+                }]
+            }]
+        },
+        structure: {
+            _id: false, // stop generating id for nested document object
+            course: String,
+            language: String,
+            sets: [{
+                _id: false, // stop generating id for nested document object
+                set: Object,
+                tests: Array
+            }]
+        }
+    },
+    result: {
+        /* 
+        * validation code that is calculated at the end of the assessment procedure
+        * -- > generated once, immutable
+        */
+        validationCode: String,
+        tests: [{
+            _id: false, // stop generating id for nested document object
+            id: Object, // TODO: allow only a specific type once the spec is final
+            score: Number,
+            maxScore: Number,
+            /* the options that were correctly selected by the user */
+            correctOptions: [Number],
+            /* the options that were wrongly selected by the user */
+            wrongOptions: [Number]
+        }]
+    }
 });
 
 /**
@@ -25,7 +50,7 @@ const ResultSchema = new mongoose.Schema({
  *
  * @param {String} schema schema containing a number or valid tokens
  */
-ResultSchema.methods.generateValidationCode = function(schema) {
+UserSchema.methods.generateValidationCode = function(schema) {
     let code = schema;
     // tokens that need to be parsed and handled individually
     const metaTokens = ['%', '(', ')'];
@@ -89,6 +114,6 @@ ResultSchema.methods.generateValidationCode = function(schema) {
     return code;
 };
 
-const ResultModel = mongoose.model('Result', ResultSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = ResultModel;
+module.exports = UserModel;

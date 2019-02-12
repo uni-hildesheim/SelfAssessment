@@ -32,7 +32,8 @@ describe('FrontendController', () => {
         this.res = {
             json: sinon.spy(),
             status: sinon.stub().returns({
-                json: sinon.spy()
+                json: sinon.spy(),
+                send: sinon.spy()
             })
         };
     });

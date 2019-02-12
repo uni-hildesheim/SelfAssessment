@@ -68,7 +68,5 @@ module.exports = {
     // models
     Course: require('../model/course.model.js'),
     Frontend: require('../model/frontend.model.js'),
-    Journal: require('../model/journal.model.js'),
-    Pincode: require('../model/pincode.model.js'),
-    Result: require('../model/result.model.js')
+    User: require('../model/user.model.js'),
 };

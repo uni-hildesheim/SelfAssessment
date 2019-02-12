@@ -12,13 +12,19 @@ async function create(req, res) {
     const LENGTH = 8
     const MAX_PINCODES = Math.pow(10, LENGTH);
 
-    // get all current pincodes
+    // get all current users
+    let users;
     try {
-        var pincodes = await db.Pincode.find();
+        users = await db.User.find();
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: 'DB error' });
         return;
+    }
+
+    const pincodes = [];
+    for (const user of users) {
+        pincodes.push(user.pin);
     }
 
     if (pincodes.length === MAX_PINCODES) {
@@ -27,7 +33,7 @@ async function create(req, res) {
         return;
     }
 
-    // generate a new pincode
+    // create a new user
     var digits = new Array(LENGTH)
     var string = ''
     do {
@@ -39,12 +45,12 @@ async function create(req, res) {
     } while (pincodes.indexOf(Number.parseInt(string)) > -1);
 
     // add the new pincode to the db collection
-    db.Pincode.create({
+    db.User.create({
         pin: Number.parseInt(string),
         created: new Date()
-    }).then(pincode => {
-        logger.info('Created pincode: ' + pincode.pin);
-        res.status(201).json(pincode.pin);
+    }).then(user => {
+        logger.info('Created user: ' + user.pin);
+        res.status(201).json(user.pin);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });

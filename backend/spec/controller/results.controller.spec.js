@@ -1,8 +1,7 @@
 const sinon = require('sinon');
 
 const CourseModel = require('../../app/model/course.model');
-const JournalModel = require('../../app/model/journal.model');
-const ResultModel = require('../../app/model/result.model');
+const UserModel = require('../../app/model/user.model');
 const ResultController = require('../../app/controller/result.controller');
 
 describe('ResultController', () => {
@@ -141,85 +140,85 @@ describe('ResultController', () => {
         }]
     });
 
-    const JournalInstance = new JournalModel({
-        associatedPin: "98667585",
-        lastChanged: new Date(),
-        log: {
-            "sets": [
-                {
-                    "maps": [
-                        {
-                            "val": [
-                                false,
-                                true
-                            ],
-                            "key": 1001
-                        },
-                        {
-                            "val": [
-                                [
-                                    true,
+    const UserInstance = new UserModel({
+        pin: 98667585,
+        journal: {
+            lastChanged: new Date(),
+            log: {
+                "sets": [
+                    {
+                        "maps": [
+                            {
+                                "val": [
+                                    false,
+                                    true
+                                ],
+                                "key": 1001
+                            },
+                            {
+                                "val": [
+                                    [
+                                        true,
+                                        false,
+                                        false
+                                    ],
+                                    [
+                                        false,
+                                        true,
+                                        false
+                                    ]
+                                ],
+                                "key": 1002
+                            }
+                        ]
+                    },
+                    {
+                        "maps": [
+                            {
+                                "val": [
+                                    "brown fo",
+                                    "my cat see",
+                                    "think of the"
+                                ],
+                                "key": 1005
+                            },
+                            {
+                                "val": [
                                     false,
                                     false
                                 ],
-                                [
-                                    false,
-                                    true,
-                                    false
-                                ]
-                            ],
-                            "key": 1002
-                        }
-                    ]
-                },
-                {
-                    "maps": [
-                        {
-                            "val": [
-                                "brown fo",
-                                "my cat see",
-                                "think of the"
-                            ],
-                            "key": 1005
-                        },
-                        {
-                            "val": [
-                                false,
-                                false
-                            ],
-                            "key": 1003
-                        }
-                    ]
-                }
-            ]
+                                "key": 1003
+                            }
+                        ]
+                    }
+                ]
+            },
+            structure: {
+                "course": "IMIT",
+                "language": "English",
+                "sets": [
+                    {
+                        "tests": [
+                            1001,
+                            1002
+                        ],
+                        "set": 3001
+                    },
+                    {
+                        "tests": [
+                            1005,
+                            1003
+                        ],
+                        "set": 3002
+                    }
+                ]
+            }
         },
-        structure: {
-            "course": "IMIT",
-            "language": "English",
-            "sets": [
-                {
-                    "tests": [
-                        1001,
-                        1002
-                    ],
-                    "set": 3001
-                },
-                {
-                    "tests": [
-                        1005,
-                        1003
-                    ],
-                    "set": 3002
-                }
-            ]
-        },
-    });
-
-    const ResultInstance = new ResultModel ({
-        "associatedPin": '98667585',
-        "lastChanged": new Date(),
-        "validationCode": '',
-        "tests": []
+        result: {
+            "lastChanged": new Date(),
+            "validationCode": '',
+            "tests": []
+        }
     });
 
     beforeEach( () => {
@@ -241,19 +240,19 @@ describe('ResultController', () => {
     describe('.load(req, res)', () => {
         it('should return HTTP 404 for invalid pin', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(null);
-            sinon.stub(JournalModel, 'findOne').resolves(null);
-            sinon.stub(ResultModel, 'updateOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
 
             const req = {
                 body: {
-                    pin: "00000000"
+                    pin: 0
                 }
             };
 
             await ResultController.load(req, this.res);
-            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.notCalled(CourseModel.findOne);
-            sinon.assert.notCalled(ResultModel.updateOne);
+            sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
             sinon.assert.calledOnce(this.res.status().send);
@@ -261,12 +260,12 @@ describe('ResultController', () => {
 
         it('should calculate result and save to the DB', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
-            sinon.stub(ResultModel, 'updateOne').resolves(ResultInstance);
+            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
 
             const req = {
                 body: {
-                    pin: "98667585"
+                    pin: UserInstance.pin
                 }
             };
 
@@ -295,9 +294,9 @@ describe('ResultController', () => {
             ]
 
             await ResultController.load(req, this.res);
-            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.calledOnce(CourseModel.findOne);
-            sinon.assert.calledOnce(ResultModel.updateOne);
+            sinon.assert.calledOnce(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
@@ -308,21 +307,19 @@ describe('ResultController', () => {
     describe('.freeze(req, res)', () => {
         it('should return HTTP 404 for invalid pin ', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(null);
-            sinon.stub(JournalModel, 'findOne').resolves(null);
-            sinon.stub(ResultModel, 'findOne').resolves(null);
-            sinon.stub(ResultModel, 'updateOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
 
             const req = {
                 body: {
-                    pin: "00000000"
+                    pin: 0
                 }
             };
 
             await ResultController.freeze(req, this.res);
-            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.notCalled(CourseModel.findOne);
-            sinon.assert.notCalled(ResultModel.findOne);
-            sinon.assert.notCalled(ResultModel.updateOne);
+            sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
             sinon.assert.calledOnce(this.res.status().send);
@@ -330,9 +327,8 @@ describe('ResultController', () => {
 
         it('should generate a validation code', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
-            sinon.stub(ResultModel, 'findOne').resolves(ResultInstance);
-            sinon.stub(ResultModel, 'updateOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
 
             // TODO: Ideally, each test should get its own test data, or all tests should be
             // executed in a specific, synchronous order (which Jasmine does not do).
@@ -342,43 +338,51 @@ describe('ResultController', () => {
 
             const req = {
                 body: {
-                    pin: "98667585"
+                    pin: UserInstance.pin
                 }
             };
 
             await ResultController.freeze(req, this.res);
-            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.calledOnce(CourseModel.findOne);
-            sinon.assert.calledOnce(ResultModel.findOne);
-            sinon.assert.calledOnce(ResultModel.updateOne);
+            sinon.assert.calledOnce(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
         });
 
         it('should not overwrite existing validation codes', async () => {
-            const resultInstance = new ResultModel({ validationCode: 'DUMMY' });
+            const userInstance = new UserModel({
+                pin: 12345678,
+                journal: {
+                    structure: {
+                        language: 'English'
+                    }
+                },
+                result: {
+                    validationCode: 'DUMMY'
+                }
+            });
             sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
-            sinon.stub(ResultModel, 'findOne').resolves(resultInstance);
-            sinon.stub(ResultModel, 'updateOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(userInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
 
             const req = {
                 body: {
-                    pin: "98667585"
+                    pin: 12345678
                 }
             };
 
+
             await ResultController.freeze(req, this.res);
-            sinon.assert.calledOnce(JournalModel.findOne);
+            sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.calledOnce(CourseModel.findOne);
-            sinon.assert.calledOnce(ResultModel.findOne);
-            sinon.assert.notCalled(ResultModel.updateOne);
+            sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
 
-            expect(resultInstance.validationCode).toBe('DUMMY');
+            expect(userInstance.result.validationCode).toBe('DUMMY');
         });
     });
 });
