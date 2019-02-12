@@ -214,6 +214,7 @@ class Logger {
  *   logger.error('another error');
  */
 const defaultLogger = new Logger();
+defaultLogger.addTransport(new ConsoleTransport(1));
 
 module.exports = {
     /* classes and data stores needed for public API */

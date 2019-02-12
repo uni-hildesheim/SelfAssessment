@@ -384,11 +384,6 @@ function setupAutodeploy(inputPath, outputPath) {
 }
 
 function main() {
-    // add console transport for non-production environments
-    if (process.env.NODE_ENV !== 'production') {
-        logger.addTransport(new logger.Transport.ConsoleTransport(1));
-    }
-
     loadEnvironment();
 
     // create the app
