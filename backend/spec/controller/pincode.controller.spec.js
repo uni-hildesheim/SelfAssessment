@@ -4,12 +4,12 @@ const PincodeController = require('../../app/controller/pincode.controller');
 const PincodeModel = require('../../app/model/pincode.model');
 
 describe('PincodeController', () => {
-    const docs = [
-        {
-            pin: 12345678,
-            created: new Date()
-        }
-    ];
+    const PincodeDocuments = [];
+    const PincodeInstance = new PincodeModel({
+        pin: 12345678,
+        created: new Date()
+    });
+    PincodeDocuments.push(PincodeInstance);
 
     beforeEach( () => {
         // common response object with spies
@@ -28,8 +28,8 @@ describe('PincodeController', () => {
 
     describe('PincodeController.create', () => {
         it('should create a pseudo-random pincode (8 digits)', async () => {
-            sinon.stub(PincodeModel, 'find').resolves(docs);
-            sinon.stub(PincodeModel, 'create').resolves(docs[0]);
+            sinon.stub(PincodeModel, 'find').resolves(PincodeDocuments);
+            sinon.stub(PincodeModel, 'create').resolves(PincodeDocuments[0]);
 
             const req = {
                 // dummy
@@ -41,7 +41,7 @@ describe('PincodeController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 201);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, docs[0].pin);
+            sinon.assert.calledWith(this.res.status().json, PincodeDocuments[0].pin);
         });
     });
 });

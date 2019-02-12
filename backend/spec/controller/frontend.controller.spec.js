@@ -4,10 +4,11 @@ const FrontendController = require('../../app/controller/frontend.controller');
 const FrontendModel = require('../../app/model/frontend.model');
 
 describe('FrontendController', () => {
-    const docs = [{
-        "name": "Selfassessment v1.0",
-        "created": new Date(),
-        "configs": [{
+    const FrontendDocuments = [];
+    const FrontendInstance = new FrontendModel({
+        name: "Selfassessment v1.0",
+        created: new Date(),
+        configs: [{
             "language": "English",
             "config": {
                 "name": "Selfassessment v1.0",
@@ -23,7 +24,8 @@ describe('FrontendController', () => {
                 "language": "English"
             }
         }]
-    }];
+    });
+    FrontendDocuments.push(FrontendInstance);
 
     beforeEach( () => {
         // common response object with spies
@@ -55,7 +57,7 @@ describe('FrontendController', () => {
         });
 
         it('should load the dummy resource from the stub DB', async () => {
-            sinon.stub(FrontendModel, 'find').resolves(docs);
+            sinon.stub(FrontendModel, 'find').resolves(FrontendDocuments);
 
             const req = {
                 // dummy
@@ -66,7 +68,7 @@ describe('FrontendController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, docs[0].configs);
+            sinon.assert.calledWith(this.res.status().json, FrontendDocuments[0].configs);
         });
     });
 });

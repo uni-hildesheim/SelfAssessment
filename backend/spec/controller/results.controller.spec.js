@@ -6,10 +6,10 @@ const ResultModel = require('../../app/model/result.model');
 const ResultController = require('../../app/controller/result.controller');
 
 describe('ResultController', () => {
-    const CourseDocs = [{
-        "name": "IMIT",
-        "icon": "imit.jpg",
-        "configs": [{
+    const CourseInstance = new CourseModel({
+        name: "IMIT",
+        icon: "imit.jpg",
+        configs: [{
             "language": "English",
             "config": {
                 "title": "IMIT",
@@ -139,12 +139,12 @@ describe('ResultController', () => {
                 ]
             }
         }]
-    }];
+    });
 
-    const JournalDocs = [{
-        "associatedPin": "98667585",
-        "lastChanged": new Date(),
-        "log": {
+    const JournalInstance = new JournalModel({
+        associatedPin: "98667585",
+        lastChanged: new Date(),
+        log: {
             "sets": [
                 {
                     "maps": [
@@ -193,7 +193,7 @@ describe('ResultController', () => {
                 }
             ]
         },
-        "structure": {
+        structure: {
             "course": "IMIT",
             "language": "English",
             "sets": [
@@ -213,7 +213,7 @@ describe('ResultController', () => {
                 }
             ]
         },
-    }];
+    });
 
     const ResultInstance = new ResultModel ({
         "associatedPin": '98667585',
@@ -260,8 +260,8 @@ describe('ResultController', () => {
         });
 
         it('should calculate result and save to the DB', async () => {
-            sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
+            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
             sinon.stub(ResultModel, 'updateOne').resolves(ResultInstance);
 
             const req = {
@@ -306,7 +306,7 @@ describe('ResultController', () => {
     });
 
     describe('.freeze(req, res)', () => {
-        it('should return HTTP 404 for invalid pin', async () => {
+        it('should return HTTP 404 for invalid pin ', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(null);
             sinon.stub(JournalModel, 'findOne').resolves(null);
             sinon.stub(ResultModel, 'findOne').resolves(null);
@@ -329,8 +329,8 @@ describe('ResultController', () => {
         });
 
         it('should generate a validation code', async () => {
-            sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
+            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
             sinon.stub(ResultModel, 'findOne').resolves(ResultInstance);
             sinon.stub(ResultModel, 'updateOne').resolves(null);
 
@@ -358,8 +358,8 @@ describe('ResultController', () => {
 
         it('should not overwrite existing validation codes', async () => {
             const resultInstance = new ResultModel({ validationCode: 'DUMMY' });
-            sinon.stub(CourseModel, 'findOne').resolves(CourseDocs[0]);
-            sinon.stub(JournalModel, 'findOne').resolves(JournalDocs[0]);
+            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
             sinon.stub(ResultModel, 'findOne').resolves(resultInstance);
             sinon.stub(ResultModel, 'updateOne').resolves(null);
 

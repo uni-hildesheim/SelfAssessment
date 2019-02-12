@@ -4,13 +4,11 @@ const JournalController = require('../../app/controller/journal.controller');
 const JournalModel = require('../../app/model/journal.model');
 
 describe('JournalController', () => {
-    const docs = [
-        {
-            associatedPin: 12345678,
-            log: 'dummy log',
-            structure: 'dummy structure'
-        }
-    ];
+    const JournalInstance = new JournalModel({
+        associatedPin: 12345678,
+        log: 'dummy log',
+        structure: 'dummy structure'
+    });
 
     beforeEach( () => {
         // common response object with spies
@@ -47,11 +45,11 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal from the stub DB', async () => {
-            sinon.stub(JournalModel, 'findOne').resolves(docs[0]);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -60,12 +58,12 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, docs[0]);
+            sinon.assert.calledWith(this.res.status().json, JournalInstance);
         });
     });
 
     describe('.loadLog(req, res)', () => {
-        it('should return HTTP 404 for invalid pins', async () => {
+        it('should return HTTP 404 for invalid pins ', async () => {
             sinon.stub(JournalModel, 'findOne').resolves(null);
 
             const req = {
@@ -83,11 +81,11 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal log from the stub DB', async () => {
-            sinon.stub(JournalModel, 'findOne').resolves(docs[0]);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -96,12 +94,12 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, docs[0].log);
+            sinon.assert.calledWith(this.res.status().json, JournalInstance.log);
         });
     });
 
     describe('.loadStructure(req, res)', () => {
-        it('should return HTTP 404 for invalid pins', async () => {
+        it('should return HTTP 404 for invalid pins  ', async () => {
             sinon.stub(JournalModel, 'findOne').resolves(null);
 
             const req = {
@@ -119,11 +117,11 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal structure from the stub DB', async () => {
-            sinon.stub(JournalModel, 'findOne').resolves(docs[0]);
+            sinon.stub(JournalModel, 'findOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -132,17 +130,17 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, docs[0].structure);
+            sinon.assert.calledWith(this.res.status().json, JournalInstance.structure);
         });
     });
 
     describe('.save(req, res)', () => {
         it('should create a new document for unknown pins', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -154,7 +152,7 @@ describe('JournalController', () => {
         });
 
         it('should update the document instance', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
@@ -171,12 +169,12 @@ describe('JournalController', () => {
     });
 
     describe('.saveLog(req, res)', () => {
-        it('should create a new document for unknown pins', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+        it('should create a new document for unknown pins ', async () => {
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -187,8 +185,8 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status().send);
         });
 
-        it('should update the document instance', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+        it('should update the document instance ', async () => {
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
@@ -205,12 +203,12 @@ describe('JournalController', () => {
     });
 
     describe('.saveStructure(req, res)', () => {
-        it('should create a new document for unknown pins', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+        it('should create a new document for unknown pins  ', async () => {
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
-                    pin: docs[0].associatedPin
+                    pin: JournalInstance.associatedPin
                 }
             };
 
@@ -221,8 +219,8 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status().send);
         });
 
-        it('should update the document instance', async () => {
-            sinon.stub(JournalModel, 'updateOne').resolves(docs[0]);
+        it('should update the document instance  ', async () => {
+            sinon.stub(JournalModel, 'updateOne').resolves(JournalInstance);
 
             const req = {
                 body: {
