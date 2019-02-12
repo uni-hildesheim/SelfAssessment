@@ -1,42 +1,23 @@
-<p>
-  evaluation-overview works!
-</p>
 
-<!-- <pre *ngIf="results">
-  {{results | async | json}}
-</pre> -->
+<div class="wrapper-evaluation">
 
-
-<mat-expansion-panel *ngFor="let set of results | async">
+<h2>Evaluation</h2>
+  
+<mat-accordion class="example-headers-align">
+<mat-expansion-panel *ngFor="let set of results | async" class="main-result-panel" [hideToggle]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{set.id}}
+        Batterie: {{set.id}}
       </mat-panel-title>
       <mat-panel-description>
         {{set | result}}
+
+        <mat-icon color="primary">ballot</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <pre>
-      {{set.tests|json}}
-    </pre>
+    <app-result-tree [set]="set"></app-result-tree>
   
-<!-- 
-    <mat-list *ngFor="let test of set.tests">
-      <h3>{{test.id}}</h3>
-      <mat-list-item *ngFor="let option of test.options">
-
-        <mat-icon *ngIf="option[0]; else wrong">check</mat-icon>
-        <ng-template #wrong>
-            <mat-icon color="primary">close</mat-icon>
-        </ng-template>
-
-        <h4><app-formatted-text-area [rawText]="option[1]"></app-formatted-text-area></h4>
-
-
-      </mat-list-item>
-    </mat-list> -->
-
-
-
   </mat-expansion-panel>
+</mat-accordion>
+</div>

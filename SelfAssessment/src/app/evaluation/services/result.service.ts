@@ -31,22 +31,26 @@ export class ResultService {
       map((data: RawResultTest[]) => {
 
         const mapRawTests = new Map<any, RawResultTest>();
+        const journalLog = this.storage.getJournalLog();
         const structure: JournalStructure = this.storage.getJournalStructure();
         const resultSets: ResultSet[] = [];
+
 
         data.forEach((rawResultTest: RawResultTest) => {
           mapRawTests.set(rawResultTest.id, rawResultTest);
         });
 
-        structure.sets.forEach((set: TestSet) => {
+        structure.sets.forEach((set: TestSet, i: number) => {
           const resultSet = new ResultSet();
           resultSet.id = set.id;
           resultSet.tests = [];
 
 
           set.elements.forEach(element => {
-
-            // if (element.setType === 'test' && (<Test>element).evaluated) {
+            if (element.setType === 'test' && (<Test>element).evaluated) {
+              mapRawTests.get(element.id.toString()).singleTest = element as Test;
+              mapRawTests.get(element.id.toString()).log = journalLog.sets[i].get(element.id);
+            }
 
             //   const options = [];
 

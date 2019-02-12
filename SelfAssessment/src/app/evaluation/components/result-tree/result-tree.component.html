@@ -1,0 +1,53 @@
+<mat-expansion-panel *ngFor="let test of set.tests;" class="test-result-panel">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Test: {{test.id}}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{test.score}} / {{test.maxScore}}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div *ngIf="checkDismissed(test); else displayResult">
+
+    <h3>
+      You did not answer this test. 
+      <mat-icon color="primary" class="icon-right">warning</mat-icon>
+
+    </h3>
+
+  </div>
+  <ng-template #displayResult>
+
+  <h3>
+      <app-formatted-text-area [rawText]="test.singleTest.description"></app-formatted-text-area>
+  </h3>
+
+
+
+  <!-- CORRECT OPTION -->
+  <mat-list>
+    <mat-list-item *ngFor="let i of test.correctOptions">
+      <mat-icon mat-list-icon class="green-icon">check</mat-icon>
+      <h4 mat-line>
+          <app-formatted-text-area [rawText]="test | option: i: true"></app-formatted-text-area>
+        <mat-icon class="icon-right">exposure_plus_1</mat-icon>
+      </h4>
+    </mat-list-item>
+  </mat-list>
+
+  <!-- WRONG OPTION -->
+  <mat-list>
+    <mat-list-item *ngFor="let i of test.wrongOptions">
+      <mat-icon mat-list-icon class="red-icon">close</mat-icon>
+      <h4 mat-line>
+          <app-formatted-text-area [rawText]="test | option: i: false"></app-formatted-text-area>
+        <mat-icon class="icon-right">exposure_zero</mat-icon>
+      </h4>
+
+    </mat-list-item>
+  </mat-list>
+</ng-template>
+
+
+</mat-expansion-panel>

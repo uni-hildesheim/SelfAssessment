@@ -1,12 +1,22 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
 
+/**
+ * Pipe that calculates the total and the obtained
+ * score of a set.
+ * Output: <user-specific-score>/<max-set-score>
+ */
 @Pipe({
   name: 'result'
 })
 export class ResultPipe implements PipeTransform {
 
-  transform(set: ResultSet, args?: any): string {
+  /**
+   * Transforms the score.
+   *
+   * @param set The set.
+   */
+  transform(set: ResultSet): string {
     let sum = 0;
     let value = 0;
 
@@ -15,7 +25,7 @@ export class ResultPipe implements PipeTransform {
       value += elem.score;
     });
 
-    return `Punkte: ${value} / ${sum}`;
+    return `${value} / ${sum}`;
   }
 
 }

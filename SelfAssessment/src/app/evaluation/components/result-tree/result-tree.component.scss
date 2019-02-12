@@ -1,0 +1,28 @@
+.green-icon{
+    color:green;
+}
+.red-icon{
+    color: red;
+}
+
+.green-icon svg {
+    fill:green;
+}
+
+.red-icon svg {
+    fill:red;
+}
+
+.icon-right {
+    float:right;
+}
+
+
+.test-result-panel{
+    margin:15px;
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.11),0 5px 15px 0 rgba(0,0,0,.08) !important;
+}
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+    flex-grow:1.5;
+}

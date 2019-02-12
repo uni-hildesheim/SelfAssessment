@@ -80,7 +80,7 @@ export class StartTestComponent implements OnInit {
     .afterDismissed()
     .subscribe(
       (language: string) => {
-      this.configService.loadConfigFromCourse(this.course.name, language)
+        this.configService.loadConfigFromCourse(this.course.name, language)
       .subscribe(
         (configFile: ConfigFile) => {
           const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
