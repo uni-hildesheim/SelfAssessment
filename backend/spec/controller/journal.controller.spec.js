@@ -28,42 +28,6 @@ describe('JournalController', () => {
         sinon.restore();
     });
 
-    describe('.load(req, res)', () => {
-        it('should return HTTP 404 for invalid pins', async () => {
-            sinon.stub(UserModel, 'findOne').resolves(null);
-
-            const req = {
-                body: {
-                    pin: 'dummy'
-                }
-            };
-
-            await JournalController.load(req, this.res);
-            sinon.assert.calledOnce(UserModel.findOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 404);
-            sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, { error: 'No user for pin: NaN' });
-        });
-
-        it('should load the dummy journal from the stub DB', async () => {
-            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
-
-            const req = {
-                body: {
-                    pin: UserInstance.pin
-                }
-            };
-
-            await JournalController.load(req, this.res);
-            sinon.assert.calledOnce(UserModel.findOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 200);
-            sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, UserInstance.journal);
-        });
-    });
-
     describe('.loadLog(req, res)', () => {
         it('should return HTTP 404 for invalid pins ', async () => {
             sinon.stub(UserModel, 'findOne').resolves(null);
@@ -133,40 +97,6 @@ describe('JournalController', () => {
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
             sinon.assert.calledWith(this.res.status().json, UserInstance.journal.structure);
-        });
-    });
-
-    describe('.save(req, res)', () => {
-        it('should create a new document for unknown pins', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
-
-            const req = {
-                body: {
-                    pin: UserInstance.pin
-                }
-            };
-
-            await JournalController.save(req, this.res);
-            sinon.assert.calledOnce(UserModel.updateOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 200);
-            sinon.assert.calledOnce(this.res.status().send);
-        });
-
-        it('should update the document instance', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
-
-            const req = {
-                body: {
-                    pin: 'dummy'
-                }
-            };
-
-            await JournalController.save(req, this.res);
-            sinon.assert.calledOnce(UserModel.updateOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 200);
-            sinon.assert.calledOnce(this.res.status().send);
         });
     });
 

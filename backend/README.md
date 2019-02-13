@@ -350,29 +350,6 @@ The stub database is what will be used in the actual tests to operate on. We lev
   ```
 
 ### Journal (v1)
-* POST `/api/v1/journal/load` (DEPRECATED)  
-  Retrieve the journal object for a given pincode. The request body must contain exactly one attribute 'pin'. Returns the raw object from DB as JSON.
-
-  Example input:
-
-  ```
-  {
-      "pin": 62211357
-  }
-  ```
-
-  Example output:
-
-  ```
-  {
-      "_id": "5c41d3b7b32830eec3312e7a",
-      "associatedPin": 62211357,
-      "__v": 0,
-      "log": ...,
-      "structure": ...
-  }
-  ```
-
 * POST `/api/v1/journal/log/load`  
   Retrieve the journal log object for a given pincode. The request body must contain exactly one attribute 'pin'. Returns the raw object from DB as JSON.
 
@@ -412,17 +389,6 @@ The stub database is what will be used in the actual tests to operate on. We lev
           ]
         }
       ]
-  }
-  ```
-
-* POST `/api/v1/journal/log/save` (DEPRECATED)  
-  Write the journal log object for a given pincode into the DB. The request body must contain exactly one attribute 'pin'. Returns HTTP 200 on success, HTTP 500 otherwise.
-
-  Example input:
-
-  ```
-  {
-      "pin": 62211357
   }
   ```
 
