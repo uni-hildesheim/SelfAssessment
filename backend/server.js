@@ -9,10 +9,10 @@ const express = require('express');
 const fs = require('fs');
 
 // load local dependencies
-const JSONUtils = require('./app/utils/json.js');
-const db = require('./app/mongodb/db.js');
+const JSONUtils = require('./app/utils/json');
+const db = require('./app/mongodb/db');
 const logger = require('./app/utils/logger');
-const router = require('./app/routes/index.js');
+const router = require('./app/routes');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;

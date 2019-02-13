@@ -3,7 +3,7 @@ module.exports = {
 }
 
 function v1(app) {
-    const controller = require('../controller/logger.controller.js');
+    const controller = require('../controller/logger.controller');
 
     // log a message to a logfile
     app.post('/api/v1/logger/log', controller.log);

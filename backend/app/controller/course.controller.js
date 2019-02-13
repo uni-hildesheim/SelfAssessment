@@ -1,4 +1,4 @@
-const db = require('../mongodb/db.js');
+const db = require('../mongodb/db');
 const logger = require('../utils/logger');
 
 module.exports = {

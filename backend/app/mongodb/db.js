@@ -1,4 +1,4 @@
-const config = require('./config.js');
+const config = require('./config');
 const mongoose = require('mongoose');
 const logger = require('../utils/logger');
 
@@ -66,7 +66,7 @@ module.exports = {
     connect: connect,
 
     // models
-    Course: require('../model/course.model.js'),
-    Frontend: require('../model/frontend.model.js'),
-    User: require('../model/user.model.js'),
+    Course: require('../model/course.model'),
+    Frontend: require('../model/frontend.model'),
+    User: require('../model/user.model'),
 };
