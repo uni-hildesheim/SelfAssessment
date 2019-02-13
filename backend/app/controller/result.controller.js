@@ -30,6 +30,13 @@ async function load(req, res) {
         return;
     }
 
+    // check whether the test results are frozen
+    if (user.result.validationCode) {
+        logger.warn('Results for pin: ' + bodyPin + ' are already locked, not updating them');
+        res.status(200).send(user.result.tests);
+        return;
+    }
+
     // fetch the course config for the given pincode
     try {
         course = await db.Course.findOne({
