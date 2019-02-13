@@ -50,7 +50,7 @@ $ tree -d
     REST API routing.
 
   * app/utils  
-    Various utilities used by the other components, including a custom logger module and course config validation. Right now, this is also abused as a staging area for modules which might soon be elsewhere (i.e. the validator).
+    Various utilities used by the other components, including a custom logger module and JSON object merging.
 
 * **data**  
   Runtime data used by the application. On initial deploy, this directory should only contain empty subdirectories.
@@ -64,8 +64,11 @@ $ tree -d
   * data/autodeploy  
     ZIP files can be deployed here at runtime. The backend will automatically consume them (after checking the ZIP entries for validity), deploy configs and assets and rebuild the course collection in the database.
 
-  * data/configs  
+  * data/configs/courses  
     Course configs (in JSON format) are stored here. They are processed and stored as raw JSON objects in the database and exposed to the Frontend through REST API routes.
+
+  * data/configs/frontend  
+    As of now, the frontend is set up to be the slave of the backend component (which is the master). That means that the frontend will load its static resources such as text, images and such from the backend on startup.
 
   * data/db  
     MongoDB will populate this directory with content at runtime. All the DB metadata, its collections etc. are stored here.
@@ -178,19 +181,23 @@ To demonstrate the use of *sinonjs*, here is an example for a controller unit te
 
 ```javascript
 describe('CourseController', () => {
-    const docs = [
-        {
-            name: 'IMIT',
-            language: 'en',
-            configs: [
-                {
-                    "title": "IMIT",
-                    "icon": "imit.png",
-                    // ... redacted
-                }
-            ]
-        }
-    ];
+    const CourseDocuments = [];
+    const CourseInstance = new CourseModel({
+        name: 'IMIT',
+        language: 'en',
+        configs: [{
+            "title": "IMIT",
+            "icon": "imit.png",
+            "image": "",
+            "validationSchema": "IMIT([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+
+            "tests": [],
+            "testgroups": [],
+            "infopages": [],
+            "sets": []
+        }]
+    });
+    CourseDocuments.push(CourseInstance);
 
     beforeEach( () => {
         // common response object with spies
@@ -227,11 +234,11 @@ describe('CourseController', () => {
 	    });
 	
 	    it('should load the dummy course from the stub DB', async () => {
-	        sinon.stub(CourseModel, 'findOne').resolves(docs[0]);
+	        sinon.stub(CourseModel, 'findOne').resolves(CourseDocuments[0]);
 	
 	        const req = {
 	            body: {
-	                name: docs[0].name
+	                name: CourseDocuments[0].name
 	            }
 	        };
 	
@@ -240,7 +247,7 @@ describe('CourseController', () => {
 	        sinon.assert.calledOnce(this.res.status);
 	        sinon.assert.calledWith(this.res.status, 200);
 	        sinon.assert.calledOnce(this.res.status().json);
-	        sinon.assert.calledWith(this.res.status().json, docs[0].config);
+	        sinon.assert.calledWith(this.res.status().json, CourseDocuments[0].config);
 	    });
 	});
 }
@@ -303,6 +310,43 @@ The stub database is what will be used in the actual tests to operate on. We lev
       "validationSchema": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
       ...
   }
+  ```
+
+### Frontend (v1)
+* GET `/api/v1/frontend/resources`  
+  Retrieve frontend resources such as static texts, images, etc as JSON objects. Texts are translated pre-translated by the backend. Each object has a top-level 'language' attribute that describes the locale of the translated texts.
+
+  Example output:  
+
+  ```
+  [
+	  {
+	    "name": "Selfassessment v1.0",
+	    "header": "SelfAssessment",
+	    "footer": "&copy; 2019 Stiftung Universität Hildesheim",
+	    "vendor": {
+	      "name": "Stiftung Universität Hildesheim",
+	      "logo": "uni_hildesheim_logo.svg"
+	    },
+	    "strings": {
+	      "language": "Sprache"
+	    },
+	    "language": "Deutsch"
+	  },
+	  {
+	    "name": "Selfassessment v1.0",
+	    "header": "SelfAssessment",
+	    "footer": "&copy; 2019 Stiftung Universität Hildesheim",
+	    "vendor": {
+	      "name": "Stiftung Universität Hildesheim",
+	      "logo": "uni_hildesheim_logo.svg"
+	    },
+	    "strings": {
+	      "language": "Language"
+	    },
+	    "language": "English"
+	  }
+  ]
   ```
 
 ### Journal (v1)
@@ -434,4 +478,60 @@ The stub database is what will be used in the actual tests to operate on. We lev
 
   ```
   62211357
+  ```
+
+### Result (v1)
+* POST `/api/v1/result/load`  
+  Calculate test result for a pincode and store it in the DB.
+
+  Example input:
+
+  ```
+  {
+      "pin": 62211357
+  }
+  ```
+
+  Example output:  
+
+  ```
+  [
+	  {
+	    "id": "1002",
+	    "score": 1,
+	    "maxScore": 2,
+	    "correctOptions": [
+	      0
+	    ],
+	    "wrongOptions": [
+	      1
+	    ]
+	  },
+	  {
+	    "id": "1003",
+	    "score": 1,
+	    "maxScore": 1,
+	    "correctOptions": [
+	      1
+	    ],
+	    "wrongOptions": []
+	  }
+  ]
+  ```
+
+* POST `/api/v1/result/freeze`  
+  Permanently lock test results for a pincode. Once this is done and `/api/v1/result/load` is called with the same pin again, the old result will be returned and nothing is recalculated. On successful lockdown/freeze, a validation code is returned. The schema being used to generate the code is defined in the course config file.
+
+  Example input:
+
+  ```
+  {
+      "pin": 62211357
+  }
+  ```
+
+  Example output:  
+
+  ```
+  "AIHFPrndvp680"
   ```
