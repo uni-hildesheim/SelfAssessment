@@ -1,8 +1,23 @@
+.loading-content {
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.loading-bar{
+  margin: auto;
+  vertical-align: center;
+  padding:34.5px;
+
+}
+
+
 .wrapper-main {
   width: 900px;
   padding: 50px;
   margin: auto;
   display: flex;
+
 
   .navigate-btn {
     text-align: center;

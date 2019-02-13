@@ -10,6 +10,7 @@ import { DefaultImgDirective } from './directives/default-image.directive';
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { LanguagePipe } from './pipes/language.pipe';
 import { ResourcePipe } from './pipes/resource.pipe';
+import { LoadingComponentDirective } from './directives/loading-component.directive';
 
 /**
  * The shared module.
@@ -20,7 +21,7 @@ import { ResourcePipe } from './pipes/resource.pipe';
 @NgModule({
   entryComponents: [PinDialogComponent, ErrorDialogComponent],
   declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent,
-    DefaultImgDirective, CountdownComponent, LanguagePipe, ResourcePipe],
+    DefaultImgDirective, CountdownComponent, LanguagePipe, ResourcePipe, LoadingComponentDirective],
   imports: [
     CommonModule,
     KatexModule,
@@ -35,7 +36,8 @@ import { ResourcePipe } from './pipes/resource.pipe';
     DefaultImgDirective,
     CountdownComponent,
     LanguagePipe,
-    ResourcePipe
+    ResourcePipe,
+    LoadingComponentDirective
   ]
 })
 export class SharedModule { }

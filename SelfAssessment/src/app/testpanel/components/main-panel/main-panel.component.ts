@@ -36,6 +36,8 @@ export class MainPanelComponent implements OnInit {
    */
   public progressVal = 0;
 
+  public loading = false;
+
   constructor(
     private journalService: JournalService,
     private journalLogService: JournalLogService,
@@ -69,13 +71,14 @@ export class MainPanelComponent implements OnInit {
 
     // update the journal log if the current set element is a test and changes occured
     if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
+      this.loading = true;
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
           this.updateProtocol = false;
           this.adjustIndices(foward, stepper);
         },
         err => this.logging.error('Error occurred', err)
-      );
+      ).add(() => this.loading = false);
     } else {
       this.adjustIndices(foward, stepper);
     }
