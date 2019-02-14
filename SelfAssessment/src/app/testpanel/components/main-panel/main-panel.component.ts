@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { GlobalIndicator } from '../../global.indicators';
 import { MatStepper } from '@angular/material';
@@ -7,6 +7,7 @@ import { JournalLogService } from '../../services/journal-log.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Router } from '@angular/router';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 /**
  * Handles the testing procedure.
@@ -36,7 +37,16 @@ export class MainPanelComponent implements OnInit {
    */
   public progressVal = 0;
 
+  /**
+   * Indicates if the ui needs to wait for api requests.
+   */
   public loading = false;
+
+  /**
+   * Helper variable to control the navigation flow.
+   */
+  private elementIndex = null;
+
 
   constructor(
     private journalService: JournalService,
@@ -63,10 +73,10 @@ export class MainPanelComponent implements OnInit {
    * If any changes to the journal log occurred, store the update the current
    * instance in the backend.
    *
-   * @param foward Indicates the direction.
+   * @param forward Indicates the direction.
    * @param stepper The stepper element from the template.
    */
-  public moveToNextSetElement(foward: boolean, stepper: MatStepper): void {
+  public moveToNextSetElement(forward: boolean, stepper: MatStepper): void {
 
 
     // update the journal log if the current set element is a test and changes occured
@@ -75,43 +85,46 @@ export class MainPanelComponent implements OnInit {
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
           this.updateProtocol = false;
-          this.adjustIndices(foward, stepper);
+          this.adjustIndices(forward, stepper);
         },
         err => this.logging.error('Error occurred', err)
       ).add(() => this.loading = false);
     } else {
-      this.adjustIndices(foward, stepper);
+      this.adjustIndices(forward, stepper);
     }
 
   }
 
 
-
-  private adjustIndices(foward: boolean, stepper: MatStepper): void {
+  /**
+   * Adjusts the global indices for the journal structure
+   * according to the users actions.
+   *
+   * @param forward Indicates the direction.
+   * @param stepper The stepper instance.
+   */
+  private adjustIndices(forward: boolean, stepper: MatStepper): void {
 
     // if this is the last test start the evaluation
-    if (this.setIndex === this.journalStructure.sets.length - 1 &&
+    if (this.setIndex === this.journalStructure.sets.length - 1 && forward &&
       this.setElemIndex === this.journalStructure.sets[this.journalStructure.sets.length - 1].elements.length - 1) {
       this.router.navigateByUrl('/evaluation');
       return;
     }
 
     // adjust the indices
-    if (foward) {
+    if (forward) {
       if (this.setElemIndex === this.currentElements.length - 1) {
+        // Going forward: The last element of a set was reached
         stepper.next();
-        this.setElemIndex = 0;
-        this.setIndex = this.setIndex + 1;
       } else {
         this.setElemIndex = this.setElemIndex + 1;
       }
-
     } else {
       if (this.setElemIndex === 0) {
+        // Going backward: The first element of a set was reached
+        this.elementIndex = this.currentElements.length - 1;
         stepper.previous();
-        this.setIndex = this.setIndex - 1;
-        this.setElemIndex = this.currentElements.length - 1;
-
       } else {
         this.setElemIndex = this.setElemIndex - 1;
       }
@@ -119,6 +132,30 @@ export class MainPanelComponent implements OnInit {
 
     // adjust the progess value
     this.progressVal = Math.ceil(this.setElemIndex / (this.currentElements.length - 1) * 100);
+  }
+
+  /**
+   * Called whenever the stepper jumps from one to another set.
+   * This method is called in two cases:
+   *
+   * 1. The user clicks a specific step in the header navigation,
+   *    in that case the method is called directly from the stepper.
+   * 2. The user uses the navigation buttons to change sets, in that
+   *    case the the method is called indirectly.
+   *
+   * @param event The change event from the stepper.
+   */
+  public jumpToNextSet(event: StepperSelectionEvent): void {
+      this.setIndex = event.selectedIndex;
+      if (this.elementIndex) {
+        // The user choose the navigation buttons
+        this.setElemIndex = this.elementIndex;
+        this.elementIndex = null;
+      } else {
+        // The user choose the header navigation
+        this.setElemIndex = 0;
+        this.progressVal = Math.ceil(this.setElemIndex / (this.currentElements.length - 1) * 100);
+      }
   }
 
   /**

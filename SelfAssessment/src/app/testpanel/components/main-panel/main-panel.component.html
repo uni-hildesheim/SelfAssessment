@@ -1,4 +1,4 @@
-<mat-horizontal-stepper #stepper [appLoadComp]="loading">
+<mat-horizontal-stepper #stepper [appLoadComp]="loading" (selectionChange)="jumpToNextSet($event)">
 
   <mat-step *ngFor="let set of journalStructure.sets">
 
@@ -8,7 +8,7 @@
 
     <div [ngClass]="{'loading-content': loading}" class="wrapper-main" *ngIf="set === journalStructure.sets[setIndex]">
 
-   
+
 
       <div class="navigate-btn">
         <button [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"
