@@ -1,13 +1,13 @@
 import { JournalStructureRaw } from './../models/state/raw/journal.structure.raw';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, mergeMap, merge } from 'rxjs/operators';
 import { JournalStructure } from '../models/state/journal.structure.model';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
 import { JournalLog } from '../models/state/journal.log.model';
 import { ConfigService } from './config.service';
-import { Observable } from 'rxjs';
+import { Observable, from, forkJoin } from 'rxjs';
 import { ConfigFile } from '../models/config.file.model';
 import { LoggingService } from '../logging/logging.service';
 
@@ -118,5 +118,11 @@ export class JournalService {
         this.logging.debug(undefined, journalStructure);
       })
     );
+  }
+
+  public saveJournal(journal: Journal): Observable<any> {
+    const storeJournalStruc = this.saveJournalStructure(journal.structure);
+    const storeJournalLog = this.saveJournalLog(journal.log);
+    return forkJoin([storeJournalStruc, storeJournalLog]);
   }
 }

@@ -10,6 +10,7 @@ import { Course } from 'src/app/shared/models/course-object';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { MatBottomSheet } from '@angular/material';
 import { CourseLanguageBottomSheetComponent } from '../course-language-bottom-sheet/course-language-bottom-sheet.component';
+import { mergeMap, switchMap } from 'rxjs/operators';
 
 /**
  * The component displayed before the actual test procedure.
@@ -78,23 +79,19 @@ export class StartTestComponent implements OnInit {
         disableClose: true
       })
     .afterDismissed()
-    .subscribe(
-      (language: string) => {
-        this.configService.loadConfigFromCourse(this.course.name, language)
-      .subscribe(
-        (configFile: ConfigFile) => {
-          const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
-          this.journalService.saveJournalStructure(journal.structure)
-            .subscribe(
-              () => {
-                this.logging.info('Start the test procedure');
-                this.router.navigateByUrl('/testpanel');
-              }
-            );
-        }
-      );
+    .pipe(
+      switchMap((language: string) => {
+        return this.configService.loadConfigFromCourse(this.course.name, language)
+        .pipe(
+          switchMap((configFile: ConfigFile) => {
+            const journal: Journal = this.configService.initJournalFromConfigFile(configFile);
+            return this.journalService.saveJournal(journal);
+          })
+        );
+      })
+    ).subscribe(() => {
+      this.logging.info('Start the test procedure');
+      this.router.navigateByUrl('/testpanel');
     });
   }
-
-
 }
