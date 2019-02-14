@@ -1,3 +1,4 @@
+import { JournalStructureRaw } from './../models/state/raw/journal.structure.raw';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -19,17 +20,22 @@ import { LoggingService } from '../logging/logging.service';
 export class JournalService {
 
   /**
-   * Api route that saves a journal log instance.
+   * Api route that loads a journal log.
+   */
+  public static readonly LOAD_JOURNAL_LOG = 'api/v1/journal/log/load';
+
+  /**
+   * Api route that saves a journal log.
    */
   public static readonly SAVE_JOURNAL_LOG = 'api/v1/journal/log/save';
 
   /**
-   * Api route that loads a journal.
+   * Api route that loads a journal structure.
    */
-  public static readonly LOAD_JOURNAL = 'api/v1/journal/load';
+  public static readonly LOAD_JOURNAL_STRUCTURE = 'api/v1/journal/structure/load';
 
   /**
-   * Api route that saves a journal structure instance.
+   * Api route that saves a journal structure.
    */
   public static readonly SAVE_JOURNAL_STRUCTURE = 'api/v1/journal/structure/save';
 
@@ -47,23 +53,35 @@ export class JournalService {
    * @returns Observable containing the journal.
    */
   public loadJournal(pin: number): Observable<Journal> {
-    return this.http.post(JournalService.LOAD_JOURNAL, { pin })
+    return this.http.post(JournalService.LOAD_JOURNAL_STRUCTURE, { pin })
       .pipe(
-        switchMap(entry => {
-          return this.configService.loadConfigFromCourse(entry['structure'].course, entry['structure'].language)
-            .pipe(
-              map((configFile: ConfigFile) => {
-                const journal = new Journal();
-                journal.structure = this.storageService.createJournalStructure(configFile, entry['structure']);
-                journal.log = this.storageService.extractSavedJournalLog(entry['log']);
-                return journal;
-              }),
-              tap((data) => {
-                this.logging.info(`Loaded journal for pin: ${pin}`);
-                this.logging.debug(undefined, data);
-              })
-            );
-        })
+        tap((structure) => {
+          this.logging.info(`Loaded journal structure for pin: ${pin}`);
+          this.logging.debug(undefined, structure);
+        }),
+        switchMap((structure: JournalStructureRaw) => {
+          return this.http.post(JournalService.LOAD_JOURNAL_LOG, {pin})
+          .pipe(
+            tap((log) => {
+              this.logging.info(`Loaded journal log for pin: ${pin}`);
+              this.logging.debug(undefined, log);
+            }),
+            switchMap(log => {
+              return this.configService.loadConfigFromCourse(structure.course, structure.language)
+                .pipe(
+                  map((configFile: ConfigFile) => {
+                    const journal = new Journal();
+                    journal.structure = this.storageService.createJournalStructure(configFile, structure);
+                    journal.log = this.storageService.extractSavedJournalLog(log);
+                    return journal;
+                  })
+                );
+            })
+          );
+        }),
+
+
+
       );
   }
 
