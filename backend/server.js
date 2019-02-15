@@ -10,9 +10,9 @@ const fs = require('fs');
 
 // load local dependencies
 const JSONUtils = require('./app/utils/json');
-const db = require('./app/mongodb/db');
+const db = require('./app/db/db');
 const logger = require('./app/utils/logger');
-const router = require('./app/routes');
+const router = require('./app/core');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;

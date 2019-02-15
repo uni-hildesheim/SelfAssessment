@@ -1,5 +1,5 @@
-const db = require('../mongodb/db');
-const logger = require('../utils/logger');
+const db = require('../../db/db');
+const logger = require('../../utils/logger');
 
 module.exports = {
     loadLog,

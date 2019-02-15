@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 
-const JournalController = require('../../app/controller/journal.controller');
-const UserModel = require('../../app/model/user.model');
+const JournalController = require('../../../app/core/user/journal.controller');
+const UserModel = require('../../../app/core/user/user.model');
 
 describe('JournalController', () => {
     const UserInstance = new UserModel({

@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 
-const FrontendController = require('../../app/controller/frontend.controller');
-const FrontendModel = require('../../app/model/frontend.model');
+const FrontendController = require('../../../app/core/frontend/frontend.controller');
+const FrontendModel = require('../../../app/core/frontend/frontend.model');
 
 describe('FrontendController', () => {
     const FrontendDocuments = [];

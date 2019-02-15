@@ -1,8 +1,8 @@
 const sinon = require('sinon');
 
-const CourseModel = require('../../app/model/course.model');
-const UserModel = require('../../app/model/user.model');
-const ResultController = require('../../app/controller/result.controller');
+const CourseModel = require('../../../app/core/course/course.model');
+const UserModel = require('../../../app/core/user/user.model');
+const ResultController = require('../../../app/core/user/result.controller');
 
 describe('ResultController', () => {
     const CourseInstance = new CourseModel({

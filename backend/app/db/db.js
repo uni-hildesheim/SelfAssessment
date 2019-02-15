@@ -66,7 +66,7 @@ module.exports = {
     connect: connect,
 
     // models
-    Course: require('../model/course.model'),
-    Frontend: require('../model/frontend.model'),
-    User: require('../model/user.model'),
+    Course: require('../core/course/course.model'),
+    Frontend: require('../core/frontend/frontend.model'),
+    User: require('../core/user/user.model'),
 };

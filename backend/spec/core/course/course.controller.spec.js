@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 
-const CourseController = require('../../app/controller/course.controller');
-const CourseModel = require('../../app/model/course.model');
+const CourseController = require('../../../app/core/course/course.controller');
+const CourseModel = require('../../../app/core/course/course.model');
 
 describe('CourseController', () => {
     const CourseDocuments = [];

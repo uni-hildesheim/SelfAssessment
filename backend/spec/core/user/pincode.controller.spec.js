@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 
-const PincodeController = require('../../app/controller/pincode.controller');
-const UserModel = require('../../app/model/user.model');
+const PincodeController = require('../../../app/core/user/pincode.controller');
+const UserModel = require('../../../app/core/user/user.model');
 
 describe('PincodeController', () => {
     const UserDocuments = [];

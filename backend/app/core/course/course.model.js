@@ -2,7 +2,7 @@ const Ajv = require('ajv');
 const mongoose = require('mongoose');
 
 // load local dependencies
-const logger = require('../utils/logger');
+const logger = require('../../utils/logger');
 
 const CourseSchema = new mongoose.Schema({
     name: String,
