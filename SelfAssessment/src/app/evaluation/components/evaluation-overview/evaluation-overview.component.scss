@@ -1,14 +1,64 @@
 .wrapper-evaluation {
-    width: 900px;
+    max-width: 900px;
     font-family: Roboto,"Helvetica Neue",sans-serif;
     margin: auto;
     box-shadow: none;
+    padding-top: 50px;
+}
+
+.hide {
+  display:none !important;
+
+}
+
+h3{
+  margin-left:15px;
+}
+
+
+.validation-btn{
+  margin-top:20px;
+}
+
+.set-specific-card{
+  box-shadow: none !important;
+  width: 50%;
+  margin-top: 0px;
+  margin: auto;
+  min-width: 200px;
+  background-color:#8a000a;
+  color:white;
+}
+
+.pre-eval-card {
+  padding:0px;
+
+  mat-card-header {
+      background-color: #9e1713;
+      color:white;
+      padding:20px;
+      padding-bottom: 0px;
+      mat-card-subtitle {
+        color:white;
+      }
+  }
+
+  mat-card-content{
+    padding:30px;
+    padding-bottom: 0px;
+  }
+
+  mat-card-actions button {
+    margin:25px;
+    margin-left:30px;
+    margin-top:25px;
+  }
 }
 
 .wrapper-evaluation mat-expansion-panel{
     box-shadow: none;
     border:1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 0px;    
+    border-radius: 0px;
 }
 
 .example-headers-align .mat-expansion-panel-header-title,

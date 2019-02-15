@@ -25,7 +25,12 @@
     "lbl-note-text": "?ref{lbl-note-text}",
     "btn-start-assessment": "?ref{btn-start-assessment}",
     "lbl-course-language": "?ref{lbl-course-language}",
-    "lbl-set-progess": "?ref{lbl-set-progess}"
+    "lbl-set-progess": "?ref{lbl-set-progess}",
+    "lbl-pre-eval-message": "?ref{lbl-pre-eval-message}",
+    "lbl-pre-eval-done": "?ref{lbl-pre-eval-done}",
+    "lbl-pre-eval-course": "?ref{lbl-pre-eval-course}",
+    "btn-pre-eval": "?ref{btn-pre-eval}"
+
 
   }
 }

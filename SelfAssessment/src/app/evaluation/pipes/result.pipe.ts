@@ -16,7 +16,7 @@ export class ResultPipe implements PipeTransform {
    *
    * @param set The set.
    */
-  transform(set: ResultSet): string {
+  transform(set: ResultSet): number[] {
     let sum = 0;
     let value = 0;
 
@@ -25,7 +25,7 @@ export class ResultPipe implements PipeTransform {
       value += elem.score;
     });
 
-    return `${value} / ${sum}`;
+    return [value, sum];
   }
 
 }

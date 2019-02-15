@@ -52,33 +52,12 @@ export class ResultService {
               mapRawTests.get(element.id.toString()).log = journalLog.sets[i].get(element.id);
             }
 
-            //   const options = [];
-
-
-            // for (let i = 0; i < (<Test>element).options.length; i++) {
-
-            //   if (mapRawTests.get(element.id.toString()).correctOptions.includes(i)) {
-            //     options.push([true, (<Test>element).options[i].text]);
-
-            //   } else if (mapRawTests.get(element.id.toString()).wrongOptions.includes(i)) {
-            //     options.push([false, (<Test>element).options[i].text]);
-            //   }
-
-            // }
-
-            // mapRawTests.get(element.id.toString()).options = options;
-
-
-            // }
-
-
             if (mapRawTests.has(element.id.toString())) {
               resultSet.tests.push(mapRawTests.get(element.id.toString()));
             }
           });
           resultSets.push(resultSet);
         });
-
         return resultSets;
 
       }),

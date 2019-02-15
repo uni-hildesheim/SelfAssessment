@@ -252,8 +252,6 @@ export class LocalStorageService {
       allSingleTests.set(rawTest.id, <Test>rawTest);
     });
 
-    console.log(allSingleTests);
-
     // get all the infopages
     course.infopages.forEach((page: any) => {
       page.setType = 'infopage';
@@ -296,6 +294,8 @@ export class LocalStorageService {
       const set = new TestSet();
       set.id = rawSet.id;
       set.elements = [];
+      set.scoreIndepentText = rawSet['evaluationTexts']['scoreIndependent'];
+      set.scoreDependentTexts = rawSet['evaluationTexts']['scoreDependent'];
 
       rawSet.elements.forEach(element => {
 

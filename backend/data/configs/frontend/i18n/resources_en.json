@@ -19,6 +19,11 @@
     "lbl-note-text": "Please write down your pin so that you can retrieve your progess/evaluation.",
     "btn-start-assessment": "Start the assessment",
     "lbl-course-language": "Please choose your language.",
-    "lbl-set-progess": "Progress of this set:"
+    "lbl-set-progess": "Progress of this set:",
+    "lbl-pre-eval-message": "<p>In the study different requirements are placed on you. The tasks you are working on include the requirements of lecturers and students for successful studies in the fields of electrical engineering, computer science and computer engineering.</p><p> Your results are classified into an upper, middle and lower range. Even if you have only covered part of your knowledge and skills, you can give this feedback on your strengths and development potential. You can check the feedback later when logging in with your pin.</p>",
+    "lbl-pre-eval-done": "Done! Your feedback for your SelfAssessment",
+    "lbl-pre-eval-course": "Course:",
+    "btn-pre-eval": "Show my Evaluation"
+
   }
 }

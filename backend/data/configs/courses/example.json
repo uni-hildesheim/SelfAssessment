@@ -104,14 +104,30 @@
       "elements": [
         2001,
         1002
-      ]
+      ],
+      "evaluationTexts": {
+        "scoreIndependent": "?ref{3001-1}",
+        "scoreDependent": [
+          [33, "?ref{3001-2}"],
+          [66, "?ref{3001-3}"],
+          [100, "?ref{3001-4}"]
+        ]
+      }
     },
     {
       "id": 3002,
       "elements": [
         1005,
         2002
-      ]
+      ],
+      "evaluationTexts": {
+        "scoreIndependent": "?ref{3002-1}",
+        "scoreDependent": [
+          [33, "?ref{3001-2}"],
+          [66, "?ref{3001-3}"],
+          [100, "?ref{3001-4}"]
+        ]
+      }
     }
   ],
   "infopages": [

@@ -19,6 +19,10 @@
       "lbl-note-text": "Bitte notiere deinen PIN, damit du zu einem späteren Zeitpunkt deine Teilnahmebescheinigung und/oder dein Feedback noch einmal aufrufen kannst.",
       "btn-start-assessment": "Starte das Assessment",
       "lbl-course-language": "Bitte wähle die gewünschte Sprache:",
-      "lbl-set-progess": "Fortschritt dieses Kapitels:"
+      "lbl-set-progess": "Fortschritt dieses Kapitels:",
+      "lbl-pre-eval-message": "<p>Im Studium werden verschiedene Anforderungen an dich gestellt. Die von dir bearbeiteten Aufgaben umfassen elementare Anforderungen, die nach Meinung von Dozenten und Studierenden für ein erfolgreiches Studium im Bereich Elektrotechnik, Informatik und Technische Informatik wichtig sind. Deine Ergebnisse werden dabei in einen oberen, mittleren und unteren Bereich eingeordnet.</p>  <p>Auch wenn hier nur ein Teil deiner Kenntnisse und Fertigkeiten erfasst wurde, kann dir diese Rückmeldung einen Einblick in deine Stärken und Entwicklungspotentiale geben.</p> <p>Du kannst dir die Rückmeldung später erneut ansehen, indem du dich mit deiner PIN einloggst.</p>",
+      "lbl-pre-eval-done": "Geschafft! Dein Feedback zum SelfAssessment",
+      "lbl-pre-eval-course": "Studiengang:",
+      "btn-pre-eval": "Zeig meine Evaluation"
     }
   }

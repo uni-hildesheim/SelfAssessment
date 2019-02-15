@@ -16,4 +16,14 @@ export class TestSet {
      * The elements which are part of the set.
      */
     elements: SetElement[];
+
+    /**
+     * The score independent evaluation texts.
+     */
+    scoreIndepentText: string;
+
+    /**
+     * The score dependent evaluation texts.
+     */
+    scoreDependentTexts: [number, string][];
 }
