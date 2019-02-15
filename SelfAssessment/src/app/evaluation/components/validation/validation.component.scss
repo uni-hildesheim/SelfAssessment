@@ -1,0 +1,36 @@
+.validation-content{
+  max-width: 900px;
+  margin: auto;
+  padding-top:50px;
+
+  mat-card {
+    padding:0px;
+
+    mat-card-header {
+        background-color: #9e1713;
+        color:white;
+        padding:20px;
+        padding-bottom: 0px;
+        mat-card-subtitle {
+          color:white;
+        }
+    }
+
+    mat-card-content{
+      padding:30px;
+      padding-bottom: 0px;
+    }
+
+    mat-card-actions{
+      margin-left:30px;
+    }
+
+    mat-card-actions button {
+      margin:25px;
+      margin-left:0px;
+      margin-top:25px;
+    }
+  }
+
+
+}

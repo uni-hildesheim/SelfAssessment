@@ -1,0 +1,24 @@
+
+<div class="validation-content">
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Weitere Info Card</mat-card-title>
+        <mat-card-subtitle>Vor dem Code</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      Content
+  </mat-card-content>
+
+  <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="backToEval()">Back to Evaluation</button>
+
+      <button mat-flat-button color="primary" (click)="createValidationCode()">Get Validation Code</button>
+
+  </mat-card-actions>
+
+</mat-card>
+
+
+<p *ngIf="validation !== undefined"> YOUR CODE: {{validation | async}}</p>
+
+</div>

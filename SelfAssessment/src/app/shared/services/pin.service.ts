@@ -18,6 +18,8 @@ export class PinService {
    */
   public static readonly CREATE_PIN = 'api/v1/pincode/create';
 
+  public static readonly CREATE_VALIDATION_CODE = 'api/v1/result/freeze';
+
   constructor(
     private http: HttpClient,
     private storageService: LocalStorageService,
@@ -47,4 +49,16 @@ export class PinService {
       })
     );
   }
+
+
+  public createNewValidationCode(pin: number): Observable<string> {
+    return this.http.post(PinService.CREATE_VALIDATION_CODE, { pin })
+    .pipe(
+      tap((code: string) => {
+        this.logging.info(`Loaded validation code: ${code}`);
+      })
+    );
+  }
+
+
 }
