@@ -293,6 +293,18 @@ The stub database is what will be used in the actual tests to operate on. We lev
 <a name="rest"></a>
 ## 7. REST API
 
+### I/O Model
+The backend server follows a strict set of rules for communication. Clients should either receive a success response or meaningful error messages.
+
+Below is a table describing the possible REST API responses:
+
+     | Success  | Error
+---- | -------- | --------
+HTTP | 200/201  | 404/500
+JSON | Optional | { <br> &nbsp;&nbsp;error: { <br> &nbsp;&nbsp;&nbsp;&nbsp;number: ... <br> &nbsp;&nbsp;&nbsp;&nbsp;message: ... <br> &nbsp;&nbsp;} <br> }
+
+Error numbers and default messages are defined in app/shared/error.js. The frontend can check for the error number to find out what went wrong when accessing an API.
+
 ### Course (v1)
 * GET `/api/v1/course`  
   Retrieve available courses. Returns an array of strings as JSON.
