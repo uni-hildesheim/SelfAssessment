@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 // load local dependencies
 const logger = require('../../utils/logger');
+const abstractTestModel = require('./testmodels/abstract');
+const testsmodels = require('./testmodels');
 
 const CourseSchema = new mongoose.Schema({
     name: String,
@@ -15,84 +17,9 @@ const CourseSchema = new mongoose.Schema({
 
 /**
  * Schema for a single test.
- * A test definition contains the following elements:
- *
- * ================
- * === REQUIRED ===
- * ================
- *
- * ------------------------------------------------------------------------------------------------
- *   id           Integer: unique identifier (unique within a JSON document)
- * ------------------------------------------------------------------------------------------------
- *   type         String: type of the test (i.e. logic, concentration, ...)
- *                As of now, this attribute is not taken into consideration by the backend and is
- *                relevant only to the frontend.
- * ------------------------------------------------------------------------------------------------
- *   category     String: category of the test
- *                Used by the frontend to build the test interface and by the backend to calculate
- *                test scores and overall results. Thus, it must be one of the predefined values
- *                [checkbox, multiple-options, radio-buttons, speed].
- * ------------------------------------------------------------------------------------------------
- *   description  String: describes the test to the user before reading the task
- *                Providides illustrations or help text preparing the user for the upcoming task.
- * ------------------------------------------------------------------------------------------------
- *   task         String: task that is to be completed by the user
- * ------------------------------------------------------------------------------------------------
- *   options      Array: possible options for this task
- *                A correct option will increase the test
- *                score by one, a wrong one will not affect the score.
- * ------------------------------------------------------------------------------------------------
- *   evaluated    Boolean: whether the backend should evaluate this test
- *                If false, no scores will be calculated for this test.
- * ------------------------------------------------------------------------------------------------
- *
- * ================
- * === OPTIONAL ===
- * ================
- *
- * ------------------------------------------------------------------------------------------------
- *   header       Array: list of option labels
- *                Only for multiple-options tests.
- *                For example, the header for a test with three options per task might look like
- *                the following:
- *                "header": [
- *                  "< 10",
- *                  "10",
- *                  "> 10"
- *                ]
- * ------------------------------------------------------------------------------------------------
+ * This has moved into the abstract test module.
  */
-const SINGLE_TEST_SCHEMA = {
-    "$id": "/SingleTest",
-    "type": "object",
-    "properties": {
-        "id": {"type": "integer"},
-        "type": {"type": "string"},
-        "category": {
-            "type": "string",
-            "enum": ["checkbox", "multiple-options", "radio-buttons", "speed"]
-        },
-        "description": {"type": "string"},
-        "task": {"type": "string"},
-        "seconds": {"type": "integer"},
-        "options": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "text": {"type": "string"},
-                    "correct": {}
-                }
-            }
-        },
-        "header": {
-            "type": "array",
-            "items": {"type": "string"}
-        },
-        "evaluated": {"type": "boolean"},
-    },
-    "required": ["id", "type", "description", "task", "options", "evaluated"]
-};
+const SINGLE_TEST_SCHEMA = abstractTestModel.schema;
 
 /**
  * Schema for a test group.
@@ -242,7 +169,7 @@ const TEST_SCHEMA = {
         "validationSchema": {"type": "string"},
         "tests": {
             "type": "array",
-            "items": {"$ref": "/SingleTest"}
+            "items": {"$ref": "/AbstractTest"}
         },
         "testgroups": {
             "type": "array",
@@ -280,38 +207,33 @@ CourseSchema.statics.validateConfig = function(config) {
     const tests = config['tests'];
     let testIDs = [];
     for (const test of tests) {
+        let schema = null;
+
         // check whether the test ID is unique
         if (testIDs.indexOf(test['id']) > -1) {
             logger.warn('CourseModel: validateConfig: "id" not unique: ' + test['id']);
             return false;
         }
 
-        // special case: multiple-options test
-        // here, each "option" MUST have a "correct" attribute, specifying the index of the correct
-        // option in the header
-        if (test['category'] === 'multiple-options') {
-            for (const option of test['options']) {
-                if (!('correct' in option)) {
-                    // abort, this is not a valid test definition
-                    logger.warn('CourseModel: validateConfig: multiple-options test: ' + 
-                                test['id'] + ' requires the "correct" attribute for each option!');
-                    return false;
-                }
+        // load the single test schema
+        for (const model of testsmodels) {
+            if (model.name === test['category']) {
+                schema = model.schema;
+                break;
             }
         }
 
-        // special case: speed test
-        // here, each "option" MUST have a "correct" attribute, specifying the expected substring
-        // to match against
-        if (test['category'] === 'speed') {
-            for (const option of test['options']) {
-                if (!('correct' in option)) {
-                    // abort, this is not a valid test definition
-                    logger.warn('CourseModel: validateConfig: speed test: ' + test['id'] +
-                                ' requires the "correct" attribute for each option!');
-                    return false;
-                }
-            }
+        if (schema === null) {
+            logger.warn('CourseModel: validateConfig: No schema for single test category: ' +
+                        test['category']);
+            return false;
+        }
+
+        // validate the single test schema
+        const validate = new Ajv().compile(schema);
+        if (!validate(test)) {
+            logger.warn(JSON.stringify(validate.errors));
+            return false;
         }
 
         // keep track of all single test IDs
