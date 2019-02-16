@@ -448,7 +448,7 @@ The stub database is what will be used in the actual tests to operate on. We lev
 
 ### Result (v1)
 * POST `/api/v1/result/load`  
-  Calculate test result for a pincode and store it in the DB.
+  Load test results for a pincode. Returns HTTP 404 if the pin code is invalid.
 
   Example input:
 
@@ -485,8 +485,8 @@ The stub database is what will be used in the actual tests to operate on. We lev
   ]
   ```
 
-* POST `/api/v1/result/freeze`  
-  Permanently lock test results for a pincode. Once this is done and `/api/v1/result/load` is called with the same pin again, the old result will be returned and nothing is recalculated. On successful lockdown/freeze, a validation code is returned. The schema being used to generate the code is defined in the course config file.
+* POST `/api/v1/result/lock`  
+  Permanently lock test results for a pincode. Once this is done and `/api/v1/result/update` is called with the same pin again, the old result will be returned and nothing is recalculated. On successful lockdown, a validation code is returned. The schema being used to generate the code is defined in the course config file.
 
   Example input:
 
@@ -500,4 +500,15 @@ The stub database is what will be used in the actual tests to operate on. We lev
 
   ```
   "AIHFPrndvp680"
+  ```
+
+* POST `/api/v1/result/update`  
+  Calculate test result for a pincode and store it in the DB. Returns HTTP 200 on success, HTTP 500 otherwise.
+
+  Example input:
+
+  ```
+  {
+      "pin": 62211357
+  }
   ```

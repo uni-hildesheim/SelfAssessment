@@ -237,38 +237,8 @@ describe('ResultController', () => {
         sinon.restore();
     });
 
-    describe('.load(req, res)', () => {
-        it('should return HTTP 404 for invalid pin', async () => {
-            sinon.stub(CourseModel, 'findOne').resolves(null);
-            sinon.stub(UserModel, 'findOne').resolves(null);
-            sinon.stub(UserModel, 'updateOne').resolves(null);
-
-            const req = {
-                body: {
-                    pin: 0
-                }
-            };
-
-            await ResultController.load(req, this.res);
-            sinon.assert.calledOnce(UserModel.findOne);
-            sinon.assert.notCalled(CourseModel.findOne);
-            sinon.assert.notCalled(UserModel.updateOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 404);
-            sinon.assert.calledOnce(this.res.status().send);
-        });
-
-        it('should calculate result and save to the DB', async () => {
-            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
-            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
-
-            const req = {
-                body: {
-                    pin: UserInstance.pin
-                }
-            };
-
+    describe('.calculate(config, journal)', () => {
+        it('should give the expected result', async () => {
             const expectedResult = [
                 {
                     "id": "1002",
@@ -293,18 +263,53 @@ describe('ResultController', () => {
                 }
             ]
 
-            await ResultController.load(req, this.res);
-            sinon.assert.calledOnce(UserModel.findOne);
-            sinon.assert.calledOnce(CourseModel.findOne);
-            sinon.assert.calledOnce(UserModel.updateOne);
-            sinon.assert.calledOnce(this.res.status);
-            sinon.assert.calledWith(this.res.status, 200);
-            sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, expectedResult);
+            const result = ResultController.calculate(CourseInstance.configs[0]['config'],
+                UserInstance.journal);
+
+            expect(result).toEqual(expectedResult);
         });
     });
 
-    describe('.freeze(req, res)', () => {
+    describe('.load(req, res)', () => {
+        it('should return HTTP 404 for invalid pin', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
+
+            const req = {
+                body: {
+                    pin: 0
+                }
+            };
+
+            await ResultController.load(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.notCalled(CourseModel.findOne);
+            sinon.assert.notCalled(UserModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().send);
+        });
+
+        it('should load result from the DB', async () => {
+            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+
+            const req = {
+                body: {
+                    pin: UserInstance.pin
+                }
+            };
+
+            await ResultController.load(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json, sinon.match.array.deepEquals([]));
+        });
+    });
+
+    describe('.lock(req, res)', () => {
         it('should return HTTP 404 for invalid pin ', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(null);
             sinon.stub(UserModel, 'findOne').resolves(null);
@@ -316,7 +321,7 @@ describe('ResultController', () => {
                 }
             };
 
-            await ResultController.freeze(req, this.res);
+            await ResultController.lock(req, this.res);
             sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.notCalled(CourseModel.findOne);
             sinon.assert.notCalled(UserModel.updateOne);
@@ -342,7 +347,7 @@ describe('ResultController', () => {
                 }
             };
 
-            await ResultController.freeze(req, this.res);
+            await ResultController.lock(req, this.res);
             sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.calledOnce(CourseModel.findOne);
             sinon.assert.calledOnce(UserModel.updateOne);
@@ -374,7 +379,7 @@ describe('ResultController', () => {
             };
 
 
-            await ResultController.freeze(req, this.res);
+            await ResultController.lock(req, this.res);
             sinon.assert.calledOnce(UserModel.findOne);
             sinon.assert.calledOnce(CourseModel.findOne);
             sinon.assert.notCalled(UserModel.updateOne);
@@ -383,6 +388,47 @@ describe('ResultController', () => {
             sinon.assert.calledOnce(this.res.status().json);
 
             expect(userInstance.result.validationCode).toBe('DUMMY');
+        });
+    });
+
+    describe('.update(req, res)', () => {
+        it('should return HTTP 404 for invalid pin  ', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'findOne').resolves(null);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
+
+            const req = {
+                body: {
+                    pin: 0
+                }
+            };
+
+            await ResultController.load(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.notCalled(CourseModel.findOne);
+            sinon.assert.notCalled(UserModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().send);
+        });
+
+        it('should calculate result and save to the DB ', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
+            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(null);
+
+            const req = {
+                body: {
+                    pin: UserInstance.pin
+                }
+            };
+
+            await ResultController.update(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(UserModel.updateOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
         });
     });
 });

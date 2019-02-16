@@ -2,73 +2,36 @@ const db = require('../../db/db');
 const logger = require('../../utils/logger');
 
 module.exports = {
+    calculate,
     load,
-    freeze
+    lock,
+    update
 }
 
-// calculate result for a given pincode
-async function load(req, res) {
-    const bodyPin = Number.parseInt(req.body.pin);
-    let course;
-    let user;
-    let courseConfig = null;
-
-    // fetch the user for the given pincode
-    try {
-        user = await db.User.findOne({
-            pin: bodyPin
-        });
-    } catch(err) {
-        logger.error(err);
-        res.status(500).json({ error: err });
-        return;
-    }
-
-    if (!user) {
-        logger.warn('Could not find user for pin: ' + bodyPin);
-        res.status(404).send();
-        return;
-    }
-
-    // check whether the test results are frozen
-    if (user.result.validationCode) {
-        logger.warn('Results for pin: ' + bodyPin + ' are already locked, not updating them');
-        res.status(200).send(user.result.tests);
-        return;
-    }
-
-    // fetch the course config for the given pincode
-    try {
-        course = await db.Course.findOne({
-            name: user.journal.structure.course
-        });
-    } catch(err) {
-        logger.error(err);
-        res.status(500).json({ error: err });
-        return;
-    }
-
-    if (!course) {
-        logger.warn('Could not find course: ' + user.journal.structure.course + ' for pin: ' +
-                    bodyPin);
-        res.status(404).send();
-        return;
-    }
-
-    // get the config for the selected language
-    for (const obj of course.configs) {
-        if (obj.language === user.journal.structure.language) {
-            courseConfig = obj.config;
-        }
-    }
-
-    if (courseConfig === null) {
-        logger.warn('Could not find course: ' + user.journal.structure.course + ' config for' +
-                    ' language: ' + user.journal.structure.language);
-        res.status(404).send();
-        return;
-    }
-
+/**
+ * Calculate result for a user based on the course config and journal (log and structure).
+ *
+ * @param {JSON} config Course config
+ * @param {JSON} journal Journal object containing log and structure
+ * @returns Array of single test results on success, null otherwise
+ *
+ * Example output array:
+  [
+    {
+      "correctOptions": [
+        0
+      ],
+      "wrongOptions": [
+        1
+      ],
+      "id": "1002",
+      "score": 1,
+      "maxScore": 2
+    },
+  ]
+ *
+ */
+function calculate(config, journal) {
     /* 
      * INPUT DATA LAYOUT
      *
@@ -83,13 +46,13 @@ async function load(req, res) {
      * for each single test first.
      */
     let testsData = {};
-    for (const set of user.journal.structure.sets) {
+    for (const set of journal.structure.sets) {
         for (const singleTestID of set.tests) {
             let testConfig = null;
             let testLog = null;
 
             // get the test config
-            for (const test of courseConfig['tests']) {
+            for (const test of config['tests']) {
                 if (test['id'] === singleTestID) {
                     testConfig = test;
                     break;
@@ -99,8 +62,7 @@ async function load(req, res) {
             // this should never happen, but just in case..
             if (testConfig === null) {
                 logger.warn('Could not find test config for id: ' + singleTestID);
-                res.status(500).send();
-                return;
+                return null;
             }
 
             // check whether this test should be evaluated at all
@@ -110,7 +72,7 @@ async function load(req, res) {
             }
 
             // get the test log
-            for (const set of user.journal.log.sets) {
+            for (const set of journal.log.sets) {
                 for (const map of set.maps) {
                     if (map['key'] === singleTestID) {
                         // found the test config
@@ -123,8 +85,7 @@ async function load(req, res) {
             // again, this should never happen, but just in case..
             if (testLog === null) {
                 logger.warn('Could not find test log for id: ' + singleTestID);
-                res.status(500).send();
-                return;
+                return null;
             }
 
             // everything we need is available by now
@@ -134,9 +95,6 @@ async function load(req, res) {
             };
         }
     }
-
-    // we got the input data, now calculate the scores
-    logger.info('Calculating result for pin: ' + bodyPin);
 
     /*
      * OUTPUT DATA LAYOUT
@@ -236,20 +194,44 @@ async function load(req, res) {
         tests.push(result);
     }
 
+    return tests;
+}
+
+/**
+ * Load results for a user (by pin).
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ */
+function load(req, res) {
+    const bodyPin = Number.parseInt(req.body.pin);
+
     // save the result to the database
-    db.User.updateOne({ pin: bodyPin }, {
-        'result.lastChanged': new Date(),
-        'result.tests': tests
-    }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
+    db.User.findOne({
+        pin: bodyPin
+    }).then(user => {
+        if (!user) {
+            logger.warn('No user for pin: ' + bodyPin);
+            res.status(404).send();
+            return;
+        }
+
         logger.info('Loaded result for pin: ' + bodyPin);
-        res.status(200).json(tests);
+        res.status(200).json(user.result.tests);
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });
     });
 }
 
-async function freeze(req, res) {
+/**
+ * Lock results for a user (by pin).
+ * This makes the result immutable to any further update API calls.
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ */
+async function lock(req, res) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     let course;
@@ -319,8 +301,97 @@ async function freeze(req, res) {
     db.User.updateOne({ pin: bodyPin }, {
         'result.validationCode': validationCode
     }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
-        logger.info('Generated validation code for pin: ' + bodyPin);
+        logger.info('Locked and generated validation code for pin: ' + bodyPin);
         res.status(200).json(validationCode);
+    }).catch(err => {
+        logger.error(err);
+        res.status(500).json({ error: err });
+    });
+}
+
+/**
+ * Update results for a user (by pin).
+ * If a result is locked (by calling the lock API), this returns an error.
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ */
+async function update(req, res) {
+    const bodyPin = Number.parseInt(req.body.pin);
+    let course;
+    let user;
+    let courseConfig = null;
+
+    // fetch the user for the given pincode
+    try {
+        user = await db.User.findOne({
+            pin: bodyPin
+        });
+    } catch(err) {
+        logger.error(err);
+        res.status(500).json({ error: err });
+        return;
+    }
+
+    if (!user) {
+        logger.warn('Could not find user for pin: ' + bodyPin);
+        res.status(404).send();
+        return;
+    }
+
+    // check whether the test results are frozen
+    if (user.result.validationCode) {
+        logger.warn('Results for pin: ' + bodyPin + ' are already locked, not updating them');
+        // TODO: respond with error indicating that results are locked
+        res.status(200).json(user.result.tests);
+        return;
+    }
+
+    // fetch the course config for the given pincode
+    try {
+        course = await db.Course.findOne({
+            name: user.journal.structure.course
+        });
+    } catch(err) {
+        logger.error(err);
+        res.status(500).json({ error: err });
+        return;
+    }
+
+    if (!course) {
+        logger.warn('Could not find course: ' + user.journal.structure.course + ' for pin: ' +
+                    bodyPin);
+        res.status(404).send();
+        return;
+    }
+
+    // get the config for the selected language
+    for (const obj of course.configs) {
+        if (obj.language === user.journal.structure.language) {
+            courseConfig = obj.config;
+        }
+    }
+
+    if (courseConfig === null) {
+        logger.warn('Could not find course: ' + user.journal.structure.course + ' config for' +
+                    ' language: ' + user.journal.structure.language);
+        res.status(404).send();
+        return;
+    }
+
+    const testResults = calculate(courseConfig, user.journal);
+    if (testResults === null) {
+        res.status(404).send();
+        return;
+    }
+
+    // save the result to the database
+    db.User.updateOne({ pin: bodyPin }, {
+        'result.lastChanged': new Date(),
+        'result.tests': testResults
+    }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
+        logger.info('Updated result for pin: ' + bodyPin);
+        res.status(200).send();
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: err });
