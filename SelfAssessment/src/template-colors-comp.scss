@@ -1,0 +1,17 @@
+@import "~@angular/material/theming";
+
+@mixin university-theme-colors($theme) {
+  $primary: map-get($theme, primary);
+
+  .header-info-card {
+    background-color: mat-color($primary, 900);
+  }
+
+  .note-container {
+    background-color: mat-color($primary, 50);
+  }
+
+  .primary-comp {
+    background-color: mat-color($primary);
+  }
+}

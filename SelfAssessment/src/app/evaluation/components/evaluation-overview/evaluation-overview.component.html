@@ -1,53 +1,77 @@
-
-
 <div class="wrapper-evaluation">
 
-<mat-card class="pre-eval-card" *ngIf="results === undefined; else eval">
-    <mat-card-header>
-        <mat-card-title>{{'lbl-pre-eval-done'| language}}</mat-card-title>
-        <mat-card-subtitle>{{'lbl-pre-eval-course'| language}} {{course}}</mat-card-subtitle>
+  <!-- MESSAGE BEFORE EVALUATION -->
+  <mat-card class="basic-info-card" *ngIf="results$ === undefined; else eval">
+    <mat-card-header class="header-info-card">
+      <mat-card-title>
+        {{ "lbl-pre-eval-done" | language }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ "lbl-pre-eval-course" | language }} {{ course }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content [innerHTML]="'lbl-pre-eval-message'| language">
- </mat-card-content>
+    <mat-card-content [innerHTML]="'lbl-pre-eval-message' | language">
+    </mat-card-content>
     <mat-card-actions>
-        <mat-divider></mat-divider>
-
-      <button mat-flat-button color="primary" (click)="showEval()">{{'btn-pre-eval'| language}}</button>
+      <mat-divider></mat-divider>
+      <button mat-flat-button color="primary" (click)="showEval()">
+        {{ "btn-pre-eval" | language }}
+      </button>
     </mat-card-actions>
+  </mat-card>
 
-</mat-card>
+    <!-- THE EVALUATION CARD -->
+    <ng-template #eval>
+      <mat-spinner *ngIf="loading" style="margin: auto"></mat-spinner>
+      <ng-container *ngIf="(results$ | async) as results">
+        <mat-card class="basic-info-card">
+          <mat-card-header class="header-info-card">
+            <mat-card-title>Your Evaluation</mat-card-title>
+            <mat-card-subtitle>
+              Score: {{ (results | result: true)[0] }}/{{
+                (results | result: true)[1]}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-accordion class="example-headers-align">
+              <mat-expansion-panel
+                *ngFor="let set of results; index as i"
+                class="main-result-panel"
+                [hideToggle]="true">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> Batterie: {{ set.id }} </mat-panel-title>
+                  <mat-panel-description>
+                    {{ (set | result)[0] }}/{{ (set | result)[1] }}
+                    <mat-icon color="primary">ballot</mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
 
-<div>
+                <mat-card class="set-specific-card">
+                  <mat-card-content>
+                    <p>{{ getScoreIndependentTexts(i) }}</p>
+                    <p>
+                      {{ getScoreDependentText(i) | scoreText: (set | result) }}
+                    </p>
+                  </mat-card-content>
+                </mat-card>
 
-  <mat-spinner *ngIf="loading" style="margin: auto"></mat-spinner>
+                <h3>Einzelne Tests:</h3>
+                <app-result-tree [set]="set"></app-result-tree>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-card-content>
+          <mat-card-actions>
+            <mat-divider></mat-divider>
+            <button
+              mat-flat-button
+              class="validation-btn"
+              color="primary"
+              *ngIf="!loading"
+              (click)="goToValidation()">
+              Validation Code
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </ng-template>
 
-<ng-template #eval>
-<mat-accordion class="example-headers-align">
-<mat-expansion-panel *ngFor="let set of results | async; index as i" class="main-result-panel" [hideToggle]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Batterie: {{set.id}}
-      </mat-panel-title>
-      <mat-panel-description>
-        {{(set | result)[0]}}/{{(set | result)[1]}}
-        <mat-icon color="primary">ballot</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <mat-card class="set-specific-card">
-        <mat-card-content>
-          <p>{{getScoreIndependentTexts(i)}}</p>
-          <p>{{getScoreDependentText(i) | scoreText: (set | result)}}</p>
-       </mat-card-content>
-    </mat-card>
-
-    <h3>Einzelne Tests:</h3>
-    <app-result-tree [set]="set"></app-result-tree>
-
-  </mat-expansion-panel>
-</mat-accordion>
-
-<button mat-raised-button class="validation-btn" color="primary" *ngIf="!loading" (click)="goToValidation()">Validation Code</button>
-</ng-template>
-</div>
 </div>

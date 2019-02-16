@@ -98,6 +98,10 @@ export class LocalStorageService {
     return JSON.parse(localStorage.getItem('journalstructure'));
   }
 
+  public clearStorage(): void {
+    localStorage.clear();
+  }
+
   public getLanguage(): string {
     return localStorage.getItem('language');
   }

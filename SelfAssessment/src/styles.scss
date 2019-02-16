@@ -1,23 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '~katex/dist/katex.css';
+@import "~katex/dist/katex.css";
 
 mat-card {
-    box-shadow: 0 15px 30px 0 rgba(0,0,0,.11),0 5px 15px 0 rgba(0,0,0,.08) !important;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11),
+    0 5px 15px 0 rgba(0, 0, 0, 0.08) !important;
 }
 
-body{
-    margin:0px;
+body {
+  margin: 0px;
 }
 
 .correct-pick {
-    background-color: rgb(161, 255, 161);
+  background-color: rgb(161, 255, 161);
 }
 .wrong-pick {
-    background-color: rgb(247, 122, 122);
+  background-color: rgb(247, 122, 122);
 }
 
-
 .hide-stepper {
-    display: none !important;
+  display: none !important;
+}
+
+  .basic-info-card {
+    padding: 0px !important;
+
+    mat-card-header {
+      color: white;
+      padding: 20px;
+      padding-bottom: 0px;
+      mat-card-subtitle {
+        color: white;
+      }
+    }
+
+    mat-card-content {
+      padding: 30px;
+      padding-bottom: 0px;
+    }
+
+    mat-card-actions {
+      margin-left: 30px;
+    }
+
+    mat-card-actions button {
+      margin: 25px;
+      margin-left: 0px;
+      margin-top: 25px;
+    }
   }
+

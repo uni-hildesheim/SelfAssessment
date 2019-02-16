@@ -24,36 +24,13 @@ h3{
   box-shadow: none !important;
   width: 50%;
   margin-top: 0px;
+  padding:15px;
   margin: auto;
   min-width: 200px;
-  background-color:#8a000a;
+  background-color:#c13831;
   color:white;
 }
 
-.pre-eval-card {
-  padding:0px;
-
-  mat-card-header {
-      background-color: #9e1713;
-      color:white;
-      padding:20px;
-      padding-bottom: 0px;
-      mat-card-subtitle {
-        color:white;
-      }
-  }
-
-  mat-card-content{
-    padding:30px;
-    padding-bottom: 0px;
-  }
-
-  mat-card-actions button {
-    margin:25px;
-    margin-left:30px;
-    margin-top:25px;
-  }
-}
 
 .wrapper-evaluation mat-expansion-panel{
     box-shadow: none;

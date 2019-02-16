@@ -1,7 +1,7 @@
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { JournalStructure } from './../../../shared/models/state/journal.structure.model';
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ResultService } from '../../services/result.service';
 import { Observable, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { tap, catchError } from 'rxjs/operators';
 })
 export class EvaluationOverviewComponent implements OnInit {
 
-  public results: Observable<ResultSet[]>;
+  public results$: Observable<ResultSet[]>;
   public loading = false;
   public journalStructure: JournalStructure;
   public course: string;
@@ -23,13 +23,19 @@ export class EvaluationOverviewComponent implements OnInit {
   constructor(
     private resultService: ResultService,
     private router: Router,
+    private route: ActivatedRoute,
     private storage: LocalStorageService,
     private logging: LoggingService
   ) { }
 
   ngOnInit() {
-    this.course = this.storage.getCourse().name;
     this.journalStructure = this.storage.getJournalStructure();
+    if (!this.route.snapshot.paramMap.get('show')) {
+      this.course = this.storage.getCourse().name;
+    } else {
+      this.showEval();
+    }
+
   }
 
   getScoreDependentText(index: number): [number, string][]  {
@@ -42,7 +48,7 @@ export class EvaluationOverviewComponent implements OnInit {
 
   showEval() {
     this.loading = true;
-    this.results = this.resultService.getResults()
+    this.results$ = this.resultService.getResults()
     .pipe(
       tap(() => this.loading = false),
       catchError(error => {

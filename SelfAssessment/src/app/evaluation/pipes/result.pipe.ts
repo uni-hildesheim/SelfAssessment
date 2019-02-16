@@ -16,16 +16,32 @@ export class ResultPipe implements PipeTransform {
    *
    * @param set The set.
    */
-  transform(set: ResultSet): number[] {
-    let sum = 0;
-    let value = 0;
+  transform(sets: any, totalVal?: true): number[] {
 
-    set.tests.forEach(elem => {
-      sum += elem.maxScore;
-      value += elem.score;
-    });
+    if (totalVal) {
+      let total = 0;
+      let totalMax = 0;
+      sets.forEach((set: ResultSet) => {
+        set.tests.forEach(elem => {
+          total += elem.score;
+          totalMax += elem.maxScore;
+        });
+      });
+      return [total, totalMax];
 
-    return [value, sum];
+    } else {
+      let sum = 0;
+      let value = 0;
+      sets.tests.forEach(elem => {
+        sum += elem.maxScore;
+        value += elem.score;
+      });
+      return [value, sum];
+    }
+
+
+
   }
+
 
 }

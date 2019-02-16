@@ -1,7 +1,16 @@
-<div class="pin-main">
-<p>{{ 'lbl-pin-input' | language}}<p>
+<div class="outer-wrapper">
+  <div class="pin-main note-container">
+    <p>{{ "lbl-pin-input" | language }}</p>
+    <p>
+      <button mat-flat-button color="primary" (click)="showDialog()">
+        {{ "btn-pin-input" | language }}
+      </button>
+    </p>
+  </div>
 
-<button mat-flat-button color="primary" (click)="showDialog()">
-   {{ 'btn-pin-input' | language}}
-</button>
+  <div class="footer primary-comp">
+    <p>
+      <span [innerHTML]="'footer' | resources"></span>
+    </p>
+  </div>
 </div>

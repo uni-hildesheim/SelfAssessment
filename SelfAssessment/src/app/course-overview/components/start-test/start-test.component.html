@@ -1,23 +1,25 @@
-<mat-card>
 
-    <!-- <mat-form-field appearance="legacy" >
-        <mat-select placeholder="Language" [value]="language" (selectionChange)="languageChoosen($event)">
-          <mat-option *ngFor="let la of course.languages" [value]="la">
-            {{la}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
+<div class="start-test-wrapper">
+
+<mat-card class="basic-info-card">
+
+  <mat-card-header class="header-info-card">
+    <mat-card-title>
+    Important Information
+  </mat-card-title>
+  <mat-card-subtitle>
+    Please read carefully
+  </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
 
 
-  <div class="start-test-info">
-
-    <div class="info-img" *ngIf="course">
-      <img appImg [src]="course.icon" />
-    </div>
-    
-    <div class="info-content">
 
       <p>{{'lbl-selfassement-intro' | language}}</p>
+
+      <div class="info-content">
+
+
 
       <mat-list role="list">
         <h3 mat-header>{{'lbl-tip' | language}}</h3>
@@ -26,8 +28,13 @@
         </mat-list-item>
       </mat-list>
 
-      <h4>{{'lbl-encouragement' | language}}</h4>
+      <div class="info-img" *ngIf="course">
+          <img appImg [src]="course.icon" />
+        </div>
     </div>
+
+
+      <h4>{{'lbl-encouragement' | language}}</h4>
     <div class="pin-note">
       <i>{{'lbl-note' | language}}</i>
       <p>
@@ -38,9 +45,14 @@
       </p>
     </div>
 
-  </div>
+</mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="startSelfAssessment()">{{'btn-start-assessment' | language}}</button>
+
+      <mat-divider></mat-divider>
+
+
+    <button mat-flat-button color="primary" (click)="startSelfAssessment()">{{'btn-start-assessment' | language}}</button>
 
   </mat-card-actions>
 </mat-card>
+</div>

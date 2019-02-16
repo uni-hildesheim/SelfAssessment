@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@import 'template-colors-comp.scss';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -58,3 +59,5 @@ $uni-app-theme: mat-light-theme($uni-app-primary, $uni-app-accent, $uni-app-warn
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($uni-app-theme);
+
+@include university-theme-colors($uni-app-theme);

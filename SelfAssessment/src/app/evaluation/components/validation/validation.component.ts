@@ -26,7 +26,7 @@ export class ValidationComponent implements OnInit {
   }
 
   backToEval() {
-    this.router.navigateByUrl('/evaluation');
+    this.router.navigate(['/evaluation', {show: false }]);
   }
 
 }
