@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const logger = require('../../utils/logger');
+const error = require('../../shared/error');
 
 module.exports = {
     create
@@ -18,7 +19,7 @@ async function create(req, res) {
         users = await db.User.find();
     } catch(err) {
         logger.error(err);
-        res.status(500).json({ error: 'DB error' });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
         return;
     }
 
@@ -29,7 +30,10 @@ async function create(req, res) {
 
     if (pincodes.length === MAX_PINCODES) {
         logger.error('Exhausted random pincode possibilities');
-        res.status(500).json({ error: 'Exhausted random pincode possibilities' });
+        res.status(500).json({ error: {
+            number: error.ServerError.E_UNKNOWN,
+            message: 'Exhausted random pincode possibilities'
+        }});
         return;
     }
 
@@ -58,6 +62,6 @@ async function create(req, res) {
         res.status(201).json(user.pin);
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }

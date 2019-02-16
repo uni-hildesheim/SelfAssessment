@@ -2,6 +2,7 @@ const sinon = require('sinon');
 
 const FrontendController = require('../../../app/core/frontend/frontend.controller');
 const FrontendModel = require('../../../app/core/frontend/frontend.model');
+const error = require('../../../app/shared/error');
 
 describe('FrontendController', () => {
     const FrontendDocuments = [];
@@ -55,6 +56,9 @@ describe('FrontendController', () => {
             sinon.assert.calledOnce(FrontendModel.find);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should load the dummy resource from the stub DB', async () => {

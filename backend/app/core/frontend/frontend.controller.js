@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const logger = require('../../utils/logger');
+const error = require('../../shared/error');
 
 module.exports = {
     resources
@@ -12,7 +13,7 @@ function resources(req, res) {
     }).then(resources => {
         if (!resources) {
             logger.warn('No frontend resource configs found, check your data setup');
-            res.status(404).send();
+            res.status(404).json({ error: error.ServerError.E_DBQUERY });
             return;
         }
 
@@ -24,6 +25,6 @@ function resources(req, res) {
         res.status(200).json(resources[0].configs);
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }

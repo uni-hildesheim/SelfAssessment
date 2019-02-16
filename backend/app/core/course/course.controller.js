@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const logger = require('../../utils/logger');
+const error = require('../../shared/error');
 
 module.exports = {
     loadConfig,
@@ -16,7 +17,7 @@ function loadConfig(req, res) {
     }).then(course => {
         if (!course) {
             logger.warn('No such course: ' + name);
-            res.status(404).json({ error: 'No such course: ' + name });
+            res.status(404).json({ error: error.ServerError.E_DBQUERY });
             return;
         }
 
@@ -29,11 +30,10 @@ function loadConfig(req, res) {
         }
 
         logger.warn('Language: ' + language + ' not available for course: ' + name);
-        res.status(404).json({ error: 'Language: ' + language + ' not available for course: ' +
-                               name });
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }
 
@@ -59,6 +59,6 @@ function showCourses(req, res) {
         res.status(200).json(meta);
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }

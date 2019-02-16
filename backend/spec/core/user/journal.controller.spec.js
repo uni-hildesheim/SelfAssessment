@@ -2,6 +2,7 @@ const sinon = require('sinon');
 
 const JournalController = require('../../../app/core/user/journal.controller');
 const UserModel = require('../../../app/core/user/user.model');
+const error = require('../../../app/shared/error');
 
 describe('JournalController', () => {
     const UserInstance = new UserModel({
@@ -43,7 +44,8 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, { error: 'No user for pin: NaN' });
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should load the dummy journal log from the stub DB', async () => {
@@ -79,7 +81,8 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, { error: 'No user for pin: NaN' });
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should load the dummy journal structure from the stub DB', async () => {

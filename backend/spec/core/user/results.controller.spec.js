@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const CourseModel = require('../../../app/core/course/course.model');
 const UserModel = require('../../../app/core/user/user.model');
 const ResultController = require('../../../app/core/user/result.controller');
+const error = require('../../../app/shared/error');
 
 describe('ResultController', () => {
     const CourseInstance = new CourseModel({
@@ -288,7 +289,9 @@ describe('ResultController', () => {
             sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
-            sinon.assert.calledOnce(this.res.status().send);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should load result from the DB', async () => {
@@ -327,7 +330,9 @@ describe('ResultController', () => {
             sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
-            sinon.assert.calledOnce(this.res.status().send);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should generate a validation code', async () => {
@@ -409,7 +414,9 @@ describe('ResultController', () => {
             sinon.assert.notCalled(UserModel.updateOne);
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
-            sinon.assert.calledOnce(this.res.status().send);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should calculate result and save to the DB ', async () => {

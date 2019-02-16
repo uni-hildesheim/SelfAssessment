@@ -2,6 +2,7 @@ const sinon = require('sinon');
 
 const CourseController = require('../../../app/core/course/course.controller');
 const CourseModel = require('../../../app/core/course/course.model');
+const error = require('../../../app/shared/error');
 
 describe('CourseController', () => {
     const CourseDocuments = [];
@@ -53,8 +54,8 @@ describe('CourseController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 404);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, { error: 'No such course: ' +
-                                                              req.body.name });
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
         });
 
         it('should load the dummy course from the stub DB', async () => {

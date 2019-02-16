@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const logger = require('../../utils/logger');
+const error = require('../../shared/error');
 
 module.exports = {
     calculate,
@@ -212,7 +213,7 @@ function load(req, res) {
     }).then(user => {
         if (!user) {
             logger.warn('No user for pin: ' + bodyPin);
-            res.status(404).send();
+            res.status(404).json({ error: error.ServerError.E_DBQUERY });
             return;
         }
 
@@ -220,7 +221,7 @@ function load(req, res) {
         res.status(200).json(user.result.tests);
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }
 
@@ -245,13 +246,13 @@ async function lock(req, res) {
         });
     } catch(err) {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
         return;
     }
 
     if (!user) {
         logger.warn('Could not find user for pin: ' + bodyPin);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -262,14 +263,14 @@ async function lock(req, res) {
         });
     } catch(err) {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
         return;
     }
 
     if (!course) {
         logger.warn('Could not find course: ' + user.journal.structure.course + ' for pin: ' +
                     bodyPin);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -284,7 +285,7 @@ async function lock(req, res) {
     if (courseConfig === null) {
         logger.warn('Could not find course: ' + user.journal.structure.course + ' config for' +
                     ' language: ' + user.journal.structure.language);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -305,7 +306,7 @@ async function lock(req, res) {
         res.status(200).json(validationCode);
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }
 
@@ -329,13 +330,13 @@ async function update(req, res) {
         });
     } catch(err) {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
         return;
     }
 
     if (!user) {
         logger.warn('Could not find user for pin: ' + bodyPin);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -354,14 +355,14 @@ async function update(req, res) {
         });
     } catch(err) {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
         return;
     }
 
     if (!course) {
         logger.warn('Could not find course: ' + user.journal.structure.course + ' for pin: ' +
                     bodyPin);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -375,13 +376,13 @@ async function update(req, res) {
     if (courseConfig === null) {
         logger.warn('Could not find course: ' + user.journal.structure.course + ' config for' +
                     ' language: ' + user.journal.structure.language);
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
     const testResults = calculate(courseConfig, user.journal);
     if (testResults === null) {
-        res.status(404).send();
+        res.status(404).json({ error: error.ServerError.E_DBQUERY });
         return;
     }
 
@@ -394,6 +395,6 @@ async function update(req, res) {
         res.status(200).send();
     }).catch(err => {
         logger.error(err);
-        res.status(500).json({ error: err });
+        res.status(500).json({ error: error.ServerError.E_DBIO });
     });
 }
