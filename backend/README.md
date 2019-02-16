@@ -17,37 +17,51 @@ Node.js backend for the self assessment system.
 ```sh
 $ tree -d
 
-.  
-├── app  
-│   ├── controller  
-│   ├── model  
-│   ├── mongodb  
-│   ├── routes
+.
+├── app
+│   ├── core
+│   │   ├── course
+│   │   │   └── testmodels
+│   │   ├── frontend
+│   │   ├── logger
+│   │   └── user
+│   ├── db
 │   └── utils
 ├── data
 │   ├── assets
 │   │   └── public
 │   ├── autodeploy
 │   ├── configs
-│   └── db
+│   │   ├── courses
+│   │   │   └── i18n
+│   │   └── frontend
+│   │       └── i18n
+│   ├── db
+│   └── logs
 └── spec
-    ├── controller
+    ├── core
+    │   ├── course
+    │   ├── frontend
+    │   └── user
     └── support
 ```
 * **app**  
   Node.js app source code.
 
-  * app/controller  
-    Controller function which implement the actual logic that is exposed by the REST API routing.
+  * app/core/course  
+    Course feature, config file definitions and validators live here.
 
-  * app/model  
-    Mongoose (--> MongoDB) schemas and models for well defined interactions on database objects.
+  * app/core/frontend  
+    Static content delivered to the frontend for interface configuration (such as translated strings, images, etc).
 
-  * app/mongodb  
-    MongoDB connection handling and config storage.
+  * app/core/logger  
+    The part of our internal logger (which lives in utils) that is exposed to the outside world.
 
-  * app/routes  
-    REST API routing.
+  * app/core/user  
+    User feature including pin code creation, validation and more.
+
+  * app/db
+    Database helpers for the backend server.
 
   * app/utils  
     Various utilities used by the other components, including a custom logger module and JSON object merging.
@@ -67,17 +81,32 @@ $ tree -d
   * data/configs/courses  
     Course configs (in JSON format) are stored here. They are processed and stored as raw JSON objects in the database and exposed to the Frontend through REST API routes.
 
+  * data/configs/courses/i18n  
+    Translated strings of the course config.
+
   * data/configs/frontend  
     As of now, the frontend is set up to be the slave of the backend component (which is the master). That means that the frontend will load its static resources such as text, images and such from the backend on startup.
+
+  * data/configs/frontend/i18n  
+    Translated strings of the frontend config.
 
   * data/db  
     MongoDB will populate this directory with content at runtime. All the DB metadata, its collections etc. are stored here.
 
+  * data/logs  
+    Persistend log storage for the backend logger. Frontend logs that are sent to the REST API (at /api/v1/logger/*) will also wind up here.
+
 * **spec**  
   Unit tests. At the moment, Jasmine is used as test runner and Sinon is used to stub e.g. Mongoose models.
 
-  * spec/controller  
-    Controller unit tests.
+  * spec/core/course  
+    Course feature unit tests.
+
+  * spec/core/frontend  
+    Frontend feature unit tests.
+
+  * spec/core/user  
+    User feature unit tests.
 
   * spec/support  
     Jasmine specific test runner configuration.
