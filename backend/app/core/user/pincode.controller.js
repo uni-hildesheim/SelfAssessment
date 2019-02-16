@@ -38,9 +38,14 @@ async function create(req, res) {
     var string = ''
     do {
         string = ''
-        for (var i = 0; i < LENGTH; i++) {
-            digits[i] = Math.floor(Math.random() * 10)
-            string += digits[i]
+        for (let i = 0; i < LENGTH; i++) {
+            // first digit must not be zero
+            if (i === 0) {
+                digits[i] = Math.ceil(Math.random() * 9);
+            } else {
+                digits[i] = Math.floor(Math.random() * 10);
+            }
+            string += digits[i];
         }
     } while (pincodes.indexOf(Number.parseInt(string)) > -1);
 
