@@ -31,9 +31,16 @@ export class EvaluationOverviewComponent implements OnInit {
   ngOnInit() {
     this.journalStructure = this.storage.getJournalStructure();
     if (!this.route.snapshot.paramMap.get('show')) {
+      // user does not need to see the info card
       this.course = this.storage.getCourse().name;
     } else {
-      this.showEval();
+      if (this.resultService.evaluation != null) {
+        // user provided pin
+        this.results$ = this.resultService.evaluation;
+      } else {
+        // user did not provide pin
+        this.showEval();
+      }
     }
 
   }
@@ -48,7 +55,8 @@ export class EvaluationOverviewComponent implements OnInit {
 
   showEval() {
     this.loading = true;
-    this.results$ = this.resultService.getResults()
+    const pin = this.storage.getPin();
+    this.results$ = this.resultService.getResults(pin)
     .pipe(
       tap(() => this.loading = false),
       catchError(error => {

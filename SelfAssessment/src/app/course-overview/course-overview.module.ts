@@ -6,12 +6,11 @@ import { CourseCardComponent } from './components/course-card/course-card.compon
 import { MaterialModule } from '../material/material.module';
 import { StartTestComponent } from './components/start-test/start-test.component';
 import { SharedModule } from '../shared/shared.module';
-import { PinComponent } from './components/pin/pin.component';
 import { CourseLanguageBottomSheetComponent } from './components/course-language-bottom-sheet/course-language-bottom-sheet.component';
 
 @NgModule({
   entryComponents: [CourseLanguageBottomSheetComponent],
-  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, PinComponent, CourseLanguageBottomSheetComponent],
+  declarations: [DashboardComponent, CourseCardComponent, StartTestComponent, CourseLanguageBottomSheetComponent],
   imports: [
     CommonModule,
     MaterialModule,

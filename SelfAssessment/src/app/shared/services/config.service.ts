@@ -1,13 +1,16 @@
+import { JournalLog } from './../models/state/journal.log.model';
+import { ResultService } from './../../evaluation/services/result.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigFile } from '../models/config.file.model';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Course } from '../models/course-object';
 import { LoggingService } from '../logging/logging.service';
 import { tap } from 'rxjs/operators';
+import { ResultSet } from '../models/evaluation/result.set';
 
 /**
  * Handles the overall configuration logic, to setup the application for
@@ -36,7 +39,8 @@ export class ConfigService {
     private http: HttpClient,
     private journalLogService: JournalLogService,
     private storageService: LocalStorageService,
-    private logging: LoggingService
+    private logging: LoggingService,
+    private resultService: ResultService
   ) { }
 
   /**
@@ -88,15 +92,24 @@ export class ConfigService {
   }
 
   /**
-  * If the user does not choose a course, but instead wants
-  * to proceed by providing the pin, the corresponding journal
-  * is fetched from the database.
+  * Inits the journal log service using the log which
+  * was retrieved with the users pin.
   *
-  * @param journal The journal containing the user specific state/setup.
+  * @param journal The journal log containing the users specific state/setup.
   */
-  public initJournalFromPin(journal: Journal): void {
-    this.journalLogService.initJournalLogFromPin(journal.log);
-    this.storageService.storeJournal(journal);
+  public initJournalLogFromPin(journalLog: JournalLog): void {
+    this.journalLogService.initJournalLogFromPin(journalLog);
+  }
+
+  /**
+   * Inits the evaluation instance stored in the result service
+   * using the result set instance which was retrieved with the
+   * the users pin.
+   *
+   * @param The result set.
+   */
+  public initEvaluationFromPin(resultSet: ResultSet[]) {
+   this.resultService.initResultServiceFromPin(resultSet);
   }
 
 }

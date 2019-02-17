@@ -12,9 +12,10 @@ import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
 import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
 import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
 import { EvaluationModule } from '../evaluation/evaluation.module';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
-  declarations: [EntryComponent, NavbarComponent],
+  declarations: [EntryComponent, NavbarComponent, FooterComponent],
   imports: [
     CommonModule,
     TestpanelModule,

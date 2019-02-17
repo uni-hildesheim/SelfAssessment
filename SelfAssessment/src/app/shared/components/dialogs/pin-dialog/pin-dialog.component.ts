@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { Validators, FormControl } from '@angular/forms';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { ResultService } from 'src/app/evaluation/services/result.service';
 
 /**
  * Realizes the Pin Dialog.
@@ -48,10 +49,13 @@ export class PinDialogComponent implements OnInit {
     this.loading = true;
     this.errorMessage = null;
 
-    this.protocolService.loadJournal(parseInt(this.pinFormControl.value, 0)).subscribe(
+    const pin = this.pinFormControl.value;
+
+    // load structure
+    this.protocolService.loadJournal(parseInt(pin, 0)).subscribe(
       data => {
-        this.storageService.storePin(this.pinFormControl.value);
-        this.dialogRef.close(data);
+        this.storageService.storePin(pin);
+        this.dialogRef.close({pin, journal: data});
       },
       err => {
         if (err.status === 404) {

@@ -18,7 +18,7 @@ export class PinService {
    */
   public static readonly CREATE_PIN = 'api/v1/pincode/create';
 
-  public static readonly CREATE_VALIDATION_CODE = 'api/v1/result/freeze';
+  public static readonly CREATE_VALIDATION_CODE = 'api/v1/result/lock';
 
   constructor(
     private http: HttpClient,

@@ -65,7 +65,7 @@ export class ResourceService {
    * @returns The observable as a promise, which is resolved during the bootstrap process.
    */
   public loadResources(): Promise<any> {
-    this.storage.clearStorage();
+    // this.storage.clearStorage();
     this.storage.storeLanguage(environment.defaultLanguage);
 
     return this.http.get('api/v1/frontend/resources')
