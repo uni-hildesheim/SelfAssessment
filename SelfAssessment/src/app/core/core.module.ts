@@ -4,7 +4,6 @@ import { EntryComponent } from './components/entry/entry.component';
 import { TestpanelModule } from '../testpanel/testpanel.module';
 import { CourseOverviewModule } from '../course-overview/course-overview.module';
 import { AppRoutingModule } from '../app-routing.module';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -13,9 +12,10 @@ import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
 import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
 import { EvaluationModule } from '../evaluation/evaluation.module';
 import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-  declarations: [EntryComponent, NavbarComponent, FooterComponent],
+  declarations: [EntryComponent, FooterComponent, HeaderComponent],
   imports: [
     CommonModule,
     TestpanelModule,

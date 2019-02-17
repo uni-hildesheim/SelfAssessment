@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { MatSelectChange } from '@angular/material';
-import { ResourceService } from '../../services/resource.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
+import { ResourceService } from '../../services/resource.service';
+import { MatSelectChange } from '@angular/material';
 
-/**
- * The top panel for the title.
- */
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
   lang: string[];
 
@@ -32,6 +29,5 @@ export class NavbarComponent implements OnInit {
     this.logging.info(`Change language to ${matselect.value}`);
     this.resourceService.changeLang(matselect.value);
   }
-
 
 }
