@@ -1,8 +1,12 @@
+@import "src/scss/mixins.scss";
+
 .loading-content {
   opacity: 0.5;
   pointer-events: none;
   z-index: 3;
 }
+
+
 
 .loading-bar{
   margin: auto;
@@ -11,27 +15,32 @@
 
 }
 
-
 .wrapper-main {
-  width: 900px;
-  padding: 50px;
+  // max-width: 900px;
+  // min-width: 900px;
   margin: auto;
   display: flex;
-
+  flex-wrap: wrap;
 
   .navigate-btn {
     text-align: center;
     margin-top: 150px;
     flex: 1;
+    order:1;
   }
 
 
   .main-test {
     flex: 2;
+    order:1;
+    min-width: 335px;
+    // max-width: 600px;
 
-    mat-progress-bar {
-      width: 600px;
-    }
+
+    // mat-progress-bar {
+    //   width: 600px;
+    // }
+
 
     .single-test {
       display: block;
@@ -40,4 +49,58 @@
 
   }
 
+
+@include sm {
+
+    padding:0px;
+
+    .main-test {
+      order:2;
+    }
+
+    .navigate-btn{
+      margin-top: 20px;
+      flex-basis: 50%;
+    }
 }
+
+@include md {
+  padding:0px;
+
+  .navigate-btn{
+    flex: 0.5;
+  }
+}
+
+@include lg {
+
+}
+
+  // @media only screen and (max-width: 1000px){
+  //   .main-test{
+  //     order:2;
+  //   }
+  //   .navigate-btn {
+  //     margin-top: 20px;
+  //     flex-basis: 50%;
+  //   }
+  // }
+
+
+  // @media only screen and (max-width: 375px){
+
+  //   padding:0px;
+
+  // .main-test {
+  //     order:2;
+  //   }
+
+  //   .navigate-btn{
+  //     margin-top: 20px;
+  //   }
+  // }
+
+
+}
+
+

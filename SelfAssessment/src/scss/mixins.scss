@@ -1,0 +1,24 @@
+$mobile:  320px;
+$tablet:  740px;
+$desktop: 980px;
+
+// Small devices
+@mixin sm {
+  @media (min-width: #{$mobile}) and (max-width: #{$tablet}) {
+      @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (min-width: #{$tablet}) and (max-width: #{$desktop}) {
+      @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$desktop}) {
+      @content;
+  }
+}

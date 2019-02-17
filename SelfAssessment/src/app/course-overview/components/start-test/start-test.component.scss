@@ -1,11 +1,13 @@
+@import "src/scss/mixins.scss";
+
 $info-img-width: 300px;
 $info-img-height: 300px;
 
 .start-test-wrapper{
-  padding-top:50px;
   max-width: 800px;
   margin: auto;
   font-family: Roboto,"Helvetica Neue",sans-serif;
+  @include sm { padding-top: 0px;}
 }
 
 img {
@@ -14,6 +16,8 @@ img {
   margin-top:26px;
   max-width: $info-img-width;
   max-height: $info-img-height;
+
+  @include sm { display: none;}
 }
 
 .info-content {

@@ -1,10 +1,22 @@
+@import "src/scss/mixins.scss";
+
+.lang-icon{
+  display: none;
+  cursor: pointer;
+  @include md { display: inline-block; }
+  @include sm { display: inline-block; }
+}
+
+
 .fill-space{
     flex: 1 1 auto;
-} 
+}
 
 mat-form-field{
     font-size: 14px;
     margin-top: 10px;
+    @include md { visibility: hidden; width: 20px;}
+    @include sm { visibility: hidden; width: 20px; }
 }
 
 mat-toolbar {
