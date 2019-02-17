@@ -9,6 +9,7 @@ mat-card {
 
 body {
   margin: 0px;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
 }
 
 .correct-pick {
@@ -37,6 +38,7 @@ body {
     mat-card-content {
       padding: 30px;
       padding-bottom: 0px;
+
     }
 
     mat-card-actions {
@@ -49,4 +51,3 @@ body {
       margin-top: 25px;
     }
   }
-

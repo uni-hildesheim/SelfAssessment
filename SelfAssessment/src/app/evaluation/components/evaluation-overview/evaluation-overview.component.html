@@ -31,7 +31,7 @@
                 (results | result: true)[1]}}
             </mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content>
+          <mat-card-content class="result-overview-content">
             <mat-accordion class="example-headers-align">
               <mat-expansion-panel
                 *ngFor="let set of results; index as i"
@@ -63,7 +63,6 @@
             <mat-divider></mat-divider>
             <button
               mat-flat-button
-              class="validation-btn"
               color="primary"
               *ngIf="!loading"
               (click)="goToValidation()">

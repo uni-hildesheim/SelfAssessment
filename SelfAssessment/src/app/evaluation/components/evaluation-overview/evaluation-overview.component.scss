@@ -1,48 +1,66 @@
+@import 'src/scss/mixins.scss';
+
 .wrapper-evaluation {
-    max-width: 900px;
-    font-family: Roboto,"Helvetica Neue",sans-serif;
-    margin: auto;
-    box-shadow: none;
-}
-
-.hide {
-  display:none !important;
-
-}
-
-h3{
-  margin-left:15px;
-}
-
-
-.validation-btn{
-  margin-top:20px;
-}
-
-.set-specific-card{
-  box-shadow: none !important;
-  width: 50%;
-  margin-top: 0px;
-  padding:15px !important;
+  max-width: 900px;
   margin: auto;
-  min-width: 200px;
-  background-color:#c13831;
-  color:white;
+  box-shadow: none;
+
+  mat-expansion-panel {
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0px;
+  }
+
+  .result-overview-content {
+
+    @include sm {
+      padding: 0px;
+    }
+
+    h3 {
+      margin-left: 15px;
+    }
+
+    .set-specific-card {
+      box-shadow: none !important;
+      width: 50%;
+      margin: auto;
+      min-width: 200px;
+      background-color: #c13831;
+      color: white;
+
+      mat-card-content {
+        @include sm {
+          padding: 20px;
+        }
+      }
+
+      @include sm {
+        width: 100%;
+        padding: 0px;
+      }
+
+    }
+
+  }
+
+
 }
 
-
-.wrapper-evaluation mat-expansion-panel{
-    box-shadow: none;
-    border:1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 0px;
+/deep/ .main-result-panel .mat-expansion-panel-body {
+  @include sm {
+    padding: 0px;
+  }
 }
 
 .example-headers-align .mat-expansion-panel-header-title,
 .example-headers-align .mat-expansion-panel-header-description {
   flex-basis: 0;
 }
-.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
-    flex-grow:1.5;
+
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  flex-grow: 1.5;
 }
 
 .example-headers-align .mat-expansion-panel-header-description {

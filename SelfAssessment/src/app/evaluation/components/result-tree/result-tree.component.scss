@@ -1,28 +1,59 @@
-.green-icon{
-    color:green;
+@import 'src/scss/mixins.scss';
+
+.green-icon {
+  color: green;
 }
-.red-icon{
-    color: red;
+
+.red-icon {
+  color: red;
 }
 
 .green-icon svg {
-    fill:green;
+  fill: green;
 }
 
 .red-icon svg {
-    fill:red;
+  fill: red;
 }
 
 .icon-right {
-    float:right;
+  float: right;
+
+  @include sm {
+    display: none;
+  }
+}
+
+/deep/ .test-result-panel .mat-expansion-panel-body {
+  @include sm {
+    padding: 20px;
+    padding-top: 0px;
+  }
+}
+
+.test-result-panel {
+  margin: 15px;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, .11), 0 5px 15px 0 rgba(0, 0, 0, .08) !important;
+
+  @include sm {
+    .mat-list-item {
+      padding-bottom: 15px;
+    }
+
+    .mat-list .mat-list-item .mat-line {
+      white-space: normal;
+    }
+  }
+
+}
+
+:host /deep/ .mat-list-item-content {
+  padding: 0 !important;
 }
 
 
-.test-result-panel{
-    margin:15px;
-    box-shadow: 0 15px 30px 0 rgba(0,0,0,.11),0 5px 15px 0 rgba(0,0,0,.08) !important;
-}
 
-.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
-    flex-grow:1.5;
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  flex-grow: 1.5;
 }

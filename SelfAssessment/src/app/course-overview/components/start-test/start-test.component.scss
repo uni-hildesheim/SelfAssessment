@@ -1,56 +1,33 @@
 @import "src/scss/mixins.scss";
 
-$info-img-width: 300px;
-$info-img-height: 300px;
-
-.start-test-wrapper{
+.start-test-wrapper {
   max-width: 800px;
   margin: auto;
-  font-family: Roboto,"Helvetica Neue",sans-serif;
-  @include sm { padding-top: 0px;}
+
+  @include sm {
+    padding-top: 0px;
+  }
 }
 
 img {
   display: block;
   margin: auto;
-  margin-top:26px;
-  max-width: $info-img-width;
-  max-height: $info-img-height;
+  margin-top: 26px;
+  max-width: 300px;
+  max-height: 300px;
 
-  @include sm { display: none;}
-}
-
-.info-content {
-  display:flex;
-  justify-content: space-around;
-
-  mat-list{
-    min-width: 200px;
+  @include sm {
+    display: none;
   }
 }
 
+.info-content {
+  display: flex;
+  justify-content: space-around;
 
-.start-test-info {
-
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: space-around;
-
-
-    // .info-img{
-    //     order: 2;
-    //     flex: 1;
-
-    // }
-
-    // .info-content{
-    //     order:1;
-    //     flex: 1;
-    //     min-width: 300px;
-
-    // }
-
-
+  mat-list {
+    min-width: 200px;
+  }
 }
 
 .pin-note {
