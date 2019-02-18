@@ -1,16 +1,5 @@
-<div class="outer-wrapper">
-    <div class="pin-main note-container" *ngIf="checkRoute()">
-      <p>{{ "lbl-pin-input" | language }}</p>
-      <p>
-        <button mat-flat-button color="primary" (click)="showDialog()">
-          {{ "btn-pin-input" | language }}
-        </button>
-      </p>
-    </div>
-
-    <div class="footer primary-comp">
-      <p>
-        <span [innerHTML]="'footer' | resources"></span>
-      </p>
-    </div>
-  </div>
+<div class="footer primary-comp">
+  <p>
+    <span [innerHTML]="'footer' | resources"></span>
+  </p>
+</div>

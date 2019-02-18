@@ -1,19 +1,5 @@
+@import "src/scss/mixins.scss";
 
-.outer-wrapper {
-  margin-top: 25px;
-  position: fixed;
-  bottom:0px;
-  width: 100%;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  text-align: center;
-
-
-  .pin-main {
-    padding: 15px;
-
-  }
-  .footer{
-    padding: 15px;
-    color:white;
-  }
+.footer {
+  @include bottom-row(0px, white);
 }

@@ -1,0 +1,5 @@
+@import "src/scss/mixins.scss";
+
+.pin-main {
+  @include bottom-row(65px);
+}
