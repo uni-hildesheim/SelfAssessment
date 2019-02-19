@@ -28,3 +28,7 @@ data/db
 
 # logs
 data/logs
+
+# nyc (istanbul) test coverage
+.nyc_output/
+coverage/
