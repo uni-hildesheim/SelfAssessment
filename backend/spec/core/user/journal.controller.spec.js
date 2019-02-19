@@ -2,18 +2,14 @@ const sinon = require('sinon');
 
 const JournalController = require('../../../app/core/user/journal.controller');
 const UserModel = require('../../../app/core/user/user.model');
+const TestDocuments = require('./user.data');
 const error = require('../../../app/shared/error');
 
 describe('JournalController', () => {
-    const UserInstance = new UserModel({
-        pin: 12345678,
-        journal: {
-            log: 'dummy log',
-            structure: 'dummy structure'
-        }
-    });
-
     beforeEach( () => {
+        // test data
+        this.docs = TestDocuments;
+
         // common response object with spies
         this.res = {
             json: sinon.spy(),
@@ -49,11 +45,11 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal log from the stub DB', async () => {
-            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'findOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
-                    pin: UserInstance.pin
+                    pin: this.docs[0].pin
                 }
             };
 
@@ -62,7 +58,7 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, UserInstance.journal.log);
+            sinon.assert.calledWith(this.res.status().json, this.docs[0].journal.log);
         });
     });
 
@@ -86,11 +82,11 @@ describe('JournalController', () => {
         });
 
         it('should load the dummy journal structure from the stub DB', async () => {
-            sinon.stub(UserModel, 'findOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'findOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
-                    pin: UserInstance.pin
+                    pin: this.docs[0].pin
                 }
             };
 
@@ -99,17 +95,17 @@ describe('JournalController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, UserInstance.journal.structure);
+            sinon.assert.calledWith(this.res.status().json, this.docs[0].journal.structure);
         });
     });
 
     describe('.saveLog(req, res)', () => {
         it('should create a new document for unknown pins ', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
-                    pin: UserInstance.pin
+                    pin: this.docs[0].pin
                 }
             };
 
@@ -121,7 +117,7 @@ describe('JournalController', () => {
         });
 
         it('should update the document instance ', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
@@ -139,11 +135,11 @@ describe('JournalController', () => {
 
     describe('.saveStructure(req, res)', () => {
         it('should create a new document for unknown pins  ', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
-                    pin: UserInstance.pin
+                    pin: this.docs[0].pin
                 }
             };
 
@@ -155,7 +151,7 @@ describe('JournalController', () => {
         });
 
         it('should update the document instance  ', async () => {
-            sinon.stub(UserModel, 'updateOne').resolves(UserInstance);
+            sinon.stub(UserModel, 'updateOne').resolves(this.docs[0]);
 
             const req = {
                 body: {

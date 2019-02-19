@@ -2,33 +2,14 @@ const sinon = require('sinon');
 
 const FrontendController = require('../../../app/core/frontend/frontend.controller');
 const FrontendModel = require('../../../app/core/frontend/frontend.model');
+const TestDocuments = require('./frontend.data');
 const error = require('../../../app/shared/error');
 
 describe('FrontendController', () => {
-    const FrontendDocuments = [];
-    const FrontendInstance = new FrontendModel({
-        name: "Selfassessment v1.0",
-        created: new Date(),
-        configs: [{
-            "language": "English",
-            "config": {
-                "name": "Selfassessment v1.0",
-                "header": "SelfAssessment",
-                "footer": "&copy; 2019 Stiftung Universität Hildesheim",
-                "vendor": {
-                    "name": "Stiftung Universität Hildesheim",
-                    "logo": "uni_hildesheim_logo.svg"
-                },
-                "strings": {
-                    "language": "Language"
-                },
-                "language": "English"
-            }
-        }]
-    });
-    FrontendDocuments.push(FrontendInstance);
-
     beforeEach( () => {
+        // test data
+        this.docs = TestDocuments;
+
         // common response object with spies
         this.res = {
             json: sinon.spy(),
@@ -62,7 +43,7 @@ describe('FrontendController', () => {
         });
 
         it('should load the dummy resource from the stub DB', async () => {
-            sinon.stub(FrontendModel, 'find').resolves(FrontendDocuments);
+            sinon.stub(FrontendModel, 'find').resolves(this.docs);
 
             const req = {
                 // dummy
@@ -73,7 +54,7 @@ describe('FrontendController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, FrontendDocuments[0].configs);
+            sinon.assert.calledWith(this.res.status().json, this.docs[0].configs);
         });
     });
 });

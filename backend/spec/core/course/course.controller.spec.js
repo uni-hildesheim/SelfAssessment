@@ -2,28 +2,14 @@ const sinon = require('sinon');
 
 const CourseController = require('../../../app/core/course/course.controller');
 const CourseModel = require('../../../app/core/course/course.model');
+const TestDocuments = require('./course.data');
 const error = require('../../../app/shared/error');
 
 describe('CourseController', () => {
-    const CourseDocuments = [];
-    const CourseInstance = new CourseModel({
-        name: 'IMIT',
-        language: 'en',
-        configs: [{
-            "title": "IMIT",
-            "icon": "imit.png",
-            "image": "",
-            "validationSchema": "IMIT([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
-
-            "tests": [],
-            "testgroups": [],
-            "infopages": [],
-            "sets": []
-        }]
-    });
-    CourseDocuments.push(CourseInstance);
-
     beforeEach( () => {
+        // test data
+        this.docs = TestDocuments;
+
         // common response object with spies
         this.res = {
             json: sinon.spy(),
@@ -59,11 +45,12 @@ describe('CourseController', () => {
         });
 
         it('should load the dummy course from the stub DB', async () => {
-            sinon.stub(CourseModel, 'findOne').resolves(CourseInstance);
+            sinon.stub(CourseModel, 'findOne').resolves(this.docs[0]);
 
             const req = {
                 body: {
-                    name: CourseInstance.name
+                    name: this.docs[0].name,
+                    language: this.docs[0].configs[0].language
                 }
             };
 
@@ -72,22 +59,22 @@ describe('CourseController', () => {
             sinon.assert.calledOnce(this.res.status);
             sinon.assert.calledWith(this.res.status, 200);
             sinon.assert.calledOnce(this.res.status().json);
-            sinon.assert.calledWith(this.res.status().json, CourseInstance.config);
+            sinon.assert.calledWith(this.res.status().json, this.docs[0].configs[0].config);
         });
     });
 
     describe('.showCourses(req, res)', () => {
         it('should show all available courses', async () => {
-            sinon.stub(CourseModel, 'find').resolves(CourseDocuments);
+            sinon.stub(CourseModel, 'find').resolves(this.docs);
 
             const req = {
                 // dummy
             };
 
             const expectedResult = [{
-                "name": CourseDocuments[0].name,
-                "icon": CourseDocuments[0].icon,
-                "languages": [CourseDocuments[0].configs[0].language]
+                "name": this.docs[0].name,
+                "icon": this.docs[0].icon,
+                "languages": [this.docs[0].configs[0].language]
             }];
             await CourseController.showCourses(req, this.res);
             sinon.assert.calledOnce(CourseModel.find);
