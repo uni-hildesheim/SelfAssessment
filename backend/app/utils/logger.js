@@ -81,10 +81,47 @@ class FileTransport {
     }
 }
 
+/**
+ * Hidden API (not exposed by the module) to get the caller file.
+ * See: https://stackoverflow.com/a/14172822.
+ */
+function _getStack() {
+    const originalFunc = Error.prepareStackTrace;
+    let callerfile;
+    let stack;
+
+    try {
+        const err = new Error();
+        let currentfile;
+
+        Error.prepareStackTrace = function (_, stack) {
+            return stack;
+        };
+
+        stack = err.stack.shift();
+        currentfile = stack.getFileName();
+
+        while (err.stack.length) {
+            stack = err.stack.shift();
+            callerfile = stack.getFileName();
+
+            if (currentfile !== callerfile) {
+                break;
+            }
+        }
+    } catch (e) {
+        // dummy
+    }
+
+    Error.prepareStackTrace = originalFunc; 
+    return stack;
+}
+
 class Logger {
     constructor() {
         this.level = Level.ERROR;
         this.transports = [];
+        this.tracing = false;
     }
 
     /**
@@ -104,6 +141,11 @@ class Logger {
 
         if (this.level < logLevel) {
             return;
+        }
+
+        // log tracing: find out who called log(), even in strict mode
+        if (this.tracing) {
+            message = `{${_getStack().getFileName()}:${_getStack().getLineNumber()}}`;
         }
 
         const date = new Date();
@@ -203,6 +245,20 @@ class Logger {
             this.transports.splice(0, 0, transport);
         }
     }
+
+    /**
+     * Enable tracing (script file path and line numbers) for the callers of log().
+     */
+    enableTracing() {
+        this.tracing = true;
+    }
+
+    /**
+     * Disable tracing (script file path and line numbers) for the callers of log().
+     */
+    disableTracing() {
+        this.tracing = false;
+    }
 }
 
 /**
@@ -232,5 +288,7 @@ module.exports = {
     info: (...args) => defaultLogger.info(...args),
     debug: (...args) => defaultLogger.debug(...args),
     setLogLevel: (...args) => defaultLogger.setLogLevel(...args),
-    addTransport: (...args) => defaultLogger.addTransport(...args)
+    addTransport: (...args) => defaultLogger.addTransport(...args),
+    enableTracing: (...args) => defaultLogger.enableTracing(...args),
+    disableTracing: (...args) => defaultLogger.disableTracing(...args)
 }
