@@ -81,6 +81,7 @@ export class StartTestComponent implements OnInit {
     .afterDismissed()
     .pipe(
       switchMap((language: string) => {
+        this.storageService.storeCourseLanguage(language);
         return this.configService.loadConfigFromCourse(this.course.name, language)
         .pipe(
           switchMap((configFile: ConfigFile) => {

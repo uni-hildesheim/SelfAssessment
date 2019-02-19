@@ -106,6 +106,14 @@ export class LocalStorageService {
     return localStorage.getItem('language');
   }
 
+  public storeCourseLanguage(language: string): void {
+    localStorage.setItem('courseLanguage', language);
+  }
+
+  public getCourseLanguage(): string {
+    return localStorage.getItem('courseLanguage');
+  }
+
   public storeLanguage(lang: string): void {
     localStorage.setItem('language', lang);
   }
@@ -182,7 +190,7 @@ export class LocalStorageService {
   public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureRaw {
     const rawSet: JournalStructureRaw = {
       course: this.getCourse().name,
-      language: this.getLanguage(),
+      language: this.getCourseLanguage(),
       sets: []
     };
     journalStructure.sets.forEach(set => {
