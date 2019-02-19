@@ -22,6 +22,7 @@ let CORS_OPTIONS = {
 
 function loadEnvironment() {
     const APP_LOGLEVEL = process.env.APP_LOGLEVEL;
+    const APP_LOGTRACE = process.env.APP_LOGTRACE;
     const APP_PORT = process.env.APP_PORT;
     const CORS_ORIGINS = process.env.CORS_ORIGINS;
     const DB_URI = process.env.DB_URI;
@@ -50,6 +51,10 @@ function loadEnvironment() {
             logger.info('env: APP_LOGLEVEL=' + APP_LOGLEVEL);
             logger.setLogLevel(APP_LOGLEVEL);
         }
+    }
+
+    if (APP_LOGTRACE) {
+        logger.enableTracing();
     }
 
     if (APP_PORT) {
