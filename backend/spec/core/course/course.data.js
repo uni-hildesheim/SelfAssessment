@@ -89,7 +89,25 @@ const CourseInstance = new CourseModel({
                         }
                     ],
                     "evaluated": true
-                }
+                },
+                {
+                    "id": 1006,
+                    "type": "logic",
+                    "category": "checkbox",
+                    "description": "This is a simple checkbox test.",
+                    "task": "Can you <i>see</i> the <b>nice</b> HTML<sup>5</sup> formatting?",
+                    "options": [
+                        {
+                            "text": "Yes",
+                            "correct": true
+                        },
+                        {
+                            "text": "<b>Yes, but in big</b>",
+                            "correct": true
+                        }
+                    ],
+                    "evaluated": true
+                },
             ],
             "testgroups": [
                 {
@@ -119,6 +137,12 @@ const CourseInstance = new CourseModel({
                     "elements": [
                         1005,
                         2002
+                    ]
+                },
+                {
+                    "id": 3003,
+                    "elements": [
+                        1006
                     ]
                 }
             ],

@@ -29,7 +29,30 @@ describe('ResultController', () => {
     });
 
     describe('.calculate(config, journal)', () => {
-        it('should give the expected result', async () => {
+        it('should return null for missing test config', () => {
+            // ugly hack to perform a deep copy of the actual config
+            const config = JSON.parse(JSON.stringify(this.courses[0].configs[0]['config']));
+
+            config['tests'][0]['id'] = 0;
+
+            const result = ResultController.calculate(config, this.users[0].journal);
+
+            expect(result).toBe(null);
+        });
+
+        it('should return null for missing test log', () => {
+            // ugly hack to perform a deep copy of the actual journal
+            const journal = JSON.parse(JSON.stringify(this.users[0].journal));
+
+            journal['log']['sets'][0]['maps'][1]['key'] = 0;
+
+            const result = ResultController.calculate(this.courses[0].configs[0]['config'],
+                journal);
+
+            expect(result).toBe(null);
+        });
+
+        it('should give the expected result', () => {
             const expectedResult = [
                 {
                     "id": "1002",
@@ -51,6 +74,13 @@ describe('ResultController', () => {
                     "maxScore": 3,
                     "correctOptions": [1],
                     "wrongOptions": [0, 2]
+                },
+                {
+                    "id": "1006",
+                    "score": 1,
+                    "maxScore": 2,
+                    "correctOptions": [0],
+                    "wrongOptions": []
                 }
             ]
 

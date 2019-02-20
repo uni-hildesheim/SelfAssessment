@@ -51,6 +51,17 @@ const UserInstance = new UserModel({
                             "key": 1003
                         }
                     ]
+                },
+                {
+                    "maps": [
+                        {
+                            "val": [
+                                true,
+                                false
+                            ],
+                            "key": 1006
+                        },
+                    ]
                 }
             ]
         },
@@ -71,6 +82,12 @@ const UserInstance = new UserModel({
                         1003
                     ],
                     "set": 3002
+                },
+                {
+                    "tests": [
+                        1006
+                    ],
+                    "set": 3003
                 }
             ]
         }

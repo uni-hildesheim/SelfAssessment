@@ -26,12 +26,34 @@ describe('JournalController', () => {
     });
 
     describe('.loadLog(req, res)', () => {
-        it('should return HTTP 404 for invalid pins ', async () => {
+        it('should return HTTP 404 for invalid pins', async () => {
             sinon.stub(UserModel, 'findOne').resolves(null);
 
             const req = {
                 body: {
                     pin: 'dummy'
+                }
+            };
+
+            await JournalController.loadLog(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
+        });
+
+        it('should return HTTP 404 for missing journal', async () => {
+            // ugly hack to perform a deep copy of the actual journal
+            const user = JSON.parse(JSON.stringify(this.docs[0]));
+
+            delete user.journal;
+            sinon.stub(UserModel, 'findOne').resolves(user);
+
+            const req = {
+                body: {
+                    pin: this.docs
                 }
             };
 
@@ -63,12 +85,34 @@ describe('JournalController', () => {
     });
 
     describe('.loadStructure(req, res)', () => {
-        it('should return HTTP 404 for invalid pins  ', async () => {
+        it('should return HTTP 404 for invalid pins ', async () => {
             sinon.stub(UserModel, 'findOne').resolves(null);
 
             const req = {
                 body: {
                     pin: 'dummy'
+                }
+            };
+
+            await JournalController.loadStructure(req, this.res);
+            sinon.assert.calledOnce(UserModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
+        });
+
+        it('should return HTTP 404 for missing journal ', async () => {
+            // ugly hack to perform a deep copy of the actual journal
+            const user = JSON.parse(JSON.stringify(this.docs[0]));
+
+            delete user.journal;
+            sinon.stub(UserModel, 'findOne').resolves(user);
+
+            const req = {
+                body: {
+                    pin: this.docs
                 }
             };
 
