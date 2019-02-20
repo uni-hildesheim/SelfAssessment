@@ -28,6 +28,7 @@ class RadioButtonTest extends AbstractTest.class {
          * ----------------------------------------------------------------------------------------
          */
         schema['$id'] = 'RadioButtonTest';
+        schema['properties']['category'] = {"const": "radio-buttons"};
         schema['properties']['options']['items']['properties']['correct'] = {"type": "boolean"};
         return schema;
     }

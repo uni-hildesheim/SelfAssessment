@@ -28,6 +28,7 @@ class CheckboxTest extends AbstractTest.class {
          * ----------------------------------------------------------------------------------------
          */
         schema['$id'] = 'CheckboxTest';
+        schema['properties']['category'] = {"const": "checkbox"};
         schema['properties']['options']['items']['properties']['correct'] = {"type": "boolean"};
         return schema;
     }

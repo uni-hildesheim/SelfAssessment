@@ -39,6 +39,7 @@ class MultipleOptionTest extends AbstractTest.class {
          * ----------------------------------------------------------------------------------------
          */
         schema['$id'] = 'MultipleOptionTest';
+        schema['properties']['category'] = {"const": "multiple-options"};
         schema['properties']['options']['items']['properties']['correct'] = {"type": "integer"};
         schema['properties']['options']['items']['required'].push('correct');
         schema['properties']['header'] = {
