@@ -46,13 +46,14 @@ class SpeedTest extends AbstractTest.class {
      */
     loadConfig(config) {
         const ajv = new Ajv();
-        const validate = ajv.addSchema(this.schema);
+        const validate = ajv.compile(SpeedTest.schema);
         if (!validate(config)) {
             logger.warn('SpeedTest: ' + JSON.stringify(validate.errors));
             return false;
         }
 
         this.config = config;
+        return true;
     }
 }
 

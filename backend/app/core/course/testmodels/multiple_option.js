@@ -57,13 +57,14 @@ class MultipleOptionTest extends AbstractTest.class {
      */
     loadConfig(config) {
         const ajv = new Ajv();
-        const validate = ajv.addSchema(this.schema);
+        const validate = ajv.compile(MultipleOptionTest.schema);
         if (!validate(config)) {
             logger.warn('MultipleOptionTest: ' + JSON.stringify(validate.errors));
             return false;
         }
 
         this.config = config;
+        return true;
     }
 }
 

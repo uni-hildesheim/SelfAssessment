@@ -40,13 +40,14 @@ class CheckboxTest extends AbstractTest.class {
      */
     loadConfig(config) {
         const ajv = new Ajv();
-        const validate = ajv.addSchema(this.schema);
+        const validate = ajv.compile(CheckboxTest.schema);
         if (!validate(config)) {
             logger.warn('CheckboxTest: ' + JSON.stringify(validate.errors));
             return false;
         }
 
         this.config = config;
+        return true;
     }
 }
 
