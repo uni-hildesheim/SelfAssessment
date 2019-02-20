@@ -1,5 +1,6 @@
 const db = require('../../db/db');
 const logger = require('../../utils/logger');
+const courseTestModels = require('../course/testmodels');
 const error = require('../../shared/error');
 
 module.exports = {
@@ -110,6 +111,7 @@ function calculate(config, journal) {
     let tests = [];
     for (const key in testsData) {
         const test = testsData[key];
+        let testInstance = null;
         let result = {
             id: key,
             score: 0,
@@ -118,79 +120,22 @@ function calculate(config, journal) {
             wrongOptions: []
         }
 
-        // calculate max score for this test
-        for (const opt of test.config['options']) {
-            if ('correct' in opt) {
-                result.maxScore++;
-            }
-        }
-
-        // calculate actual score based on test category
-        if (test.config['category'] === 'checkbox') {
-            for (let i = 0; i < test.log.length; i++) {
-                const testOptions = test.config['options'];
-                const correctOption = testOptions[i]['correct'] === true ? true : false;
-                if (test.log[i] === true && test.log[i] === correctOption) {
-                    // correct option was selected, award a point
-                    result.correctOptions.push(i);
-                    result.score++;
-                } else if (test.log[i] === true) {
-                    // option was selected, but wrong
-                    result.wrongOptions.push(i);
-                }
-            }
-        } else if (test.config['category'] === 'multiple-options') {
-            for (let i = 0; i < test.log.length; i++) {
-                const testOptions = test.config['options'];
-                const correctOption = testOptions[i]['correct'];
-                if (test.log[i][correctOption] === true) {
-                    // correct option was selected, award a point
-                    result.correctOptions.push(i);
-                    result.score++;
-                } else {
-                    for (const selection of test.log[i]) {
-                        if (selection === true) {
-                            // option was selected, but wrong
-                            result.wrongOptions.push(i);
-                            break;
-                        }
-                    }
-                }
-            }
-        } else if (test.config['category'] === 'radio-buttons') {
-            for (let i = 0; i < test.log.length; i++) {
-                const testOptions = test.config['options'];
-                const correctOption = testOptions[i]['correct'] === true ? true : false;
-                if (test.log[i] === true && test.log[i] === correctOption) {
-                    // correct option was selected, award a point
-                    result.correctOptions.push(i);
-                    result.score++;
-                } else if (test.log[i] === true) {
-                    // option was selected, but wrong
-                    result.wrongOptions.push(i);
-                }
-            }
-        } else if (test.config['category'] === 'speed') {
-            for (let i = 0; i < test.log.length; i++) {
-                const testOptions = test.config['options'];
-                const correctOption = testOptions[i]['correct'];
-                if (typeof test.log[i] !== 'string') {
-                    // not a string -> not something we can evaluate
-                    // this can occur when a user did not select any option in this test, in which
-                    // case the log will record a 'false' value for the option
+        for (const model of courseTestModels) {
+            if (model.name === test.config['category']) {
+                testInstance = new model.class();
+                if (!testInstance.loadConfig(test.config)) {
+                    logger.error('Failed to load config for single test: ' + key);
                     continue;
                 }
-
-                if (test.log[i].includes(correctOption)) {
-                    // correct option was selected, award a point
-                    result.correctOptions.push(i);
-                    result.score++;
-                } else if (test.log[i].length > 0) {
-                    // option was selected, but wrong
-                    result.wrongOptions.push(i);
-                }
             }
         }
+
+        result.maxScore = testInstance.maxScore;
+
+        const testResult = testInstance.calculateResult(test.log);
+        result.score = testResult.score;
+        result.correctOptions = testResult.correct;
+        result.wrongOptions = testResult.wrong;
 
         tests.push(result);
     }

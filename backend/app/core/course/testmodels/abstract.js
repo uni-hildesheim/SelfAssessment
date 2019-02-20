@@ -75,6 +75,15 @@ class AbstractTest {
     }
 
     /**
+     * Get the max score that is possible for this test.
+     *
+     * @returns Score as Integer
+     */
+    get maxScore() {
+        throw new Error('maxScore() not implemented');
+    }
+
+    /**
      * Load test configuration from a JSON object.
      *
      * @param {String} config JSON config object
@@ -82,6 +91,22 @@ class AbstractTest {
      */
     loadConfig(config) { // eslint-disable-line no-unused-vars
         throw new Error('loadConfig(...) not implemented');
+    }
+
+    /**
+     * Calculate the score for this test based on the given journal log.
+     *
+     * @param log Journal log as array containing selected single test options
+     * @returns Object with three fields:
+     *      1. score (Integer)
+     *          Test score
+     *      2. correct (Array)
+     *          List of correct option indices
+     *      3. wrong (Array)
+     *          List of wrong option indices
+     */
+    calculateResult(log) { // eslint-disable-line no-unused-vars
+        throw new Error('calculateScore(...) not implemented');
     }
 }
 

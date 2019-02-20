@@ -11,7 +11,16 @@ const CourseSchema = new mongoose.Schema({
     icon: String,
     configs: [{
         language: String,
-        config: Object
+        config: {
+            _id: false, // stop generating id for nested document object
+            title: String,
+            icon: String,
+            validationSchema: String,
+            tests: [Object],
+            testgroups: [Object],
+            sets: [Object],
+            infopages: [Object]
+        }
     }]
 });
 
