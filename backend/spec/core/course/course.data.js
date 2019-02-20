@@ -130,6 +130,13 @@ const CourseInstance = new CourseModel({
                         1001,
                         1003
                     ]
+                },
+                {
+                    "id": 4002,
+                    "text": "Select one of the radio buttons for each choice.",
+                    "belongs": [
+                        1002
+                    ]
                 }
             ]
         }

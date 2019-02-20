@@ -44,6 +44,46 @@ describe('CourseController', () => {
                 { error: error.ServerError.E_DBQUERY });
         });
 
+        it('should return HTTP 404 if the language does not exist', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(this.docs[0]);
+
+            const req = {
+                body: {
+                    name: this.docs[0].name,
+                    language: 'garbage'
+                }
+            };
+
+            await CourseController.loadConfig(req, this.res);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBQUERY });
+        });
+
+        /* TODO: Jasmine says res.status() is not called
+        it('should catch DB errors', async () => {
+            sinon.stub(CourseModel, 'findOne').rejects('DBIO');
+
+            const req = {
+                body: {
+                    name: CourseInstance.name,
+                    language: CourseInstance.language
+                }
+            };
+
+            await CourseController.loadConfig(req, this.res);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 500);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json,
+                { error: error.ServerError.E_DBIO });
+        });
+        */
+
         it('should load the dummy course from the stub DB', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(this.docs[0]);
 
