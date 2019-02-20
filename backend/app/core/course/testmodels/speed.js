@@ -30,7 +30,7 @@ class SpeedTest extends AbstractTest.class {
          *                Only for speed tests.
          * ----------------------------------------------------------------------------------------
          */
-        schema['$id'] = 'RadioButtonTest';
+        schema['$id'] = 'SpeedTest';
         schema['properties']['options']['items']['properties']['correct'] = {"type": "string"};
         schema['properties']['options']['items']['required'].push('correct');
         schema['properties']['seconds'] = {"type": "integer"};
