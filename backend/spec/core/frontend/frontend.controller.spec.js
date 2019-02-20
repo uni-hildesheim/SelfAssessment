@@ -2,6 +2,7 @@ const sinon = require('sinon');
 
 const FrontendController = require('../../../app/core/frontend/frontend.controller');
 const FrontendModel = require('../../../app/core/frontend/frontend.model');
+const Logger = require('../../../app/utils/logger');
 const TestDocuments = require('./frontend.data');
 const error = require('../../../app/shared/error');
 
@@ -40,6 +41,26 @@ describe('FrontendController', () => {
             sinon.assert.calledOnce(this.res.status().json);
             sinon.assert.calledWith(this.res.status().json,
                 { error: error.ServerError.E_DBQUERY });
+        });
+
+        it('should trigger a warning for multiple resources', async () => {
+            const duplicatedDocs = [this.docs[0], this.docs[1]];
+            sinon.stub(FrontendModel, 'find').resolves(duplicatedDocs);
+            spyOn(Logger, 'warn');
+
+            const req = {
+                // dummy
+            };
+
+            await FrontendController.resources(req, this.res);
+            sinon.assert.calledOnce(FrontendModel.find);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json, this.docs[0].configs);
+
+            expect(Logger.warn).toHaveBeenCalledWith('More than one frontend config found,' + 
+                ' sending the first one');
         });
 
         it('should load the dummy resource from the stub DB', async () => {
