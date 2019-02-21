@@ -1,23 +1,20 @@
-const sinon = require('sinon');
-
 const MultipleOptionTest = require('../../../../app/core/course/testmodels/multiple_option');
+const TestData = require('./data');
 
 describe('MultipleOptionTest', () => {
     beforeEach( () => {
-        // dummy
+        // create a new object each time to ensure tests do not affect each other
+        this.MultipleOptionTestInstance = new MultipleOptionTest.class(TestData.configs['multiple-options']);
     });
 
     afterEach( () => {
-        // cleanup and remove stubs
-        sinon.restore();
+        // dummy
     });
 
 
     describe('.constructor()', () => {
-        const instance = new MultipleOptionTest.class();
-
         it('should set the name', () => {
-            expect(instance.name).toEqual('multiple-options');
+            expect(this.MultipleOptionTestInstance.name).toEqual('multiple-options');
         });
     });
 
@@ -28,8 +25,6 @@ describe('MultipleOptionTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        const instance = new MultipleOptionTest.class();
-
         it('should return false for invalid configs', () => {
             const config = {
                 "id": 1001,
@@ -45,7 +40,7 @@ describe('MultipleOptionTest', () => {
                 ],
                 "evaluated": true
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.MultipleOptionTestInstance.loadConfig(config);
 
             expect(ret).toBe(false);
         });
@@ -69,7 +64,7 @@ describe('MultipleOptionTest', () => {
                     "No"
                 ]
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.MultipleOptionTestInstance.loadConfig(config);
 
             expect(ret).toBe(true);
         });

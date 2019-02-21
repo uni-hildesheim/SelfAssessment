@@ -1,23 +1,20 @@
-const sinon = require('sinon');
-
 const CheckboxTest = require('../../../../app/core/course/testmodels/checkbox');
+const TestData = require('./data');
 
 describe('CheckboxTest', () => {
     beforeEach( () => {
-        // dummy
+        // create a new object each time to ensure tests do not affect each other
+        this.CheckboxTestInstance = new CheckboxTest.class(TestData.configs['checkbox']);
     });
 
     afterEach( () => {
-        // cleanup and remove stubs
-        sinon.restore();
+        // dummy
     });
 
 
     describe('.constructor()', () => {
-        const instance = new CheckboxTest.class();
-
         it('should set the name', () => {
-            expect(instance.name).toEqual('checkbox');
+            expect(this.CheckboxTestInstance.name).toEqual('checkbox');
         });
     });
 
@@ -28,8 +25,6 @@ describe('CheckboxTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        const instance = new CheckboxTest.class();
-
         it('should return false for invalid configs', () => {
             const config = {
                 "id": 1001,
@@ -44,7 +39,7 @@ describe('CheckboxTest', () => {
                     }
                 ]
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.CheckboxTestInstance.loadConfig(config);
 
             expect(ret).toBe(false);
         });
@@ -64,7 +59,7 @@ describe('CheckboxTest', () => {
                 ],
                 "evaluated": true
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.CheckboxTestInstance.loadConfig(config);
 
             expect(ret).toBe(true);
         });

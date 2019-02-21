@@ -5,10 +5,14 @@ const logger = require('../../../utils/logger');
 const AbstractTest = require('./abstract');
 
 class MultipleOptionTest extends AbstractTest.class {
-    constructor() {
-        super(); // noop
+    constructor(config) {
+        super(config); // noop
         this.name = 'multiple-options';
-        this.config = null;
+        this.config = config;
+
+        if (!this.loadConfig(config)) {
+            throw new Error('Invalid test config');
+        }
     }
 
     static get schema() {
@@ -56,10 +60,6 @@ class MultipleOptionTest extends AbstractTest.class {
      * @returns Score as Integer
      */
     get maxScore() {
-        if (this.config === null) {
-            throw new Error('missing test config');
-        }
-
         let score = 0;
         for (const opt of this.config['options']) {
             if ('correct' in opt) {

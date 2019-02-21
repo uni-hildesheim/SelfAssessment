@@ -64,7 +64,7 @@ const ABSTRACT_TEST_SCHEMA = {
 };
 
 class AbstractTest {
-    constructor() {
+    constructor(config) { // eslint-disable-line no-unused-vars
         if (new.target === AbstractTest) {
             throw new TypeError('Cannot construct AbstractTest instances');
         }

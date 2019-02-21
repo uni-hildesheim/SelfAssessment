@@ -1,23 +1,20 @@
-const sinon = require('sinon');
-
 const SpeedTest = require('../../../../app/core/course/testmodels/speed');
+const TestData = require('./data');
 
 describe('SpeedTest', () => {
     beforeEach( () => {
-        // dummy
+        // create a new object each time to ensure tests do not affect each other
+        this.SpeedTestInstance = new SpeedTest.class(TestData.configs['speed']);
     });
 
     afterEach( () => {
-        // cleanup and remove stubs
-        sinon.restore();
+        // dummy
     });
 
 
     describe('.constructor()', () => {
-        const instance = new SpeedTest.class();
-
         it('should set the name', () => {
-            expect(instance.name).toEqual('speed');
+            expect(this.SpeedTestInstance.name).toEqual('speed');
         });
     });
 
@@ -28,8 +25,6 @@ describe('SpeedTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        const instance = new SpeedTest.class();
-
         it('should return false for invalid configs', () => {
             const config = {
                 "id": 1001,
@@ -45,7 +40,7 @@ describe('SpeedTest', () => {
                 ],
                 "evaluated": true
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.SpeedTestInstance.loadConfig(config);
 
             expect(ret).toBe(false);
         });
@@ -66,7 +61,7 @@ describe('SpeedTest', () => {
                 "evaluated": true,
                 "seconds": 1
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.SpeedTestInstance.loadConfig(config);
 
             expect(ret).toBe(true);
         });

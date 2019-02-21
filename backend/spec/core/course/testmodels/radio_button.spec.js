@@ -1,23 +1,20 @@
-const sinon = require('sinon');
-
 const RadioButtonTest = require('../../../../app/core/course/testmodels/radio_button');
+const TestData = require('./data');
 
 describe('RadioButtonTest', () => {
     beforeEach( () => {
-        // dummy
+        // create a new object each time to ensure tests do not affect each other
+        this.RadioButtonTestInstance = new RadioButtonTest.class(TestData.configs['radio-buttons']);
     });
 
     afterEach( () => {
-        // cleanup and remove stubs
-        sinon.restore();
+        // dummy
     });
 
 
     describe('.constructor()', () => {
-        const instance = new RadioButtonTest.class();
-
         it('should set the name', () => {
-            expect(instance.name).toEqual('radio-buttons');
+            expect(this.RadioButtonTestInstance.name).toEqual('radio-buttons');
         });
     });
 
@@ -28,8 +25,6 @@ describe('RadioButtonTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        const instance = new RadioButtonTest.class();
-
         it('should return false for invalid configs', () => {
             const config = {
                 "id": 1001,
@@ -44,7 +39,7 @@ describe('RadioButtonTest', () => {
                     }
                 ],
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.RadioButtonTestInstance.loadConfig(config);
 
             expect(ret).toBe(false);
         });
@@ -64,7 +59,7 @@ describe('RadioButtonTest', () => {
                 ],
                 "evaluated": true,
             };
-            const ret = instance.loadConfig(config);
+            const ret = this.RadioButtonTestInstance.loadConfig(config);
 
             expect(ret).toBe(true);
         });

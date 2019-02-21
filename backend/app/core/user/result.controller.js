@@ -122,11 +122,7 @@ function calculate(config, journal) {
 
         for (const model of courseTestModels) {
             if (model.name === test.config['category']) {
-                testInstance = new model.class();
-                if (!testInstance.loadConfig(test.config)) {
-                    logger.error('Failed to load config for single test: ' + key);
-                    continue;
-                }
+                testInstance = new model.class(test.config);
             }
         }
 
