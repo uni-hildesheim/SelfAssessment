@@ -4,9 +4,15 @@ const CheckboxTestConfig = {
     category: "checkbox",
     description: "",
     task: "",
-    options: [{
-        text: ""
-    }],
+    options: [
+        {
+            text: "A",
+            correct: true
+        },
+        {
+            text: "B"
+        }
+    ],
     evaluated: false
 };
 

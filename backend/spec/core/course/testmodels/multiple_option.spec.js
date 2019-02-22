@@ -16,11 +16,30 @@ describe('MultipleOptionTest', () => {
         it('should set the name', () => {
             expect(this.MultipleOptionTestInstance.name).toEqual('multiple-options');
         });
+
+        it('should throw an error for invalid configs', () => {
+            expect( () => {
+                new MultipleOptionTest.class({})
+            }).toThrow(new Error('Invalid test config'));
+        });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
             expect(MultipleOptionTest.class.schema['$id']).toEqual('MultipleOptionTest');
+        });
+    });
+
+    describe('.maxScore (get)', () => {
+        it('should return n for n correct options', () => {
+            let expectedMaxScore = 0;
+            for (const opt of TestData.configs['multiple-options'].options) {
+                if ('correct' in opt) {
+                    expectedMaxScore++;
+                }
+            }
+
+            expect(this.MultipleOptionTestInstance.maxScore).toEqual(expectedMaxScore);
         });
     });
 

@@ -89,10 +89,6 @@ class SpeedTest extends AbstractTest.class {
      *          List of wrong option indices
      */
     calculateResult(log) {
-        if (this.config === null) {
-            throw new Error('missing test config');
-        }
-
         let result = {
             score: 0,
             correct: [],

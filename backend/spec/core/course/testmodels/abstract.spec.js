@@ -39,18 +39,9 @@ describe('AbstractTest', () => {
             }
         }
 
-        const instance = new SampleTest({
-            id: 0,
-            category: '',
-            description: '',
-            task: '',
-            options: [],
-            evaluated: false
-        })
-
         it('should throw an error  ', () => {
             expect( () => {
-                instance.maxScore;
+                new SampleTest({}).maxScore;
             }).toThrow(new Error('maxScore() not implemented'));
         });
     });
@@ -66,6 +57,20 @@ describe('AbstractTest', () => {
             expect( () => {
                 new SampleTest({}).loadConfig(null);
             }).toThrow(new Error('loadConfig(...) not implemented'));
+        });
+    });
+
+    describe('.calculateResult (get)', () => {
+        class SampleTest extends AbstractTest.class {
+            constructor(config) {
+                super(config);
+            }
+        }
+
+        it('should throw an error    ', () => {
+            expect( () => {
+                new SampleTest({}).calculateResult({});
+            }).toThrow(new Error('calculateScore(...) not implemented'));
         });
     });
 });
