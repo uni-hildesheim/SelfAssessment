@@ -388,7 +388,7 @@ function setupAutodeploy(inputPath, outputPath) {
     });
 }
 
-function main() {
+async function main() {
     loadEnvironment();
 
     // create the app
@@ -424,7 +424,7 @@ function main() {
 
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);
-    db.connect(db.config.uri, db.config.options);
+    await db.connect(db.config.uri, db.config.options);
 
     // sync frontend resource configs
     loadFrontendResources('./data/configs/frontend');
