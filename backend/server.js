@@ -420,7 +420,7 @@ async function main() {
         fileStream.end();
     });
 
-    logger.addTransport(new logger.Transport.FileTransport(0, fileStream));
+    logger.addTransport(new logger.Transport.FileTransport(fileStream, 0));
 
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);

@@ -72,7 +72,7 @@ class ConsoleTransport {
 }
 
 class FileTransport {
-    constructor(priority = 1, fileStream) {
+    constructor(fileStream, priority = 1) {
         this.priority = priority;
         this.fileStream = fileStream;
     }
