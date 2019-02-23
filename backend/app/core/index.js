@@ -5,6 +5,6 @@ module.exports = function(app) {
     require('./frontend/frontend.route').v1(app);
     require('./logger/logger.route').v1(app);
     require('./user/journal.route').v1(app);
-    require('./user/pincode.route').v1(app);
     require('./user/result.route').v1(app);
+    require('./user/user.route').v1(app);
 }

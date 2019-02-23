@@ -477,16 +477,6 @@ Error numbers and default messages are defined in app/shared/error.js. The front
   }
   ```
 
-### Pincode (v1)
-* GET `/api/v1/pincode/create`  
-  Create a new pincode object in the DB. Along with the pin itself, the controller stores the creation date so objects can be dropped from the DB by using filters.
-
-  Example output:  
-
-  ```
-  62211357
-  ```
-
 ### Result (v1)
 * POST `/api/v1/result/load`  
   Load test results for a pincode. Returns HTTP 404 if the pin code is invalid.
@@ -524,6 +514,16 @@ Error numbers and default messages are defined in app/shared/error.js. The front
 	    "wrongOptions": []
 	  }
   ]
+  ```
+
+### User (v1)
+* GET `/api/v1/user/create`  
+  Create a new user object in the DB. Along with the pin itself, the controller stores the creation date so objects can be dropped from the DB by using filters.
+
+  Example output:  
+
+  ```
+  62211357
   ```
 
 * POST `/api/v1/result/lock`  

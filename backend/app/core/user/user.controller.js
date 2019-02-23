@@ -6,7 +6,11 @@ module.exports = {
     create
 }
 
-// create a pseudo-random pin code
+/**
+ * Create a new user.
+ * @param {*} req HTTP request (unused)
+ * @param {*} res HTTP response
+ */
 async function create(req, res) {
     // length of the pin code, where each element is a digit
     // 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
@@ -37,7 +41,7 @@ async function create(req, res) {
         return;
     }
 
-    // create a new user
+    // generate a new, unique pin code
     var digits = new Array(LENGTH)
     var string = ''
     do {
@@ -53,7 +57,7 @@ async function create(req, res) {
         }
     } while (pincodes.indexOf(Number.parseInt(string)) > -1);
 
-    // add the new pincode to the db collection
+    // add the new user to the db collection
     db.User.create({
         pin: Number.parseInt(string),
         created: new Date()

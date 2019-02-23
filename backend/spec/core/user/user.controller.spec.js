@@ -1,10 +1,10 @@
 const sinon = require('sinon');
 
-const PincodeController = require('../../../app/core/user/pincode.controller');
+const UserController = require('../../../app/core/user/user.controller');
 const UserModel = require('../../../app/core/user/user.model');
 const TestDocuments = require('./user.data');
 
-describe('PincodeController', () => {
+describe('UserController', () => {
     beforeEach( () => {
         // test data
         this.docs = TestDocuments;
@@ -24,7 +24,7 @@ describe('PincodeController', () => {
         sinon.restore();
     });
 
-    describe('PincodeController.create', () => {
+    describe('UserController.create', () => {
         it('should create a pseudo-random pincode (8 digits)', async () => {
             sinon.stub(UserModel, 'find').resolves(this.docs);
             sinon.stub(UserModel, 'create').resolves(this.docs[0]);
@@ -33,7 +33,7 @@ describe('PincodeController', () => {
                 // dummy
             };
 
-            await PincodeController.create(req, this.res);
+            await UserController.create(req, this.res);
             sinon.assert.calledOnce(UserModel.find);
             sinon.assert.calledOnce(UserModel.create);
             sinon.assert.calledOnce(this.res.status);
