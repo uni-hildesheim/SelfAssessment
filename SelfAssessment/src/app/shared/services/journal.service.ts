@@ -10,6 +10,7 @@ import { ConfigService } from './config.service';
 import { Observable, forkJoin } from 'rxjs';
 import { ConfigFile } from '../models/configuration/config.file.model';
 import { LoggingService } from '../logging/logging.service';
+import { StorageItem } from './local.storage.values.enum';
 
 /**
  * Fetches/Stores journal specific objects from/to the database.
@@ -134,7 +135,7 @@ export class JournalService {
    */
   public saveJournalLog(journalLog: JournalLog): Observable<any> {
     return this.http.post(JournalService.SAVE_JOURNAL_LOG, {
-      pin: this.storageService.getPin(),
+      pin: this.storageService.retrieveFromStorage(StorageItem.PIN),
       log: this.storageService.prepareJournalLogForSaving(journalLog)
     }).pipe(
       tap(() => {
@@ -151,7 +152,7 @@ export class JournalService {
    */
   public saveJournalStructure(journalStructure: JournalStructure): Observable<any> {
     return this.http.post(JournalService.SAVE_JOURNAL_STRUCTURE, {
-      pin: this.storageService.getPin(),
+      pin: this.storageService.retrieveFromStorage(StorageItem.PIN),
       structure: this.storageService.prepareJournalStructureForSaving(journalStructure)
     }).pipe(
       tap(() => {

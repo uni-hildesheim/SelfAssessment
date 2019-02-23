@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { Category } from './../../../../../shared/models/procedure/enums/category.enum';
 import { SetElementType } from './../../../../../shared/models/procedure/enums/element.type.enum';
 import { MultipleOptions } from 'src/app/shared/models/procedure/categories/multiple.options.test';
@@ -37,7 +38,7 @@ describe('MultipleOptionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MultipleOptionsComponent ],
       providers: [GlobalIndicator, JournalLogService],
-      imports: [MaterialModule, SharedModule]
+      imports: [MaterialModule, SharedModule, RouterTestingModule]
     })
     .compileComponents();
   }));

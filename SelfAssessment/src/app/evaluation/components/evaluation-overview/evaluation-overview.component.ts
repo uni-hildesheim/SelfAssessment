@@ -7,6 +7,7 @@ import { ResultService } from '../../services/result.service';
 import { Observable, of } from 'rxjs';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
 import { tap, catchError } from 'rxjs/operators';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 @Component({
   selector: 'app-evaluation-overview',
@@ -29,10 +30,10 @@ export class EvaluationOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.journalStructure = this.storage.getJournalStructure();
+    this.journalStructure = this.storage.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
     if (!this.route.snapshot.paramMap.get('show')) {
       // user does not need to see the info card
-      this.course = this.storage.getCourse().name;
+      this.course = this.storage.retrieveFromStorage(StorageItem.COURSE).name;
     } else {
       if (this.resultService.evaluation != null) {
         // user provided pin
@@ -55,7 +56,7 @@ export class EvaluationOverviewComponent implements OnInit {
 
   showEval() {
     this.loading = true;
-    const pin = this.storage.getPin();
+    const pin = this.storage.retrieveFromStorage(StorageItem.PIN);
     this.results$ = this.resultService.getResults(pin)
     .pipe(
       tap(() => this.loading = false),

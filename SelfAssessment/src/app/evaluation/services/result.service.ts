@@ -10,6 +10,7 @@ import { TestSet } from 'src/app/shared/models/procedure/testset.model';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
 import { Test } from 'src/app/shared/models/procedure/test.model';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +35,8 @@ export class ResultService {
 
   public formatResultSet(data: ResultTest[]): ResultSet[] {
     const mapRawTests = new Map<any, ResultTest>();
-    const journalLog = this.storage.getJournalLog();
-    const structure: JournalStructure = this.storage.getJournalStructure();
+    const journalLog = this.storage.retrieveFromStorage(StorageItem.JOURNAL_LOG);
+    const structure: JournalStructure = this.storage.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
     const resultSets: ResultSet[] = [];
 
 

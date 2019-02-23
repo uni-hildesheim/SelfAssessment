@@ -3,6 +3,7 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Observable } from 'rxjs';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 
 /**
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
    * @param course The course.
    */
   public startTheTest(course): void {
-    this.storageService.storeCourse(course);
+    this.storageService.persistInStorage(StorageItem.COURSE, course);
     this.router.navigate(['/test-start', course]);
   }
 }

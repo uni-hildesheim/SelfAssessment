@@ -10,6 +10,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { Course } from 'src/app/shared/models/configuration/course.model';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { switchMap } from 'rxjs/operators';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * The component displayed before the actual test procedure.
@@ -36,6 +37,8 @@ export class StartTestComponent implements OnInit {
    */
   public pin: number;
 
+  public pinloading = true;
+
   /**
    * The desired language.
    */
@@ -57,9 +60,11 @@ export class StartTestComponent implements OnInit {
    */
   ngOnInit() {
 
-    this.pinService.createNewPin().subscribe(pin => this.pin = pin);
+    this.pinService.createNewPin()
+    .subscribe(pin => this.pin = pin)
+    .add(() => this.pinloading = false);
 
-    this.course = this.storageService.getCourse();
+    this.course = this.storageService.retrieveFromStorage(StorageItem.COURSE);
 
     this.notes = [];
     for (let i = 0; i < 5; i++) {
@@ -76,7 +81,7 @@ export class StartTestComponent implements OnInit {
     .chooseCourseLanguage(this.course.languages, false)
     .pipe(
       switchMap((language: string) => {
-        this.storageService.storeCourseLanguage(language);
+        this.storageService.persistInStorage(StorageItem.COURSE_LANGUAGE, language);
         return this.configService.loadConfigFromCourse(this.course.name, language)
         .pipe(
           switchMap((configFile: ConfigFile) => {

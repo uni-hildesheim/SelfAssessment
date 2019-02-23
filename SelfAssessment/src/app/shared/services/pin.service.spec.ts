@@ -4,7 +4,8 @@ import { PinService } from './pin.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LocalStorageService } from './local-storage.service';
 import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
-import { Observable, of } from 'rxjs';
+import { StorageItem } from './local.storage.values.enum';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('PinService', () => {
   let pinService: PinService;
@@ -15,33 +16,21 @@ describe('PinService', () => {
 
   const dummyPin = 61315427;
 
-  class MockLocalStorageService {
 
-    fakeLocalStorage;
-
-    storePin(pin) {
-      this.fakeLocalStorage = pin;
-    }
-
-    getPin() {
-      return this.fakeLocalStorage;
-    }
-
-  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule, RouterTestingModule
       ],
-      providers: [GlobalIndicator, {provide: LocalStorageService, useClass: MockLocalStorageService}]
+      providers: [GlobalIndicator, LocalStorageService]
     }).compileComponents();
 
     pinService = TestBed.get(PinService);
     storageService = TestBed.get(LocalStorageService);
     httpTestingController = TestBed.get(HttpTestingController);
-    spyGetPin = spyOn(storageService, 'getPin');
-    spyStorePin = spyOn(storageService, 'storePin');
+    spyGetPin = spyOn(storageService, 'checkPinInStorage');
+    spyStorePin = spyOn(storageService, 'persistInStorage');
   });
 
 
@@ -64,7 +53,7 @@ describe('PinService', () => {
 
     expect(spyStorePin).toHaveBeenCalledTimes(1);
     expect(spyGetPin).toHaveBeenCalledTimes(1);
-    expect(spyStorePin).toHaveBeenCalledWith(dummyPin);
+    expect(spyStorePin).toHaveBeenCalledWith(StorageItem.PIN, dummyPin);
 
   });
 

@@ -44,7 +44,7 @@ export class PinComponent implements OnInit {
 
 
   public initateNavigation(data: Object): void {
-    this.storageService.storeJournal(data['journal']);
+    this.storageService.persistJournal(data['journal']);
     this.resultService.loadResults(data['pin']).subscribe(
       result => {
         this.resultService.evaluation = of(result);

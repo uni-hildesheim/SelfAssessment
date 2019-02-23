@@ -11,6 +11,7 @@ import { Course } from '../models/configuration/course.model';
 import { LoggingService } from '../logging/logging.service';
 import { tap } from 'rxjs/operators';
 import { ResultSet } from '../models/evaluation/result.set';
+import { StorageItem } from './local.storage.values.enum';
 
 /**
  * Handles the overall configuration logic, to setup the application for
@@ -87,7 +88,7 @@ export class ConfigService {
     const journalLog = this.journalLogService.initJournalLog(journalStructure);
     journal.log = journalLog;
     journal.structure = journalStructure;
-    this.storageService.storeJournal(journal);
+    this.storageService.persistJournal(journal);
     return journal;
   }
 

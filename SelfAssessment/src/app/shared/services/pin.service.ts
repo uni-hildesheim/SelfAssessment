@@ -1,3 +1,4 @@
+import { StorageItem } from './local.storage.values.enum';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -32,8 +33,8 @@ export class PinService {
    *
    * @returns Observable containing generated pin.
    */
-  public createNewPin(): Observable<number> {
-    const checkPin = this.storageService.getPin();
+  public createNewPin(): Observable<any> {
+    const checkPin = this.storageService.checkPinInStorage();
 
     if (checkPin) {
       return of(checkPin);
@@ -41,7 +42,7 @@ export class PinService {
 
     return this.http.get(PinService.CREATE_PIN).pipe(
       map((pin: number) => {
-        this.storageService.storePin(pin);
+        this.storageService.persistInStorage(StorageItem.PIN, pin);
         return pin;
       }),
       tap((pin: number) => {

@@ -10,6 +10,7 @@ import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
 import { MultipleOptions } from 'src/app/shared/models/procedure/categories/multiple.options.test';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * Keeps track of the journal log across the application.
@@ -105,7 +106,7 @@ export class JournalLogService {
    */
   public getJournalLogAsObservable(): Observable<JournalLog> {
     if (!this.journalLog) {
-      this.journalLog = new BehaviorSubject(this.storageService.getJournalLog());
+      this.journalLog = new BehaviorSubject(this.storageService.retrieveFromStorage(StorageItem.JOURNAL_LOG));
     }
     return this.journalLog.asObservable();
   }
@@ -115,7 +116,7 @@ export class JournalLogService {
    * Notifies the observers which are subscribed to the journal log behaviour subject.
    */
   public refreshJournalLog(): void {
-    this.storageService.storeJournalLog(this.journalLogInstance);
+    this.storageService.persistInStorage(StorageItem.JOURNAL_LOG, this.journalLogInstance);
     this.journalLog.next(this.journalLogInstance);
   }
 

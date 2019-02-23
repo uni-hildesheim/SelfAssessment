@@ -8,6 +8,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Router } from '@angular/router';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * Handles the testing procedure.
@@ -61,7 +62,7 @@ export class MainPanelComponent implements OnInit {
 
   ngOnInit() {
 
-    this.journalStructure = this.storageService.getJournalStructure();
+    this.journalStructure = this.storageService.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
     this.journalLogService.getJournalLogAsObservable().subscribe(
       (data) => {
         this.updateProtocol = true;

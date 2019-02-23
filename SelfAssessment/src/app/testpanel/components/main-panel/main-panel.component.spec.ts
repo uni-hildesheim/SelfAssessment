@@ -19,6 +19,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 
 
@@ -102,7 +103,7 @@ describe('MainPanelComponent', () => {
     };
 
     const storageServiceStub = {
-      getJournalStructure(): JournalStructure { return journalStructureDummy; },
+      retrieveFromStorage(item: StorageItem) { return journalStructureDummy; },
       prepareJournalLogForSaving(journalLog: JournalLog): Object {
         return new Object();
       }

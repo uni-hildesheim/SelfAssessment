@@ -1,3 +1,4 @@
+import { StorageItem } from './../../../shared/services/local.storage.values.enum';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
@@ -21,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.lang = this.storageService.getAllResources()
+    this.lang = this.storageService.retrieveFromStorage(StorageItem.RESOURCES)
       .map(obj => obj.language);
   }
 

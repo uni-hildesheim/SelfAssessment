@@ -41,7 +41,10 @@
           {{'lbl-note-text' | language}}
       </p>
       <p>
-        <b>PIN: {{this.pin}}</b>
+        <b *ngIf="!pinloading;else spin">PIN: {{this.pin}}</b>
+        <ng-template #spin>
+          <mat-spinner [diameter]="20"></mat-spinner>
+        </ng-template>
       </p>
     </div>
 

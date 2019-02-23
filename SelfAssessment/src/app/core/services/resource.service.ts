@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Resource } from 'src/app/shared/models/resources/resources.model';
 import { environment } from 'src/environments/environment';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * Service that handles all the logic relating to
@@ -27,7 +27,6 @@ export class ResourceService {
 
   constructor(
     private http: HttpClient,
-    private storage: LocalStorageService,
     private logging: LoggingService
   ) { }
 
@@ -40,7 +39,7 @@ export class ResourceService {
    */
   public getResource(): Resource {
     if (!this.resource) {
-      this.resource = this.storage.getResources();
+      this.getResources().then(val => this.resource = val);
     }
     return this.resource;
   }
@@ -52,9 +51,9 @@ export class ResourceService {
    *
    * @param lang The choosen language.
    */
-  public changeLang(lang: string): void {
-    this.storage.storeLanguage(lang);
-    this.resource = this.storage.getResources();
+  public async changeLang(lang: string) {
+    localStorage.setItem(StorageItem.LANGUAGE, lang);
+    this.resource = await this.getResources();
   }
 
   /**
@@ -66,7 +65,7 @@ export class ResourceService {
    */
   public loadResources(): Promise<any> {
     // this.storage.clearStorage();
-    this.storage.storeLanguage(environment.defaultLanguage);
+    localStorage.setItem(StorageItem.LANGUAGE, environment.defaultLanguage);
 
     return this.http.get('api/v1/frontend/resources')
       .pipe(
@@ -76,12 +75,35 @@ export class ResourceService {
           this.logging.debug(undefined, data);
 
           // store the default-language-resources in the local storage
-          this.storage.storeResources(data);
+          localStorage.setItem(StorageItem.RESOURCES, JSON.stringify(data));
 
           // init the service resource variable
-          this.resource = this.storage.getResources();
+          this.getResources().then(val => this.resource = val);
         })
       ).toPromise();
+  }
+
+  public getResources(): Promise<Resource> {
+
+    return new Promise((resolve, reject) => {
+      let res: Resource;
+      const lang = localStorage.getItem(StorageItem.LANGUAGE);
+      const resources = (<Resource[]>JSON.parse(localStorage.getItem(StorageItem.RESOURCES)));
+
+      if (!resources) {
+        this.loadResources().then(
+          data => {
+            localStorage.setItem(StorageItem.LANGUAGE, lang);
+            res = data.find(e => e.language === lang);
+            resolve(res);
+          }
+        );
+      } else {
+        res = resources.find(e => e.language === lang);
+        resolve(res);
+      }
+    });
+
   }
 
 }

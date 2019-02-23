@@ -4,6 +4,7 @@ import { Validators, FormControl } from '@angular/forms';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { ResultService } from 'src/app/evaluation/services/result.service';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * Realizes the Pin Dialog.
@@ -54,7 +55,7 @@ export class PinDialogComponent implements OnInit {
     // load structure
     this.protocolService.loadJournal(parseInt(pin, 0)).subscribe(
       data => {
-        this.storageService.storePin(pin);
+        this.storageService.persistInStorage(StorageItem.PIN, pin);
         this.dialogRef.close({pin, journal: data});
       },
       err => {

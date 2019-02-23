@@ -1,3 +1,4 @@
+import { StorageItem } from './../../../shared/services/local.storage.values.enum';
 import { Course } from 'src/app/shared/models/configuration/course.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -40,19 +41,12 @@ describe('DashboardComponent', () => {
       getAllCourses() { return of([mockCourse]); }
     };
 
-    const StorageServiceStub = {
-      storeCourse (course: Course) {},
-      getResources () {}
-    };
-
-
     TestBed.configureTestingModule({
       imports: [MaterialModule, HttpClientModule, RouterTestingModule
     ],
       declarations: [DashboardComponent, CourseCardComponent, PinComponent, MockPipe],
-      providers: [GlobalIndicator,
-        {provide: ConfigService, useValue: ConfigServiceStub},
-        {provide: LocalStorageService, useValue: StorageServiceStub}
+      providers: [GlobalIndicator, LocalStorageService,
+        {provide: ConfigService, useValue: ConfigServiceStub}
       ]
     })
       .compileComponents();
@@ -83,13 +77,13 @@ describe('DashboardComponent', () => {
   it('should start correct test if button from course card is clicked', () => {
 
     spyOn(component, 'startTheTest').and.callThrough();
-    spyOn(storageService, 'storeCourse');
+    spyOn(storageService, 'persistInStorage');
     spyOn(router, 'navigate');
 
     component.startTheTest(mockCourse);
 
     expect(component.startTheTest).toHaveBeenCalledWith(mockCourse);
-    expect(storageService.storeCourse).toHaveBeenCalledWith(mockCourse);
+    expect(storageService.persistInStorage).toHaveBeenCalledWith(StorageItem.COURSE, mockCourse);
     expect(router.navigate).toHaveBeenCalledWith(['/test-start', mockCourse]);
 
   });

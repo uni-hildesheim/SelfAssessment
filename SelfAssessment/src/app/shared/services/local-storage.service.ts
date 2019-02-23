@@ -1,3 +1,5 @@
+import { LoggingService } from 'src/app/shared/logging/logging.service';
+import { StorageItem } from './local.storage.values.enum';
 import { Infopage } from './../models/procedure/infopage.model';
 import { TestSet } from './../models/procedure/testset.model';
 import { Test } from './../models/procedure/test.model';
@@ -12,7 +14,7 @@ import { Course } from '../models/configuration/course.model';
 import { Resource } from '../models/resources/resources.model';
 import { TestSetMinimal } from '../models/state/minimal/test.set.minimal';
 import { SetElement } from '../models/procedure/set.element.model';
-
+import { Router } from '@angular/router';
 
 /**
  * This Service contains the logic for storing/retrieving objects in/from
@@ -24,136 +26,61 @@ import { SetElement } from '../models/procedure/set.element.model';
 })
 export class LocalStorageService {
 
-  constructor() { }
+  constructor(
+    private logging: LoggingService,
+    private router: Router
+  ) { }
 
-  /**
-   * Stores a journal instance in the local storage.
-   *
-   * @param journal The journal instance.
-   */
-  public storeJournal(journal: Journal): void {
-    localStorage.setItem('journallog', JSON.stringify(this.prepareJournalLogForSaving(journal.log)));
-    localStorage.setItem('journalstructure', JSON.stringify(journal.structure));
+  public checkPinInStorage() {
+    return localStorage.getItem(StorageItem.PIN);
   }
 
-  /**
-   * Stores a journal log instance in the local storage.
-   *
-   * @param journallog The log instance.
-   */
-  public storeJournalLog(journallog: JournalLog): void {
-    localStorage.setItem('journallog', JSON.stringify(this.prepareJournalLogForSaving(journallog)));
+  public retrieveFromStorage(item: StorageItem): any {
+    const result = JSON.parse(localStorage.getItem(item.valueOf()));
+
+    if (!result) {
+      // this.clearStorage();
+      this.logging.warn(`could not retrieve ${item} from local storage`);
+      this.logging.warn(`navigate back to index`);
+      this.router.navigateByUrl('/');
+    } else {
+      // special case for journal log
+      if (item.valueOf() === StorageItem.JOURNAL_LOG.valueOf()) {
+        return this.extractSavedJournalLog(result);
+      } else {
+        return result;
+      }
+    }
   }
 
-  /**
-   * Stores the pin in the local storage.
-   *
-   * @param pin The pin.
-   */
-  public storePin(pin): void {
-    localStorage.setItem('pin', pin.toString());
+  public persistInStorage(item: StorageItem, value: any): any {
+    // special case for the journal log because for some reason
+    // javascript does not allow maps in the local storage
+    if (item.valueOf() === StorageItem.JOURNAL_LOG.valueOf()) {
+      localStorage.setItem(item.valueOf(), JSON.stringify(this.prepareJournalLogForSaving(value)));
+    } else {
+      localStorage.setItem(item.valueOf(), JSON.stringify(value));
+    }
   }
 
-  /**
-   * Stores a course in the local storage.
-   *
-   * @param course The course.
-   */
-  public storeCourse(course: Course): void {
-    localStorage.setItem('course', JSON.stringify(course));
+  public retrieveJournal(): Journal {
+    const journal = new Journal();
+    journal.log = this.retrieveFromStorage(StorageItem.JOURNAL_LOG);
+    journal.structure = this.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
+    return journal;
   }
 
-  /**
-   * Retrieves the pin from the local storage.
-   *
-   * @returns The pin.
-   */
-  public getPin(): number {
-    return parseInt(localStorage.getItem('pin'), 0);
+  public persistJournal(journal: Journal) {
+    console.log('HIER');
+    this.persistInStorage(StorageItem.JOURNAL_LOG, journal.log);
+    this.persistInStorage(StorageItem.JOURNAL_STRUCTURE, journal.structure);
   }
 
-  /**
-   * Retrieves the course from the local storage.
-   *
-   * @returns The course.
-   */
-  public getCourse(): Course {
-    return JSON.parse(localStorage.getItem('course'));
-  }
-
-  /**
-   * Retrieves the journal log from the local storage.
-   *
-   * @returns The journal log.
-   */
-  public getJournalLog(): JournalLog {
-    return this.extractSavedJournalLog(JSON.parse(localStorage.getItem('journallog')));
-  }
-
-  /**
-   * Retrieves the journal structure from the local storage.
-   *
-   * @returns The journal structure.
-   */
-  public getJournalStructure(): JournalStructure {
-    return JSON.parse(localStorage.getItem('journalstructure'));
-  }
 
   public clearStorage(): void {
     localStorage.clear();
   }
 
-  public getLanguage(): string {
-    return localStorage.getItem('language');
-  }
-
-  public storeCourseLanguage(language: string): void {
-    localStorage.setItem('courseLanguage', language);
-  }
-
-  public getCourseLanguage(): string {
-    return localStorage.getItem('courseLanguage');
-  }
-
-  public storeLanguage(lang: string): void {
-    localStorage.setItem('language', lang);
-  }
-
-  public storeResources(res: Resource[]): void {
-    localStorage.setItem('resources', JSON.stringify(res));
-  }
-
-  public getAllResources(): Resource[] {
-    return JSON.parse(localStorage.getItem('resources'));
-  }
-
-  public getResources(): Resource {
-
-    let res: Resource;
-
-    const lang = this.getLanguage();
-
-    (<Resource[]>JSON.parse(localStorage.getItem('resources')))
-      .forEach(element => {
-        if (element.language === lang) {
-          res = element;
-        }
-      });
-
-    return res;
-  }
-
-  /**
-   * Retrieves the complete journal from the local storage.
-   *
-   * @returns The journal
-   */
-  public getJournal(): Journal {
-    const journal = new Journal();
-    journal.log = this.getJournalLog();
-    journal.structure = this.getJournalStructure();
-    return journal;
-  }
 
   /**
    * Helper method to format the journal log into a storable object,
@@ -190,8 +117,8 @@ export class LocalStorageService {
    */
   public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureMinimal {
     const rawSet: JournalStructureMinimal = {
-      course: this.getCourse().name,
-      language: this.getCourseLanguage(),
+      course: this.retrieveFromStorage(StorageItem.COURSE).name,
+      language: this.retrieveFromStorage(StorageItem.COURSE_LANGUAGE),
       sets: []
     };
     journalStructure.sets.forEach(set => {

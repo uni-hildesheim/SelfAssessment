@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { PinService } from './../../../shared/services/pin.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 @Component({
   selector: 'app-validation',
@@ -22,7 +23,7 @@ export class ValidationComponent implements OnInit {
   ngOnInit() { }
 
   createValidationCode() {
-    this.validation = this.pinService.createNewValidationCode(this.storageService.getPin());
+    this.validation = this.pinService.createNewValidationCode(this.storageService.retrieveFromStorage(StorageItem.PIN));
   }
 
   backToEval() {

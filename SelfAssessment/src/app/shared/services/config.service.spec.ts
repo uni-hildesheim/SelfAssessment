@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
 import { JournalLogService } from './../../testpanel/services/journal-log.service';
@@ -40,7 +41,7 @@ describe('TestDefinitionService', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule, RouterTestingModule
       ],
       providers: [GlobalIndicator, ConfigService, JournalLogService, LocalStorageService
       ]
@@ -112,14 +113,14 @@ describe('TestDefinitionService', () => {
   it('should init journal from config file', () => {
 
     spyOn(storageService, 'createJournalStructure').and.returnValue(dummyJournalStructure);
-    spyOn(storageService, 'storeJournal').and.returnValue({});
+    spyOn(storageService, 'persistJournal');
     spyOn(journalLogService, 'initJournalLog').and.returnValue(dummyJournalLog);
 
     configService.initJournalFromConfigFile(dummyConfigFile);
 
     expect(storageService.createJournalStructure).toHaveBeenCalledWith(dummyConfigFile);
     expect(journalLogService.initJournalLog).toHaveBeenCalledWith(dummyJournalStructure);
-    expect(storageService.storeJournal).toHaveBeenCalled();
+    expect(storageService.persistJournal).toHaveBeenCalled();
 
   });
 

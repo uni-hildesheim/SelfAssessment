@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RadioButtons } from 'src/app/shared/models/procedure/categories/radio.buttons.test';
 import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RadioButtonsComponent', () => {
   let component: RadioButtonsComponent;
@@ -38,7 +39,7 @@ describe('RadioButtonsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ RadioButtonsComponent ],
       providers: [GlobalIndicator, JournalLogService],
-      imports: [MaterialModule, SharedModule]
+      imports: [MaterialModule, SharedModule, RouterTestingModule]
     })
     .compileComponents();
   }));

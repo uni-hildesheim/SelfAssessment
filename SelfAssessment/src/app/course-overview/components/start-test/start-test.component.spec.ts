@@ -17,6 +17,7 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 const strings = { };
 @Pipe({name: 'language'})
@@ -58,10 +59,7 @@ describe('StartTestComponent', () => {
       createNewPin(): Observable<number> { return of(dummyPin); }
     };
 
-    const localStorageServiceStub = {
-      storeCourseLanguage(lang: string): void {},
-      getCourse(): Course { return dummyCourse; }
-    };
+
 
     const journalServiceStub = {
       saveJournal(journal: Journal): Observable<any> { return of('DONE'); }
@@ -78,11 +76,10 @@ describe('StartTestComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [ StartTestComponent, MockPipe ],
-      imports: [MaterialModule, HttpClientTestingModule, RouterTestingModule],
-      providers: [ LoggingService,
+      imports: [MaterialModule, HttpClientTestingModule, RouterTestingModule, RouterTestingModule],
+      providers: [ LoggingService, LocalStorageService,
         {provide: JournalService, useValue: journalServiceStub},
         {provide: ConfigService, useValue: configServiceStub},
-        {provide: LocalStorageService, useValue: localStorageServiceStub},
         {provide: PinService, useValue: pinServiceStub},
         {provide: MaterialOverlayService, useValue: mockMaterialOverlayServiceStub}
       ]
@@ -112,14 +109,14 @@ describe('StartTestComponent', () => {
 
     spyOn(component, 'ngOnInit').and.callThrough();
     spyOn(pinService, 'createNewPin').and.callThrough();
-    spyOn(storageService, 'getCourse').and.callThrough();
+    spyOn(storageService, 'retrieveFromStorage').and.returnValue(dummyCourse);
 
     fixture.detectChanges();
 
     expect(component.course).toEqual(dummyCourse);
     expect(component.pin).toEqual(dummyPin);
     expect(pinService.createNewPin).toHaveBeenCalled();
-    expect(storageService.getCourse).toHaveBeenCalled();
+    expect(storageService.retrieveFromStorage).toHaveBeenCalledWith(StorageItem.COURSE);
 
   });
 
@@ -127,7 +124,7 @@ describe('StartTestComponent', () => {
   it('should execute neccessary steps before navigating to testpanel', () => {
     fixture.detectChanges();
     spyOn(materialOverlayService, 'chooseCourseLanguage').and.callThrough();
-    spyOn(storageService, 'storeCourseLanguage').and.callThrough();
+    spyOn(storageService, 'persistInStorage');
     spyOn(configService, 'loadConfigFromCourse').and.callThrough();
     spyOn(configService, 'initJournalFromConfigFile').and.callThrough();
     spyOn(journalService, 'saveJournal').and.callThrough();
@@ -140,7 +137,7 @@ describe('StartTestComponent', () => {
     fixture.detectChanges();
 
     expect(materialOverlayService.chooseCourseLanguage).toHaveBeenCalledWith(dummyCourse.languages, false);
-    expect(storageService.storeCourseLanguage).toHaveBeenCalledWith('English');
+    expect(storageService.persistInStorage).toHaveBeenCalledWith(StorageItem.COURSE_LANGUAGE, 'English');
     expect(configService.loadConfigFromCourse).toHaveBeenCalledWith(dummyCourse.name, dummyLanguage);
     expect(configService.initJournalFromConfigFile).toHaveBeenCalledWith(dummyConfig);
     expect(journalService.saveJournal).toHaveBeenCalledWith(dummyJournal);

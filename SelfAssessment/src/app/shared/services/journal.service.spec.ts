@@ -10,8 +10,9 @@ import { ConfigService } from './config.service';
 import { ConfigFile } from '../models/configuration/config.file.model';
 import { of, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('ProtocolService', () => {
+describe('JournalService', () => {
   let journalService: JournalService;
   let httpTestingController: HttpTestingController;
 
@@ -45,7 +46,7 @@ describe('ProtocolService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule, RouterTestingModule
       ],
       providers: [GlobalIndicator, JournalService, { provide: ConfigService, useClass: MockConfigService }]
     }).compileComponents();

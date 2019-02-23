@@ -48,18 +48,14 @@ describe('PinComponent', () => {
     initJournalLogFromPin(resultSet: ResultSet[]) {}
   }
 
-  class StorageServiceMock {
-    storeJournal(journal: Journal) {}
-  }
 
   beforeEach(async(() => {
 
      TestBed.configureTestingModule({
       declarations: [ PinComponent, MockPipe ],
       imports: [MaterialModule, RouterTestingModule, HttpClientModule],
-      providers: [ ResultService, MaterialOverlayService,
+      providers: [ ResultService, MaterialOverlayService, LocalStorageService,
         {provide: ConfigService, useClass: ConfigServiceMock},
-        {provide: LocalStorageService, useClass: StorageServiceMock}
       ]
     })
     .compileComponents();
@@ -119,14 +115,14 @@ describe('PinComponent', () => {
   it('should load data and navigate to evaluation page', () => {
     spyOn(resultService, 'loadResults').and.returnValue(of(mockResultSet));
     spyOn(configService, 'initEvaluationFromPin');
-    spyOn(storageService, 'storeJournal');
+    spyOn(storageService, 'persistJournal');
     spyOn(router, 'navigate');
 
     component.initateNavigation(mockDataFromDialog);
 
     expect(resultService.loadResults).toHaveBeenCalledWith(78923457);
     expect(configService.initEvaluationFromPin).toHaveBeenCalledWith(mockResultSet);
-    expect(storageService.storeJournal).toHaveBeenCalledWith(mockDataFromDialog['journal']);
+    expect(storageService.persistJournal).toHaveBeenCalledWith(mockDataFromDialog['journal']);
     expect(router.navigate).toHaveBeenCalledWith(['/evaluation', {show: false}]);
 
   });
@@ -134,14 +130,14 @@ describe('PinComponent', () => {
   it('should load data and navigate to test-panel page', () => {
     spyOn(resultService, 'loadResults').and.returnValue(throwError({status: 404}));
     spyOn(configService, 'initJournalLogFromPin');
-    spyOn(storageService, 'storeJournal');
+    spyOn(storageService, 'persistJournal');
     spyOn(router, 'navigateByUrl');
 
     component.initateNavigation(mockDataFromDialog);
 
     expect(resultService.loadResults).toHaveBeenCalledWith(78923457);
     expect(configService.initJournalLogFromPin).toHaveBeenCalledWith(mockDataFromDialog['journal']['log']);
-    expect(storageService.storeJournal).toHaveBeenCalledWith(mockDataFromDialog['journal']);
+    expect(storageService.persistJournal).toHaveBeenCalledWith(mockDataFromDialog['journal']);
     expect(router.navigateByUrl).toHaveBeenCalledWith('/testpanel');
 
   });

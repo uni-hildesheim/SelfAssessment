@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
