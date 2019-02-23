@@ -145,7 +145,7 @@ class Logger {
 
         // log tracing: find out who called log(), even in strict mode
         if (this.tracing) {
-            message = `{${_getStack().getFileName()}:${_getStack().getLineNumber()}}`;
+            message = `[${_getStack().getFileName()}:${_getStack().getLineNumber()}] ${message}`;
         }
 
         const date = new Date();
@@ -273,6 +273,9 @@ const defaultLogger = new Logger();
 defaultLogger.addTransport(new ConsoleTransport(1));
 
 module.exports = {
+    /* factory */
+    create: (...args) => { return new Logger(...args) },
+
     /* classes and data stores needed for public API */
     Level: Level,
     Transport: {
