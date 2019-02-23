@@ -20,6 +20,10 @@ let CORS_OPTIONS = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
+let GC_OPTIONS = {
+    user: {}
+};
+
 function loadEnvironment() {
     const APP_LOGLEVEL = process.env.APP_LOGLEVEL;
     const APP_LOGTRACE = process.env.APP_LOGTRACE;
@@ -28,6 +32,9 @@ function loadEnvironment() {
     const DB_URI = process.env.DB_URI;
     const DB_USER = process.env.DB_USER;
     const DB_PASS = process.env.DB_PASS;
+    const GC_INTERVAL = process.env.GC_INTERVAL;
+    const GC_USER_DONE = process.env.GC_USER_DONE;
+    const GC_USER_LAST_UPDATE = process.env.GC_USER_LAST_UPDATE;
 
     if (DB_URI) {
         logger.info('env: DB_URI=' + DB_URI);
@@ -72,6 +79,28 @@ function loadEnvironment() {
                 callback('Not allowed by CORS');
             }
         }
+    }
+
+    if (GC_INTERVAL) {
+        logger.info('env: GC_INTERVAL=' + GC_INTERVAL);
+
+        if (GC_USER_DONE) {
+            if (GC_USER_DONE == true) {
+                GC_OPTIONS['user']['done'] = true;
+            } else if (GC_USER_DONE == false) {
+                GC_OPTIONS['user']['done'] = false;
+            }
+        }
+
+        if (GC_USER_LAST_UPDATE) {
+            try {
+                GC_OPTIONS['user']['lastUpdate'] = Number.parseInt(GC_USER_LAST_UPDATE);
+            } catch (err) {
+                // swallow
+            }
+        }
+
+        setupGarbageCollector(GC_INTERVAL);
     }
 }
 
@@ -386,6 +415,49 @@ function setupAutodeploy(inputPath, outputPath) {
         // remove the zip in all cases
         fs.unlinkSync(inputPath + '/' + filename);
     });
+}
+
+/**
+ * Garbage collection engine that runs every <interval> seconds.
+ *
+ * For now, it only removes stale user objects based on filter settings set in the environment.
+ * Valid filters are:
+ *      * GC_USER_LAST_UPDATE - Last update x days ago
+ *      * GC_USER_DONE - Whether a validation code should exist
+ *
+ * @param {*} interval Number of seconds that must elapse before the GC engine runs
+ */
+function setupGarbageCollector(interval) {
+    logger.info('Setting up Garbage Collector to run every ' + interval + ' seconds');
+    setInterval( () => {
+        const query = {};
+        if ('user' in GC_OPTIONS) {
+            if ('done' in GC_OPTIONS['user']) {
+                if (GC_OPTIONS['user']['done'] == true) {
+                    query['result.validationCode'] = {
+                        '$ne': null
+                    }
+                } else {
+                    query['result.validationCode'] = null;
+                }
+            }
+
+            if ('lastUpdate' in GC_OPTIONS['user']) {
+                const referenceDate = new Date();
+                referenceDate.setDate(referenceDate.getDate() - GC_OPTIONS['user']['lastUpdate']);
+                query['journal.lastUpdate'] = {
+                    '$lt': referenceDate
+                };
+            }
+        }
+
+        logger.debug('GC: Removing users for query: ' + JSON.stringify(query, null, 2));
+        db.User.deleteMany(query).then(result => {
+            logger.info('GC: removed ' + result.n + ' user objects');
+        }).catch(err => {
+            logger.error(err);
+        });
+    }, interval * 1000);
 }
 
 async function main() {
