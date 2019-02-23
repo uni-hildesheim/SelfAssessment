@@ -67,7 +67,7 @@ function saveLog(req, res) {
 
     // update the document if it exists
     db.User.updateOne({ pin: bodyPin }, {
-        'journal.lastChanged': new Date(),
+        'journal.lastUpdate': new Date(),
         'journal.log': req.body.log
     }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated journal log for pin: ' + bodyPin);
@@ -84,7 +84,7 @@ function saveStructure(req, res) {
 
     // update the document if it exists
     db.User.updateOne({ pin: bodyPin }, {
-        'journal.lastChanged': new Date(),
+        'journal.lastUpdate': new Date(),
         'journal.structure': req.body.structure
     }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated journal structure for pin: ' + bodyPin);

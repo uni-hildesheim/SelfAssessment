@@ -4,7 +4,7 @@ const UserDocuments = [];
 const UserInstance = new UserModel({
     pin: 12345678,
     journal: {
-        lastChanged: new Date(),
+        lastUpdate: new Date(),
         log: {
             "sets": [
                 {
@@ -93,7 +93,6 @@ const UserInstance = new UserModel({
         }
     },
     result: {
-        "lastChanged": new Date(),
         "validationCode": '',
         "tests": []
     }

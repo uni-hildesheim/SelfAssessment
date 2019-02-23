@@ -115,7 +115,11 @@ async function deleteManyUsers(args) {
     }
 
     if ('lastUpdate' in args) {
-        query.lastUpdate = args.lastUpdate;
+        const referenceDate = new Date();
+        referenceDate.setDate(referenceDate.getDate() - args.lastUpdate);
+        query['journal.lastUpdate'] = {
+            '$lt': referenceDate
+        };
     }
 
     if ('pin' in args) {

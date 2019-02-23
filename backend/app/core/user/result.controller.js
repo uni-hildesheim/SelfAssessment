@@ -329,7 +329,6 @@ async function update(req, res) {
 
     // save the result to the database
     db.User.updateOne({ pin: bodyPin }, {
-        'result.lastChanged': new Date(),
         'result.tests': testResults
     }, { upsert: false }).then(result => { // eslint-disable-line no-unused-vars
         logger.info('Updated result for pin: ' + bodyPin);

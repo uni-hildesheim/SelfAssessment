@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     pin: Number,
     created: Date,
     journal: {
+        lastUpdate: Date,
         log: {
             _id: false, // stop generating id for nested document object
             sets: [{
