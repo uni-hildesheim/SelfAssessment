@@ -2,21 +2,18 @@ import {
     HttpEvent,
     HttpInterceptor,
     HttpHandler,
-    HttpRequest,
-    HttpErrorResponse
+    HttpRequest
 } from '@angular/common/http';
-import { Observable, TimeoutError, Subject, of } from 'rxjs';
-import { timeout, retryWhen, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { timeout, retryWhen, switchMap } from 'rxjs/operators';
 import { ErrorDialogService } from 'src/app/shared/services/error-dialog.service';
 import { Injectable } from '@angular/core';
-import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        private dialogService: ErrorDialogService,
-        private logging: LoggingService
+        private dialogService: ErrorDialogService
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -28,10 +25,22 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     err =>
                         err.pipe(
                             switchMap(e => {
-                                if (e.status === 404 || e.status === 500) {
+                                if (e.status === 404 ) {
                                     throw e;
-                                } else {
+                                } else if (e.status === 500) {
+                                    let errorResponse = e.error.error;
+
+                                    if (!errorResponse) {
+                                      errorResponse = {};
+                                      errorResponse.number = 0;
+                                      errorResponse.message = 'Unknown error';
+                                    }
+
+                                    return this.dialogService.openDialog(errorResponse.message);
+                                } else if (e.status === 0) {
                                     return this.dialogService.openDialog('Cannot reach server.');
+                                } else {
+                                    return this.dialogService.openDialog('Unkown Error.');
                                 }
                             })
                         )
