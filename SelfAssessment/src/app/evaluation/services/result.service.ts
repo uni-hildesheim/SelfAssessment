@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { tap, map, switchMap } from 'rxjs/operators';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { RawResultTest } from 'src/app/shared/models/evaluation/raw/raw.result.test';
+import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
-import { TestSet } from 'src/app/shared/models/testspecific/testset.model';
+import { TestSet } from 'src/app/shared/models/procedure/testset.model';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
-import { Test } from 'src/app/shared/models/testspecific/test.model';
+import { Test } from 'src/app/shared/models/procedure/test.model';
+import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,14 @@ export class ResultService {
     this.evaluation = of(set);
   }
 
-  public formatResultSet(data: RawResultTest[]): ResultSet[] {
-    const mapRawTests = new Map<any, RawResultTest>();
+  public formatResultSet(data: ResultTest[]): ResultSet[] {
+    const mapRawTests = new Map<any, ResultTest>();
     const journalLog = this.storage.getJournalLog();
     const structure: JournalStructure = this.storage.getJournalStructure();
     const resultSets: ResultSet[] = [];
 
 
-    data.forEach((rawResultTest: RawResultTest) => {
+    data.forEach((rawResultTest: ResultTest) => {
       mapRawTests.set(rawResultTest.id, rawResultTest);
     });
 
@@ -49,7 +50,7 @@ export class ResultService {
 
 
       set.elements.forEach(element => {
-        if (element.setType === 'test' && (<Test>element).evaluated) {
+        if (element.elementType.valueOf() === SetElementType.TEST.valueOf() && (<Test>element).evaluated) {
           mapRawTests.get(element.id.toString()).singleTest = element as Test;
           mapRawTests.get(element.id.toString()).log = journalLog.sets[i].get(element.id);
         }
@@ -66,7 +67,7 @@ export class ResultService {
   public loadResults(pin): Observable<ResultSet[]> {
     return this.http.post(ResultService.LOAD_RESULT, { pin })
     .pipe(
-      map((data: RawResultTest[]) => this.formatResultSet(data)),
+      map((data: ResultTest[]) => this.formatResultSet(data)),
       tap((set: ResultSet[]) => {
         this.logging.info(`Loaded result set for pin ${pin}`);
         this.logging.debug(undefined, set);

@@ -1,4 +1,4 @@
-import { TestSet } from '../testspecific/testset.model';
+import { TestSet } from '../procedure/testset.model';
 
 /**
  * Holds the actual structure of the testpanel.

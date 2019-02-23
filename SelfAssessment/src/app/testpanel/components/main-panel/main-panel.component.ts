@@ -7,7 +7,7 @@ import { JournalLogService } from '../../services/journal-log.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Router } from '@angular/router';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 
 /**
  * Handles the testing procedure.
@@ -30,7 +30,7 @@ export class MainPanelComponent implements OnInit {
    * the protocol and would consequently be updated in the database
    * if the user goes to the next test.
    */
-  private updateProtocol: boolean;
+  public updateProtocol: boolean;
 
   /**
    * The progess value of the current set.
@@ -46,6 +46,8 @@ export class MainPanelComponent implements OnInit {
    * Helper variable to control the navigation flow.
    */
   private elementIndex = null;
+
+  setElementType = SetElementType;
 
 
   constructor(
@@ -77,10 +79,8 @@ export class MainPanelComponent implements OnInit {
    * @param stepper The stepper element from the template.
    */
   public moveToNextSetElement(forward: boolean, stepper: MatStepper): void {
-
-
     // update the journal log if the current set element is a test and changes occured
-    if (this.currentElements[this.setElemIndex].setType === 'test' && this.updateProtocol) {
+    if (this.currentElements[this.setElemIndex].elementType === SetElementType.TEST && this.updateProtocol) {
       this.loading = true;
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
@@ -103,7 +103,7 @@ export class MainPanelComponent implements OnInit {
    * @param forward Indicates the direction.
    * @param stepper The stepper instance.
    */
-  private adjustIndices(forward: boolean, stepper: MatStepper): void {
+  public adjustIndices(forward: boolean, stepper: MatStepper): void {
 
     // if this is the last test start the evaluation
     if (this.setIndex === this.journalStructure.sets.length - 1 && forward &&
@@ -123,7 +123,7 @@ export class MainPanelComponent implements OnInit {
     } else {
       if (this.setElemIndex === 0) {
         // Going backward: The first element of a set was reached
-        this.elementIndex = this.currentElements.length - 1;
+        this.elementIndex = this.journalStructure.sets[this.setIndex - 1].elements.length - 1;
         stepper.previous();
       } else {
         this.setElemIndex = this.setElemIndex - 1;
@@ -143,10 +143,10 @@ export class MainPanelComponent implements OnInit {
    * 2. The user uses the navigation buttons to change sets, in that
    *    case the the method is called indirectly.
    *
-   * @param event The change event from the stepper.
+   * @param selectedIndex The selected index from the mat stepper.
    */
-  public jumpToNextSet(event: StepperSelectionEvent): void {
-      this.setIndex = event.selectedIndex;
+  public jumpToNextSet(selectedIndex: number): void {
+      this.setIndex = selectedIndex;
       if (this.elementIndex) {
         // The user choose the navigation buttons
         this.setElemIndex = this.elementIndex;

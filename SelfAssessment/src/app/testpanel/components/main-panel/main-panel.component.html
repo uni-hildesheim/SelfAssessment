@@ -1,4 +1,4 @@
-<mat-horizontal-stepper #stepper [appLoadComp]="loading" (selectionChange)="jumpToNextSet($event)">
+<mat-horizontal-stepper #stepper [appLoadComp]="loading" (selectionChange)="jumpToNextSet($event.selectedIndex)">
 
   <mat-step *ngFor="let set of journalStructure.sets">
 
@@ -20,16 +20,18 @@
       <div class="main-test" *ngIf="set.elements[setElemIndex]">
         <p>{{'lbl-set-progess' | language}}</p>
         <mat-progress-bar mode="determinate" [value]="progressVal"></mat-progress-bar>
-        <div [ngSwitch]="set.elements[setElemIndex].setType">
+        <div [ngSwitch]="set.elements[setElemIndex].elementType">
 
-
-          <div class="single-test" *ngSwitchCase="'test'">
+          <!-- SHOW TEST -->
+          <div class="single-test" *ngSwitchCase="setElementType.TEST">
             <app-single-test-card [singleTest]="set.elements[setElemIndex]"></app-single-test-card>
-            <p></p>
           </div>
-          <div class="single-test" *ngSwitchCase="'infopage'">
+
+          <!-- SHOW INFOPAGE -->
+          <div class="single-test" *ngSwitchCase="setElementType.INFOPAGE">
             <app-infopage [infopage]="set.elements[setElemIndex]"></app-infopage>
           </div>
+
         </div>
       </div>
 

@@ -1,9 +1,12 @@
 import { SetElement } from './set.element.model';
+import { SetElementType } from './enums/element.type.enum';
 
 /**
  * Page that offers help for solving a test/testgroup.
  */
 export class Infopage implements SetElement {
+
+    elementType: SetElementType = SetElementType.INFOPAGE;
 
     /**
      * Unique ID.
@@ -21,8 +24,5 @@ export class Infopage implements SetElement {
      */
     belongs: number[];
 
-    /**
-     * The type of the SetElement.
-     */
-    setType = 'infopage';
+
 }

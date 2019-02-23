@@ -7,11 +7,11 @@ import { Journal } from '../models/state/journal.model';
 import { JournalLog } from '../models/state/journal.log.model';
 import { JournalStructure } from '../models/state/journal.structure.model';
 import { ConfigService } from './config.service';
-import { ConfigFile } from '../models/config.file.model';
+import { ConfigFile } from '../models/configuration/config.file.model';
 import { of, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
-xdescribe('ProtocolService', () => {
+describe('ProtocolService', () => {
   let journalService: JournalService;
   let httpTestingController: HttpTestingController;
 
@@ -61,16 +61,22 @@ xdescribe('ProtocolService', () => {
 
   it('should load and create journal', () => {
 
-    // journalService.loadJournal(dummyPin)
-    //   .subscribe((data: Journal) => {
-    //     expect(data).toBeDefined();
-    //     expect(data).toEqual(jasmine.any(Journal));
-    //   });
+    journalService.loadJournal(dummyPin)
+      .subscribe((data: Journal) => {
+        expect(data).toBeDefined();
+        expect(data).toEqual(jasmine.any(Journal));
+      });
 
-    // const mockReq = httpTestingController.expectOne(JournalService.LOAD_JOURNAL);
-    // expect(mockReq.cancelled).toBeFalsy();
-    // expect(mockReq.request.url).toEqual(JournalService.LOAD_JOURNAL);
-    // mockReq.flush(dummyJournal);
+
+
+
+    const mockReq = httpTestingController.expectOne(JournalService.LOAD_JOURNAL_STRUCTURE);
+
+    expect(mockReq.request.url).toEqual(JournalService.LOAD_JOURNAL_STRUCTURE);
+    mockReq.flush(dummyJournalStructure);
+    const mockReq2 = httpTestingController.expectOne(JournalService.LOAD_JOURNAL_LOG);
+    expect(mockReq2.request.url).toEqual(JournalService.LOAD_JOURNAL_LOG);
+    mockReq2.flush(dummyJournalStructure);
 
   });
 

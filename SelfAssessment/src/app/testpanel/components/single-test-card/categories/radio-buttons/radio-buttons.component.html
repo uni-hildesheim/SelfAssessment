@@ -1,0 +1,9 @@
+<ng-container *ngIf="test.description">
+  <mat-radio-group class="type1-category">
+    <span *ngFor="let option of test.options; index as i">
+      <mat-radio-button value="{{i}}" [checked]="models[i]" (change)="handleModelChange(true, i)">
+        <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
+      </mat-radio-button><br>
+    </span>
+  </mat-radio-group>
+</ng-container>

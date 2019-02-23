@@ -1,14 +1,14 @@
-import { JournalStructureRaw } from './../models/state/raw/journal.structure.raw';
+import { JournalStructureMinimal } from './../models/state/minimal/journal.structure.minimal';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, switchMap, tap, mergeMap, merge } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { JournalStructure } from '../models/state/journal.structure.model';
 import { Journal } from '../models/state/journal.model';
-import { LocalStorageService } from './local-storage.service';
 import { JournalLog } from '../models/state/journal.log.model';
 import { ConfigService } from './config.service';
-import { Observable, from, forkJoin } from 'rxjs';
-import { ConfigFile } from '../models/config.file.model';
+import { Observable, forkJoin } from 'rxjs';
+import { ConfigFile } from '../models/configuration/config.file.model';
 import { LoggingService } from '../logging/logging.service';
 
 /**
@@ -53,36 +53,77 @@ export class JournalService {
    * @returns Observable containing the journal.
    */
   public loadJournal(pin: number): Observable<Journal> {
-    return this.http.post(JournalService.LOAD_JOURNAL_STRUCTURE, { pin })
-      .pipe(
-        tap((structure) => {
-          this.logging.info(`Loaded journal structure for pin: ${pin}`);
-          this.logging.debug(undefined, structure);
-        }),
-        switchMap((structure: JournalStructureRaw) => {
-          return this.http.post(JournalService.LOAD_JOURNAL_LOG, {pin})
-          .pipe(
-            tap((log) => {
-              this.logging.info(`Loaded journal log for pin: ${pin}`);
-              this.logging.debug(undefined, log);
-            }),
-            switchMap(log => {
-              return this.configService.loadConfigFromCourse(structure.course, structure.language)
-                .pipe(
-                  map((configFile: ConfigFile) => {
-                    const journal = new Journal();
-                    journal.structure = this.storageService.createJournalStructure(configFile, structure);
-                    journal.log = this.storageService.extractSavedJournalLog(log);
-                    return journal;
-                  })
-                );
-            })
-          );
-        }),
+    return this.loadJournalStructure(pin)
+    .pipe(
+      switchMap((structure: JournalStructure) => {
+        return this.loadJournalLog(pin)
+        .pipe(
+          map((log: JournalLog) => {
+            const journal = new Journal;
+            journal.log = log;
+            journal.structure = structure;
+            return journal;
+          })
+        );
+      })
+    );
+  }
 
+  /**
+   * Loads the journal structure object which belongs to a specific pin
+   * and uses the config file to create a full journal structure instance instead
+   * of a minimal representation.
+   *
+   * @param pin The pin from the user.
+   * @returns An Observable containing the converted journal structure object.
+   */
+  public loadJournalStructure(pin: number): Observable<JournalStructure> {
+    return this.loadRawJournalStructure(pin)
+    .pipe(
+      switchMap((structure: JournalStructureMinimal) => {
+        return this.configService.loadConfigFromCourse(structure.course, structure.language)
+        .pipe(
+          map((configFile: ConfigFile) => {
+            return this.storageService.createJournalStructure(configFile, structure);
+          })
+        );
+      })
+    );
+  }
 
+  /**
+   * Loads the raw journal structure object from the backend.
+   *
+   * @param pin The users pin.
+   * @returns An Observable containing the raw journal structure object.
+   */
+  public loadRawJournalStructure(pin: number): Observable<JournalStructureMinimal> {
+    return this.http.post<JournalStructureMinimal>(JournalService.LOAD_JOURNAL_STRUCTURE, {pin})
+    .pipe(
+      tap((structure) => {
+        this.logging.info(`Loaded journal structure for pin: ${pin}`);
+        this.logging.debug(undefined, structure);
+      })
+    );
+  }
 
-      );
+  /**
+   * Loads the journal log object from the backend.
+   *
+   * @param pin The pin from the user.
+   * @return An Observable containing the journal log object.
+   */
+  public loadJournalLog(pin: number): Observable<JournalLog> {
+    return this.http.post<JournalLog>(JournalService.LOAD_JOURNAL_LOG, {pin})
+    .pipe(
+      map((log) => {
+        return this.storageService.extractSavedJournalLog(log);
+      }),
+      tap((log) => {
+        this.logging.info(`Loaded journal log for pin: ${pin}`);
+        this.logging.debug(undefined, log);
+      })
+    );
   }
 
   /**

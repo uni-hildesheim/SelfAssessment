@@ -1,0 +1,5 @@
+<span *ngFor="let option of test.options; index as i">
+  <mat-checkbox value="option" [checked]="models[i]" (change)="handleModelChange($event.checked, i)">
+    <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
+  </mat-checkbox><br>
+</span>

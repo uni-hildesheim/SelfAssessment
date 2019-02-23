@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfopageComponent } from './infopage.component';
 import { MaterialModule } from 'src/app/material/material.module';
-import { Infopage } from 'src/app/shared/models/testspecific/infopage.model';
+import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 
 xdescribe('InfopageComponent', () => {
   let component: InfopageComponent;

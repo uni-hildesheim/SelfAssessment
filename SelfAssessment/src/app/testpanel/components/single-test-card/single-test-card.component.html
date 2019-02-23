@@ -11,59 +11,7 @@
       <app-formatted-text-area [rawText]="singleTest.task"></app-formatted-text-area>
     </h3>
 
+    <ng-template appTestComponentHost></ng-template>
 
-    <div [ngSwitch]="singleTest.category">
-
-      <!--TYPE 1: RADIO BUTTON-->
-      <div *ngSwitchCase="'radio-buttons'">
-        <mat-radio-group class="type1-category">
-          <span *ngFor="let option of singleTest.options; index as i">
-            <mat-radio-button value="{{i}}" [checked]="models[i]" (change)="changeValue(singleTest.category, true, i)">
-              <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
-            </mat-radio-button><br>
-          </span>
-        </mat-radio-group>
-      </div>
-
-      <!--TYPE 2: MUTLIPLE CHOICE-->
-      <div *ngSwitchCase="'multiple-choice'">
-        <span *ngFor="let option of singleTest.options; index as i">
-          <mat-checkbox value="option" [checked]="models[i]" (change)="changeValue(singleTest.category, $event.checked, i)">
-            <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
-          </mat-checkbox><br>
-        </span>
-
-      </div>
-
-      <!--TYPE 3: MUTLIPLE OPTIONS-->
-      <div *ngSwitchCase="'multiple-options'">
-        <mat-grid-list cols="{{singleTest.header.length + 2}}" rowHeight="50px">
-          <mat-grid-tile></mat-grid-tile>
-          <mat-grid-tile></mat-grid-tile>
-          <span *ngFor="let head of singleTest.header">
-            <mat-grid-tile>
-              <app-formatted-text-area [rawText]="head"></app-formatted-text-area>
-            </mat-grid-tile>
-          </span>
-          <span *ngFor="let option of singleTest.options; index as i">
-            <mat-grid-tile [colspan]=2><span class="text-element">
-                <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
-              </span></mat-grid-tile>
-            <mat-radio-group>
-              <mat-grid-tile *ngFor="let head of singleTest.header; index as j">
-                <mat-radio-button value="{{head}}" [checked]="models[i][j]" (change)="changeValue(singleTest.category, true, i, j)"></mat-radio-button>
-              </mat-grid-tile>
-            </mat-radio-group>
-          </span>
-        </mat-grid-list>
-      </div>
-
-      <!--TYPE 4: MUTLIPLE OPTIONS-->
-      <div *ngSwitchCase="'speed'">
-        <app-speed-test-card [singleTest]="singleTest"></app-speed-test-card>
-      </div>
-
-
-    </div>
   </mat-card-content>
 </mat-card>

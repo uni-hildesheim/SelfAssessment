@@ -1,3 +1,5 @@
+import { SetElementType } from './enums/element.type.enum';
+
 /**
  * Interface implemented by classes that are a part of a
  * test set (test/infopage).
@@ -12,5 +14,5 @@ export interface SetElement {
     /**
      * The type of the element.
      */
-    setType: string;
+    elementType: SetElementType;
 }

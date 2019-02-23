@@ -1,6 +1,6 @@
-import { Test } from '../../testspecific/test.model';
+import { Test } from '../procedure/test.model';
 
-export interface RawResultTest {
+export interface ResultTest {
     id: any;
     score: number;
     maxScore: number;

@@ -1,16 +1,36 @@
+import { Course } from '../../../shared/models/configuration/course.model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CourseCardComponent } from './course-card.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { Pipe, PipeTransform } from '@angular/core';
 
-xdescribe('CourseCardComponent', () => {
+const strings = {
+  'btn-start': 'Start'
+};
+
+@Pipe({name: 'language'})
+class MockPipe implements PipeTransform {
+    transform(value: string): string {
+        return strings[value];
+    }
+}
+
+describe('CourseCardComponent', () => {
   let component: CourseCardComponent;
   let fixture: ComponentFixture<CourseCardComponent>;
+  let buttonElement: HTMLElement;
+
+  const mockCourse: Course = {
+    name: 'IMIT',
+    icon: 'imit.jpg',
+    languages: ['English']
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MaterialModule],
-      declarations: [ CourseCardComponent ]
+      declarations: [ CourseCardComponent, MockPipe]
     })
     .compileComponents();
   }));
@@ -18,6 +38,8 @@ xdescribe('CourseCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CourseCardComponent);
     component = fixture.componentInstance;
+    component.course = mockCourse;
+    buttonElement = fixture.nativeElement.querySelector('button');
     fixture.detectChanges();
   });
 
@@ -25,15 +47,20 @@ xdescribe('CourseCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit on click', () => {
-    spyOn(component.start, 'emit');
-
-    const button = fixture.nativeElement.querySelector('button');
-    button.click();
-
-    fixture.detectChanges();
-
-    expect(component.start.emit).toHaveBeenCalled();
+  it('should display elements correctly', () => {
+    expect( fixture.nativeElement.querySelector('mat-card-title').textContent).toEqual(mockCourse.name);
+    expect( fixture.nativeElement.querySelector('img').src).toContain(mockCourse.icon);
+    expect(buttonElement.innerText).toEqual('Start');
   });
+
+  it('should emit course on click', () => {
+    spyOn(component.start, 'emit');
+    buttonElement.click();
+    fixture.detectChanges();
+    expect(component.start.emit).toHaveBeenCalled();
+    expect(component.start.emit).toHaveBeenCalledWith(mockCourse);
+  });
+
+
 
 });

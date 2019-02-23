@@ -1,6 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { CountdownComponent } from './countdown.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 xdescribe('CountdownComponent', () => {
   let component: CountdownComponent;
@@ -8,7 +9,8 @@ xdescribe('CountdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CountdownComponent ]
+      imports: [MaterialModule],
+        declarations: [ CountdownComponent ]
     })
     .compileComponents();
   }));
@@ -22,4 +24,18 @@ xdescribe('CountdownComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should execute countdown', fakeAsync(() => {
+    spyOn(component, 'startTimer').and.callThrough();
+    spyOn(component, 'notifyObservers').and.callThrough();
+    component.seconds = 0.5;
+    component.startTimer();
+    tick(0.6);
+    // fixture.detectChanges();
+    // tick(0.6);
+    // fixture.detectChanges();
+    expect(component.startTimer).toHaveBeenCalled();
+    // expect(component.notifyObservers).toHaveBeenCalled();
+  }));
+
 });

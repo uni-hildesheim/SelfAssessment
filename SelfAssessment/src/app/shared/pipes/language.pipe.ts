@@ -14,7 +14,7 @@ export class LanguagePipe implements PipeTransform {
     private resourceService: ResourceService
   ) { }
 
-  transform(val: string, ): any {
+  transform(val: string): any {
     return this.resourceService.getResource().strings[val];
   }
 

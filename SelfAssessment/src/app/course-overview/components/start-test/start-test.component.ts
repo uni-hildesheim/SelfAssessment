@@ -1,16 +1,15 @@
+import { MaterialOverlayService } from './../../../shared/services/material-overlay.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfigFile } from 'src/app/shared/models/config.file.model';
+import { ConfigFile } from 'src/app/shared/models/configuration/config.file.model';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { PinService } from 'src/app/shared/services/pin.service';
 import { JournalService } from 'src/app/shared/services/journal.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { Course } from 'src/app/shared/models/course-object';
+import { Course } from 'src/app/shared/models/configuration/course.model';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { MatBottomSheet } from '@angular/material';
-import { CourseLanguageBottomSheetComponent } from '../course-language-bottom-sheet/course-language-bottom-sheet.component';
-import { mergeMap, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 /**
  * The component displayed before the actual test procedure.
@@ -50,7 +49,7 @@ export class StartTestComponent implements OnInit {
     private journalService: JournalService,
     private storageService: LocalStorageService,
     private logging: LoggingService,
-    private bottomSheet: MatBottomSheet
+    private materialOverlayService: MaterialOverlayService
   ) { }
 
   /**
@@ -73,12 +72,8 @@ export class StartTestComponent implements OnInit {
    * saving the generated journal structure in the local storage.
    */
   public startSelfAssessment(): void {
-    this.bottomSheet.open(CourseLanguageBottomSheetComponent,
-      {
-        data: this.course.languages,
-        disableClose: true
-      })
-    .afterDismissed()
+    this.materialOverlayService
+    .chooseCourseLanguage(this.course.languages, false)
     .pipe(
       switchMap((language: string) => {
         this.storageService.storeCourseLanguage(language);

@@ -3,11 +3,13 @@ import { GlobalIndicator } from '../global.indicators';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
-import { SetElement } from 'src/app/shared/models/testspecific/set.element.model';
-import { Test } from 'src/app/shared/models/testspecific/test.model';
+import { SetElement } from 'src/app/shared/models/procedure/set.element.model';
+import { Test } from 'src/app/shared/models/procedure/test.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { TestpanelModule } from '../testpanel.module';
+import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
+import { MultipleOptions } from 'src/app/shared/models/procedure/categories/multiple.options.test';
 
 /**
  * Keeps track of the journal log across the application.
@@ -74,13 +76,13 @@ export class JournalLogService {
       // extract all the single tests from the set, at this point
       // it does not matter if a test belongs to a testgroup
       set.elements.forEach((element: SetElement) => {
-        if (element.setType === 'test') {
-          if ((<Test>element).category !== 'multiple-options') {
+        if (element.elementType.valueOf() === SetElementType.TEST.valueOf()) {
+          if ((<Test>element).category.valueOf() !== Category.MULTIPLE_OPTIONS.valueOf()) {
             journalSet.set(element.id, new Array((<Test>element).options.length).fill(false));
           } else {
             const temp = new Array((<Test>element).options.length);
             for (let i = 0; i < temp.length; i++) {
-              temp[i] = new Array((<Test>element).header.length).fill(false);
+              temp[i] = new Array((<MultipleOptions>element).header.length).fill(false);
             }
             journalSet.set(element.id, temp);
           }

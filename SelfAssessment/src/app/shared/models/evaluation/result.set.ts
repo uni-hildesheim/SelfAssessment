@@ -1,6 +1,6 @@
-import { RawResultTest } from './raw/raw.result.test';
+import { ResultTest } from './result.test';
 
 export class ResultSet {
     id: any;
-    tests: RawResultTest[];
+    tests: ResultTest[];
 }

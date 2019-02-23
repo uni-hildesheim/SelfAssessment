@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Infopage } from 'src/app/shared/models/testspecific/infopage.model';
+import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 
 /**
  * Displays an information card.

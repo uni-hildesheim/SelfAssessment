@@ -1,7 +1,7 @@
 /**
  * A raw set which is used for storage purposes.
  */
-export interface SetRaw {
+export interface TestSetMinimal {
 
     /***
      * The id of the set.

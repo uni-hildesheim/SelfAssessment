@@ -1,5 +1,9 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Test } from 'src/app/shared/models/testspecific/test.model';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Test } from 'src/app/shared/models/procedure/test.model';
+import { ExistingCategories } from './categories';
+import { TestDirective } from './test.directive';
+import { ComponentFactoryResolver } from '@angular/core';
+import { CategoryComponent } from './categorie.component';
 import { JournalLogService } from '../../services/journal-log.service';
 
 /**
@@ -10,51 +14,36 @@ import { JournalLogService } from '../../services/journal-log.service';
   templateUrl: './single-test-card.component.html',
   styleUrls: ['./single-test-card.component.scss']
 })
-export class SingleTestCardComponent implements OnInit, OnChanges {
+export class SingleTestCardComponent implements OnChanges {
 
   /**
    * The test which this card displays.
    */
   @Input() singleTest: Test;
-
-  /**
-   * The models for the test elements e.g checkboxes/radio-buttons.
-   */
-  public models: any[] = [];
+  @ViewChild(TestDirective) appTestComponentHost: TestDirective;
 
   constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
     private journalLogService: JournalLogService
   ) { }
 
-  ngOnInit() {}
-
-  /**
-   * Updates the model if this component receives a new test instance.
-   */
   ngOnChanges() {
-    this.models = this.journalLogService.getModelByID(this.singleTest.id);
+    const testComponent = ExistingCategories.getNewComponent(this.singleTest.category);
+
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(testComponent);
+
+    const viewContainerRef = this.appTestComponentHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    const instance = (<CategoryComponent>componentRef.instance);
+    instance.test = this.singleTest;
+    instance.models = this.journalLogService.getModelByID(this.singleTest.id);
+
   }
 
-  /**
-   * Adjusts the model if a value of the test element changed
-   * and refreshes the journal log.
-   */
-  public changeValue(type: string, checked: boolean, i: number, j?: number): void {
 
-    // Set all radio buttons to false to prevent mulitple answers in the model.
-    if (type === 'radio-buttons') {
-      this.models.fill(false);
-    }
 
-    // Set all radio buttons for the specific header to false to prevent mulitple
-    // answers in the model for the category multiple-options.
-    if (type === 'multiple-options') {
-      this.models[i].fill(false);
-      this.models[i][j] = checked;
-    } else {
-      this.models[i] = checked;
-    }
-    this.journalLogService.refreshJournalLog();
-  }
+
 
 }

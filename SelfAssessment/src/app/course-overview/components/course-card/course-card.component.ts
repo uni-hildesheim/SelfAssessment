@@ -1,9 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Course } from 'src/app/shared/models/course-object';
-import { ResourceService } from 'src/app/core/services/resource.service';
-import { Resource } from 'src/app/shared/models/resources/resources.model';
-import { Observable, pipe } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Course } from 'src/app/shared/models/configuration/course.model';
 
 /**
  * Displays a course.

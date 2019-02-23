@@ -1,4 +1,4 @@
-import { SetRaw } from './journal.struc.set.raw';
+import { TestSetMinimal } from './test.set.minimal';
 
 /**
  * A minimal representation of a journal structure which contains
@@ -6,7 +6,7 @@ import { SetRaw } from './journal.struc.set.raw';
  * in conjunction with the specific config file.
  * Used to store a journal structure object in the database.
  */
-export interface JournalStructureRaw {
+export interface JournalStructureMinimal {
 
     /**
      *  The course of this journal structure.
@@ -21,5 +21,5 @@ export interface JournalStructureRaw {
     /**
      * The minimal representation of the structure sets.
      */
-    sets: SetRaw[];
+    sets: TestSetMinimal[];
 }

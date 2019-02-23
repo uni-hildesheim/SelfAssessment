@@ -1,17 +1,18 @@
+import { Infopage } from './../models/procedure/infopage.model';
+import { TestSet } from './../models/procedure/testset.model';
+import { Test } from './../models/procedure/test.model';
+import { SetElementType } from './../models/procedure/enums/element.type.enum';
+import { JournalStructureMinimal } from './../models/state/minimal/journal.structure.minimal';
 import { Injectable } from '@angular/core';
 import { JournalLog } from '../models/state/journal.log.model';
 import { Journal } from '../models/state/journal.model';
 import { JournalStructure } from '../models/state/journal.structure.model';
-import { TestSet } from '../models/testspecific/testset.model';
-import { Test } from '../models/testspecific/test.model';
-import { Infopage } from '../models/testspecific/infopage.model';
-import { ConfigFile } from '../models/config.file.model';
-import { SetElement } from '../models/testspecific/set.element.model';
-import { JournalStructureRaw } from '../models/state/raw/journal.structure.raw';
-import { SetRaw } from '../models/state/raw/journal.struc.set.raw';
-import { Course } from '../models/course-object';
+import { ConfigFile } from '../models/configuration/config.file.model';
+import { Course } from '../models/configuration/course.model';
 import { Resource } from '../models/resources/resources.model';
-import { resource } from 'selenium-webdriver/http';
+import { TestSetMinimal } from '../models/state/minimal/test.set.minimal';
+import { SetElement } from '../models/procedure/set.element.model';
+
 
 /**
  * This Service contains the logic for storing/retrieving objects in/from
@@ -187,19 +188,19 @@ export class LocalStorageService {
    *
    * @param journalStructure The journal structure.
    */
-  public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureRaw {
-    const rawSet: JournalStructureRaw = {
+  public prepareJournalStructureForSaving(journalStructure: JournalStructure): JournalStructureMinimal {
+    const rawSet: JournalStructureMinimal = {
       course: this.getCourse().name,
       language: this.getCourseLanguage(),
       sets: []
     };
     journalStructure.sets.forEach(set => {
-      const setRaw: SetRaw = {
+      const setRaw: TestSetMinimal = {
         set: set.id,
         tests: []
       };
       set.elements.forEach(element => {
-        if (element.setType === 'test') {
+        if (element.elementType.valueOf() === SetElementType.TEST.valueOf()) {
           setRaw.tests.push(element.id);
         }
       });
@@ -239,9 +240,9 @@ export class LocalStorageService {
    * be provided, which was received from the backend.
    *
    * @param course  The course-specifig config file.
-   * @param journalStrucRaw The raw journal structure.
+   * @param journalStrucMin The raw journal structure.
    */
-  public createJournalStructure(course: ConfigFile, journalStrucRaw?: JournalStructureRaw): JournalStructure {
+  public createJournalStructure(course: ConfigFile, journalStrucMin?: JournalStructureMinimal): JournalStructure {
     const journalStructure = new JournalStructure();
     const sets = [];
     const allSingleTests = new Map<number, SetElement>();
@@ -250,8 +251,8 @@ export class LocalStorageService {
     const journalStrucRawTests = [];
 
     // find all user-specific randomly generated tests
-    if (journalStrucRaw != null) {
-      journalStrucRaw.sets.forEach((rawSet: SetRaw) => {
+    if (journalStrucMin != null) {
+      journalStrucMin.sets.forEach((rawSet: TestSetMinimal) => {
         rawSet.tests.forEach(element => {
           journalStrucRawTests.push(element);
         });
@@ -260,13 +261,13 @@ export class LocalStorageService {
 
     // get all the single tests
     course.tests.forEach((rawTest: any) => {
-      rawTest.setType = 'test';
+      rawTest.elementType = SetElementType.TEST;
       allSingleTests.set(rawTest.id, <Test>rawTest);
     });
 
     // get all the infopages
     course.infopages.forEach((page: any) => {
-      page.setType = 'infopage';
+      page.elementType = SetElementType.INFOPAGE;
       page.belongs.forEach(belongsId => {
         allInfopages.set(belongsId, <Infopage>page);
       });
@@ -276,7 +277,7 @@ export class LocalStorageService {
     course.testgroups.forEach((group: any) => {
       const temp = [];
 
-      if (journalStrucRaw != null) {
+      if (journalStrucMin != null) {
         // the tests were already randomly generated
         group.tests.forEach(testId => {
           if (journalStrucRawTests.includes(testId)) {

@@ -1,3 +1,5 @@
+import { Course } from 'src/app/shared/models/configuration/course.model';
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardComponent } from './dashboard.component';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -7,51 +9,50 @@ import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
-import { ConfigFile } from 'src/app/shared/models/config.file.model';
 import { of } from 'rxjs';
+import { PinComponent } from '../pin/pin.component';
+import { Pipe, PipeTransform } from '@angular/core';
 
-xdescribe('DashboardComponent', () => {
+const strings = { };
+
+@Pipe({name: 'language'})
+class MockPipe implements PipeTransform {
+    transform(value: string): string {
+        return strings[value];
+    }
+}
+
+describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-  let configServiceStub: any;
-  let storageServiceStub: any;
+  let router: Router;
+  let storageService: Partial<LocalStorageService>;
+  let configService: Partial<ConfigService>;
 
-  const mockRouter = {
-    navigateByUrl: jasmine.createSpy('navigateByUrl')
+  const mockCourse: Course = {
+    name: 'IMIT',
+    languages: ['English'],
   };
-
-  const configFile = {
-    title: 'IMIT',
-    checksumRegex: '',
-    tests: [],
-    testgroups: [],
-    infopages: [],
-    sets: []
-  };
-
-  const courseTitle = 'IMIT';
 
   beforeEach(async(() => {
 
-    configServiceStub = {
-      getAllCourses: () => of([courseTitle]),
-      loadConfigFromCourse: () => {
-        return of(configFile);
-      }
+    const ConfigServiceStub = {
+      getAllCourses() { return of([mockCourse]); }
     };
 
-    storageServiceStub = {
-      storeConfigFile: () => true
+    const StorageServiceStub = {
+      storeCourse (course: Course) {},
+      getResources () {}
     };
+
 
     TestBed.configureTestingModule({
-      imports: [MaterialModule, HttpClientModule
+      imports: [MaterialModule, HttpClientModule, RouterTestingModule
     ],
-      declarations: [DashboardComponent, CourseCardComponent],
+      declarations: [DashboardComponent, CourseCardComponent, PinComponent, MockPipe],
       providers: [GlobalIndicator,
-        {provide: ConfigService, useValue: configServiceStub},
-        {provide: LocalStorageService, useValue: storageServiceStub},
-        {provide: Router, useValue: mockRouter}
+        {provide: ConfigService, useValue: ConfigServiceStub},
+        {provide: LocalStorageService, useValue: StorageServiceStub}
       ]
     })
       .compileComponents();
@@ -60,6 +61,10 @@ xdescribe('DashboardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
+    router = TestBed.get(Router);
+    storageService = TestBed.get(LocalStorageService);
+    configService = TestBed.get(ConfigService);
+
     fixture.detectChanges();
   });
 
@@ -67,29 +72,25 @@ xdescribe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
+
   it('should have course list defined from observable', () => {
-    component.courses.subscribe(content => {
-      const course = content[0] as ConfigFile;
-      const compiled = fixture.debugElement.nativeElement;
-      expect(course).toBeDefined();
-      expect(compiled.querySelector('app-course-card')).not.toBe(null);
+    component.courses.subscribe(course => {
+      expect(course[0]).toBeDefined();
+      expect(course[0]).toEqual(mockCourse);
     });
   });
 
   it('should start correct test if button from course card is clicked', () => {
 
-    const spy = spyOn(component, 'startTheTest').and.callThrough();
-    const compiled = fixture.debugElement.nativeElement;
-    const button = compiled.querySelector('app-course-card button');
+    spyOn(component, 'startTheTest').and.callThrough();
+    spyOn(storageService, 'storeCourse');
+    spyOn(router, 'navigate');
 
-    button.click();
-    fixture.detectChanges();
+    component.startTheTest(mockCourse);
 
-    expect(spy).toHaveBeenCalled();
-    expect(spy.calls.all().length).toEqual(1);
-    expect(spy).toHaveBeenCalledWith(configFile.title);
-    expect(mockRouter.navigateByUrl).toHaveBeenCalled();
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/test-start');
+    expect(component.startTheTest).toHaveBeenCalledWith(mockCourse);
+    expect(storageService.storeCourse).toHaveBeenCalledWith(mockCourse);
+    expect(router.navigate).toHaveBeenCalledWith(['/test-start', mockCourse]);
 
   });
 

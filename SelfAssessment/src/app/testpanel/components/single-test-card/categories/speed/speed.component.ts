@@ -1,21 +1,20 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { JournalLogService } from '../../services/journal-log.service';
-import { Test } from 'src/app/shared/models/testspecific/test.model';
+import { Component, OnInit, Input } from '@angular/core';
+import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
+import { Speed } from 'src/app/shared/models/procedure/categories/speed.test';
+import { CategoryComponent } from '../../categorie.component';
 
-/**
- * Realises the speed test category.
- */
 @Component({
-  selector: 'app-speed-test-card',
-  templateUrl: './speed-test-card.component.html',
-  styleUrls: ['./speed-test-card.component.scss']
+  selector: 'app-speed',
+  templateUrl: './speed.component.html',
+  styleUrls: ['./speed.component.scss']
 })
-export class SpeedTestCardComponent implements OnInit, OnChanges {
+export class SpeedComponent implements CategoryComponent, OnInit {
+
 
   /**
    * The speed test instance.
    */
-  @Input() singleTest: Test;
+  @Input() test: Speed;
 
   /**
    * Every option splited into its individual chars.
@@ -30,7 +29,7 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
   /**
    * Contains the strings of the options which the user choose.
    */
-  public choosenOptions = [];
+  public models: (boolean | string) [];
 
   /**
    * Specifies if the countdown is finished.
@@ -48,7 +47,7 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
-    this.singleTest.options.forEach(rawOpt => {
+    this.test.options.forEach(rawOpt => {
       const opt = rawOpt.text;
       this.optionsSplit.push(opt.split(''));
       const temp = [];
@@ -57,14 +56,8 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
       });
       this.coloredOptions.push(temp);
     });
-  }
 
-  /**
-   * Executed if the user moves to the next test.
-   */
-  ngOnChanges() {
-    this.choosenOptions = this.journalLogService.getModelByID(this.singleTest.id);
-    if (this.choosenOptions.every(e => e === false)) {
+    if (this.models.every(e => e === false)) {
       this.done = false;
       this.started = false;
     }
@@ -83,9 +76,9 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
   public endTask(): void {
     this.done = true;
 
-    for (let i = 0; i < this.choosenOptions.length; i++) {
-      if (this.choosenOptions[i] === false) {
-        this.choosenOptions[i] = '';
+    for (let i = 0; i < this.models.length; i++) {
+      if (this.models[i] === false) {
+        this.models[i] = '';
       }
     }
     this.journalLogService.refreshJournalLog();
@@ -96,7 +89,7 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
    */
   public spanMouseAction(over: boolean, i: number, j: number): void {
 
-    const distance = Math.ceil(this.singleTest.options[i].correct.toString().length / 2.0);
+    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
 
     if (this.done) {
       return;
@@ -115,14 +108,14 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
 
 
   /**
-   * Adds the clicked char and 3 chars left and right to the choosen options.
+   * Adds the clicked char and x chars left and right to the choosen options.
    *
    * @param i The index of the option.
    * @param j The index of the char inside the option.
    */
-  public spanClickAction(i: number, j: number): void {
+  public handleModelChange(value: any, i: number, j: number): void {
 
-    const distance = Math.ceil(this.singleTest.options[i].correct.toString().length / 2.0);
+    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
 
 
     if (this.done) {
@@ -135,7 +128,7 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
       j = this.coloredOptions[i].length - distance;
     }
 
-    this.choosenOptions[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
+    this.models[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
     this.journalLogService.refreshJournalLog();
   }
 
@@ -145,7 +138,8 @@ export class SpeedTestCardComponent implements OnInit, OnChanges {
    * @param i Index of the option.
    */
   public removeOption(i): void {
-    this.choosenOptions[i] = false;
+    this.models[i] = false;
   }
 
 }
+

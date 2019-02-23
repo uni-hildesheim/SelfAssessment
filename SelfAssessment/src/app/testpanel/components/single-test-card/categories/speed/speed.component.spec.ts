@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpeedTestCardComponent } from './speed-test-card.component';
+import { SpeedComponent } from './speed.component';
 
-xdescribe('SpeedTestCardComponent', () => {
-  let component: SpeedTestCardComponent;
-  let fixture: ComponentFixture<SpeedTestCardComponent>;
+xdescribe('SpeedComponent', () => {
+  let component: SpeedComponent;
+  let fixture: ComponentFixture<SpeedComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpeedTestCardComponent ]
+      declarations: [ SpeedComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpeedTestCardComponent);
+    fixture = TestBed.createComponent(SpeedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

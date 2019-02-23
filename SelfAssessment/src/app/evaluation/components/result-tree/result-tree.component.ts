@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
-import { RawResultTest } from 'src/app/shared/models/evaluation/raw/raw.result.test';
+import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 
 /**
  * Component that displays all the results of every evaluated test
@@ -27,7 +27,7 @@ export class TestResultPanelComponent implements OnInit {
    *
    * @param test The test.
    */
-  public checkDismissed(test: RawResultTest): boolean {
+  public checkDismissed(test: ResultTest): boolean {
     return test.correctOptions.length  === 0 &&
       test.wrongOptions.length === 0;
   }
