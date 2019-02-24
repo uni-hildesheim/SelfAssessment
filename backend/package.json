@@ -38,6 +38,8 @@
   },
   "nyc": {
     "exclude": [
+      "admin.js",
+      "app/db/db.js",
       "spec/**/*.js"
     ]
   }
