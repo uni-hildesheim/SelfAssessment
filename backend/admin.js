@@ -6,6 +6,138 @@ const mongoose = require('mongoose');
 const db = require('./app/db/db');
 const logger = require('./app/utils/logger');
 
+const ACTIONS = {
+    'info': {
+        args: [],
+        description: 'Print DB connection parameters.',
+        handler: printInfo
+    },
+    'help': {
+        args: [],
+        description: 'Print usage information.',
+        handler: usage
+    },
+    'db': {
+        'drop': {
+            args: [],
+            description: 'Drop the entire DB, deleting all of its contents.',
+            handler: dropDatabase
+        }
+    },
+    'collection': {
+        'drop': {
+            args: [{
+                name: 'name',
+                type: 'String'
+            }],
+            description: 'Drop the entire collection.',
+            handler: dropCollection
+        },
+        'list': {
+            args: [],
+            description: 'List all collections in the DB by name.',
+            handler: listCollections
+        }
+    },
+    'password': {
+        'hash': {
+            args: [{
+                name: 'secret',
+                type: 'String'
+            }, {
+                name: 'salt',
+                type: 'String'
+            }],
+            description: 'Hash a given secret using SHA512 and optional salt.',
+            handler: hashPassword
+        }
+    },
+    'user': {
+        'find': {
+            args: [{
+                name: 'pin',
+                type: 'Number'
+            }],
+            description: 'Find user objects in the DB.',
+            handler: findUser
+        },
+        'delete': {
+            'all': {
+                args: [],
+                description: 'Drop all user objects from the DB.',
+                handler: deleteAllUsers
+            },
+            'many': {
+                args: [{
+                    name: 'done',
+                    type: 'Number {0, 1}',
+                }, {
+                    name: 'lastUpdate',
+                    type: 'Number'
+                }, {
+                    name: 'pin',
+                    type: 'Number'
+                }],
+                description: 'Drop n user objects from the DB (selected by filters).',
+                handler: deleteManyUsers
+            }
+        },
+        'list': {
+            args: [],
+            description: 'List all user objects by pin.',
+            handler: listUsers
+        }
+    }
+}
+
+/**
+ * Print MongoDB connection parameters.
+ */
+function printInfo() {
+    console.log('MongoDB config: ' + JSON.stringify(db.config, null, 2));
+}
+
+/**
+ * Print help text for this script.
+ */
+function usage() {
+    let node = ACTIONS;
+    let indent = 0;
+
+    console.log('Usage: node admin.js ARGS');
+
+    function parseTree(node) {
+        indent += 2;
+        let string = '';
+        for (let i = 0; i < indent; i++) {
+            string += ' ';
+        }
+        for (const item in node) {
+            console.log(string + item);
+            if ('description' in node[item]) {
+                console.log(string + '-> ' + node[item]['description']);
+            }
+            if (!('args' in node[item])) {
+                parseTree(node[item]);
+                indent -= 2;
+            } else {
+                // found a leaf node
+                for (const arg of node[item]['args']) {
+                    console.log(string + '   ' + arg['name'] + '=<' + arg['type'] + '>');
+                }
+                console.log('');
+            }
+        }
+    }
+
+    parseTree(node);
+}
+
+/**
+ * Drop the entire MongoDB database that is currently in use.
+ * @param {*} args Unused, ignore.
+ * @returns True on success, false otherwise.
+ */
 async function dropDatabase(args) { // eslint-disable-line no-unused-vars
     logger.info('dropDatabase()');
 
@@ -13,12 +145,17 @@ async function dropDatabase(args) { // eslint-disable-line no-unused-vars
         await mongoose.connection.db.dropDatabase();
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     return true;
 }
 
+/**
+ * Drop a collection from the currently used db.
+ * @param {JSON} args Must contain a key 'name' with the name of the collection to drop.
+ * @returns True on success, false otherwise.
+ */
 async function dropCollection(args) {
     if (!('name' in args)) {
         logger.error('missing arg: name');
@@ -31,12 +168,17 @@ async function dropCollection(args) {
         await mongoose.connection.db.dropCollection(args.name);
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     return true;
 }
 
+/**
+ * List all collections by name from the currently used db.
+ * @param {*} args Unused, ignore.
+ * @returns True on success, false otherwise.
+ */
 async function listCollections(args) { // eslint-disable-line no-unused-vars
     let collections;
 
@@ -46,7 +188,7 @@ async function listCollections(args) { // eslint-disable-line no-unused-vars
         collections = await mongoose.connection.db.listCollections().toArray();
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     console.log('Collections')
@@ -57,6 +199,12 @@ async function listCollections(args) { // eslint-disable-line no-unused-vars
     return true;
 }
 
+/**
+ * Hash a secret using SHA512 algorithm.
+ * @param {JSON} args Must contain a key 'secret' with the secret to hash. May contain an optional
+ *                    key 'salt' that is used to update the hash.
+ * @returns True on success, false otherwise.
+ */
 async function hashPassword(args) {
     let sha512;
 
@@ -75,6 +223,11 @@ async function hashPassword(args) {
     return true;
 }
 
+/**
+ * Find user objects in the db.
+ * @param {JSON} args May contain an optional key 'pin' that is used as a query filter.
+ * @returns True on success, false otherwise.
+ */
 async function findUser(args) {
     let result;
     let query = {};
@@ -89,7 +242,7 @@ async function findUser(args) {
         result = await db.User.find(query);
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     console.log(JSON.stringify(result, null, 2));
@@ -97,6 +250,11 @@ async function findUser(args) {
     return true;
 }
 
+/**
+ * Delete all user objects in the db.
+ * @param {*} args Unused, ignore.
+ * @returns True on success, false otherwise.
+ */
 async function deleteAllUsers(args) { // eslint-disable-line no-unused-vars
     let result;
     let query = {};
@@ -107,13 +265,23 @@ async function deleteAllUsers(args) { // eslint-disable-line no-unused-vars
         result = await db.User.deleteMany(query);
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     console.log('Deleted: ' + result.n);
     return true;
 }
 
+/**
+ * Find user objects in the db.
+ * @param {JSON} args Must contain at least one of the keys 'done', 'lastUpdate', 'pin' which are
+ *                    used as query filters to limit the amount of user objects to delete.
+ *                    Valid filter values are:
+ *                    * 'done' - 0 or 1
+ *                    * 'lastUpdate' - Amount of days
+ *                    * 'pin' - pin code, made of eight digits
+ * @returns True on success, false otherwise.
+ */
 async function deleteManyUsers(args) {
     let result;
     let query = {};
@@ -151,13 +319,18 @@ async function deleteManyUsers(args) {
         result = await db.User.deleteMany(query);
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     console.log('Deleted: ' + result.n);
     return true;
 }
 
+/**
+ * List all user objects in the db.
+ * @param {JSON} args Unused, ignore.
+ * @returns True on success, false otherwise.
+ */
 async function listUsers(args) { // eslint-disable-line no-unused-vars
     let result;
     let query = {};
@@ -168,7 +341,7 @@ async function listUsers(args) { // eslint-disable-line no-unused-vars
         result = await db.User.find(query);
     } catch (err) {
         logger.error(err);
-        return;
+        return false;
     }
 
     for (const user of result) {
@@ -178,92 +351,10 @@ async function listUsers(args) { // eslint-disable-line no-unused-vars
     return true;
 }
 
-const ACTIONS = {
-    'info': {
-        args: [],
-        handler: printInfo
-    },
-    'help': {
-        args: [],
-        handler: usage
-    },
-    'db': {
-        'drop': {
-            args: [],
-            handler: dropDatabase
-        }
-    },
-    'collection': {
-        'drop': {
-            args: ['name'],
-            handler: dropCollection
-        },
-        'list': {
-            args: [],
-            handler: listCollections
-        }
-    },
-    'password': {
-        'hash': {
-            args: ['secret', 'salt'],
-            handler: hashPassword
-        }
-    },
-    'user': {
-        'find': {
-            args: ['pin'],
-            handler: findUser
-        },
-        'delete': {
-            'all': {
-                args: [],
-                handler: deleteAllUsers
-            },
-            'many': {
-                args: ['done', 'lastUpdate', 'pin'],
-                handler: deleteManyUsers
-            }
-        },
-        'list': {
-            args: [],
-            handler: listUsers
-        }
-    }
-}
-
-function usage() {
-    let node = ACTIONS;
-    let indent = 0;
-
-    console.log('Usage: node admin.js ARGS');
-
-    function parseTree(node) {
-        let string = '';
-        indent += 2;
-        for (let i = 0; i < indent; i++) {
-            string += ' ';
-        }
-        for (const item in node) {
-            console.log(string + item);
-            if (!('args' in node[item])) {
-                parseTree(node[item]);
-            } else {
-                // found a leaf node
-                for (const arg of node[item]['args']) {
-                    console.log(string + '  <' + arg + '>')
-                }
-                console.log('');
-            }
-        }
-    }
-
-    parseTree(node);
-}
-
-function printInfo() {
-    console.log('MongoDB config: ' + JSON.stringify(db.config, null, 2));
-}
-
+/**
+ * Load configuration from the environment.
+ * Gathers settings for things like the log level, DB user and password, etc.
+ */
 function loadEnvironment() {
     const APP_LOGLEVEL = process.env.APP_LOGLEVEL;
     const DB_URI = process.env.DB_URI;
@@ -295,6 +386,11 @@ function loadEnvironment() {
     }
 }
 
+/**
+ * Retrieve the handler function for a set of script arguments.
+ * @param {*} args Node.js script run parameters.
+ * @returns Handler function on success, null otherwise.
+ */
 function run(args) {
     let arg = args[0];
     let dict = ACTIONS;
@@ -325,6 +421,9 @@ function run(args) {
     return dict.handler;
 }
 
+/**
+ * Entrypoint.
+ */
 async function main() {
     let args = process.argv;
     // remove the first two arguments (node.js path and script path)
