@@ -1,4 +1,5 @@
 // 3rdparty dependencies
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 // local dependencies
@@ -53,6 +54,24 @@ async function listCollections(args) { // eslint-disable-line no-unused-vars
         console.log('--> ' + collection.name);
     }
 
+    return true;
+}
+
+async function hashPassword(args) {
+    let sha512;
+
+    if (!('secret' in args)) {
+        logger.error('missing arg: secret');
+        return false;
+    }
+
+    sha512 = crypto.createHmac('sha512', args.secret);
+
+    if ('salt' in args) {
+        sha512.update(args.salt);
+    }
+
+    console.log(sha512.digest('hex'));
     return true;
 }
 
@@ -182,6 +201,12 @@ const ACTIONS = {
         'list': {
             args: [],
             handler: listCollections
+        }
+    },
+    'password': {
+        'hash': {
+            args: ['secret', 'salt'],
+            handler: hashPassword
         }
     },
     'user': {
