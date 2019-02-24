@@ -11,6 +11,7 @@ const fs = require('fs');
 // load local dependencies
 const JSONUtils = require('./app/utils/json');
 const db = require('./app/db/db');
+const gc = require('./app/utils/gc');
 const logger = require('./app/utils/logger');
 const router = require('./app/core');
 
@@ -100,7 +101,36 @@ function loadEnvironment() {
             }
         }
 
-        setupGarbageCollector(GC_INTERVAL);
+        gc.addTask((options) => {
+            const query = {};
+            if ('user' in options) {
+                if ('done' in options['user']) {
+                    if (options['user']['done'] == true) {
+                        query['result.validationCode'] = {
+                            '$ne': null
+                        }
+                    } else {
+                        query['result.validationCode'] = null;
+                    }
+                }
+
+                if ('lastUpdate' in options['user']) {
+                    const referenceDate = new Date();
+                    referenceDate.setDate(referenceDate.getDate() - options['user']['lastUpdate']);
+                    query['journal.lastUpdate'] = {
+                        '$lt': referenceDate
+                    };
+                }
+            }
+
+            logger.debug('GC: Removing users for query: ' + JSON.stringify(query, null, 2));
+            db.User.deleteMany(query).then(result => {
+                logger.info('GC: removed ' + result.n + ' user objects');
+            }).catch(err => {
+                logger.error(err);
+            });
+        }, GC_OPTIONS);
+        gc.start(GC_INTERVAL);
     }
 }
 
@@ -415,49 +445,6 @@ function setupAutodeploy(inputPath, outputPath) {
         // remove the zip in all cases
         fs.unlinkSync(inputPath + '/' + filename);
     });
-}
-
-/**
- * Garbage collection engine that runs every <interval> seconds.
- *
- * For now, it only removes stale user objects based on filter settings set in the environment.
- * Valid filters are:
- *      * GC_USER_LAST_UPDATE - Last update x days ago
- *      * GC_USER_DONE - Whether a validation code should exist
- *
- * @param {*} interval Number of seconds that must elapse before the GC engine runs
- */
-function setupGarbageCollector(interval) {
-    logger.info('Setting up Garbage Collector to run every ' + interval + ' seconds');
-    setInterval( () => {
-        const query = {};
-        if ('user' in GC_OPTIONS) {
-            if ('done' in GC_OPTIONS['user']) {
-                if (GC_OPTIONS['user']['done'] == true) {
-                    query['result.validationCode'] = {
-                        '$ne': null
-                    }
-                } else {
-                    query['result.validationCode'] = null;
-                }
-            }
-
-            if ('lastUpdate' in GC_OPTIONS['user']) {
-                const referenceDate = new Date();
-                referenceDate.setDate(referenceDate.getDate() - GC_OPTIONS['user']['lastUpdate']);
-                query['journal.lastUpdate'] = {
-                    '$lt': referenceDate
-                };
-            }
-        }
-
-        logger.debug('GC: Removing users for query: ' + JSON.stringify(query, null, 2));
-        db.User.deleteMany(query).then(result => {
-            logger.info('GC: removed ' + result.n + ' user objects');
-        }).catch(err => {
-            logger.error(err);
-        });
-    }, interval * 1000);
 }
 
 async function main() {
