@@ -17,7 +17,7 @@ export class PinService {
   /**
    * Api route that creates a new pin.
    */
-  public static readonly CREATE_PIN = 'api/v1/pincode/create';
+  public static readonly CREATE_PIN = 'api/v1/user/create';
 
   public static readonly CREATE_VALIDATION_CODE = 'api/v1/result/lock';
 

@@ -66,7 +66,7 @@ export class MainPanelComponent implements OnInit {
     this.journalLogService.getJournalLogAsObservable().subscribe(
       (data) => {
         this.updateProtocol = true;
-        this.logging.debug('Journal log changed', this.storageService.prepareJournalLogForSaving(data));
+        this.logging.debug('Journal log changed', data);
       }
     );
   }

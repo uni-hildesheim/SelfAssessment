@@ -11,6 +11,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { ConfigFile } from '../models/configuration/config.file.model';
 import { LoggingService } from '../logging/logging.service';
 import { StorageItem } from './local.storage.values.enum';
+import { JournalDirectorService } from '../models/state/journal.director';
 
 /**
  * Fetches/Stores journal specific objects from/to the database.
@@ -42,6 +43,7 @@ export class JournalService {
 
   constructor(
     private http: HttpClient,
+    private journalDirector: JournalDirectorService,
     private storageService: LocalStorageService,
     private configService: ConfigService,
     private logging: LoggingService
@@ -79,13 +81,13 @@ export class JournalService {
    * @returns An Observable containing the converted journal structure object.
    */
   public loadJournalStructure(pin: number): Observable<JournalStructure> {
-    return this.loadRawJournalStructure(pin)
+    return this.loadMinJournalStructure(pin)
     .pipe(
       switchMap((structure: JournalStructureMinimal) => {
         return this.configService.loadConfigFromCourse(structure.course, structure.language)
         .pipe(
           map((configFile: ConfigFile) => {
-            return this.storageService.createJournalStructure(configFile, structure);
+            return this.journalDirector.createJournalStructure(configFile, structure);
           })
         );
       })
@@ -98,7 +100,7 @@ export class JournalService {
    * @param pin The users pin.
    * @returns An Observable containing the raw journal structure object.
    */
-  public loadRawJournalStructure(pin: number): Observable<JournalStructureMinimal> {
+  public loadMinJournalStructure(pin: number): Observable<JournalStructureMinimal> {
     return this.http.post<JournalStructureMinimal>(JournalService.LOAD_JOURNAL_STRUCTURE, {pin})
     .pipe(
       tap((structure) => {
@@ -118,7 +120,7 @@ export class JournalService {
     return this.http.post<JournalLog>(JournalService.LOAD_JOURNAL_LOG, {pin})
     .pipe(
       map((log) => {
-        return this.storageService.extractSavedJournalLog(log);
+        return this.journalDirector.extractSavedJournalLog(log);
       }),
       tap((log) => {
         this.logging.info(`Loaded journal log for pin: ${pin}`);
@@ -136,7 +138,7 @@ export class JournalService {
   public saveJournalLog(journalLog: JournalLog): Observable<any> {
     return this.http.post(JournalService.SAVE_JOURNAL_LOG, {
       pin: this.storageService.retrieveFromStorage(StorageItem.PIN),
-      log: this.storageService.prepareJournalLogForSaving(journalLog)
+      log: this.journalDirector.prepareJournalLogForSaving(journalLog)
     }).pipe(
       tap(() => {
         this.logging.info('Saved journal log');
@@ -151,9 +153,14 @@ export class JournalService {
    * @returns Observable.
    */
   public saveJournalStructure(journalStructure: JournalStructure): Observable<any> {
+
+    const pin = this.storageService.retrieveFromStorage(StorageItem.PIN);
+    const name = this.storageService.retrieveFromStorage(StorageItem.COURSE).name;
+    const langCourse = this.storageService.retrieveFromStorage(StorageItem.COURSE_LANGUAGE);
+
     return this.http.post(JournalService.SAVE_JOURNAL_STRUCTURE, {
-      pin: this.storageService.retrieveFromStorage(StorageItem.PIN),
-      structure: this.storageService.prepareJournalStructureForSaving(journalStructure)
+      pin: pin,
+      structure: this.journalDirector.prepareJournalStructureForSaving(journalStructure, name, langCourse)
     }).pipe(
       tap(() => {
         this.logging.info('Saved journal structure');

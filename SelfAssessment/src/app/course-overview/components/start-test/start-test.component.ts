@@ -78,7 +78,7 @@ export class StartTestComponent implements OnInit {
    */
   public startSelfAssessment(): void {
     this.materialOverlayService
-    .chooseCourseLanguage(this.course.languages, false)
+    .chooseCourseLanguage(this.course.languages, true)
     .pipe(
       switchMap((language: string) => {
         this.storageService.persistInStorage(StorageItem.COURSE_LANGUAGE, language);

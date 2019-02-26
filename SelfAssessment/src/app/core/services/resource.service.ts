@@ -5,6 +5,7 @@ import { LoggingService } from 'src/app/shared/logging/logging.service';
 import { Resource } from 'src/app/shared/models/resources/resources.model';
 import { environment } from 'src/environments/environment';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
+import { isArray } from 'util';
 
 /**
  * Service that handles all the logic relating to
@@ -88,7 +89,7 @@ export class ResourceService {
     return new Promise((resolve, reject) => {
       let res: Resource;
       const lang = localStorage.getItem(StorageItem.LANGUAGE);
-      const resources = (<Resource[]>JSON.parse(localStorage.getItem(StorageItem.RESOURCES)));
+      const resources = localStorage.getItem(StorageItem.RESOURCES);
 
       if (!resources) {
         this.loadResources().then(
@@ -99,7 +100,8 @@ export class ResourceService {
           }
         );
       } else {
-        res = resources.find(e => e.language === lang);
+        const resAll: Resource[] = (<Resource[]>JSON.parse(resources));
+        res = resAll.find(e => e.language === lang);
         resolve(res);
       }
     });

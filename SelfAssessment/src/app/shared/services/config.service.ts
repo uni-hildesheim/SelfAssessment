@@ -6,12 +6,12 @@ import { ConfigFile } from '../models/configuration/config.file.model';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Journal } from '../models/state/journal.model';
 import { LocalStorageService } from './local-storage.service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Course } from '../models/configuration/course.model';
 import { LoggingService } from '../logging/logging.service';
 import { tap } from 'rxjs/operators';
 import { ResultSet } from '../models/evaluation/result.set';
-import { StorageItem } from './local.storage.values.enum';
+import { JournalDirectorService } from '../models/state/journal.director';
 
 /**
  * Handles the overall configuration logic, to setup the application for
@@ -40,6 +40,7 @@ export class ConfigService {
     private http: HttpClient,
     private journalLogService: JournalLogService,
     private storageService: LocalStorageService,
+    private journalDirector: JournalDirectorService,
     private logging: LoggingService,
     private resultService: ResultService
   ) { }
@@ -83,11 +84,12 @@ export class ConfigService {
   * @returns The generated journal.
   */
   public initJournalFromConfigFile(configFile: ConfigFile): Journal {
-    const journal = new Journal();
-    const journalStructure = this.storageService.createJournalStructure(configFile);
-    const journalLog = this.journalLogService.initJournalLog(journalStructure);
-    journal.log = journalLog;
-    journal.structure = journalStructure;
+    const journal = this.journalDirector.createJournal(configFile);
+
+    // init the journal log behaviour subject
+    this.journalLogService.initJournalLog(journal.log);
+
+    // store journal in the local storage
     this.storageService.persistJournal(journal);
     return journal;
   }
@@ -99,7 +101,7 @@ export class ConfigService {
   * @param journal The journal log containing the users specific state/setup.
   */
   public initJournalLogFromPin(journalLog: JournalLog): void {
-    this.journalLogService.initJournalLogFromPin(journalLog);
+    this.journalLogService.initJournalLog(journalLog);
   }
 
   /**

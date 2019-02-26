@@ -136,7 +136,7 @@ describe('StartTestComponent', () => {
 
     fixture.detectChanges();
 
-    expect(materialOverlayService.chooseCourseLanguage).toHaveBeenCalledWith(dummyCourse.languages, false);
+    expect(materialOverlayService.chooseCourseLanguage).toHaveBeenCalledWith(dummyCourse.languages, true);
     expect(storageService.persistInStorage).toHaveBeenCalledWith(StorageItem.COURSE_LANGUAGE, 'English');
     expect(configService.loadConfigFromCourse).toHaveBeenCalledWith(dummyCourse.name, dummyLanguage);
     expect(configService.initJournalFromConfigFile).toHaveBeenCalledWith(dummyConfig);

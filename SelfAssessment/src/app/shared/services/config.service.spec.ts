@@ -9,10 +9,13 @@ import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
 import { Course } from '../models/configuration/course.model';
 import { ConfigFile } from '../models/configuration/config.file.model';
 import { LocalStorageService } from './local-storage.service';
+import { JournalDirectorService } from '../models/state/journal.director';
+import { Journal } from '../models/state/journal.model';
 
-describe('TestDefinitionService', () => {
+describe('ConfigService', () => {
   let configService: ConfigService;
-  let storageService: Partial<LocalStorageService>;
+  let storageService: LocalStorageService;
+  let directorService: JournalDirectorService;
   let journalLogService: Partial<JournalLogService>;
   let httpTestingController: HttpTestingController;
 
@@ -28,7 +31,7 @@ describe('TestDefinitionService', () => {
     title: 'IMIT',
     icon: 'imit.jpg',
     checksumRegex: '',
-    tests: [''],
+    tests: [],
     testgroups: [],
     infopages: [],
     sets: [],
@@ -36,20 +39,29 @@ describe('TestDefinitionService', () => {
 
   const dummyJournalStructure: JournalStructure = { sets: [] };
   const dummyJournalLog: JournalLog = { sets: [] };
+  const dummyJournal: Journal = { structure: dummyJournalStructure, log: dummyJournalLog };
 
   beforeEach(() => {
+
+
+    // const directorStub = {
+    //   createJournalStructure(file: ConfigFile): JournalStructure {
+    //     return dummyJournalStructure;
+    //   }
+    // };
 
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule, RouterTestingModule
       ],
-      providers: [GlobalIndicator, ConfigService, JournalLogService, LocalStorageService
+      providers: [GlobalIndicator, ConfigService, JournalLogService, LocalStorageService, JournalDirectorService
       ]
     }).compileComponents();
 
     configService = TestBed.get(ConfigService);
     httpTestingController = TestBed.get(HttpTestingController);
     storageService = TestBed.get(LocalStorageService);
+    directorService = TestBed.get(JournalDirectorService);
     journalLogService = TestBed.get(JournalLogService);
 
   });
@@ -112,14 +124,16 @@ describe('TestDefinitionService', () => {
 
   it('should init journal from config file', () => {
 
-    spyOn(storageService, 'createJournalStructure').and.returnValue(dummyJournalStructure);
+    spyOn(configService, 'initJournalFromConfigFile').and.callThrough();
+    spyOn(directorService, 'createJournal').and.returnValue(dummyJournal);
     spyOn(storageService, 'persistJournal');
     spyOn(journalLogService, 'initJournalLog').and.returnValue(dummyJournalLog);
 
     configService.initJournalFromConfigFile(dummyConfigFile);
 
-    expect(storageService.createJournalStructure).toHaveBeenCalledWith(dummyConfigFile);
-    expect(journalLogService.initJournalLog).toHaveBeenCalledWith(dummyJournalStructure);
+    expect(configService.initJournalFromConfigFile).toHaveBeenCalledWith(dummyConfigFile);
+    expect(directorService.createJournal).toHaveBeenCalledWith(dummyConfigFile);
+    expect(journalLogService.initJournalLog).toHaveBeenCalledWith(dummyJournalLog);
     expect(storageService.persistJournal).toHaveBeenCalled();
 
   });

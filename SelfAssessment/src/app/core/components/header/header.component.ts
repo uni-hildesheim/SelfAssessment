@@ -21,14 +21,14 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.lang = this.storageService.retrieveFromStorage(StorageItem.RESOURCES)
-      .map(obj => obj.language);
+    this.lang = this.storageService
+    .retrieveFromStorage(StorageItem.RESOURCES)
+    .map(obj => obj.language);
   }
 
-  langChange(matselect: MatSelectChange) {
-    this.logging.info(`Change language to ${matselect.value}`);
-    this.resourceService.changeLang(matselect.value);
+  langChange(value: string) {
+    this.logging.info(`Change language to ${value}`);
+    this.resourceService.changeLang(value);
   }
 
 }

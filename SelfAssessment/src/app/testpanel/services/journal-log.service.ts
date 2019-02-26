@@ -46,58 +46,11 @@ export class JournalLogService {
     return this.journalLogInstance.sets[this.globals.setIndex].get(id);
   }
 
-  /**
-   * Initalizes this service and its behaviour subject from a user
-   * specific journal log.
-   *
-   * @param journalLog The user specific journal log.
-   */
-  public initJournalLogFromPin(journalLog: JournalLog): void {
+
+  public initJournalLog(journalLog: JournalLog): void {
     this.journalLog = new BehaviorSubject(journalLog);
   }
 
-
-  /**
-   * Initalizes this service and its behaviour subject from a previously
-   * created journal structure.
-   *
-   * @param journalStruc The journal structure.
-   * @return The journal log.
-   */
-  public initJournalLog(journalStruc: JournalStructure): JournalLog {
-    const sets = journalStruc.sets;
-
-    const journalLog = new JournalLog();
-    journalLog.sets = [];
-
-    // each set has its own map with its single tests
-    sets.forEach(set => {
-      const journalSet = new Map<number, any[]>();
-
-      // extract all the single tests from the set, at this point
-      // it does not matter if a test belongs to a testgroup
-      set.elements.forEach((element: SetElement) => {
-        if (element.elementType.valueOf() === SetElementType.TEST.valueOf()) {
-          if ((<Test>element).category.valueOf() !== Category.MULTIPLE_OPTIONS.valueOf()) {
-            journalSet.set(element.id, new Array((<Test>element).options.length).fill(false));
-          } else {
-            const temp = new Array((<Test>element).options.length);
-            for (let i = 0; i < temp.length; i++) {
-              temp[i] = new Array((<MultipleOptions>element).header.length).fill(false);
-            }
-            journalSet.set(element.id, temp);
-          }
-        }
-      });
-      journalLog.sets.push(journalSet);
-    });
-
-    this.logging.info('Init journal log from journal structure');
-
-    // init the observable
-    this.journalLog = new BehaviorSubject(journalLog);
-    return journalLog;
-  }
 
   /**
    * Retrieves the observable from this behaviour subject.
