@@ -1,10 +1,10 @@
-import { MaterialOverlayService } from './../../../shared/services/material-overlay.service';
+import { MaterialOverlayService } from '../../../shared/services/helper/material-overlay.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigFile } from 'src/app/shared/models/configuration/config.file.model';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { PinService } from 'src/app/shared/services/pin.service';
-import { JournalService } from 'src/app/shared/services/journal.service';
+import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Course } from 'src/app/shared/models/configuration/course.model';

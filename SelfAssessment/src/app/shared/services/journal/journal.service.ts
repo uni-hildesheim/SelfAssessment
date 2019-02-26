@@ -1,17 +1,17 @@
-import { JournalStructureMinimal } from './../models/state/minimal/journal.structure.minimal';
+import { JournalStructureMinimal } from '../../models/state/minimal/journal.structure.minimal';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { JournalStructure } from '../models/state/journal.structure.model';
-import { Journal } from '../models/state/journal.model';
-import { JournalLog } from '../models/state/journal.log.model';
-import { ConfigService } from './config.service';
+import { JournalStructure } from '../../models/state/journal.structure.model';
+import { Journal } from '../../models/state/journal.model';
+import { JournalLog } from '../../models/state/journal.log.model';
+import { ConfigService } from '../config.service';
 import { Observable, forkJoin } from 'rxjs';
-import { ConfigFile } from '../models/configuration/config.file.model';
-import { LoggingService } from '../logging/logging.service';
-import { StorageItem } from './local.storage.values.enum';
-import { JournalDirectorService } from '../models/state/journal.director';
+import { ConfigFile } from '../../models/configuration/config.file.model';
+import { LoggingService } from '../../logging/logging.service';
+import { StorageItem } from '../local.storage.values.enum';
+import { JournalDirectorService } from './journal.director';
 
 /**
  * Fetches/Stores journal specific objects from/to the database.

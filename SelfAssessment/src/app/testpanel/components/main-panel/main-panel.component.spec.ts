@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainPanelComponent } from './main-panel.component';
-import { JournalService } from 'src/app/shared/services/journal.service';
+import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { GlobalIndicator } from '../../global.indicators';
 import { InfopageComponent } from '../infopage/infopage.component';

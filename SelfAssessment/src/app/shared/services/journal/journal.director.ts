@@ -1,11 +1,11 @@
-import { Journal } from './journal.model';
+import { Journal } from '../../models/state/journal.model';
 import { JournalBuilder } from './journal.builder';
-import { ConfigFile } from '../configuration/config.file.model';
-import { JournalStructureMinimal } from './minimal/journal.structure.minimal';
-import { JournalLog } from './journal.log.model';
-import { JournalStructure } from './journal.structure.model';
-import { TestSetMinimal } from './minimal/test.set.minimal';
-import { SetElementType } from '../procedure/enums/element.type.enum';
+import { ConfigFile } from '../../models/configuration/config.file.model';
+import { JournalStructureMinimal } from '../../models/state/minimal/journal.structure.minimal';
+import { JournalLog } from '../../models/state/journal.log.model';
+import { JournalStructure } from '../../models/state/journal.structure.model';
+import { TestSetMinimal } from '../../models/state/minimal/test.set.minimal';
+import { SetElementType } from '../../models/procedure/enums/element.type.enum';
 import { Injectable } from '@angular/core';
 
 @Injectable({

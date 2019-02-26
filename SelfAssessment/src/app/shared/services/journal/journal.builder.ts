@@ -1,15 +1,15 @@
-import { Test } from '../procedure/test.model';
-import { SetElementType } from '../procedure/enums/element.type.enum';
-import { Infopage } from '../procedure/infopage.model';
-import { SetElement } from '../procedure/set.element.model';
-import { ConfigFile } from '../configuration/config.file.model';
-import { TestSet } from '../procedure/testset.model';
-import { JournalStructure } from './journal.structure.model';
-import { JournalLog } from './journal.log.model';
-import { Category } from '../procedure/enums/category.enum';
-import { MultipleOptions } from '../procedure/categories/multiple.options.test';
-import { JournalStructureMinimal } from './minimal/journal.structure.minimal';
-import { TestSetMinimal } from './minimal/test.set.minimal';
+import { Test } from '../../models/procedure/test.model';
+import { SetElementType } from '../../models/procedure/enums/element.type.enum';
+import { Infopage } from '../../models/procedure/infopage.model';
+import { SetElement } from '../../models/procedure/set.element.model';
+import { ConfigFile } from '../../models/configuration/config.file.model';
+import { TestSet } from '../../models/procedure/testset.model';
+import { JournalStructure } from '../../models/state/journal.structure.model';
+import { JournalLog } from '../../models/state/journal.log.model';
+import { Category } from '../../models/procedure/enums/category.enum';
+import { MultipleOptions } from '../../models/procedure/categories/multiple.options.test';
+import { JournalStructureMinimal } from '../../models/state/minimal/journal.structure.minimal';
+import { TestSetMinimal } from '../../models/state/minimal/test.set.minimal';
 
 export class JournalBuilder {
 

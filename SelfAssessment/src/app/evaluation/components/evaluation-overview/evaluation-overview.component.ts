@@ -24,7 +24,7 @@ export class EvaluationOverviewComponent implements OnInit {
   constructor(
     private resultService: ResultService,
     private router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private storage: LocalStorageService,
     private logging: LoggingService
   ) { }

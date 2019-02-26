@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ErrorDialogComponent } from '../components/dialogs/error-dialog/error-dialog.component';
+import { ErrorDialogComponent } from '../../components/dialogs/error-dialog/error-dialog.component';
 import { Observable } from 'rxjs';
 
 /**

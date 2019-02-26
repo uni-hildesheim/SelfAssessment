@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JournalService } from 'src/app/shared/services/journal.service';
+import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { GlobalIndicator } from '../../global.indicators';
 import { MatStepper } from '@angular/material';
 import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';

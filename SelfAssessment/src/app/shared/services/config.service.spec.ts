@@ -9,7 +9,7 @@ import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
 import { Course } from '../models/configuration/course.model';
 import { ConfigFile } from '../models/configuration/config.file.model';
 import { LocalStorageService } from './local-storage.service';
-import { JournalDirectorService } from '../models/state/journal.director';
+import { JournalDirectorService } from './journal/journal.director';
 import { Journal } from '../models/state/journal.model';
 
 describe('ConfigService', () => {

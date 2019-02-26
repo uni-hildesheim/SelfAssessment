@@ -1,4 +1,4 @@
-import { MaterialOverlayService } from './../../../shared/services/material-overlay.service';
+import { MaterialOverlayService } from '../../../shared/services/helper/material-overlay.service';
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
 import { ConfigService } from './../../../shared/services/config.service';
 import { Router } from '@angular/router';

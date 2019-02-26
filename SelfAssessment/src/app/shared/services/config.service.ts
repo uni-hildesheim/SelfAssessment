@@ -11,7 +11,7 @@ import { Course } from '../models/configuration/course.model';
 import { LoggingService } from '../logging/logging.service';
 import { tap } from 'rxjs/operators';
 import { ResultSet } from '../models/evaluation/result.set';
-import { JournalDirectorService } from '../models/state/journal.director';
+import { JournalDirectorService } from './journal/journal.director';
 
 /**
  * Handles the overall configuration logic, to setup the application for

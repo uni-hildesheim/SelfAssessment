@@ -1,4 +1,4 @@
-import { MaterialOverlayService } from './../../../shared/services/material-overlay.service';
+import { MaterialOverlayService } from '../../../shared/services/helper/material-overlay.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './../../../material/material.module';
 import { Journal } from 'src/app/shared/models/state/journal.model';

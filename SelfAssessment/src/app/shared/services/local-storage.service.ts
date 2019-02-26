@@ -3,7 +3,7 @@ import { StorageItem } from './local.storage.values.enum';
 import { Injectable } from '@angular/core';
 import { Journal } from '../models/state/journal.model';
 import { Router } from '@angular/router';
-import { JournalDirectorService } from '../models/state/journal.director';
+import { JournalDirectorService } from './journal/journal.director';
 
 /**
  * This Service contains the logic for storing/retrieving objects in/from

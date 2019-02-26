@@ -1,9 +1,9 @@
 import { Course } from '../../../shared/models/configuration/course.model';
-import { MaterialOverlayService } from './../../../shared/services/material-overlay.service';
+import { MaterialOverlayService } from '../../../shared/services/helper/material-overlay.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { ConfigFile } from '../../../shared/models/configuration/config.file.model';
 import { Observable, of } from 'rxjs';
-import { JournalService } from './../../../shared/services/journal.service';
+import { JournalService } from '../../../shared/services/journal/journal.service';
 import { PinService } from 'src/app/shared/services/pin.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from './../../../material/material.module';

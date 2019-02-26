@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { timeout, retryWhen, switchMap } from 'rxjs/operators';
-import { ErrorDialogService } from 'src/app/shared/services/error-dialog.service';
+import { ErrorDialogService } from 'src/app/shared/services/helper/error-dialog.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()

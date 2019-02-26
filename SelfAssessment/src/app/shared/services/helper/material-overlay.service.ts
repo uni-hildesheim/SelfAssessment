@@ -1,7 +1,7 @@
-import { PinDialogComponent } from './../components/dialogs/pin-dialog/pin-dialog.component';
+import { PinDialogComponent } from '../../components/dialogs/pin-dialog/pin-dialog.component';
 import {
   CourseLanguageBottomSheetComponent
- } from './../../course-overview/components/course-language-bottom-sheet/course-language-bottom-sheet.component';
+ } from '../../../course-overview/components/course-language-bottom-sheet/course-language-bottom-sheet.component';
 import { Injectable } from '@angular/core';
 import { MatBottomSheet, MatDialog } from '@angular/material';
 

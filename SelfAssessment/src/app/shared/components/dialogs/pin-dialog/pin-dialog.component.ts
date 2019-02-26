@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Validators, FormControl } from '@angular/forms';
-import { JournalService } from 'src/app/shared/services/journal.service';
+import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { ResultService } from 'src/app/evaluation/services/result.service';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
