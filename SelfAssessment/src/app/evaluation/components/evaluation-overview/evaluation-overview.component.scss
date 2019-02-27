@@ -5,6 +5,21 @@
   margin: auto;
   box-shadow: none;
 
+
+.fill-space{
+  flex: 1 1 auto;
+}
+
+.filter-icon {
+  cursor: pointer;
+}
+
+mat-form-field{
+  visibility: hidden;
+  width: 20px;
+}
+
+
   mat-expansion-panel {
     box-shadow: none;
     border: 1px solid rgba(0, 0, 0, 0.12);

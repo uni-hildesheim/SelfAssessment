@@ -21,7 +21,7 @@ describe('ResultTreeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestResultPanelComponent);
     component = fixture.componentInstance;
-    component.set = resultSetDummy[0];
+    component.tests = resultSetDummy[0].tests;
     fixture.detectChanges();
   });
 

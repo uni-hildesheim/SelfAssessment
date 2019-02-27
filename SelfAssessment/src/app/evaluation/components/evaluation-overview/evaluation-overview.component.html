@@ -30,8 +30,37 @@
               Score: {{ (results | result: true)[0] }}/{{
                 (results | result: true)[1]}}
             </mat-card-subtitle>
+
+
+            <span class="fill-space"></span>
+            <button mat-icon-button (click)="filterSelect.open()" matTooltip="Sort By Test Type">
+                <mat-icon>filter_list</mat-icon>
+              </button>
+
+
+            <mat-form-field appearance="legacy" class="mat-form-field-type">
+                <mat-select #filterSelect placeholder="Sort By Type" (selectionChange)="filterByType($event.value, results)">
+                  <mat-option>None</mat-option>
+                  <mat-option *ngFor="let type of types" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+
           </mat-card-header>
           <mat-card-content class="result-overview-content">
+
+            <!-- SORT BY TYPE -->
+            <mat-accordion class="example-headers-align" *ngIf="currentType; else displayBySet">
+              <div *ngFor="let test of testsByType" >
+                <app-result-tree [tests]="test"></app-result-tree>
+              </div>
+            </mat-accordion> 
+
+            <!-- SORT BY SET -->
+            <ng-template #displayBySet>
             <mat-accordion class="example-headers-align">
               <mat-expansion-panel
                 *ngFor="let set of results; index as i"
@@ -55,9 +84,12 @@
                 </mat-card>
 
                 <h3>Einzelne Tests:</h3>
-                <app-result-tree [set]="set"></app-result-tree>
+                <app-result-tree [tests]="set.tests"></app-result-tree>
               </mat-expansion-panel>
             </mat-accordion>
+          </ng-template>
+
+
           </mat-card-content>
           <mat-card-actions>
             <mat-divider></mat-divider>
@@ -72,5 +104,10 @@
         </mat-card>
       </ng-container>
     </ng-template>
+
+
+
+    <!-- The Filter by Type CARD -->
+
 
 </div>

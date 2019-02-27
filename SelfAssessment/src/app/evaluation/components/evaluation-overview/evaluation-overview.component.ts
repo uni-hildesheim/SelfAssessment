@@ -8,6 +8,9 @@ import { Observable, of } from 'rxjs';
 import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
 import { tap, catchError } from 'rxjs/operators';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
+import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
+import { Test } from 'src/app/shared/models/procedure/test.model';
+import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 
 @Component({
   selector: 'app-evaluation-overview',
@@ -20,6 +23,9 @@ export class EvaluationOverviewComponent implements OnInit {
   public loading = false;
   public journalStructure: JournalStructure;
   public course: string;
+  public types: string[];
+  public currentType: string;
+  public testsByType: ResultTest[][];
 
   constructor(
     private resultService: ResultService,
@@ -54,7 +60,40 @@ export class EvaluationOverviewComponent implements OnInit {
     return this.journalStructure.sets[index].scoreIndepentText;
   }
 
+  getAllTypes(): string[] {
+
+    const types = [];
+
+    this.journalStructure.sets
+    .map(set => {
+      set.elements
+      .filter(e => e.elementType.valueOf() === SetElementType.TEST && (<Test>e).evaluated)
+      .map(e => {
+        if (!types.find(t => t === (<Test>e).type)) {
+          types.push((<Test>e).type);
+        }
+      });
+    });
+
+    return types;
+  }
+
+
+  filterByType(type: string, sets: ResultSet[]) {
+    this.currentType = type;
+    this.testsByType = [];
+    sets.map(s => {
+      s.tests.map(t => {
+        if (t.singleTest.type === this.currentType) {
+          this.testsByType.push([t]);
+        }
+      });
+    });
+    console.log(this.testsByType);
+  }
+
   showEval() {
+    this.types = this.getAllTypes();
     this.loading = true;
     const pin = this.storage.retrieveFromStorage(StorageItem.PIN);
     this.results$ = this.resultService.getResults(pin)

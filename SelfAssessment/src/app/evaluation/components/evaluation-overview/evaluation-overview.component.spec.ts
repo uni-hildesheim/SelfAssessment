@@ -66,7 +66,7 @@ class MockLangPipe implements PipeTransform {
   template: ''
 })
 class ResultTreeComponent {
-  @Input() set;
+  @Input() tests;
 }
 
 
