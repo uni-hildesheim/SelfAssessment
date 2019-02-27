@@ -23,19 +23,15 @@ export class OptionPipe implements PipeTransform {
    * @param opt Specifies if this choosen option is correct.
    */
   transform(test: ResultTest, i: number, opt: boolean): any {
-
     const category = test.singleTest.category;
     let optText: string;
 
-    if (category === Category.RADIO_BUTTONS) {
-      optText = test.singleTest.options[i].text;
-
-    } else if (category === Category.MULTIPLE_CHOICE) {
+    if (category === Category.RADIO_BUTTONS
+      || category === Category.MULTIPLE_CHOICE) {
       optText = test.singleTest.options[i].text;
 
     } else if (category === Category.MULTIPLE_OPTIONS) {
       let header: string;
-
       const mTest: MultipleOptions = test.singleTest as MultipleOptions;
 
       test.log[i].forEach((element: boolean, j: number) => {
