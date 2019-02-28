@@ -26,7 +26,12 @@ export class LocalStorageService {
   }
 
   public retrieveFromStorage(item: StorageItem): any {
-    const result = JSON.parse(localStorage.getItem(item.valueOf()));
+    let result;
+    try {
+      result = JSON.parse(localStorage.getItem(item.valueOf()));
+    } catch (e) {
+      result = undefined;
+    }
 
     if (!result) {
       // this.clearStorage();

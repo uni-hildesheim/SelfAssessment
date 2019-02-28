@@ -11,7 +11,7 @@ import { GlobalIndicator } from '../../global.indicators';
 import { DebugElement, Component, Input, ComponentFactoryResolver } from '@angular/core';
 import { JournalLogService } from '../../services/journal-log.service';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { dummyTestRadioButtons } from 'src/app/spec-helper/dummy.values';
+import { dummyTestRadioButtons, dummyTestMultipleChoice, dummyTestMultipleOptions, dummyTestSpeed } from 'src/app/spec-helper/dummy.values';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 describe('SingleTestCardComponent', () => {
@@ -60,6 +60,13 @@ describe('SingleTestCardComponent', () => {
 
   it('should dynamicly update the test component', () => {
     component.ngOnChanges();
+    component.singleTest = dummyTestMultipleChoice;
+    component.ngOnChanges();
+    component.singleTest = dummyTestMultipleOptions;
+    component.ngOnChanges();
+    component.singleTest = dummyTestSpeed;
+    component.ngOnChanges();
+
   });
 
 });

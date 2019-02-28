@@ -95,14 +95,20 @@ export class SpeedComponent implements CategoryComponent, OnInit {
       return;
     }
 
-    if (j < distance) {
-      j = distance;
-    } else if (j > this.coloredOptions[i].length - distance) {
-      j = this.coloredOptions[i].length - distance;
-    }
+    j = this.adjustTheDistance(i, j, distance);
 
     for (let k = j - distance; k < j + distance; k++) {
       this.coloredOptions[i][k] = over;
+    }
+  }
+
+  public adjustTheDistance(i: number, j: number, distance: number) {
+    if (j < distance) {
+      return distance;
+    } else if (j > this.coloredOptions[i].length - distance) {
+      return this.coloredOptions[i].length - distance;
+    } else {
+      return j;
     }
   }
 
@@ -122,11 +128,7 @@ export class SpeedComponent implements CategoryComponent, OnInit {
       return;
     }
 
-    if (j < distance) {
-      j = distance;
-    } else if (j > this.coloredOptions[i].length - distance) {
-      j = this.coloredOptions[i].length - distance;
-    }
+    j = this.adjustTheDistance(i, j, distance);
 
     this.models[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
     this.journalLogService.refreshJournalLog();

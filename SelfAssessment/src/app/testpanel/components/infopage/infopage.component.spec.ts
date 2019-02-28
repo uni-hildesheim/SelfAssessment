@@ -4,7 +4,7 @@ import { InfopageComponent } from './infopage.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 
-xdescribe('InfopageComponent', () => {
+describe('InfopageComponent', () => {
   let component: InfopageComponent;
   let fixture: ComponentFixture<InfopageComponent>;
 

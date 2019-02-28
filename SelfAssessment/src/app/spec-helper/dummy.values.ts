@@ -101,10 +101,10 @@ export const exampleFile: ConfigFile = {
   sets: [
     {
       id: 3001,
-      elements: [ 1001, 1004 ],
+      elements: [ 1002, 1003 ],
       evaluationTexts: {
-        scoreIndepentText: 'score independent text of the second dummy set',
-        scoreDependentTexts: [
+        scoreIndependent: 'score independent text of the second dummy set',
+        scoreDependent: [
           [33, 'below average message'],
           [66, 'average message'],
           [90, 'above average message'],
@@ -114,10 +114,10 @@ export const exampleFile: ConfigFile = {
     },
     {
       id: 3002,
-      elements: [ 1002, 1003 ],
+      elements: [ 1001, 1004 ],
       evaluationTexts: {
-        scoreIndepentText: 'score independent text of the second dummy set',
-        scoreDependentTexts: [
+        scoreIndependent: 'score independent text of the second dummy set',
+        scoreDependent: [
           [33, 'below average message'],
           [66, 'average message'],
           [90, 'above average message'],
@@ -128,15 +128,15 @@ export const exampleFile: ConfigFile = {
   ]
 };
 
-export const dummyTestRadioButtons: RadioButtons = {
-  description: 'dummy radio button test',
-  category: Category.RADIO_BUTTONS,
-  elementType: SetElementType.TEST,
-  evaluated: true,
-  task: 'dummy radio task',
-  id: 1001,
-  type: 'dummyType',
-  options: [
+export const dummyTestRadioButtons: RadioButtons = new RadioButtons();
+  dummyTestRadioButtons.description = 'dummy radio button test';
+  dummyTestRadioButtons.category = Category.RADIO_BUTTONS;
+  dummyTestRadioButtons.elementType = SetElementType.TEST;
+  dummyTestRadioButtons.evaluated = true;
+  dummyTestRadioButtons.task = 'dummy radio task';
+  dummyTestRadioButtons.id = 1001;
+  dummyTestRadioButtons.type = 'dummyType';
+  dummyTestRadioButtons.options = [
     {
       text: 'dummy first option',
       correct: true
@@ -145,18 +145,17 @@ export const dummyTestRadioButtons: RadioButtons = {
       text: 'dummy first option',
       correct: false
     }
-  ]
-};
+  ];
 
-const dummyTestMultipleChoice: MultipleChoice = {
-  description: 'dummy multiple choice test',
-  category: Category.MULTIPLE_CHOICE,
-  elementType: SetElementType.TEST,
-  evaluated: true,
-  task: 'dummy multiple choice task',
-  id: 1002,
-  type: 'dummyType',
-  options: [
+  export const dummyTestMultipleChoice: MultipleChoice = new MultipleChoice();
+dummyTestMultipleChoice.description = 'dummy multiple choice test';
+dummyTestMultipleChoice.category = Category.MULTIPLE_CHOICE;
+dummyTestMultipleChoice.elementType = SetElementType.TEST;
+dummyTestMultipleChoice.evaluated = true;
+dummyTestMultipleChoice.task = 'dummy multiple choice task';
+dummyTestMultipleChoice.id = 1002;
+dummyTestMultipleChoice.type = 'dummyType';
+dummyTestMultipleChoice.options = [
     {
       text: 'dummy first option',
       correct: true
@@ -169,19 +168,19 @@ const dummyTestMultipleChoice: MultipleChoice = {
       text: 'dummy third option',
       correct: false
     }
-  ]
-};
+  ];
 
-const dummyTestMultipleOptions: MultipleOptions = {
-  description: 'dummy multiple options test',
-  category: Category.MULTIPLE_OPTIONS,
-  elementType: SetElementType.TEST,
-  evaluated: true,
-  task: 'dummy multiple options task',
-  id: 1003,
-  type: 'dummyType',
-  header: ['Yes', 'No'],
-  options: [
+
+  export const dummyTestMultipleOptions: MultipleOptions = new MultipleOptions();
+  dummyTestMultipleOptions.description = 'dummy multiple options test';
+  dummyTestMultipleOptions.category = Category.MULTIPLE_OPTIONS;
+  dummyTestMultipleOptions.elementType = SetElementType.TEST;
+  dummyTestMultipleOptions.evaluated = true;
+  dummyTestMultipleOptions.task = 'dummy multiple options task';
+  dummyTestMultipleOptions.id = 1003;
+  dummyTestMultipleOptions.type = 'dummyType';
+  dummyTestMultipleOptions.header = ['Yes', 'No'];
+  dummyTestMultipleOptions.options = [
     {
       text: 'dummy first option',
       correct: '0'
@@ -190,19 +189,19 @@ const dummyTestMultipleOptions: MultipleOptions = {
       text: 'dummy seccond option',
       correct: '1'
     }
-  ]
-};
+  ];
 
-const dummyTestSpeed: Speed = {
-  description: 'dummy speed test',
-  category: Category.SPEED,
-  elementType: SetElementType.TEST,
-  seconds: 10,
-  evaluated: true,
-  task: 'dummy speed task',
-  id: 1004,
-  type: 'dummyType',
-  options: [
+export const dummyTestSpeed = new Speed();
+
+dummyTestSpeed.description = 'dummy speed test';
+dummyTestSpeed.category = Category.SPEED;
+dummyTestSpeed.elementType = SetElementType.TEST;
+dummyTestSpeed.seconds = 10;
+dummyTestSpeed.evaluated = true;
+dummyTestSpeed.task = 'dummy speed task';
+dummyTestSpeed.id = 1004;
+dummyTestSpeed.type = 'dummyType';
+dummyTestSpeed.options = [
     {
       text: 'dummy first option',
       correct: 'um'
@@ -211,32 +210,27 @@ const dummyTestSpeed: Speed = {
       text: 'dummy second option',
       correct: 'se'
     }
-  ]
-};
+  ];
 
-const dummyFirstSet: TestSet = {
-  id: 3001,
-  elements: [dummyTestMultipleChoice, dummyTestMultipleOptions],
-  scoreIndepentText: 'score independent text of the first dummy set',
-  scoreDependentTexts: [
-    [33, 'below average message'],
-    [66, 'average message'],
-    [90, 'above average message'],
-    [100, 'everything correct message']
-  ]
-} as TestSet;
+const dummyFirstSet = new TestSet();
+dummyFirstSet.id = 3001;
+dummyFirstSet.elements = [dummyTestMultipleChoice, dummyTestMultipleOptions];
+dummyFirstSet.scoreIndepentText =  'score independent text of the first dummy set';
+dummyFirstSet.scoreDependentTexts =  [
+  [33, 'below average message'],
+  [66, 'average message'],
+  [90, 'above average message'],
+  [100, 'everything correct message']];
 
-const dummySecondSet: TestSet = {
-  id: 3002,
-  elements: [dummyTestSpeed, dummyTestRadioButtons],
-  scoreIndepentText: 'score independent text of the second dummy set',
-  scoreDependentTexts: [
-    [33, 'below average message'],
-    [66, 'average message'],
-    [90, 'above average message'],
-    [100, 'everything correct message']
-  ]
-} as TestSet;
+const dummySecondSet = new TestSet();
+dummySecondSet.id = 3002;
+dummySecondSet.elements = [dummyTestSpeed, dummyTestRadioButtons];
+dummySecondSet.scoreIndepentText =  'score independent text of the second dummy set';
+dummySecondSet.scoreDependentTexts =  [
+  [33, 'below average message'],
+  [66, 'average message'],
+  [90, 'above average message'],
+  [100, 'everything correct message']];
 
 export const dummyJournalStructure = new JournalStructure();
 dummyJournalStructure.sets = [dummyFirstSet, dummySecondSet];
@@ -256,8 +250,9 @@ dummyJournalLog.sets = [firstSetLog, secondSetLog];
 
 
 export const dummyJournal = new Journal();
-dummyJournal.log = dummyJournalLog;
 dummyJournal.structure = dummyJournalStructure;
+dummyJournal.log = dummyJournalLog;
+
 
 
 export const resultSetDummy: ResultSet[] = [

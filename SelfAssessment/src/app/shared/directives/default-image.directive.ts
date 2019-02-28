@@ -25,6 +25,7 @@ export class DefaultImgDirective implements OnInit {
    * Replace the image src with a default image if the path is not valid.
    */
   @HostListener('error') updateUrl() {
+    console.log('I GOT CALLED');
     this.src = 'assets/images/platzhalter.png';
   }
 
