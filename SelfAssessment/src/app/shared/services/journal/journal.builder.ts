@@ -13,8 +13,8 @@ import { TestSetMinimal } from '../../models/state/minimal/test.set.minimal';
 
 export class JournalBuilder {
 
-    private buildTests(rawTests: any): Map<number, SetElement> {
-        const tests = new Map<number, SetElement>();
+    private buildTests(rawTests: any): Map<string, SetElement> {
+        const tests = new Map<string, SetElement>();
         rawTests.forEach(test => {
             test.elementType = SetElementType.TEST;
             tests.set(test.id, <Test>test);
@@ -22,8 +22,8 @@ export class JournalBuilder {
         return tests;
     }
 
-    private buildInfopages(rawInfopages: any): Map<number, SetElement> {
-        const infopages = new Map<number, SetElement>();
+    private buildInfopages(rawInfopages: any): Map<string, SetElement> {
+        const infopages = new Map<string, SetElement>();
         rawInfopages.forEach(page => {
             page.elementType = SetElementType.INFOPAGE;
             page.belongs.forEach(id => {
@@ -45,8 +45,8 @@ export class JournalBuilder {
         return journalStrucRawTests;
     }
 
-    private buildTestgroups(rawTestgroups: any, tests: Map<number, SetElement>, min?: JournalStructureMinimal): Map<number, SetElement[]> {
-        const testsInTestgroup = new Map<number, SetElement[]>();
+    private buildTestgroups(rawTestgroups: any, tests: Map<string, SetElement>, min?: JournalStructureMinimal): Map<string, SetElement[]> {
+        const testsInTestgroup = new Map<string, SetElement[]>();
 
 
         let journalStrucRawTests = [];
@@ -132,7 +132,7 @@ export class JournalBuilder {
 
         // each set has its own map with its single tests
         struc.sets.forEach(set => {
-            const journalSet = new Map<number, any[]>();
+            const journalSet = new Map<string, any[]>();
 
             // extract all the single tests from the set, at this point
             // it does not matter if a test belongs to a testgroup

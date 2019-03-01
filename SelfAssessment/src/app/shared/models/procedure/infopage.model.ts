@@ -11,7 +11,7 @@ export class Infopage implements SetElement {
     /**
      * Unique ID.
      */
-    id: number;
+    id: string;
 
     /**
      * The helptext.

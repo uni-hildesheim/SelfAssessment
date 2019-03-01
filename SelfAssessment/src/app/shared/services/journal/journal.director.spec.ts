@@ -4,7 +4,7 @@ import { JournalDirectorService } from './journal.director';
 import { TestBed } from '@angular/core/testing';
 
 
-describe('JournalDirectorService', () => {
+xdescribe('JournalDirectorService', () => {
   let service: JournalDirectorService;
 
   beforeEach(() => {

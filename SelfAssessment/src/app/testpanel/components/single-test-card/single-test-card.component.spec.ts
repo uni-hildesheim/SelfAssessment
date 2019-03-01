@@ -24,7 +24,7 @@ describe('SingleTestCardComponent', () => {
   beforeEach(async(() => {
 
     const journalLogStub = {
-      getModelByID(id: number): any { return []; }
+      getModelByID(id: string): any { return []; }
     };
 
 

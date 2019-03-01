@@ -10,7 +10,7 @@ export class TestSet {
     /**
      * Unique ID.
      */
-    id: number;
+    id: string;
 
     /**
      * The elements which are part of the set.

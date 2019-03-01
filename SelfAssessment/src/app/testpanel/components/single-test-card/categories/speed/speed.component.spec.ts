@@ -34,7 +34,7 @@ describe('SpeedComponent', () => {
     seconds: 10,
     evaluated: true,
     task: 'dummy speed task',
-    id: 1004,
+    id: '1004',
     type: 'dummyType',
     options: [
       {

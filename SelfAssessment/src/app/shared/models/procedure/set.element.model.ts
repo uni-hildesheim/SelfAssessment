@@ -9,7 +9,7 @@ export interface SetElement {
     /**
      * Unique ID.
      */
-    id: number;
+    id: string;
 
     /**
      * The type of the element.

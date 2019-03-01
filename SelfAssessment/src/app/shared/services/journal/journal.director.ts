@@ -72,7 +72,7 @@ export class JournalDirectorService {
         const singleton = new JournalLog();
         singleton.sets = [];
         rawLog['sets'].forEach(set => {
-          const protoSet = new Map<number, any[]>();
+          const protoSet = new Map<string, any[]>();
           set['maps'].forEach((obj) => {
             protoSet.set(obj.key, obj.val);
           });

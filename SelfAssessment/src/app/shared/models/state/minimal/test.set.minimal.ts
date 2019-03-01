@@ -6,10 +6,10 @@ export interface TestSetMinimal {
     /***
      * The id of the set.
      */
-    set: number;
+    set: string;
 
     /**
      * The ids of the tests which are part of this set.
      */
-    tests: number[];
+    tests: string[];
 }

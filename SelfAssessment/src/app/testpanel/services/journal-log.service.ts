@@ -42,7 +42,7 @@ export class JournalLogService {
    * @param id The id of the single test.
    * @returns The test specific model.
    */
-  public getModelByID(id: number): any {
+  public getModelByID(id: string): any {
     return this.journalLogInstance.sets[this.globals.setIndex].get(id);
   }
 

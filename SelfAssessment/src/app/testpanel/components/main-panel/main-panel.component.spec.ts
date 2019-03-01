@@ -39,19 +39,19 @@ describe('MainPanelComponent', () => {
   const journalStructureDummy: JournalStructure = {
     sets: [
       {
-       id: 0,
+       id: '0',
        elements: [
-         { id: 1, elementType: SetElementType.TEST},
-         { id: 2, elementType: SetElementType.TEST}
+         { id: '1', elementType: SetElementType.TEST},
+         { id: '2', elementType: SetElementType.TEST}
        ],
        scoreIndepentText: '',
        scoreDependentTexts: []
       },
       {
-        id: 1,
+        id: '1',
         elements: [
-          { id: 3, elementType: SetElementType.TEST },
-          { id: 4, elementType: SetElementType.TEST }
+          { id: '3', elementType: SetElementType.TEST },
+          { id: '4', elementType: SetElementType.TEST }
         ],
         scoreIndepentText: '',
         scoreDependentTexts: []

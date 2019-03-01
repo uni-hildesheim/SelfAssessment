@@ -20,7 +20,7 @@ describe('InfopageComponent', () => {
     fixture = TestBed.createComponent(InfopageComponent);
     component = fixture.componentInstance;
     const infopage = new Infopage();
-    infopage.id = 4000;
+    infopage.id = '4000';
     infopage.text = 'text';
     component.infopage = infopage;
     fixture.detectChanges();

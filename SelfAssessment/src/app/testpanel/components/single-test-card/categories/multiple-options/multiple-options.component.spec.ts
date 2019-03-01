@@ -24,7 +24,7 @@ describe('MultipleOptionsComponent', () => {
     description: '',
     task: '',
     evaluated: true,
-    id: 0,
+    id: '0',
     type: '',
     header: ['Ja', 'Nein'],
     options: [

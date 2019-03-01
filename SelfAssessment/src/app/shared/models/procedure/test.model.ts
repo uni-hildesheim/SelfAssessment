@@ -17,7 +17,7 @@ export abstract class Test implements SetElement {
     /**
      * Unique ID.
      */
-    id: number;
+    id: string;
 
     /**
      * The type.

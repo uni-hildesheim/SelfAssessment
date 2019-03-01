@@ -22,7 +22,7 @@ export const exampleFile: ConfigFile = {
       category: 'radio-buttons',
       evaluated: true,
       task: 'dummy radio task',
-      id: 1001,
+      id: '1001',
       type: 'dummyType',
       options: [
         {
@@ -40,7 +40,7 @@ export const exampleFile: ConfigFile = {
       category: 'multiple-choice',
       evaluated: true,
       task: 'dummy multiple choice task',
-      id: 1002,
+      id: '1002',
       type: 'dummyType',
       options: [
         {
@@ -62,7 +62,7 @@ export const exampleFile: ConfigFile = {
       category: 'multiple-options',
       evaluated: true,
       task: 'dummy multiple options task',
-      id: 1003,
+      id: '1003',
       type: 'dummyType',
       header: ['Yes', 'No'],
       options: [
@@ -82,7 +82,7 @@ export const exampleFile: ConfigFile = {
       seconds: 10,
       evaluated: true,
       task: 'dummy speed task',
-      id: 1004,
+      id: '1004',
       type: 'dummyType',
       options: [
         {
@@ -100,7 +100,7 @@ export const exampleFile: ConfigFile = {
   testgroups: [],
   sets: [
     {
-      id: 3001,
+      id: '3001',
       elements: [ 1002, 1003 ],
       evaluationTexts: {
         scoreIndependent: 'score independent text of the second dummy set',
@@ -113,7 +113,7 @@ export const exampleFile: ConfigFile = {
       }
     },
     {
-      id: 3002,
+      id: '3002',
       elements: [ 1001, 1004 ],
       evaluationTexts: {
         scoreIndependent: 'score independent text of the second dummy set',
@@ -134,7 +134,7 @@ export const dummyTestRadioButtons: RadioButtons = new RadioButtons();
   dummyTestRadioButtons.elementType = SetElementType.TEST;
   dummyTestRadioButtons.evaluated = true;
   dummyTestRadioButtons.task = 'dummy radio task';
-  dummyTestRadioButtons.id = 1001;
+  dummyTestRadioButtons.id = '1001';
   dummyTestRadioButtons.type = 'dummyType';
   dummyTestRadioButtons.options = [
     {
@@ -153,7 +153,7 @@ dummyTestMultipleChoice.category = Category.MULTIPLE_CHOICE;
 dummyTestMultipleChoice.elementType = SetElementType.TEST;
 dummyTestMultipleChoice.evaluated = true;
 dummyTestMultipleChoice.task = 'dummy multiple choice task';
-dummyTestMultipleChoice.id = 1002;
+dummyTestMultipleChoice.id = '1002';
 dummyTestMultipleChoice.type = 'dummyType';
 dummyTestMultipleChoice.options = [
     {
@@ -177,7 +177,7 @@ dummyTestMultipleChoice.options = [
   dummyTestMultipleOptions.elementType = SetElementType.TEST;
   dummyTestMultipleOptions.evaluated = true;
   dummyTestMultipleOptions.task = 'dummy multiple options task';
-  dummyTestMultipleOptions.id = 1003;
+  dummyTestMultipleOptions.id = '1003';
   dummyTestMultipleOptions.type = 'dummyType';
   dummyTestMultipleOptions.header = ['Yes', 'No'];
   dummyTestMultipleOptions.options = [
@@ -199,7 +199,7 @@ dummyTestSpeed.elementType = SetElementType.TEST;
 dummyTestSpeed.seconds = 10;
 dummyTestSpeed.evaluated = true;
 dummyTestSpeed.task = 'dummy speed task';
-dummyTestSpeed.id = 1004;
+dummyTestSpeed.id = '1004';
 dummyTestSpeed.type = 'dummyType';
 dummyTestSpeed.options = [
     {
@@ -213,7 +213,7 @@ dummyTestSpeed.options = [
   ];
 
 const dummyFirstSet = new TestSet();
-dummyFirstSet.id = 3001;
+dummyFirstSet.id = '3001';
 dummyFirstSet.elements = [dummyTestMultipleChoice, dummyTestMultipleOptions];
 dummyFirstSet.scoreIndepentText =  'score independent text of the first dummy set';
 dummyFirstSet.scoreDependentTexts =  [
@@ -223,7 +223,7 @@ dummyFirstSet.scoreDependentTexts =  [
   [100, 'everything correct message']];
 
 const dummySecondSet = new TestSet();
-dummySecondSet.id = 3002;
+dummySecondSet.id = '3002';
 dummySecondSet.elements = [dummyTestSpeed, dummyTestRadioButtons];
 dummySecondSet.scoreIndepentText =  'score independent text of the second dummy set';
 dummySecondSet.scoreDependentTexts =  [
@@ -236,13 +236,13 @@ export const dummyJournalStructure = new JournalStructure();
 dummyJournalStructure.sets = [dummyFirstSet, dummySecondSet];
 
 export const firstSetLog = new Map([
-  [1001, [false, true]],
-  [1004, ['ummy', 'se'] as any[]]
+  ['1001', [false, true]],
+  ['1004', ['ummy', 'se'] as any[]]
 ]);
 
 export const secondSetLog = new Map([
-  [1002, [false, true, false]],
-  [1003, [[false, true], [true, false]] as any[]]
+  ['1002', [false, true, false]],
+  ['1003', [[false, true], [true, false]] as any[]]
 ]);
 
 export const dummyJournalLog = new JournalLog();
@@ -257,48 +257,48 @@ dummyJournal.log = dummyJournalLog;
 
 export const resultSetDummy: ResultSet[] = [
   {
-    id: 3001,
+    id: '3001',
     tests: [
       {
-        id: 1001,
+        id: '1001',
         score: 0,
         maxScore: 1,
         correctOptions: [],
         wrongOptions: [0],
         singleTest: dummyTestRadioButtons,
-        log: firstSetLog.get(1001)
+        log: firstSetLog.get('1001')
       },
       {
-        id: 1004,
+        id: '1004',
         score: 1,
         maxScore: 2,
         correctOptions: [1],
         wrongOptions: [0],
         singleTest: dummyTestSpeed,
-        log: firstSetLog.get(1004)
+        log: firstSetLog.get('1004')
       }
     ]
   },
   {
-    id: 3002,
+    id: '3002',
     tests: [
       {
-        id: 1002,
+        id: '1002',
         score: 0,
         maxScore: 2,
         correctOptions: [1],
         wrongOptions: [0],
         singleTest: dummyTestMultipleChoice,
-        log: secondSetLog.get(1002)
+        log: secondSetLog.get('1002')
       },
       {
-        id: 1003,
+        id: '1003',
         score: 0,
         maxScore: 2,
         correctOptions: [],
         wrongOptions: [0, 1],
         singleTest: dummyTestMultipleOptions,
-        log: secondSetLog.get(1003)
+        log: secondSetLog.get('1003')
       }
     ]
   }

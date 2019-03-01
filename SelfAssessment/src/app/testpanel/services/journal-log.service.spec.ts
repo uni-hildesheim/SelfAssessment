@@ -38,7 +38,7 @@ describe('JournalLogService', () => {
 
   it('should get model by id', () => {
     service.initJournalLog(dummyJournalLog);
-    expect(service.getModelByID(1001)).toEqual([false, true]);
+    expect(service.getModelByID('1001')).toEqual([false, true]);
   });
 
 

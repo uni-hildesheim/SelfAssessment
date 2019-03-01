@@ -24,7 +24,7 @@ describe('MultipleChoiceComponent', () => {
     description: '',
     task: '',
     evaluated: true,
-    id: 0,
+    id: '0',
     type: '',
     options: [
       { text: 'option1', correct: true},
