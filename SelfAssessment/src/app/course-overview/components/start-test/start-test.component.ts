@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigFile } from 'src/app/shared/models/configuration/config.file.model';
 import { ConfigService } from 'src/app/shared/services/config.service';
-import { PinService } from 'src/app/shared/services/pin.service';
+import { CodeService } from 'src/app/shared/services/code.service';
 import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
@@ -48,7 +48,7 @@ export class StartTestComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private router: Router,
-    private pinService: PinService,
+    private pinService: CodeService,
     private journalService: JournalService,
     private storageService: LocalStorageService,
     private logging: LoggingService,

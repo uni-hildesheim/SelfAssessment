@@ -1,6 +1,6 @@
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
 import { Observable } from 'rxjs';
-import { PinService } from './../../../shared/services/pin.service';
+import { CodeService } from '../../../shared/services/code.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
@@ -15,7 +15,7 @@ export class ValidationComponent implements OnInit {
   validation: Observable<string>;
 
   constructor(
-    private pinService: PinService,
+    private pinService: CodeService,
     private storageService: LocalStorageService,
     private router: Router
   ) { }

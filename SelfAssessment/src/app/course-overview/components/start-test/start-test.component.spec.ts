@@ -4,7 +4,7 @@ import { Journal } from 'src/app/shared/models/state/journal.model';
 import { ConfigFile } from '../../../shared/models/configuration/config.file.model';
 import { Observable, of } from 'rxjs';
 import { JournalService } from '../../../shared/services/journal/journal.service';
-import { PinService } from 'src/app/shared/services/pin.service';
+import { CodeService } from 'src/app/shared/services/code.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MaterialModule } from './../../../material/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -80,7 +80,7 @@ describe('StartTestComponent', () => {
       providers: [ LoggingService, LocalStorageService,
         {provide: JournalService, useValue: journalServiceStub},
         {provide: ConfigService, useValue: configServiceStub},
-        {provide: PinService, useValue: pinServiceStub},
+        {provide: CodeService, useValue: pinServiceStub},
         {provide: MaterialOverlayService, useValue: mockMaterialOverlayServiceStub}
       ]
     })
@@ -105,7 +105,7 @@ describe('StartTestComponent', () => {
 
   it('should get new pin and load course on init', () => {
 
-    const pinService = TestBed.get(PinService);
+    const pinService = TestBed.get(CodeService);
 
     spyOn(component, 'ngOnInit').and.callThrough();
     spyOn(pinService, 'createNewPin').and.callThrough();

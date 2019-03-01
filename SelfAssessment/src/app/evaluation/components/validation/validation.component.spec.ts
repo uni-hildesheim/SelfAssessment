@@ -3,7 +3,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ValidationComponent } from './validation.component';
-import { PinService } from 'src/app/shared/services/pin.service';
+import { CodeService } from 'src/app/shared/services/code.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('ValidationComponent', () => {
   let component: ValidationComponent;
   let fixture: ComponentFixture<ValidationComponent>;
-  let pinService: PinService;
+  let pinService: CodeService;
   let storageService: LocalStorageService;
   let router: Router;
 
@@ -23,7 +23,7 @@ describe('ValidationComponent', () => {
     TestBed.configureTestingModule({
       imports: [MaterialModule, RouterTestingModule, HttpClientTestingModule],
       declarations: [ ValidationComponent ],
-      providers: [LocalStorageService, PinService]
+      providers: [LocalStorageService, CodeService]
     })
     .compileComponents();
   }));
@@ -32,7 +32,7 @@ describe('ValidationComponent', () => {
     fixture = TestBed.createComponent(ValidationComponent);
     component = fixture.componentInstance;
     storageService = TestBed.get(LocalStorageService);
-    pinService = TestBed.get(PinService);
+    pinService = TestBed.get(CodeService);
     router = TestBed.get(Router);
     fixture.detectChanges();
   });

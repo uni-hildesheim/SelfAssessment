@@ -12,7 +12,7 @@ import { LoggingService } from '../logging/logging.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PinService {
+export class CodeService {
 
   /**
    * Api route that creates a new pin.
@@ -40,7 +40,7 @@ export class PinService {
       return of(checkPin);
     }
 
-    return this.http.get(PinService.CREATE_PIN).pipe(
+    return this.http.get(CodeService.CREATE_PIN).pipe(
       map((pin: number) => {
         this.storageService.persistInStorage(StorageItem.PIN, pin);
         return pin;
@@ -53,7 +53,7 @@ export class PinService {
 
 
   public createNewValidationCode(pin: number): Observable<string> {
-    return this.http.post(PinService.CREATE_VALIDATION_CODE, { pin })
+    return this.http.post(CodeService.CREATE_VALIDATION_CODE, { pin })
     .pipe(
       tap((code: string) => {
         this.logging.info(`Loaded validation code: ${code}`);
