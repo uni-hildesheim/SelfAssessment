@@ -156,19 +156,4 @@ export class JournalBuilder {
     }
 
 
-    getSetElement(id, file) {
-      const test = file.tests.filter(t => t.id === id);
-      if (!test) {
-          return file.infopages.filter(i => i.id === id)[0] as Infopage;
-      }
-      return test[0] as Test;
-  }
-
-  getSetElementGrouping(id, testgroups, file) {
-      const group = testgroups
-      .filter(g => g.id === id)[0];
-      return (group) ? group.tests : this.getSetElement(id, file);
-  }
-
-
 }

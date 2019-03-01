@@ -3,6 +3,10 @@ import { MultipleOptions } from 'src/app/shared/models/procedure/categories/mult
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { CategoryComponent } from '../../categorie.component';
 
+/**
+ * The Component that realizes the multiple options functionality.
+ * Receives a [Test]{@link Test} of type [MultipleOptions]{@link MultipleOptions}.
+ */
 @Component({
   selector: 'app-multiple-options',
   templateUrl: './multiple-options.component.html',
@@ -10,8 +14,15 @@ import { CategoryComponent } from '../../categorie.component';
 })
 export class MultipleOptionsComponent implements CategoryComponent,  OnInit {
 
+  /**
+   * The multiple options test.
+   */
   @Input() test: MultipleOptions;
 
+  /**
+   * The model for the multiple options test is a two dimensional array, since for every options
+   * there are *n* possibilities with *n* beeing the number of [headers]{@link MultipleOptions#header}.
+   */
   public models: boolean[][];
 
 
@@ -21,9 +32,8 @@ export class MultipleOptionsComponent implements CategoryComponent,  OnInit {
 
   ngOnInit() { }
 
-    /**
-   * Adjusts the model if a value of the test element changed
-   * and refreshes the journal log.
+  /**
+   * Adjusts the model if a radio button has been checked and refreshes the journal log.
    */
   public handleModelChange(checked: boolean, i: number, j: number): void {
 

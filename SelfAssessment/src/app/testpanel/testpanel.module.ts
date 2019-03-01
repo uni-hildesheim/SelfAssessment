@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TestpanelRoutingModule } from './testpanel-routing.module';
 import { MainPanelComponent } from './components/main-panel/main-panel.component';
 import { SingleTestCardComponent } from './components/single-test-card/single-test-card.component';
 import { MaterialModule } from '../material/material.module';
@@ -21,7 +20,6 @@ import { TestDirective } from './components/single-test-card/test.directive';
   imports: [
     CommonModule,
     MaterialModule,
-    TestpanelRoutingModule,
     SharedModule
   ],
   providers: [

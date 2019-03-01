@@ -12,6 +12,9 @@ import { SetElementType } from 'src/app/shared/models/procedure/enums/element.ty
 import { Test } from 'src/app/shared/models/procedure/test.model';
 import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 
+/**
+ * Component that displays the evaluation of the users test procedure.
+ */
 @Component({
   selector: 'app-evaluation-overview',
   templateUrl: './evaluation-overview.component.html',
@@ -19,12 +22,39 @@ import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 })
 export class EvaluationOverviewComponent implements OnInit {
 
+  /**
+   * Observable containing the result set array.
+   */
   public results$: Observable<ResultSet[]>;
+
+  /**
+   * Boolean that specifies if the evaluation set is being loaded.
+   */
   public loading = false;
+
+  /**
+   * The user specific journal structure.
+   */
   public journalStructure: JournalStructure;
+
+  /**
+   * The course which the user choose.
+   */
   public course: string;
+
+  /**
+   * All the different types.
+   */
   public types: string[];
+
+  /**
+   * If the user choose to filter by type, this variable contains the selected type.
+   */
   public currentType: string;
+
+  /**
+   * If the user choose to filter by type, this variable contains all the tests of a specific type.
+   */
   public testsByType: ResultTest[][];
 
   constructor(
@@ -35,6 +65,9 @@ export class EvaluationOverviewComponent implements OnInit {
     private logging: LoggingService
   ) { }
 
+  /**
+   * Check if it is necessary to show the info card before retrieving the evaluation.
+   */
   ngOnInit() {
     this.journalStructure = this.storage.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
     if (!this.route.snapshot.paramMap.get('show')) {
@@ -52,15 +85,32 @@ export class EvaluationOverviewComponent implements OnInit {
 
   }
 
-  getScoreDependentText(index: number): [number, string][]  {
+  /**
+   * Retrieves the score dependent texts for a specific set.
+   *
+   * @param index The index of the set.
+   * @returns All the set-specific score dependent texts.
+   */
+  public getScoreDependentText(index: number): [number, string][]  {
     return this.journalStructure.sets[index].scoreDependentTexts;
   }
 
-  getScoreIndependentTexts(index: number): string {
+  /**
+   * Retrieves the score independent text for a specific text.
+   *
+   * @param index The index of the set.
+   * @returns The score independent text for a set.
+   */
+  public getScoreIndependentTexts(index: number): string {
     return this.journalStructure.sets[index].scoreIndepentText;
   }
 
-  getAllTypes(): string[] {
+  /**
+   * Retrieves all the types in every test of every set.
+   *
+   * @returns Array containing all possible types.
+   */
+  public getAllTypes(): string[] {
 
     const types = [];
 
@@ -78,8 +128,14 @@ export class EvaluationOverviewComponent implements OnInit {
     return types;
   }
 
-
-  filterByType(type: string, sets: ResultSet[]) {
+  /**
+   * Filters all the tests in the result set by type and only appends those whose type match to the
+   * testByType array.
+   *
+   * @param type The choosen type.
+   * @param sets The current result set.
+   */
+  public filterByType(type: string, sets: ResultSet[]): void {
     this.currentType = type;
     this.testsByType = [];
     sets.map(s => {
@@ -89,10 +145,12 @@ export class EvaluationOverviewComponent implements OnInit {
         }
       });
     });
-    console.log(this.testsByType);
   }
 
-  showEval() {
+  /**
+   * Gets the observable containing the users evaluation.
+   */
+  public showEval(): void {
     this.types = this.getAllTypes();
     this.loading = true;
     const pin = this.storage.retrieveFromStorage(StorageItem.PIN);
@@ -107,8 +165,10 @@ export class EvaluationOverviewComponent implements OnInit {
       );
   }
 
-
-  goToValidation() {
+  /**
+   * Navigates to the validation page.
+   */
+  public goToValidation(): void {
     this.router.navigateByUrl('/validation');
   }
 

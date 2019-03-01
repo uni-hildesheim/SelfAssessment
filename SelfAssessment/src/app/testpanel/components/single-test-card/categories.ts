@@ -6,8 +6,17 @@ import { SpeedComponent } from './categories/speed/speed.component';
 import { Type } from '@angular/core';
 import { CategoryComponent } from './categorie.component';
 
+/**
+ * This class contains a method which returns a component type for a specific [Category]{@linkCategory},
+ * to prevent the model from having an instance of the component type.
+ */
 export class ExistingCategories {
 
+    /**
+     * Returns a component type for a [Category]{@linkCategory}.
+     * @param category The specific category.
+     * @return The type for the category.
+     */
     public static getNewComponent(category: Category): Type<CategoryComponent> {
       switch (category) {
           case Category.RADIO_BUTTONS:

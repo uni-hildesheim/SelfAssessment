@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ResultSet } from 'src/app/shared/models/evaluation/result.set';
 import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
-import { Test } from 'src/app/shared/models/procedure/test.model';
 
 /**
  * Component that displays all the results of every evaluated test
