@@ -9,7 +9,7 @@ import { Journal } from 'src/app/shared/models/state/journal.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { Course } from 'src/app/shared/models/configuration/course.model';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
@@ -59,7 +59,6 @@ export class StartTestComponent implements OnInit {
    * Initalizes the variables.
    */
   ngOnInit() {
-
     this.pinService.createNewPin()
     .subscribe(pin => this.pin = pin)
     .add(() => this.pinloading = false);
@@ -77,9 +76,15 @@ export class StartTestComponent implements OnInit {
    * saving the generated journal structure in the local storage.
    */
   public startSelfAssessment(): void {
+
+    let refDialog;
+
     this.materialOverlayService
     .chooseCourseLanguage(this.course.languages, true)
     .pipe(
+      tap(() => {
+        refDialog = this.materialOverlayService.openLoadingDialog(null);
+      }),
       switchMap((language: string) => {
         this.storageService.persistInStorage(StorageItem.COURSE_LANGUAGE, language);
         return this.configService.loadConfigFromCourse(this.course.name, language)
@@ -91,6 +96,7 @@ export class StartTestComponent implements OnInit {
         );
       })
     ).subscribe(() => {
+      refDialog.close();
       this.logging.info('Start the test procedure');
       this.router.navigateByUrl('/testpanel');
     });

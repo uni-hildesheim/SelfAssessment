@@ -11,6 +11,7 @@ import { CountdownComponent } from './components/countdown/countdown.component';
 import { LanguagePipe } from './pipes/language.pipe';
 import { ResourcePipe } from './pipes/resource.pipe';
 import { LoadingComponentDirective } from './directives/loading-component.directive';
+import { LoadingDialogComponent } from './components/dialogs/loading-dialog/loading-dialog.component';
 
 /**
  * The shared module.
@@ -19,9 +20,9 @@ import { LoadingComponentDirective } from './directives/loading-component.direct
  *
  */
 @NgModule({
-  entryComponents: [PinDialogComponent, ErrorDialogComponent],
+  entryComponents: [PinDialogComponent, ErrorDialogComponent, LoadingDialogComponent],
   declarations: [PinDialogComponent, FormattedTextAreaComponent, ErrorDialogComponent,
-    DefaultImgDirective, CountdownComponent, LanguagePipe, ResourcePipe, LoadingComponentDirective],
+    DefaultImgDirective, CountdownComponent, LanguagePipe, ResourcePipe, LoadingComponentDirective, LoadingDialogComponent],
   imports: [
     CommonModule,
     KatexModule,

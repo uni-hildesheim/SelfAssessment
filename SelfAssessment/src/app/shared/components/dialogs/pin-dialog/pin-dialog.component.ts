@@ -36,7 +36,7 @@ export class PinDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<PinDialogComponent>,
-    private protocolService: JournalService,
+    private journalService: JournalService,
     private storageService: LocalStorageService
   ) { }
 
@@ -46,14 +46,14 @@ export class PinDialogComponent implements OnInit {
    * Gets the protocol associated with the pin that the user provided.
    * If the pin does not exist the user is notified.
    */
-  public getProtocol(): void {
+  public getJournal(): void {
     this.loading = true;
     this.errorMessage = null;
 
     const pin = this.pinFormControl.value;
 
     // load structure
-    this.protocolService.loadJournal(parseInt(pin, 0)).subscribe(
+    this.journalService.loadJournal(parseInt(pin, 0)).subscribe(
       data => {
         this.storageService.persistInStorage(StorageItem.PIN, pin);
         this.dialogRef.close({pin, journal: data});

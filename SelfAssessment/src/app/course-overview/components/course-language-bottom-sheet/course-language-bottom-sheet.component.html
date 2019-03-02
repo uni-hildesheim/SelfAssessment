@@ -1,6 +1,6 @@
 <p>{{'lbl-course-language'| language }}</p>
 <mat-form-field appearance="legacy" >
-    <mat-select [placeholder]="'language'| language" (selectionChange)="langChange($event)">
+    <mat-select [placeholder]="'language'| language" (selectionChange)="langChange($event.value)">
       <mat-option *ngFor="let la of data" [value]="la">
         {{la}}
       </mat-option>

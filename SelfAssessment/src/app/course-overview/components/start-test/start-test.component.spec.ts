@@ -50,16 +50,23 @@ describe('StartTestComponent', () => {
   beforeEach(async(() => {
 
     const mockMaterialOverlayServiceStub = {
+
+      refDialog : { close() {} },
+
       chooseCourseLanguage(data: string[], disableClose: boolean) {
         return of(dummyLanguage);
-      }
+      },
+      openLoadingDialog() { return this.refDialog; }
     };
 
     const pinServiceStub = {
       createNewPin(): Observable<number> { return of(dummyPin); }
     };
 
-
+    const storageStub = {
+      retrieveFromStorage() { return dummyCourse; },
+      persistInStorage(item: StorageItem, value: any): any {}
+    };
 
     const journalServiceStub = {
       saveJournal(journal: Journal): Observable<any> { return of('DONE'); }
@@ -77,7 +84,8 @@ describe('StartTestComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ StartTestComponent, MockPipe ],
       imports: [MaterialModule, HttpClientTestingModule, RouterTestingModule, RouterTestingModule],
-      providers: [ LoggingService, LocalStorageService,
+      providers: [ LoggingService,
+        {provide: LocalStorageService, useValue: storageStub},
         {provide: JournalService, useValue: journalServiceStub},
         {provide: ConfigService, useValue: configServiceStub},
         {provide: CodeService, useValue: pinServiceStub},
@@ -109,7 +117,7 @@ describe('StartTestComponent', () => {
 
     spyOn(component, 'ngOnInit').and.callThrough();
     spyOn(pinService, 'createNewPin').and.callThrough();
-    spyOn(storageService, 'retrieveFromStorage').and.returnValue(dummyCourse);
+    spyOn(storageService, 'retrieveFromStorage').and.callThrough();
 
     fixture.detectChanges();
 

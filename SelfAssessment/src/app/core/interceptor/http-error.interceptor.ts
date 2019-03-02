@@ -6,14 +6,14 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { timeout, retryWhen, switchMap } from 'rxjs/operators';
-import { ErrorDialogService } from 'src/app/shared/services/helper/error-dialog.service';
 import { Injectable } from '@angular/core';
+import { MaterialOverlayService } from 'src/app/shared/services/helper/material-overlay.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
     constructor(
-        private dialogService: ErrorDialogService
+        private dialogService: MaterialOverlayService
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -36,11 +36,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                                       errorResponse.message = 'Unknown error';
                                     }
 
-                                    return this.dialogService.openDialog(errorResponse.message);
+                                    return this.dialogService.openErrorDialog(errorResponse.message);
                                 } else if (e.status === 0) {
-                                    return this.dialogService.openDialog('Cannot reach server.');
+                                    return this.dialogService.openErrorDialog('Cannot reach server.');
                                 } else {
-                                    return this.dialogService.openDialog('Unkown Error.');
+                                    return this.dialogService.openErrorDialog('Unkown Error.');
                                 }
                             })
                         )

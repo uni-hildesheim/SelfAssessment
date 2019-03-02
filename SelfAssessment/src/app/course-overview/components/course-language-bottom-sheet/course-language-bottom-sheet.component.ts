@@ -15,8 +15,8 @@ export class CourseLanguageBottomSheetComponent implements OnInit {
 
   ngOnInit() { }
 
-  langChange(matselect: MatSelectChange) {
-    this.bottomSheetRef.dismiss(matselect.value);
+  langChange(value: string) {
+    this.bottomSheetRef.dismiss(value);
   }
 
 }
