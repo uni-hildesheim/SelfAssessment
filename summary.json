@@ -1,0 +1,24 @@
+[
+    {
+        "title": "Backend",
+        "file": "./backend/README.md"
+    },
+    {
+        "title": "Frontend",
+        "file": "./SelfAssessment/README.md"
+    },
+    {
+        "title": "Configuration",
+        "file":  "config.md",
+        "children": [
+            {
+                "title": "Adding Definition File",
+                "file": "config-doc/definition.md"
+            },
+            {
+                "title": "Adding Category",
+                "file": "config-doc/category.md"
+            }
+        ]
+    }
+]
