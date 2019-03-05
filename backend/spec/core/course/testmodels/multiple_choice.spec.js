@@ -4,7 +4,7 @@ const TestData = require('./data');
 describe('MultipleChoiceTest', () => {
     beforeEach( () => {
         // create a new object each time to ensure tests do not affect each other
-        this.MultipleChoiceTestInstance = new MultipleChoiceTest.class(TestData.configs['multiple-choice']);
+        this.MultipleChoiceTestInstance = new MultipleChoiceTest(TestData.configs['multiple-choice']);
     });
 
     afterEach( () => {
@@ -13,20 +13,22 @@ describe('MultipleChoiceTest', () => {
 
 
     describe('.constructor()', () => {
-        it('should set the name', () => {
-            expect(this.MultipleChoiceTestInstance.name).toEqual('multiple-choice');
-        });
-
         it('should throw an error for invalid configs', () => {
             expect( () => {
-                new MultipleChoiceTest.class({})
+                new MultipleChoiceTest({})
             }).toThrow(new Error('Invalid test config'));
+        });
+    });
+
+    describe('.name (get)', () => {
+        it('should return the test name', () => {
+            expect(MultipleChoiceTest.name).toEqual('multiple-choice');
         });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
-            expect(MultipleChoiceTest.class.schema['$id']).toEqual('MultipleChoiceTest');
+            expect(MultipleChoiceTest.schema['$id']).toEqual('MultipleChoiceTest');
         });
     });
 
@@ -36,7 +38,7 @@ describe('MultipleChoiceTest', () => {
             for (const opt of config.options) {
                 delete opt.correct;
             }
-            const instance = new MultipleChoiceTest.class(config);
+            const instance = new MultipleChoiceTest(config);
 
             expect(instance.maxScore).toEqual(0);
         });

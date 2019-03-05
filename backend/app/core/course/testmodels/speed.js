@@ -4,7 +4,7 @@ const Ajv = require('ajv');
 const logger = require('../../../utils/logger');
 const AbstractTest = require('./abstract');
 
-class SpeedTest extends AbstractTest.class {
+class SpeedTest extends AbstractTest {
     constructor(config) {
         super(config); // noop
         this.name = 'speed';
@@ -15,9 +15,26 @@ class SpeedTest extends AbstractTest.class {
         }
     }
 
+    /**
+     * Get the name of this test. Should always match the 'category' property of the test config
+     * in a config.json file.
+     *
+     * @returns Name as String
+     */
+    static get name() {
+        return 'speed';
+    }
+
+    /**
+     * Get the static schema that is shared across all instances of this class.
+     * When loading a config file to instantiate an object of this class, the config file contents
+     * are validated against this schema.
+     *
+     * @returns Schema as String
+     */
     static get schema() {
         // deep copy
-        const schema = JSON.parse(JSON.stringify(AbstractTest.schema));
+        const schema = JSON.parse(JSON.stringify(AbstractTest.basicSchema));
 
         /**
          * Schema for a speed test.
@@ -118,8 +135,4 @@ class SpeedTest extends AbstractTest.class {
     }
 }
 
-module.exports = {
-    name: 'speed',
-    class: SpeedTest,
-    schema: SpeedTest.schema
-};
+module.exports = SpeedTest;

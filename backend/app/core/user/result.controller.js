@@ -120,10 +120,10 @@ function calculate(config, journal) {
             wrongOptions: []
         }
 
-        for (const model of courseTestModels) {
-            if (model.name === test.config['category']) {
-                testInstance = new model.class(test.config);
-            }
+        testInstance = courseTestModels.Factory.create(test.config['category'], test.config);
+        if (testInstance === null) {
+            logger.error('Failed to create test instance for: ' + test.config['category']);
+            continue;
         }
 
         result.maxScore = testInstance.maxScore;

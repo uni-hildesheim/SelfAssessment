@@ -4,10 +4,9 @@ const Ajv = require('ajv');
 const logger = require('../../../utils/logger');
 const AbstractTest = require('./abstract');
 
-class MultipleChoiceTest extends AbstractTest.class {
+class MultipleChoiceTest extends AbstractTest {
     constructor(config) {
         super(config); // noop
-        this.name = 'multiple-choice';
         this.config = config;
 
         if (!this.loadConfig(config)) {
@@ -15,9 +14,26 @@ class MultipleChoiceTest extends AbstractTest.class {
         }
     }
 
+    /**
+     * Get the name of this test. Should always match the 'category' property of the test config
+     * in a config.json file.
+     *
+     * @returns Name as String
+     */
+    static get name() {
+        return 'multiple-choice';
+    }
+
+    /**
+     * Get the static schema that is shared across all instances of this class.
+     * When loading a config file to instantiate an object of this class, the config file contents
+     * are validated against this schema.
+     *
+     * @returns Schema as String
+     */
     static get schema() {
         // deep copy
-        const schema = JSON.parse(JSON.stringify(AbstractTest.schema));
+        const schema = JSON.parse(JSON.stringify(AbstractTest.basicSchema));
 
         /**
          * Schema for a multiple choice test.
@@ -105,8 +121,4 @@ class MultipleChoiceTest extends AbstractTest.class {
     }
 }
 
-module.exports = {
-    name: 'multiple-choice',
-    class: MultipleChoiceTest,
-    schema: MultipleChoiceTest.schema
-};
+module.exports = MultipleChoiceTest;

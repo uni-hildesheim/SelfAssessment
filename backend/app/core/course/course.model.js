@@ -28,7 +28,7 @@ const CourseSchema = new mongoose.Schema({
  * Schema for a single test.
  * This has moved into the abstract test module.
  */
-const SINGLE_TEST_SCHEMA = abstractTestModel.schema;
+const SINGLE_TEST_SCHEMA = abstractTestModel.basicSchema;
 
 /**
  * Schema for a test group.
@@ -225,7 +225,7 @@ CourseSchema.statics.validateConfig = function(config) {
         }
 
         // load the single test schema
-        for (const model of testsmodels) {
+        for (const model of testsmodels.Models) {
             if (model.name === test['category']) {
                 schema = model.schema;
                 break;

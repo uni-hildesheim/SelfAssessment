@@ -9,31 +9,24 @@ describe('AbstractTest', () => {
         // dummy
     });
 
-
     describe('.constructor()', () => {
         it('should throw an error', () => {
             expect( () => {
-                new AbstractTest.class({});
+                new AbstractTest({});
             }).toThrow(new TypeError('Cannot construct AbstractTest instances'));
         });
     });
 
     describe('.schema (get)', () => {
-        class SampleTest extends AbstractTest.class {
-            constructor(config) {
-                super(config);
-            }
-        }
-
-        it('should throw an error ', () => {
+        it('should not throw ', () => {
             expect( () => {
-                SampleTest.schema;
-            }).toThrow(new Error('schema() not implemented'));
+                AbstractTest.schema;
+            }).not.toThrow();
         });
     });
 
     describe('.maxScore (get)', () => {
-        class SampleTest extends AbstractTest.class {
+        class SampleTest extends AbstractTest {
             constructor(config) {
                 super(config);
             }
@@ -47,7 +40,7 @@ describe('AbstractTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        class SampleTest extends AbstractTest.class {
+        class SampleTest extends AbstractTest {
             constructor(config) {
                 super(config);
             }
@@ -61,7 +54,7 @@ describe('AbstractTest', () => {
     });
 
     describe('.calculateResult (get)', () => {
-        class SampleTest extends AbstractTest.class {
+        class SampleTest extends AbstractTest {
             constructor(config) {
                 super(config);
             }

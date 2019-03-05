@@ -4,7 +4,7 @@ const TestData = require('./data');
 describe('SpeedTest', () => {
     beforeEach( () => {
         // create a new object each time to ensure tests do not affect each other
-        this.SpeedTestInstance = new SpeedTest.class(TestData.configs['speed']);
+        this.SpeedTestInstance = new SpeedTest(TestData.configs['speed']);
     });
 
     afterEach( () => {
@@ -14,19 +14,25 @@ describe('SpeedTest', () => {
 
     describe('.constructor()', () => {
         it('should set the name', () => {
-            expect(this.SpeedTestInstance.name).toEqual('speed');
+            expect(SpeedTest.name).toEqual('speed');
         });
 
         it('should throw an error for invalid configs', () => {
             expect( () => {
-                new SpeedTest.class({})
+                new SpeedTest({})
             }).toThrow(new Error('Invalid test config'));
+        });
+    });
+
+    describe('.name (get)', () => {
+        it('should return the test name', () => {
+            expect(SpeedTest.name).toEqual('speed');
         });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
-            expect(SpeedTest.class.schema['$id']).toEqual('SpeedTest');
+            expect(SpeedTest.schema['$id']).toEqual('SpeedTest');
         });
     });
 

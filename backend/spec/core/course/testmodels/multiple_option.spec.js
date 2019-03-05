@@ -4,7 +4,7 @@ const TestData = require('./data');
 describe('MultipleOptionTest', () => {
     beforeEach( () => {
         // create a new object each time to ensure tests do not affect each other
-        this.MultipleOptionTestInstance = new MultipleOptionTest.class(TestData.configs['multiple-options']);
+        this.MultipleOptionTestInstance = new MultipleOptionTest(TestData.configs['multiple-options']);
     });
 
     afterEach( () => {
@@ -13,20 +13,22 @@ describe('MultipleOptionTest', () => {
 
 
     describe('.constructor()', () => {
-        it('should set the name', () => {
-            expect(this.MultipleOptionTestInstance.name).toEqual('multiple-options');
-        });
-
         it('should throw an error for invalid configs', () => {
             expect( () => {
-                new MultipleOptionTest.class({})
+                new MultipleOptionTest({})
             }).toThrow(new Error('Invalid test config'));
+        });
+    });
+
+    describe('.name (get)', () => {
+        it('should return the test name', () => {
+            expect(MultipleOptionTest.name).toEqual('multiple-options');
         });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
-            expect(MultipleOptionTest.class.schema['$id']).toEqual('MultipleOptionTest');
+            expect(MultipleOptionTest.schema['$id']).toEqual('MultipleOptionTest');
         });
     });
 

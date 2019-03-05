@@ -4,7 +4,7 @@ const TestData = require('./data');
 describe('RadioButtonTest', () => {
     beforeEach( () => {
         // create a new object each time to ensure tests do not affect each other
-        this.RadioButtonTestInstance = new RadioButtonTest.class(TestData.configs['radio-buttons']);
+        this.RadioButtonTestInstance = new RadioButtonTest(TestData.configs['radio-buttons']);
     });
 
     afterEach( () => {
@@ -14,19 +14,25 @@ describe('RadioButtonTest', () => {
 
     describe('.constructor()', () => {
         it('should set the name', () => {
-            expect(this.RadioButtonTestInstance.name).toEqual('radio-buttons');
+            expect(RadioButtonTest.name).toEqual('radio-buttons');
         });
 
         it('should throw an error for invalid configs', () => {
             expect( () => {
-                new RadioButtonTest.class({})
+                new RadioButtonTest({})
             }).toThrow(new Error('Invalid test config'));
+        });
+    });
+
+    describe('.name (get)', () => {
+        it('should return the test name', () => {
+            expect(RadioButtonTest.name).toEqual('radio-buttons');
         });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
-            expect(RadioButtonTest.class.schema['$id']).toEqual('RadioButtonTest');
+            expect(RadioButtonTest.schema['$id']).toEqual('RadioButtonTest');
         });
     });
 
@@ -36,7 +42,7 @@ describe('RadioButtonTest', () => {
             for (const opt of config.options) {
                 delete opt.correct;
             }
-            const instance = new RadioButtonTest.class(config);
+            const instance = new RadioButtonTest(config);
 
             expect(instance.maxScore).toEqual(0);
         });
