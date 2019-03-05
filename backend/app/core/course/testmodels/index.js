@@ -2,7 +2,7 @@
 
 module.exports = [
     require('./abstract'),
-    require('./checkbox'),
+    require('./multiple_choice'),
     require('./multiple_option'),
     require('./radio_button'),
     require('./speed')

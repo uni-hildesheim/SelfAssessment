@@ -1,6 +1,6 @@
 /**
- * Schema for a checkbox test.
- * A checkbox test definition contains the following elements:
+ * Schema for a generic test.
+ * A generic test definition contains the following elements:
  *
  * ================
  * === REQUIRED ===

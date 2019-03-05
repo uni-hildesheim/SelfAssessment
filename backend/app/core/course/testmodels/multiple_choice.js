@@ -4,10 +4,10 @@ const Ajv = require('ajv');
 const logger = require('../../../utils/logger');
 const AbstractTest = require('./abstract');
 
-class CheckboxTest extends AbstractTest.class {
+class MultipleChoiceTest extends AbstractTest.class {
     constructor(config) {
         super(config); // noop
-        this.name = 'checkbox';
+        this.name = 'multiple-choice';
         this.config = config;
 
         if (!this.loadConfig(config)) {
@@ -20,7 +20,7 @@ class CheckboxTest extends AbstractTest.class {
         const schema = JSON.parse(JSON.stringify(AbstractTest.schema));
 
         /**
-         * Schema for a checkbox test.
+         * Schema for a multiple choice test.
          *
          * ================
          * === REQUIRED ===
@@ -28,11 +28,11 @@ class CheckboxTest extends AbstractTest.class {
          *
          * ----------------------------------------------------------------------------------------
          *   **           See AbstractTest.schema
-         *                Checkbox: 'correct' attribute is of type boolean.
+         *                MultipleChoice: 'correct' attribute is of type boolean.
          * ----------------------------------------------------------------------------------------
          */
-        schema['$id'] = 'CheckboxTest';
-        schema['properties']['category'] = {"const": "checkbox"};
+        schema['$id'] = 'MultipleChoiceTest';
+        schema['properties']['category'] = {"const": "multiple-choice"};
         schema['properties']['options']['items']['properties']['correct'] = {"type": "boolean"};
         return schema;
     }
@@ -60,9 +60,9 @@ class CheckboxTest extends AbstractTest.class {
      */
     loadConfig(config) {
         const ajv = new Ajv();
-        const validate = ajv.compile(CheckboxTest.schema);
+        const validate = ajv.compile(MultipleChoiceTest.schema);
         if (!validate(config)) {
-            logger.warn('CheckboxTest: ' + JSON.stringify(validate.errors));
+            logger.warn('MultipleChoiceTest: ' + JSON.stringify(validate.errors));
             return false;
         }
 
@@ -106,7 +106,7 @@ class CheckboxTest extends AbstractTest.class {
 }
 
 module.exports = {
-    name: 'checkbox',
-    class: CheckboxTest,
-    schema: CheckboxTest.schema
+    name: 'multiple-choice',
+    class: MultipleChoiceTest,
+    schema: MultipleChoiceTest.schema
 };

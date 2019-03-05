@@ -93,8 +93,8 @@ const CourseInstance = new CourseModel({
                 {
                     "id": 1006,
                     "type": "logic",
-                    "category": "checkbox",
-                    "description": "This is a simple checkbox test.",
+                    "category": "multiple-choice",
+                    "description": "This is a simple multiple-choice test.",
                     "task": "Can you <i>see</i> the <b>nice</b> HTML<sup>5</sup> formatting?",
                     "options": [
                         {

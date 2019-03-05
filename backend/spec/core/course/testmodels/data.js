@@ -1,7 +1,7 @@
-const CheckboxTestConfig = {
+const MultipleChoiceTestConfig = {
     id: 1001,
     type: "logic",
-    category: "checkbox",
+    category: "multiple-choice",
     description: "",
     task: "",
     options: [
@@ -62,7 +62,7 @@ const SpeedTestConfig = {
 
 module.exports = {
     configs: {
-        'checkbox': CheckboxTestConfig,
+        'multiple-choice': MultipleChoiceTestConfig,
         'multiple-options': MultipleOptionTestConfig,
         'radio-buttons': RadioButtonTestConfig,
         'speed': SpeedTestConfig
