@@ -241,6 +241,8 @@ CourseSchema.statics.validateConfig = function(config) {
         // validate the single test schema
         const validate = new Ajv().compile(schema);
         if (!validate(test)) {
+            logger.warn('CourseModel: validateConfig: Failed to validate against schema for' +
+                        ' single test: ' + test['id']);
             logger.warn(JSON.stringify(validate.errors));
             return false;
         }
