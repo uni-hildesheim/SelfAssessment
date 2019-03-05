@@ -37,9 +37,9 @@ const UserInstance = new UserModel({
                     "maps": [
                         {
                             "val": [
-                                "brown fo",
-                                "my cat see",
-                                "think of the"
+                                [10, 17],
+                                [39, 49],
+                                [40, 50]
                             ],
                             "key": 1005
                         },

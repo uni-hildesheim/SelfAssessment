@@ -69,15 +69,18 @@
       "options": [
         {
           "text": "?ref{1005-3}",
-          "correct": "?ref{1005-3-1}"
+          "correct": "?ref{1005-3-1}",
+          "index": "?ref{1005-3-2}"
         },
         {
           "text": "?ref{1005-4}",
-          "correct": "?ref{1005-4-1}"
+          "correct": "?ref{1005-4-1}",
+          "index": "?ref{1005-4-2}"
         },
         {
           "text": "?ref{1005-5}",
-          "correct": "?ref{1005-5-1}"
+          "correct": "?ref{1005-5-1}",
+          "index": "?ref{1005-5-2}"
         }
       ],
       "evaluated": true

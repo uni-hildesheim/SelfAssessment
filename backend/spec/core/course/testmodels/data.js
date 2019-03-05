@@ -53,8 +53,9 @@ const SpeedTestConfig = {
     description: "",
     task: "",
     options: [{
-        text: "ABC DEF GHI",
-        correct: "DEF"
+        text: "ABC DEF GHI DEF",
+        correct: "DEF",
+        index: "1"
     }],
     evaluated: false,
     seconds: 10

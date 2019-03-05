@@ -77,15 +77,18 @@ const CourseInstance = new CourseModel({
                     "options": [
                         {
                             "text": "The quick brown fox does not jump, at all.",
-                            "correct": "fox"
+                            "correct": "fox",
+                            "index": "0"
                         },
                         {
                             "text": "Global warming is dangerous. Or is it? My cat seems to enjoy the warm weather.",
-                            "correct": "cat"
+                            "correct": "cat",
+                            "index": "0"
                         },
                         {
                             "text": "Just kidding, it certainly is not. Just think of the poor penguins.",
-                            "correct": "penguins"
+                            "correct": "penguins",
+                            "index": "0"
                         }
                     ],
                     "evaluated": true

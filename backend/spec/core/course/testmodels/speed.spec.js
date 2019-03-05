@@ -60,7 +60,8 @@ describe('SpeedTest', () => {
                 "options": [
                     {
                         "text": "Yes",
-                        "correct": "Ye"
+                        "correct": "Ye",
+                        "index": "0"
                     }
                 ],
                 "evaluated": true
@@ -80,7 +81,8 @@ describe('SpeedTest', () => {
                 "options": [
                     {
                         "text": "Yes",
-                        "correct": "Ye"
+                        "correct": "Ye",
+                        "index": "0"
                     }
                 ],
                 "evaluated": true,
