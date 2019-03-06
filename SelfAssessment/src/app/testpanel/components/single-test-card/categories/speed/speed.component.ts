@@ -29,7 +29,7 @@ export class SpeedComponent implements CategoryComponent, OnInit {
   /**
    * Contains the strings of the options which the user choose.
    */
-  public models: (boolean | string) [];
+  public models: (boolean | [number, number]) [];
 
   /**
    * Specifies if the countdown is finished.
@@ -41,6 +41,8 @@ export class SpeedComponent implements CategoryComponent, OnInit {
    * Makes sure the user can execute this test only once.
    */
   public started = true;
+
+  public chipModels = [];
 
 
   constructor(private journalLogService: JournalLogService) { }
@@ -67,6 +69,9 @@ export class SpeedComponent implements CategoryComponent, OnInit {
    * Opens the speed test task and starts the countdown.
    */
   public startTask(): void {
+    for (let i = 0; i < this.models.length; i++) {
+        this.models[i] = [-1, -1];
+    }
     this.started = true;
   }
 
@@ -75,12 +80,6 @@ export class SpeedComponent implements CategoryComponent, OnInit {
    */
   public endTask(): void {
     this.done = true;
-
-    for (let i = 0; i < this.models.length; i++) {
-      if (this.models[i] === false) {
-        this.models[i] = '';
-      }
-    }
     this.journalLogService.refreshJournalLog();
   }
 
@@ -123,14 +122,14 @@ export class SpeedComponent implements CategoryComponent, OnInit {
 
     const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
 
-
     if (this.done) {
       return;
     }
 
     j = this.adjustTheDistance(i, j, distance);
 
-    this.models[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
+    this.models[i] = [j - distance, j + distance];
+    this.chipModels[i] = this.optionsSplit[i].slice(j - distance, j + distance).join('');
     this.journalLogService.refreshJournalLog();
   }
 
@@ -140,8 +139,18 @@ export class SpeedComponent implements CategoryComponent, OnInit {
    * @param i Index of the option.
    */
   public removeOption(i): void {
-    this.models[i] = false;
+    this.chipModels[i] = null;
+    this.models[i] = [-1, -1];
+    this.journalLogService.refreshJournalLog();
   }
+
+  checkSubstringFromModel(i: number) {
+    if (!this.models[i]) {
+      return null;
+    }
+    return this.optionsSplit[i].slice(this.models[i][0], this.models[i][1]).join('');
+  }
+
 
 }
 

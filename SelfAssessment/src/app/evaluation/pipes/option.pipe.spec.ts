@@ -2,7 +2,7 @@ import { MultipleChoice } from 'src/app/shared/models/procedure/categories/multi
 import { OptionPipe } from './option.pipe';
 import { resultSetDummy } from 'src/app/spec-helper/dummy.values';
 
-describe('OptionPipe', () => {
+xdescribe('OptionPipe', () => {
   const pipe = new OptionPipe();
   const resultTestRadioButtons = resultSetDummy[0].tests[0];
   const resultTestMultipleChoice = resultSetDummy[1].tests[0];

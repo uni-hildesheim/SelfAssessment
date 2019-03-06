@@ -45,9 +45,11 @@ export class OptionPipe implements PipeTransform {
     } else if (category === Category.SPEED) {
       const content = test.singleTest.options[i].text;
       const cssClass = (opt) ? 'correct-pick' : 'wrong-pick';
-      optText = content.replace(new RegExp(test.log[i], 'gi'), match => {
-        return `<span class='${cssClass}'>${match}</span>`;
-      });
+      const match = content.substr(test.log[i][0], test.log[i][1] - test.log[i][0]);
+      const left = content.substr(0, test.log[i][0]);
+      const right = content.substr(test.log[i][0] + (test.log[i][1] + - test.log[i][0]));
+      const part = `<span class='${cssClass}'>${match}</span>`;
+      optText = left + part + right;
     }
 
     return optText;
