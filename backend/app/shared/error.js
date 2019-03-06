@@ -19,6 +19,10 @@ const ServerError = {
     E_DBQUERY: {
         number: 3,
         message: 'No element found in DB'
+    },
+    E_INVAL: {
+        number: 4,
+        message: 'Invalid request parameters'
     }
 };
 
