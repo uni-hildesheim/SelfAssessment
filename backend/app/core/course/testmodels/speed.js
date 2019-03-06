@@ -2,9 +2,9 @@ const Ajv = require('ajv');
 
 // load local dependencies
 const logger = require('../../../utils/logger');
-const AbstractTest = require('./abstract');
+const BaseTest = require('./base');
 
-class SpeedTest extends AbstractTest {
+class SpeedTest extends BaseTest {
     constructor(config) {
         super(config); // noop
         this.name = 'speed';
@@ -34,7 +34,7 @@ class SpeedTest extends AbstractTest {
      */
     static get schema() {
         // deep copy
-        const schema = JSON.parse(JSON.stringify(AbstractTest.basicSchema));
+        const schema = JSON.parse(JSON.stringify(BaseTest.baseSchema));
 
         /**
          * Schema for a speed test.
@@ -44,7 +44,7 @@ class SpeedTest extends AbstractTest {
          * ================
          *
          * ----------------------------------------------------------------------------------------
-         *   **           See AbstractTest.schema
+         *   **           See BaseTest.schema
          *                SpeedTest: 'correct' attribute is enforced and of type string.
          * ----------------------------------------------------------------------------------------
          *   seconds      Integer: processing time before the test is locked down

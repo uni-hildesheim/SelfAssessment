@@ -2,9 +2,9 @@ const Ajv = require('ajv');
 
 // load local dependencies
 const logger = require('../../../utils/logger');
-const AbstractTest = require('./abstract');
+const BaseTest = require('./base');
 
-class RadioButtonTest extends AbstractTest {
+class RadioButtonTest extends BaseTest {
     constructor(config) {
         super(config); // noop
         this.config = config;
@@ -33,7 +33,7 @@ class RadioButtonTest extends AbstractTest {
      */
     static get schema() {
         // deep copy
-        const schema = JSON.parse(JSON.stringify(AbstractTest.basicSchema));
+        const schema = JSON.parse(JSON.stringify(BaseTest.baseSchema));
 
         /**
          * Schema for a radio button test.
@@ -43,7 +43,7 @@ class RadioButtonTest extends AbstractTest {
          * ================
          *
          * ----------------------------------------------------------------------------------------
-         *   **           See AbstractTest.schema
+         *   **           See BaseTest.schema
          *                RadioButton: 'correct' attribute is of type boolean.
          * ----------------------------------------------------------------------------------------
          */

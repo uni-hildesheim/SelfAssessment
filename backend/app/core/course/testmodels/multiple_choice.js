@@ -2,9 +2,9 @@ const Ajv = require('ajv');
 
 // load local dependencies
 const logger = require('../../../utils/logger');
-const AbstractTest = require('./abstract');
+const BaseTest = require('./base');
 
-class MultipleChoiceTest extends AbstractTest {
+class MultipleChoiceTest extends BaseTest {
     constructor(config) {
         super(config); // noop
         this.config = config;
@@ -33,7 +33,7 @@ class MultipleChoiceTest extends AbstractTest {
      */
     static get schema() {
         // deep copy
-        const schema = JSON.parse(JSON.stringify(AbstractTest.basicSchema));
+        const schema = JSON.parse(JSON.stringify(BaseTest.baseSchema));
 
         /**
          * Schema for a multiple choice test.
@@ -43,7 +43,7 @@ class MultipleChoiceTest extends AbstractTest {
          * ================
          *
          * ----------------------------------------------------------------------------------------
-         *   **           See AbstractTest.schema
+         *   **           See BaseTest.schema
          *                MultipleChoice: 'correct' attribute is of type boolean.
          * ----------------------------------------------------------------------------------------
          */

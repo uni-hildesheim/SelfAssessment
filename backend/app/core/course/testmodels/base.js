@@ -1,7 +1,7 @@
-class AbstractTest {
+class BaseTest {
     constructor(config) { // eslint-disable-line no-unused-vars
-        if (new.target === AbstractTest) {
-            throw new TypeError('Cannot construct AbstractTest instances');
+        if (new.target === BaseTest) {
+            throw new TypeError('Cannot construct BaseTest instances');
         }
     }
 
@@ -12,7 +12,7 @@ class AbstractTest {
      *
      * @returns Schema as String
      */
-    static get basicSchema() {
+    static get baseSchema() {
         /**
          * Schema for a generic test.
          * A generic test definition contains the following elements:
@@ -55,7 +55,7 @@ class AbstractTest {
          * ----------------------------------------------------------------------------------------
          */
         const schema = {
-            "$id": "/AbstractTest",
+            "$id": "/BaseTest",
             "type": "object",
             "properties": {
                 "id": {"type": "integer"},
@@ -117,4 +117,4 @@ class AbstractTest {
     }
 }
 
-module.exports = AbstractTest;
+module.exports = BaseTest;

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // load local dependencies
 const logger = require('../../utils/logger');
-const abstractTestModel = require('./testmodels/abstract');
+const baseTestModel = require('./testmodels/base');
 const testsmodels = require('./testmodels');
 
 const CourseSchema = new mongoose.Schema({
@@ -28,7 +28,7 @@ const CourseSchema = new mongoose.Schema({
  * Schema for a single test.
  * This has moved into the abstract test module.
  */
-const SINGLE_TEST_SCHEMA = abstractTestModel.basicSchema;
+const SINGLE_TEST_SCHEMA = baseTestModel.baseSchema;
 
 /**
  * Schema for a test group.
@@ -178,7 +178,7 @@ const TEST_SCHEMA = {
         "validationSchema": {"type": "string"},
         "tests": {
             "type": "array",
-            "items": {"$ref": "/AbstractTest"}
+            "items": {"$ref": "/BaseTest"}
         },
         "testgroups": {
             "type": "array",

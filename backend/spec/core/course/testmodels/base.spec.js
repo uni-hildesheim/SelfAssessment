@@ -1,6 +1,6 @@
-const AbstractTest = require('../../../../app/core/course/testmodels/abstract');
+const BaseTest = require('../../../../app/core/course/testmodels/base');
 
-describe('AbstractTest', () => {
+describe('BaseTest', () => {
     beforeEach( () => {
         // dummy
     });
@@ -12,21 +12,21 @@ describe('AbstractTest', () => {
     describe('.constructor()', () => {
         it('should throw an error', () => {
             expect( () => {
-                new AbstractTest({});
-            }).toThrow(new TypeError('Cannot construct AbstractTest instances'));
+                new BaseTest({});
+            }).toThrow(new TypeError('Cannot construct BaseTest instances'));
         });
     });
 
     describe('.schema (get)', () => {
         it('should not throw ', () => {
             expect( () => {
-                AbstractTest.schema;
+                BaseTest.schema;
             }).not.toThrow();
         });
     });
 
     describe('.maxScore (get)', () => {
-        class SampleTest extends AbstractTest {
+        class SampleTest extends BaseTest {
             constructor(config) {
                 super(config);
             }
@@ -40,7 +40,7 @@ describe('AbstractTest', () => {
     });
 
     describe('.loadConfig()', () => {
-        class SampleTest extends AbstractTest {
+        class SampleTest extends BaseTest {
             constructor(config) {
                 super(config);
             }
@@ -54,7 +54,7 @@ describe('AbstractTest', () => {
     });
 
     describe('.calculateResult (get)', () => {
-        class SampleTest extends AbstractTest {
+        class SampleTest extends BaseTest {
             constructor(config) {
                 super(config);
             }

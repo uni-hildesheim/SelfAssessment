@@ -2,7 +2,6 @@
 
 module.exports = {
     Models: [
-        require('./abstract'),
         require('./multiple_choice'),
         require('./multiple_option'),
         require('./radio_button'),
