@@ -40,9 +40,6 @@
       padding-bottom: 15px;
     }
 
-    .mat-list .mat-list-item .mat-line {
-      white-space: normal;
-    }
   }
 
 }
@@ -51,6 +48,9 @@
   padding: 0 !important;
 }
 
+h4 {
+  white-space: normal !important;
+}
 
 
 .mat-expansion-panel-header-description,
