@@ -477,6 +477,27 @@ Error numbers and default messages are defined in app/shared/error.js. The front
   }
   ```
 
+### Logger (v1)
+* POST `/api/v1/logger/log`  
+  Write one or multiple lines of text into a backend-owned log buffer. On success, HTTP 200 is returned, otherwise HTTP 400 is returned.  
+  Three parameters can be passed in the request body:
+  
+  * level: log level as defined in backend/app/utils/logger.js
+  * message: string
+  * messages: array, multiple strings
+
+  In case of the 'message' property being present, the message is logged with the specified level (if any) and the 'messages' property is ignored.
+  In case of the 'messages' property being present, all strings of the array are logged with the specified level (if any).
+
+  Example input:
+
+  ```
+  {
+      "level": 1
+      "message": "Hello from the Angular frontend side"
+  }
+  ```
+
 ### Result (v1)
 * POST `/api/v1/result/load`  
   Load test results for a pincode. Returns HTTP 404 if the pin code is invalid.
