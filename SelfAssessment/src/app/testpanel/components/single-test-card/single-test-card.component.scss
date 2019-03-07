@@ -7,7 +7,62 @@ mat-card {
     min-height: 200px;
 }
 
-.text-element {
-    position: absolute;
-    left: 5px;
+// .text-element {
+//     position: absolute;
+//     left: 5px;
+//   }
+
+.head-wrapper {
+  padding:10px 0px 10px 10px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    text-align: center;
+    flex-direction: row;
+
+    flex-basis: 0;
+    flex-grow: 1;
+
+
   }
+  // grid-auto-flow: column;
+  // justify-items: center;
+  // align-items: center;
+}
+
+.opt-wrapper {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  div {
+    flex-direction: row;
+    text-align: center;
+
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+
+  // grid-auto-flow: column;
+  // white-space: normal;
+
+  // justify-items: center;
+  // align-items: center;
+}
+
+.no-center {
+  text-align: left !important;
+}
+
+.opt-wrapper:nth-child(even) {
+  background-color: #eee;
+}
+
+.opt-wrapper {
+  padding:10px 0px 10px 10px;
+}
+
+.radio-group{
+  display: flex;
+}

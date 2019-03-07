@@ -33,6 +33,10 @@
         {
           "text": "2*6",
           "correct": 2
+        },
+        {
+          "text": "8*6",
+          "correct": 0
         }
       ],
       "header": [

@@ -22,7 +22,6 @@ import {
     MatIconModule,
     MatButtonModule,
     MatProgressBarModule,
-    MatGridListModule,
     MatListModule,
     MatToolbarModule,
     MatDialogModule,

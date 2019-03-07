@@ -1,19 +1,20 @@
-<mat-grid-list cols="{{test.header.length + 2}}" rowHeight="50px">
-  <mat-grid-tile></mat-grid-tile>
-  <mat-grid-tile></mat-grid-tile>
-  <span *ngFor="let head of test.header">
-    <mat-grid-tile>
-      <app-formatted-text-area [rawText]="head"></app-formatted-text-area>
-    </mat-grid-tile>
-  </span>
-  <span *ngFor="let option of test.options; index as i">
-    <mat-grid-tile [colspan]=2><span class="text-element">
-        <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
-      </span></mat-grid-tile>
-    <mat-radio-group>
-      <mat-grid-tile *ngFor="let head of test.header; index as j">
-        <mat-radio-button value="{{head}}" [checked]="models[i][j]" (change)="handleModelChange(true, i, j)"></mat-radio-button>
-      </mat-grid-tile>
-    </mat-radio-group>
-  </span>
-</mat-grid-list>
+<div class="head-wrapper">
+  <div></div>
+  <div *ngFor="let head of test.header">
+    <app-formatted-text-area [rawText]="head"></app-formatted-text-area>
+  </div>
+</div>
+
+<div *ngFor="let option of test.options; index as i" class="opt-wrapper">
+  <div class="no-center">
+    <app-formatted-text-area [rawText]="option.text"></app-formatted-text-area>
+  </div>
+  <div *ngFor="let head of test.header; index as j">
+    <mat-radio-button
+      name ="{{i+''+j}}"
+      [value]="head"
+      [checked]="models[i][j]"
+      (change)="handleModelChange(true, i, j)"
+    ></mat-radio-button>
+  </div>
+</div>
