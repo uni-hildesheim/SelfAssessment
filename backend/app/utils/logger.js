@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 /**
  * Logging levels.
  * Depending on the level, messages are directed to stdout (ALL, INFO, WARN) or stderr (ERROR).
@@ -72,12 +75,68 @@ class ConsoleTransport {
 }
 
 class FileTransport {
-    constructor(fileStream, priority = 1) {
+    constructor(path, priority = 1) {
         this.priority = priority;
-        this.fileStream = fileStream;
+        this.path = path;
+        this.limit = 0;
+
+        // whether the filestream is good and write() is valid
+        this.good = true;
+        // number of lines written
+        this.written = 0;
+
+        this.fileStream = fs.createWriteStream(path, { 'flags': 'w' });
+        this.fileStream.on('error', (err) => {
+            defaultLogger.error('Failed to create logger file-based transport: ' + err);
+            this.fileStream.end();
+            this.good = false;
+        });
     }
     log(level, message) {
+        if (!this.good) {
+            return;
+        }
+
         this.fileStream.write(message + '\n');
+        this.written++;
+        if (this.limit > 0 && this.written >= this.limit) {
+            // rotate log buffer
+            this.rotate();
+        }
+    }
+    rotate() {
+        const logDir = path.posix.dirname(this.path);
+        const logFile = path.posix.basename(this.path);
+        const logFileName = logFile.split('_')[0];
+        let logFiles;
+
+        try {
+            logFiles = fs.readdirSync(logDir);
+        } catch (err) {
+            defaultLogger.error('Failed to scan dir ' + logDir + ': ' + err);
+            this.good = false;
+            return;
+        }
+
+        let logFileIndex = 0;
+        let logFilePostfix = '.log';
+
+        while (logFiles.includes(logFileName + '_' + logFileIndex + logFilePostfix)) {
+            logFileIndex++;
+        }
+
+        this.path = path.posix.join(logDir, logFileName + '_' + logFileIndex + logFilePostfix);
+        this.fileStream.end();
+
+        this.good = true;
+        this.written = 0;
+
+        this.fileStream = fs.createWriteStream(this.path, { 'flags': 'w' });
+        this.fileStream.on('error', (err) => {
+            defaultLogger.error('Failed to create logger file-based transport: ' + err);
+            this.fileStream.end();
+            this.good = false;
+        });
     }
 }
 
@@ -270,7 +329,7 @@ class Logger {
  *   logger.error('another error');
  */
 const defaultLogger = new Logger();
-defaultLogger.addTransport(new ConsoleTransport(1));
+defaultLogger.addTransport(new ConsoleTransport());
 
 module.exports = {
     /* factory */

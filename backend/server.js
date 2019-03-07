@@ -21,13 +21,20 @@ let CORS_OPTIONS = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
+let LOG_OPTIONS = {
+    level: logger.Level.INFO,
+    limit: 0,
+    trace: false
+}
+
 let GC_OPTIONS = {
     user: {}
 };
 
 function loadEnvironment() {
-    const APP_LOGLEVEL = process.env.APP_LOGLEVEL;
-    const APP_LOGTRACE = process.env.APP_LOGTRACE;
+    const LOG_LEVEL = process.env.LOG_LEVEL;
+    const LOG_LIMIT = process.env.LOG_LIMIT;
+    const LOG_TRACE = process.env.LOG_TRACE;
     const APP_PORT = process.env.APP_PORT;
     const CORS_ORIGINS = process.env.CORS_ORIGINS;
     const DB_URI = process.env.DB_URI;
@@ -52,17 +59,27 @@ function loadEnvironment() {
         db.config.options.pass = DB_PASS;
     }
 
-    if (APP_LOGLEVEL) {
-        if (!(APP_LOGLEVEL in logger.Level)) {
-            logger.warn('Invalid log level specified: ' + APP_LOGLEVEL);
+    if (LOG_LEVEL) {
+        if (!(LOG_LEVEL in logger.Level)) {
+            logger.warn('Invalid log level specified: ' + LOG_LEVEL);
         } else {
-            logger.info('env: APP_LOGLEVEL=' + APP_LOGLEVEL);
-            logger.setLogLevel(APP_LOGLEVEL);
+            logger.info('env: LOG_LEVEL=' + LOG_LEVEL);
+            LOG_OPTIONS.level = LOG_LEVEL;
         }
     }
 
-    if (APP_LOGTRACE) {
-        logger.enableTracing();
+    if (LOG_LIMIT) {
+        let limit = parseInt(LOG_LIMIT, 10);
+        if (isNaN(limit)) {
+            logger.warn('Invalid log limit specified: ' + LOG_LIMIT);
+        } else {
+            logger.info('env: LOG_LIMIT=' + LOG_LIMIT);
+            LOG_OPTIONS.limit = limit;
+        }
+    }
+
+    if (LOG_TRACE) {
+        LOG_OPTIONS.trace = true;
     }
 
     if (APP_PORT) {
@@ -453,6 +470,12 @@ async function main() {
     // create the app
     const app = createApp();
 
+    // setup logger
+    logger.setLogLevel(LOG_OPTIONS.level);
+    if (LOG_OPTIONS.trace) {
+        logger.enableTracing();
+    }
+
     // log to a file
     const logFiles = fs.readdirSync('./data/logs/');
 
@@ -467,19 +490,10 @@ async function main() {
 
     const logFilePath = './data/logs/' + logFileName + "_" + logFileIndex + logFilePostfix;
 
-    let fileStream = fs.createWriteStream(
-        logFilePath,
-        {
-            'flags': 'w'
-        }
-    );
 
-    fileStream.on('error', (err) => {
-        console.error("Failed to create logger file-based transport: " + err);
-        fileStream.end();
-    });
-
-    logger.addTransport(new logger.Transport.FileTransport(fileStream, 0));
+    const fileTransport = new logger.Transport.FileTransport(logFilePath);
+    fileTransport.limit = LOG_OPTIONS.limit;
+    logger.addTransport(fileTransport);
 
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);

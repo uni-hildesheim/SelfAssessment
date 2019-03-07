@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Logger = require('../../app/utils/logger');
 
 describe('Logger', () => {
@@ -29,18 +30,18 @@ describe('Logger', () => {
     });
 
     describe('FileTransport', () => {
-        // fake a writable file stream
-        const stream = {
-            write: (...args) => {} // eslint-disable-line no-unused-vars
-        }
-        const instance = new Logger.Transport.FileTransport(stream);
+        const testFileLocation = './dummy';
+        const instance = new Logger.Transport.FileTransport(testFileLocation);
 
         describe('log(level, message) ', () => {
-            it('should forward to fileStream.write(message)', () => {
-                spyOn(stream, 'write');
+            it('should write the message to the file', () => {
+                let contents;
+
                 instance.log(Logger.Level.ALL, 'dummy');
-    
-                expect(stream.write).toHaveBeenCalledWith('dummy\n');
+                contents = fs.readFileSync(testFileLocation, 'utf8');
+                fs.unlinkSync(testFileLocation);
+
+                expect(contents).toEqual('dummy\n');
             });
         });
     });
