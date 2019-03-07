@@ -300,10 +300,59 @@ Below is a table describing the possible REST API responses:
 
      | Success  | Error
 ---- | -------- | --------
-HTTP | 200/201  | 404/500
+HTTP | 200/201  | 401/403/404/500
 JSON | Optional | { <br> &nbsp;&nbsp;error: { <br> &nbsp;&nbsp;&nbsp;&nbsp;number: ... <br> &nbsp;&nbsp;&nbsp;&nbsp;message: ... <br> &nbsp;&nbsp;} <br> }
 
 Error numbers and default messages are defined in app/shared/error.js. The frontend can check for the error number to find out what went wrong when accessing an API.
+
+### Admin (v1)
+* POST `/api/v1/admin/user/find`  
+  Find user objects in the DB. The request body must contain two fields: 'secret' and 'query'. Please note that your administrator may choose to disable the admin feature entirely (by .env means). In that case, HTTP 403 is returned. Otherwise, HTTP 200 is returned on success and HTTP 401 is returned on failed authentication.
+
+  Example input:
+
+  ```
+  {
+      "secret": "root",
+      "query": {}
+  }
+  ```
+
+  Example output:
+
+  ```
+  [
+     {
+       "pin": 73323311,
+       "created": "2019-03-07T22:36:39.380Z",
+       "journal": {
+         "lastUpdate": "2019-03-07T22:37:04.910Z"
+       }
+     }
+  ]
+  ```
+
+* POST `/api/v1/admin/user/deleteMany`  
+  Delete user objects in the DB. The request body must contain two fields: 'secret' and 'query'. Please note that your administrator may choose to disable the admin feature entirely (by .env means). In that case, HTTP 403 is returned. Otherwise, HTTP 200 is returned on success and HTTP 401 is returned on failed authentication.
+
+  The response body contains the number of deleted documents.
+
+  Example input:
+
+  ```
+  {
+      "secret": "root",
+      "query": {
+        "pin": 73323311
+      }
+  }
+  ```
+
+  Example output:
+
+  ```
+  1
+  ```
 
 ### Course (v1)
 * GET `/api/v1/course`  
