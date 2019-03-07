@@ -1,11 +1,10 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>{{course.name}}</mat-card-title>
-  </mat-card-header>
   <img mat-card-image appImg [src]="course.icon"/>
-  <mat-card-actions>
+  <mat-card-footer>
+    <p>{{course.name}}</p>
     <button mat-raised-button color="primary" (click)="startTest()">
       {{'btn-start' | language}}
     </button>
-  </mat-card-actions>
+</mat-card-footer>
 </mat-card>
+

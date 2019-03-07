@@ -48,7 +48,7 @@ describe('CourseCardComponent', () => {
   });
 
   it('should display elements correctly', () => {
-    expect( fixture.nativeElement.querySelector('mat-card-title').textContent).toEqual(mockCourse.name);
+    expect( fixture.nativeElement.querySelector('p').innerHTML).toEqual(mockCourse.name);
     expect( fixture.nativeElement.querySelector('img').src).toContain(mockCourse.icon);
     expect(buttonElement.innerText).toEqual('Start');
   });

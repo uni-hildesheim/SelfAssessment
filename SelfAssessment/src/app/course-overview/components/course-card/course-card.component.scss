@@ -1,3 +1,30 @@
-mat-card{
-    max-width: 300px;
+mat-card img{
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+mat-card .mat-card-footer {
+  padding-left:15px;
+  p {
+    height:36px;
+    margin-top: 0px;
+  }
+  button {
+    position: absolute;
+    right:10px;
+  }
+}
+
+// mat-card .mat-card-title {
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   width: 300px - 2* 16px !important;
+// }
+
+mat-card {
+  width: 300px - 2*16px;
+  height: 300px;
+  padding-bottom: 5px;
 }
