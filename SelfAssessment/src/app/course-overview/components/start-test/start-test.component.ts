@@ -83,7 +83,7 @@ export class StartTestComponent implements OnInit {
     .chooseCourseLanguage(this.course.languages, true)
     .pipe(
       tap(() => {
-        refDialog = this.materialOverlayService.openLoadingDialog(null);
+        refDialog = this.materialOverlayService.openLoadingDialog('Preparing test procedure');
       }),
       switchMap((language: string) => {
         this.storageService.persistInStorage(StorageItem.COURSE_LANGUAGE, language);
