@@ -243,42 +243,42 @@ describe('CourseController', () => {
         sinon.restore();
     });
 
-	describe('.loadConfig(req, res)', () => {
-	    it('should return HTTP 404 for invalid name', async () => {
-	        sinon.stub(CourseModel, 'findOne').resolves(null);
-	
-	        const req = {
-	            body: {
-	                name: 'garbage'
-	            }
-	        };
-	
-	        await CourseController.loadConfig(req, this.res);
-	        sinon.assert.calledOnce(CourseModel.findOne);
-	        sinon.assert.calledOnce(this.res.status);
-	        sinon.assert.calledWith(this.res.status, 404);
-	        sinon.assert.calledOnce(this.res.status().json);
-	        sinon.assert.calledWith(this.res.status().json, { error: 'No such course: ' +
-	                                                          req.body.name });
-	    });
-	
-	    it('should load the dummy course from the stub DB', async () => {
-	        sinon.stub(CourseModel, 'findOne').resolves(CourseDocuments[0]);
-	
-	        const req = {
-	            body: {
-	                name: CourseDocuments[0].name
-	            }
-	        };
-	
-	        await CourseController.loadConfig(req, this.res);
-	        sinon.assert.calledOnce(CourseModel.findOne);
-	        sinon.assert.calledOnce(this.res.status);
-	        sinon.assert.calledWith(this.res.status, 200);
-	        sinon.assert.calledOnce(this.res.status().json);
-	        sinon.assert.calledWith(this.res.status().json, CourseDocuments[0].config);
-	    });
-	});
+    describe('.loadConfig(req, res)', () => {
+        it('should return HTTP 404 for invalid name', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(null);
+    
+            const req = {
+                body: {
+                    name: 'garbage'
+                }
+            };
+    
+            await CourseController.loadConfig(req, this.res);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 404);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json, { error: 'No such course: ' +
+                                                              req.body.name });
+        });
+    
+        it('should load the dummy course from the stub DB', async () => {
+            sinon.stub(CourseModel, 'findOne').resolves(CourseDocuments[0]);
+    
+            const req = {
+                body: {
+                    name: CourseDocuments[0].name
+                }
+            };
+    
+            await CourseController.loadConfig(req, this.res);
+            sinon.assert.calledOnce(CourseModel.findOne);
+            sinon.assert.calledOnce(this.res.status);
+            sinon.assert.calledWith(this.res.status, 200);
+            sinon.assert.calledOnce(this.res.status().json);
+            sinon.assert.calledWith(this.res.status().json, CourseDocuments[0].config);
+        });
+    });
 }
 ```
 
@@ -312,7 +312,8 @@ Error numbers and default messages are defined in app/shared/error.js. The front
   Example output:  
 
   ```
-  [
+  {
+     [
       {
         "name": "IMIT",
         "icon": "imit.png",
@@ -328,7 +329,8 @@ Error numbers and default messages are defined in app/shared/error.js. The front
           "en"
         ]
       }
-  ]
+     ]
+  }
   ```
 
 * POST `/api/v1/course/loadConfig`  
@@ -360,34 +362,36 @@ Error numbers and default messages are defined in app/shared/error.js. The front
   Example output:  
 
   ```
-  [
-	  {
-	    "name": "Selfassessment v1.0",
-	    "header": "SelfAssessment",
-	    "footer": "&copy; 2019 Stiftung Universität Hildesheim",
-	    "vendor": {
-	      "name": "Stiftung Universität Hildesheim",
-	      "logo": "uni_hildesheim_logo.svg"
-	    },
-	    "strings": {
-	      "language": "Sprache"
-	    },
-	    "language": "Deutsch"
-	  },
-	  {
-	    "name": "Selfassessment v1.0",
-	    "header": "SelfAssessment",
-	    "footer": "&copy; 2019 Stiftung Universität Hildesheim",
-	    "vendor": {
-	      "name": "Stiftung Universität Hildesheim",
-	      "logo": "uni_hildesheim_logo.svg"
-	    },
-	    "strings": {
-	      "language": "Language"
-	    },
-	    "language": "English"
-	  }
-  ]
+  {
+     [
+      {
+        "name": "Selfassessment v1.0",
+        "header": "SelfAssessment",
+        "footer": "&copy; 2019 Stiftung Universität Hildesheim",
+        "vendor": {
+          "name": "Stiftung Universität Hildesheim",
+          "logo": "uni_hildesheim_logo.svg"
+        },
+        "strings": {
+          "language": "Sprache"
+        },
+        "language": "Deutsch"
+      },
+      {
+        "name": "Selfassessment v1.0",
+        "header": "SelfAssessment",
+        "footer": "&copy; 2019 Stiftung Universität Hildesheim",
+        "vendor": {
+          "name": "Stiftung Universität Hildesheim",
+          "logo": "uni_hildesheim_logo.svg"
+        },
+        "strings": {
+          "language": "Language"
+        },
+        "language": "English"
+      }
+     ]
+  }
   ```
 
 ### Journal (v1)
@@ -513,28 +517,30 @@ Error numbers and default messages are defined in app/shared/error.js. The front
   Example output:  
 
   ```
-  [
-	  {
-	    "id": "1002",
-	    "score": 1,
-	    "maxScore": 2,
-	    "correctOptions": [
-	      0
-	    ],
-	    "wrongOptions": [
-	      1
-	    ]
-	  },
-	  {
-	    "id": "1003",
-	    "score": 1,
-	    "maxScore": 1,
-	    "correctOptions": [
-	      1
-	    ],
-	    "wrongOptions": []
-	  }
-  ]
+  {
+     [
+      {
+        "id": "1002",
+        "score": 1,
+        "maxScore": 2,
+        "correctOptions": [
+          0
+        ],
+        "wrongOptions": [
+          1
+        ]
+      },
+      {
+        "id": "1003",
+        "score": 1,
+        "maxScore": 1,
+        "correctOptions": [
+          1
+        ],
+        "wrongOptions": []
+      }
+     ]
+  }
   ```
 
 ### User (v1)
