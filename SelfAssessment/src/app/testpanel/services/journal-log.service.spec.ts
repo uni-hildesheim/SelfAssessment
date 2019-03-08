@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { JournalLogService } from './journal-log.service';
@@ -21,7 +22,7 @@ describe('JournalLogService', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [GlobalIndicator,
         {provide: LocalStorageService, useValue: storageStub}
       ]

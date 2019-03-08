@@ -1,3 +1,4 @@
+import { LoggingService } from '../../../shared/logging/logging.service';
 import { Component, OnInit } from '@angular/core';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { Router } from '@angular/router';
@@ -24,7 +25,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private configService: ConfigService,
     private router: Router,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   /**

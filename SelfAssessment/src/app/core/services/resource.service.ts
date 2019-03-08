@@ -73,7 +73,7 @@ export class ResourceService {
         map((data: Object[]) => data as Resource[]),
         tap(data => {
           this.logging.info('Loaded resources');
-          this.logging.debug(undefined, data);
+          this.logging.debug(data);
 
           // store the default-language-resources in the local storage
           localStorage.setItem(StorageItem.RESOURCES, JSON.stringify(data));

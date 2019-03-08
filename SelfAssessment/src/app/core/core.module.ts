@@ -8,7 +8,6 @@ import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './interceptor/http-error.interceptor';
-import { HttpLoggingInterceptor } from './interceptor/http-logging.interceptor';
 import { HttpApiInterceptor } from './interceptor/http-api.interceptor';
 import { EvaluationModule } from '../evaluation/evaluation.module';
 import { FooterComponent } from './components/footer/footer.component';
@@ -37,11 +36,6 @@ import { HeaderComponent } from './components/header/header.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpLoggingInterceptor,
       multi: true
     }]
 })

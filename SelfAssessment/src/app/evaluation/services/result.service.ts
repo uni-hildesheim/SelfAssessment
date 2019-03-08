@@ -62,7 +62,7 @@ export class ResultService {
       map(data => this.formatResultSet(data)),
       tap((set: ResultSet[]) => {
         this.logging.info(`Loaded result set for pin ${pin}`);
-        this.logging.debug(undefined, set);
+        this.logging.debug(set);
       })
     );
   }

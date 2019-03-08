@@ -33,7 +33,7 @@
 
 
             <span class="fill-space"></span>
-            <button mat-icon-button (click)="filterSelect.open()" matTooltip="Sort By Test Type">
+            <button mat-icon-button (click)="filterSelect.open()">
                 <mat-icon>filter_list</mat-icon>
               </button>
 
@@ -57,7 +57,7 @@
               <div *ngFor="let test of testsByType" >
                 <app-result-tree [tests]="test"></app-result-tree>
               </div>
-            </mat-accordion> 
+            </mat-accordion>
 
             <!-- SORT BY SET -->
             <ng-template #displayBySet>

@@ -105,7 +105,7 @@ export class JournalService {
     .pipe(
       tap((structure) => {
         this.logging.info(`Loaded journal structure for pin: ${pin}`);
-        this.logging.debug(undefined, structure);
+        this.logging.debug(structure);
       })
     );
   }
@@ -124,7 +124,7 @@ export class JournalService {
       }),
       tap((log) => {
         this.logging.info(`Loaded journal log for pin: ${pin}`);
-        this.logging.debug(undefined, log);
+        this.logging.debug(log);
       })
     );
   }
@@ -164,7 +164,7 @@ export class JournalService {
     }).pipe(
       tap(() => {
         this.logging.info('Saved journal structure');
-        this.logging.debug(undefined, journalStructure);
+        this.logging.debug(journalStructure);
       })
     );
   }

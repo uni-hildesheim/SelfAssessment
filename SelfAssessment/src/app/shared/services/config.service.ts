@@ -55,7 +55,7 @@ export class ConfigService {
       .pipe(
         tap(data => {
           this.logging.info('Loaded all courses');
-          this.logging.debug(undefined, data, true);
+          this.logging.debug(data);
         })
       );
   }
@@ -71,7 +71,7 @@ export class ConfigService {
       .pipe(
         tap(data => {
           this.logging.info(`Loaded course config: ${course} for language: ${language}`);
-          this.logging.debug(undefined, data);
+          this.logging.debug(data);
         })
       );
   }

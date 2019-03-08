@@ -7,6 +7,7 @@ import { LoggingService } from '../logging/logging.service';
 import { Router } from '@angular/router';
 import { StorageItem } from './local.storage.values.enum';
 import { JournalLog } from '../models/state/journal.log.model';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LocalStorageService', () => {
   let service: LocalStorageService;
@@ -25,7 +26,7 @@ describe('LocalStorageService', () => {
 
     TestBed.configureTestingModule({
       providers: [{provide: JournalDirectorService, useValue: directorStub}, LoggingService],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule, HttpClientTestingModule]
     });
     service = TestBed.get(LocalStorageService);
     router = TestBed.get(Router);

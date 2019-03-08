@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
 import { MaterialModule } from './../../../../../material/material.module';
@@ -39,7 +40,7 @@ describe('RadioButtonsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ RadioButtonsComponent ],
       providers: [GlobalIndicator, JournalLogService],
-      imports: [MaterialModule, SharedModule, RouterTestingModule]
+      imports: [MaterialModule, SharedModule, RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));

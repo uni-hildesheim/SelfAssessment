@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from './../../../../../material/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -37,7 +38,7 @@ describe('MultipleChoiceComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MultipleChoiceComponent ],
       providers: [GlobalIndicator, JournalLogService],
-      imports: [MaterialModule, SharedModule, RouterTestingModule]
+      imports: [MaterialModule, SharedModule, RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));

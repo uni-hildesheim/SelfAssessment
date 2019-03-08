@@ -28,15 +28,12 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule,
     MatChipsModule,
     MatOptionModule,
     MatSelectModule,
     MatBottomSheetModule,
     MatExpansionModule,
-    MatTreeModule,
-    MatBadgeModule,
-    MatTooltipModule
+    MatBadgeModule
   ]
 })
 export class MaterialModule { }
