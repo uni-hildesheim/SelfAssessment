@@ -66,3 +66,8 @@ mat-card {
 .radio-group{
   display: flex;
 }
+
+.disabled-test-card{
+    pointer-events: none;
+    opacity: 0.5;
+  }

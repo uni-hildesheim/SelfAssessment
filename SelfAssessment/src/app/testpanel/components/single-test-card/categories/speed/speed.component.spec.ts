@@ -115,14 +115,6 @@ xdescribe('SpeedComponent', () => {
   //   expect(component.models[0]).toEqual(false);
   // });
 
-  it('should end the task if the event is emitted', () => {
-    spyOn(component, 'endTask');
-    expect(component.endTask).not.toHaveBeenCalled();
-    component.startTask();
-    fixture.detectChanges();
-    const childDebugElement = fixture.debugElement.query(By.directive(FakeCountdownComponent));
-    childDebugElement.nativeElement.dispatchEvent(new Event('finished'));
-    expect(component.endTask).toHaveBeenCalled();
-  });
+
 
 });
