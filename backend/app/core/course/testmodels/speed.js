@@ -151,6 +151,12 @@ class SpeedTest extends BaseTest {
                 continue;
             }
 
+            if (userSelectionStart === -1 || userSelectionEnd === -1) {
+                // user started the test, but did not select any option
+                // --> don't count it as wrong option, just move on
+                continue;
+            }
+
             // find all occurences of the 'correct' option in the text
             // we use this later to determine whether the user marked the correct text area
             let searchString = testOptions[i]['text'];
