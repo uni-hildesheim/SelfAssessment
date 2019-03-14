@@ -114,7 +114,14 @@ class MultipleChoiceTest extends BaseTest {
             } else if (log[i] === true) {
                 // option was selected, but wrong
                 result.wrong.push(i);
+                // must substract one from the score
+                result.score--;
             }
+        }
+
+        // score must not be negative
+        if (result.score < 0) {
+            result.score = 0;
         }
 
         return result;
