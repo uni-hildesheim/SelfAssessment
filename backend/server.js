@@ -15,6 +15,7 @@ const gc = require('./app/utils/gc');
 const logger = require('./app/utils/logger');
 const router = require('./app/core');
 const overlord = require('./app/utils/overseer');
+const error = require('./app/shared/error');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;
@@ -167,6 +168,15 @@ function createApp() {
 
     // load the API routes
     router(app);
+
+    // register catch-all error handler
+    app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+        // if we did not handle the error elsewhere, do it here
+        if (!res._headerSent) {
+            logger.error(err);
+            res.status(500).json({ error: error.ServerError.E_UNKNOWN }).send();
+        }
+    })
 
     return app;
 }
@@ -503,7 +513,12 @@ async function main() {
 
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);
-    await db.connect(db.config.uri, db.config.options);
+    try {
+        await db.connect(db.config.uri, db.config.options);
+    } catch (err) {
+        logger.error('Failed to connect to MongoDB: ' + err);
+        return;
+    }
 
     // sync frontend resource configs
     loadFrontendResources('./data/configs/frontend');
