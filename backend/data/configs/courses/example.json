@@ -88,6 +88,27 @@
         }
       ],
       "evaluated": true
+    },
+    {
+      "id": 1006,
+      "type": "logic",
+      "category": "multiple-choice",
+      "description": "?ref{1006-1}",
+      "task": "?ref{1006-2}",
+      "options": [
+        {
+          "text": "?ref{1006-3}"
+        },
+        {
+          "text": "?ref{1006-4}",
+          "correct": true
+        },
+        {
+          "text": "?ref{1006-5}",
+          "correct": true
+        }
+      ],
+      "evaluated": true
     }
   ],
   "testgroups": [
@@ -125,6 +146,7 @@
       "id": 3002,
       "elements": [
         1005,
+        1006,
         2002
       ],
       "evaluationTexts": {
