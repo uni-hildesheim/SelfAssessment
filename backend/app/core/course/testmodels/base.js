@@ -49,6 +49,8 @@ class BaseTest {
          * === OPTIONAL ===
          * ================
          *
+         *----------------------------------------------------------------------------------------
+         *   seconds      Integer: processing time before the test is locked down
          * ----------------------------------------------------------------------------------------
          *   **           Extended attributes for tests
          *                See child testmodels for specifications.
@@ -75,6 +77,7 @@ class BaseTest {
                     }
                 },
                 "evaluated": {"type": "boolean"},
+                "seconds": {"type": "integer"}
             },
             "required": ["id", "type", "category", "description", "task", "options", "evaluated"]
         };

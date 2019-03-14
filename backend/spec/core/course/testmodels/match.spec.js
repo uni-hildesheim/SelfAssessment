@@ -1,10 +1,10 @@
-const SpeedTest = require('../../../../app/core/course/testmodels/speed');
+const MatchTest = require('../../../../app/core/course/testmodels/match');
 const TestData = require('./data');
 
-describe('SpeedTest', () => {
+describe('MatchTest', () => {
     beforeEach( () => {
         // create a new object each time to ensure tests do not affect each other
-        this.SpeedTestInstance = new SpeedTest(TestData.configs['speed']);
+        this.MatchTestInstance = new MatchTest(TestData.configs['match']);
     });
 
     afterEach( () => {
@@ -14,38 +14,38 @@ describe('SpeedTest', () => {
 
     describe('.constructor()', () => {
         it('should set the name', () => {
-            expect(SpeedTest.name).toEqual('speed');
+            expect(MatchTest.name).toEqual('match');
         });
 
         it('should throw an error for invalid configs', () => {
             expect( () => {
-                new SpeedTest({})
+                new MatchTest({})
             }).toThrow(new Error('Invalid test config'));
         });
     });
 
     describe('.name (get)', () => {
         it('should return the test name', () => {
-            expect(SpeedTest.name).toEqual('speed');
+            expect(MatchTest.name).toEqual('match');
         });
     });
 
     describe('.schema (get)', () => {
         it('should set the schema id', () => {
-            expect(SpeedTest.schema['$id']).toEqual('SpeedTest');
+            expect(MatchTest.schema['$id']).toEqual('MatchTest');
         });
     });
 
     describe('.maxScore (get)', () => {
         it('should return n for n correct options', () => {
             let expectedMaxScore = 0;
-            for (const opt of TestData.configs['speed'].options) {
+            for (const opt of TestData.configs['match'].options) {
                 if ('correct' in opt) {
                     expectedMaxScore++;
                 }
             }
 
-            expect(this.SpeedTestInstance.maxScore).toEqual(expectedMaxScore);
+            expect(this.MatchTestInstance.maxScore).toEqual(expectedMaxScore);
         });
     });
 
@@ -54,19 +54,19 @@ describe('SpeedTest', () => {
             const config = {
                 "id": 1001,
                 "type": "logic",
-                "category": "speed",
+                "category": "match",
                 "description": "",
                 "task": "",
                 "options": [
                     {
                         "text": "Yes",
                         "correct": "Ye",
-                        "index": "0"
+                        //"index": "0"
                     }
                 ],
                 "evaluated": true
             };
-            const ret = this.SpeedTestInstance.loadConfig(config);
+            const ret = this.MatchTestInstance.loadConfig(config);
 
             expect(ret).toBe(false);
         });
@@ -75,7 +75,7 @@ describe('SpeedTest', () => {
             const config = {
                 "id": 1001,
                 "type": "logic",
-                "category": "speed",
+                "category": "match",
                 "description": "",
                 "task": "",
                 "options": [
@@ -88,7 +88,7 @@ describe('SpeedTest', () => {
                 "evaluated": true,
                 "seconds": 1
             };
-            const ret = this.SpeedTestInstance.loadConfig(config);
+            const ret = this.MatchTestInstance.loadConfig(config);
 
             expect(ret).toBe(true);
         });

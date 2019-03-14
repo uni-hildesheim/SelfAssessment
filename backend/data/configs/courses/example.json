@@ -66,7 +66,7 @@
     {
       "id": 1005,
       "type": "logic",
-      "category": "speed",
+      "category": "match",
       "seconds": 10,
       "description": "?ref{1005-1}",
       "task": "?ref{1005-2}",

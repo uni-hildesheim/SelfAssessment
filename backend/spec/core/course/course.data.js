@@ -70,9 +70,9 @@ const CourseInstance = new CourseModel({
                 {
                     "id": 1005,
                     "type": "logic",
-                    "category": "speed",
+                    "category": "match",
                     "seconds": 10,
-                    "description": "This is a speed test! You only got ten seconds for this one, so hurry up!",
+                    "description": "This is a match test! You only got ten seconds for this one, so hurry up!",
                     "task": "Mark every <ins>animal</ins> in the text below.",
                     "options": [
                         {
@@ -81,7 +81,7 @@ const CourseInstance = new CourseModel({
                             "index": "0"
                         },
                         {
-                            "text": "Global warming is dangerous. Or is it? My cat seems to enjoy the warm weather.",
+                            "text": "Global warming is not dangerous. Or is it? My cat seems to enjoy the warm weather.",
                             "correct": "cat",
                             "index": "0"
                         },

@@ -2,10 +2,10 @@
 
 module.exports = {
     Models: [
+        require('./match'),
         require('./multiple_choice'),
         require('./multiple_option'),
-        require('./radio_button'),
-        require('./speed')
+        require('./radio_button')
     ],
     Factory: {
         create: (name, config) => {

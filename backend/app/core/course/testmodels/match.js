@@ -4,10 +4,10 @@ const Ajv = require('ajv');
 const logger = require('../../../utils/logger');
 const BaseTest = require('./base');
 
-class SpeedTest extends BaseTest {
+class MatchTest extends BaseTest {
     constructor(config) {
         super(config); // noop
-        this.name = 'speed';
+        this.name = 'match';
         this.config = config;
 
         if (!this.loadConfig(config)) {
@@ -22,7 +22,7 @@ class SpeedTest extends BaseTest {
      * @returns Name as String
      */
     static get name() {
-        return 'speed';
+        return 'match';
     }
 
     /**
@@ -37,7 +37,7 @@ class SpeedTest extends BaseTest {
         const schema = JSON.parse(JSON.stringify(BaseTest.baseSchema));
 
         /**
-         * Schema for a speed test.
+         * Schema for a match test.
          *
          * ================
          * === REQUIRED ===
@@ -45,10 +45,7 @@ class SpeedTest extends BaseTest {
          *
          * ----------------------------------------------------------------------------------------
          *   **           See BaseTest.schema
-         *                SpeedTest: 'correct' attribute is enforced and of type string.
-         * ----------------------------------------------------------------------------------------
-         *   seconds      Integer: processing time before the test is locked down
-         *                Only for speed tests.
+         *                MatchTest: 'correct' attribute is enforced and of type string.
          * ----------------------------------------------------------------------------------------
          *   index        String: index of occurence to match against.
          *                Should really be an Integer, but we have our own JSON reference replacing
@@ -59,16 +56,14 @@ class SpeedTest extends BaseTest {
          *                (our numbering starts at 0).
          * ----------------------------------------------------------------------------------------
          */
-        schema['$id'] = 'SpeedTest';
-        schema['properties']['category'] = {"const": "speed"};
+        schema['$id'] = 'MatchTest';
+        schema['properties']['category'] = {"const": "match"};
         schema['properties']['options']['items']['properties']['correct'] = {"type": "string"};
         schema['properties']['options']['items']['required'].push('correct');
         // TODO: 'index' property should be of type integer.
         // Change this once the JSON merge utils support non-string element creation.
         schema['properties']['options']['items']['properties']['index'] = {"type": "string"};
         schema['properties']['options']['items']['required'].push('index');
-        schema['properties']['seconds'] = {"type": "integer"};
-        schema['required'].push('seconds');
         return schema;
     }
 
@@ -95,9 +90,9 @@ class SpeedTest extends BaseTest {
      */
     loadConfig(config) {
         const ajv = new Ajv();
-        const validate = ajv.compile(SpeedTest.schema);
+        const validate = ajv.compile(MatchTest.schema);
         if (!validate(config)) {
-            logger.warn('SpeedTest: ' + JSON.stringify(validate.errors));
+            logger.warn('MatchTest: ' + JSON.stringify(validate.errors));
             return false;
         }
 
@@ -135,7 +130,7 @@ class SpeedTest extends BaseTest {
             }
 
             if (isNaN(correctOptionIndex)) {
-                logger.error('SpeedTest: calculateResult: index property of correct option must' +
+                logger.error('MatchTest: calculateResult: index property of correct option must' +
                              ' be a string parseable by parseInt()');
                 continue;
             }
@@ -144,7 +139,7 @@ class SpeedTest extends BaseTest {
             const userSelectionEnd = log[i][1];
             if (typeof userSelectionStart !== 'number' || typeof userSelectionEnd !== 'number') {
                 // something went wrong.. abort. abort.
-                logger.error('SpeedTest: calculateResult: Invalid option array member type' +
+                logger.error('MatchTest: calculateResult: Invalid option array member type' +
                              ', expected number');
                 continue;
             }
@@ -200,4 +195,4 @@ class SpeedTest extends BaseTest {
     }
 }
 
-module.exports = SpeedTest;
+module.exports = MatchTest;

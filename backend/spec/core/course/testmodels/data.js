@@ -46,10 +46,10 @@ const RadioButtonTestConfig = {
     evaluated: false
 };
 
-const SpeedTestConfig = {
+const MatchTestConfig = {
     id: 1004,
     type: "logic",
-    category: "speed",
+    category: "match",
     description: "",
     task: "",
     options: [{
@@ -66,6 +66,6 @@ module.exports = {
         'multiple-choice': MultipleChoiceTestConfig,
         'multiple-options': MultipleOptionTestConfig,
         'radio-buttons': RadioButtonTestConfig,
-        'speed': SpeedTestConfig
+        'match': MatchTestConfig
     }
 }
