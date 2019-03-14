@@ -259,11 +259,11 @@ export class JournalDirectorService {
               const optionsLength = (<Test>element).options.length;
 
                 if ((<Test>element).category.valueOf() !== Category.MULTIPLE_OPTIONS.valueOf()) {
-                    journalSet.set(element.id, new Array(optionsLength).fill(false));
+                    journalSet.set(element.id, new Array(optionsLength).fill(null));
                 } else {
                     const temp = new Array(optionsLength);
                     for (let i = 0; i < temp.length; i++) {
-                    temp[i] = new Array((<MultipleOptions>element).header.length).fill(false);
+                    temp[i] = new Array((<MultipleOptions>element).header.length).fill(null);
                     }
                     journalSet.set(element.id, temp);
                 }

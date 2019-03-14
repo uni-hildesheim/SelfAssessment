@@ -31,17 +31,6 @@ export class SpeedComponent implements CategoryComponent, OnInit {
    */
   public models: (boolean | [number, number]) [];
 
-  /**
-   * Specifies if the countdown is finished.
-   */
-  public done = true;
-
-  /**
-   * Specifies if at any point the test was executed.
-   * Makes sure the user can execute this test only once.
-   */
-  public started = true;
-
   public chipModels = [];
 
 
@@ -58,29 +47,6 @@ export class SpeedComponent implements CategoryComponent, OnInit {
       });
       this.coloredOptions.push(temp);
     });
-
-    if (this.models.every(e => e === false)) {
-      this.done = false;
-      this.started = false;
-    }
-  }
-
-  /**
-   * Opens the speed test task and starts the countdown.
-   */
-  public startTask(): void {
-    for (let i = 0; i < this.models.length; i++) {
-        this.models[i] = [-1, -1];
-    }
-    this.started = true;
-  }
-
-  /**
-   * Ends the speed test and refreshes the journal log.
-   */
-  public endTask(): void {
-    this.done = true;
-    this.journalLogService.refreshJournalLog();
   }
 
   /**
@@ -89,10 +55,6 @@ export class SpeedComponent implements CategoryComponent, OnInit {
   public spanMouseAction(over: boolean, i: number, j: number): void {
 
     const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
-
-    if (this.done) {
-      return;
-    }
 
     j = this.adjustTheDistance(i, j, distance);
 
@@ -121,10 +83,6 @@ export class SpeedComponent implements CategoryComponent, OnInit {
   public handleModelChange(value: any, i: number, j: number): void {
 
     const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
-
-    if (this.done) {
-      return;
-    }
 
     j = this.adjustTheDistance(i, j, distance);
 

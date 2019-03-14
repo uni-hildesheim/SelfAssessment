@@ -45,4 +45,6 @@ export abstract class Test implements SetElement {
      */
     evaluated: boolean;
 
+    seconds?: number;
+
 }

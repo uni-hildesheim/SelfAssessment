@@ -1,17 +1,43 @@
 <mat-card>
   <mat-card-content>
-
-    <h3>Card for Test: {{singleTest.id}}</h3>
+    <h3>Card for Test: {{ singleTest.id }}</h3>
 
     <h3>
-      <app-formatted-text-area [rawText]="singleTest.description"></app-formatted-text-area>
+      <app-formatted-text-area [rawText]="singleTest.description">
+      </app-formatted-text-area>
     </h3>
 
     <h3>
-      <app-formatted-text-area [rawText]="singleTest.task"></app-formatted-text-area>
+      <app-formatted-text-area [rawText]="singleTest.task">
+      </app-formatted-text-area>
     </h3>
 
-    <ng-template appTestComponentHost></ng-template>
+    <div *ngIf="singleTest.seconds">
+
+      <!-- WARNING MESSAGE & START BTN -->
+      <div *ngIf="timeWarning">
+        <h3>
+          Diese Aufgabe muss innerhalb von {{ singleTest.seconds }} Sekunden
+          bearbeitet werden.
+        </h3>
+        <button mat-raised-button color="primary" (click)="startTask()">
+          Starte die Aufgabe
+        </button>
+      </div>
+
+      <!-- COUNTDOWN CLOCK -->
+      <div *ngIf="countdownClock">
+        <app-countdown
+          [seconds]="singleTest.seconds"
+          (finished)="endTask()"></app-countdown>
+      </div>
+
+  </div>
+
+    <!-- CATEGORY COMPONENT -->
+    <div [ngClass]="{ 'disabled-test-card': componentDisabled }">
+      <ng-template appTestComponentHost></ng-template>
+    </div>
 
   </mat-card-content>
 </mat-card>
