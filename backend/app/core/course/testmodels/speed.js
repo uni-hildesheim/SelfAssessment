@@ -165,7 +165,7 @@ class SpeedTest extends BaseTest {
             const occurences = [];
             let index = 0;
             while (index !== -1) {
-                index = searchString.search(correctOption);
+                index = searchString.indexOf(correctOption);
                 if (index !== -1) {
                     searchString = searchString.slice(index + correctOption.length);
                     occurences.push({
