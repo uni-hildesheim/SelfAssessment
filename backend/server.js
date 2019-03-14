@@ -14,6 +14,7 @@ const db = require('./app/db/db');
 const gc = require('./app/utils/gc');
 const logger = require('./app/utils/logger');
 const router = require('./app/core');
+const overlord = require('./app/utils/overseer');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;
@@ -43,6 +44,7 @@ function loadEnvironment() {
     const GC_INTERVAL = process.env.GC_INTERVAL;
     const GC_USER_DONE = process.env.GC_USER_DONE;
     const GC_USER_LAST_UPDATE = process.env.GC_USER_LAST_UPDATE;
+    const OVERLORD_ENABLE = process.env.OVERLORD_ENABLE;
 
     if (DB_URI) {
         logger.info('env: DB_URI=' + DB_URI);
@@ -148,6 +150,10 @@ function loadEnvironment() {
             });
         }, GC_OPTIONS);
         gc.start(GC_INTERVAL);
+    }
+
+    if (!OVERLORD_ENABLE) {
+        overlord.options.enableWrapping = false;
     }
 }
 

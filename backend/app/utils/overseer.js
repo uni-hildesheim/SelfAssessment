@@ -164,6 +164,7 @@ module.exports = {
     create: (...args) => { return new Overseer(...args) },
 
     /* classes and data stores needed for public API */
+    options: overlord.options,
 
     /* default instance methods */
     wrapFunction: (...args) => overlord.wrapFunction(...args)
