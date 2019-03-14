@@ -1,9 +1,9 @@
 version: "3"
 services:
-  app:
+  selfassessment-backend:
     container_name: selfassessment-backend
     restart: always
-    image: app:selfassessment-backend
+    image: selfassessment-backend
     build: .
     volumes:
       - ./.env:/usr/src/app/.env
