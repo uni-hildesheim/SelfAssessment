@@ -131,8 +131,6 @@ class SpeedTest extends BaseTest {
                 // not an array -> not something we can evaluate
                 // this can occur when a user did not select any option in this test, in which
                 // case the log will record a 'false' value for the option
-                logger.error('SpeedTest: calculateResult: Invalid options in journal log' + 
-                             ', expected array');
                 continue;
             }
 
