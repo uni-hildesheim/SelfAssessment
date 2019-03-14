@@ -10,7 +10,7 @@ module.exports = {
 }
 
 // load a journal log (JSON object)
-function loadLog(req, res) {
+function loadLog(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     db.User.findOne({
@@ -32,11 +32,12 @@ function loadLog(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
 // load a journal structure (JSON object)
-function loadStructure(req, res) {
+function loadStructure(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     db.User.findOne({
@@ -58,11 +59,12 @@ function loadStructure(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
 // save a journal log (JSON object)
-function saveLog(req, res) {
+function saveLog(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // update the document if it exists
@@ -75,11 +77,12 @@ function saveLog(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
 // save a journal structure (JSON object)
-function saveStructure(req, res) {
+function saveStructure(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // update the document if it exists
@@ -92,5 +95,6 @@ function saveStructure(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }

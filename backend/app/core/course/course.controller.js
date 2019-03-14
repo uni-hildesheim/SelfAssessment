@@ -8,7 +8,7 @@ module.exports = {
 }
 
 // load a course from the DB
-function loadConfig(req, res) {
+function loadConfig(req, res, next) {
     const name = req.body.name;
     const language = req.body.language;
 
@@ -34,11 +34,12 @@ function loadConfig(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
 // show all courses that are available
-function showCourses(req, res) {
+function showCourses(req, res, next) {
     db.Course.find({
         // wildcard filter
     }).then(courses => {
@@ -60,5 +61,6 @@ function showCourses(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }

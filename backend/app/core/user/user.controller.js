@@ -11,7 +11,7 @@ module.exports = {
  * @param {*} req HTTP request (unused)
  * @param {*} res HTTP response
  */
-async function create(req, res) {
+async function create(req, res, next) {
     // length of the pin code, where each element is a digit
     // 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
     const LENGTH = 8
@@ -24,6 +24,7 @@ async function create(req, res) {
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
         return;
     }
 
@@ -67,5 +68,6 @@ async function create(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }

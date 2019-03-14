@@ -24,7 +24,7 @@ function validateSecret(secret) {
     return false;
 }
 
-function find(req, res) {
+function find(req, res, next) {
     const query = req.body.query;
     const secret = req.body.secret;
     let result = [];
@@ -58,11 +58,11 @@ function find(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
-        return false;
+        next(err);
     });
 }
 
-function deleteMany(req, res) {
+function deleteMany(req, res, next) {
     const query = req.body.query;
     const secret = req.body.secret;
 
@@ -86,6 +86,6 @@ function deleteMany(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
-        return false;
+        next(err);
     });
 }

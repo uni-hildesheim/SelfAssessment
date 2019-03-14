@@ -7,7 +7,7 @@ module.exports = {
 }
 
 // fetch all resources necessary for the frontend (static texts, images) from the DB
-function resources(req, res) {
+function resources(req, res, next) {
     db.Frontend.find({
         // empty filter to get all objects
     }).then(resources => {
@@ -26,5 +26,6 @@ function resources(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }

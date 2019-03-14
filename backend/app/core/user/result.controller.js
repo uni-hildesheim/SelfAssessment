@@ -145,7 +145,7 @@ function calculate(config, journal) {
  * @param {Object} req Express.js request object
  * @param {Object} res Express.js response object
  */
-function load(req, res) {
+function load(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     // save the result to the database
@@ -163,6 +163,7 @@ function load(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
@@ -173,7 +174,7 @@ function load(req, res) {
  * @param {Object} req Express.js request object
  * @param {Object} res Express.js response object
  */
-async function lock(req, res) {
+async function lock(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
     let course;
@@ -188,6 +189,7 @@ async function lock(req, res) {
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
         return;
     }
 
@@ -205,6 +207,7 @@ async function lock(req, res) {
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
         return;
     }
 
@@ -248,6 +251,7 @@ async function lock(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
 
@@ -258,7 +262,7 @@ async function lock(req, res) {
  * @param {Object} req Express.js request object
  * @param {Object} res Express.js response object
  */
-async function update(req, res) {
+async function update(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
     let course;
     let user;
@@ -272,6 +276,7 @@ async function update(req, res) {
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
         return;
     }
 
@@ -297,6 +302,7 @@ async function update(req, res) {
     } catch(err) {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
         return;
     }
 
@@ -336,5 +342,6 @@ async function update(req, res) {
     }).catch(err => {
         logger.error(err);
         res.status(500).json({ error: error.ServerError.E_DBIO });
+        next(err);
     });
 }
