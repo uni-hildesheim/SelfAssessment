@@ -2,6 +2,7 @@ const logger = require('./logger');
 
 module.exports = {
     mergeObjects,
+    resolveReferencesinString,
     resolveReferences
 }
 
@@ -63,6 +64,54 @@ function mergeObjects(input) {
 }
 
 /**
+ * Resolve multiple references in a single string.
+ *
+ * @param {String} input Input string to perform replacements on
+ * @param {Object} references Object containing references as key-value map
+ * @returns {String} Output string where references have been resolved
+ */
+function resolveReferencesinString(input, references) {
+    if (typeof(input) !== 'string') {
+        return false;
+    }
+
+    let refStart;
+    let refEnd;
+
+    do {
+        refStart = input.indexOf('?ref{');
+        refEnd = input.indexOf('}', refStart);
+
+        if (refStart >= 0 && refEnd === -1) {
+            logger.warn('mergeConfigs: Failed to parse ref name from input: ' + input);
+            break;
+        }
+
+        if (refStart === -1) {
+            // no more refs to resolve
+            break;
+        }
+
+        // refStart needs to be offset by 5 (length of '?ref{')
+        const refName = input.substring(refStart+5, refEnd);
+        logger.debug('mergeConfigs: resolveReferences: ref name: ' + refName);
+
+        if (!(refName in references)) {
+            logger.warn('mergeConfigs: Failed to resolve ref: ' + refName);
+            break;
+        }
+
+        // perform the actual string replacement
+        const refString = input.substring(refStart, refEnd+1);
+        logger.debug('mergeConfigs: resolveReferences: resolving: ' + refString + ' to: ' +
+                        references[refName]);
+        input = input.replace(refString, () => { return references[refName] });
+    } while (refStart !== -1 && refEnd !== -1);
+
+    return input;
+}
+
+/**
  * Resolve references recursively, checking all values of keys and values of sublevel keys.
  *
  * @param {JSON} input JSON object
@@ -70,20 +119,27 @@ function mergeObjects(input) {
  * @returns {boolean} true if all references were resolved, false otherwise
  */
 function resolveReferences(input, references) {
-    for (const key in input) {
+    for (let key in input) {
         if (key.includes('?ref')) {
             logger.warn('mergeConfigs: keys must not contain references');
             return false;
         }
 
-        const value = input[key];
+        let value = input[key];
         logger.debug('mergeConfigs: resolveReferences: key: ' + key);
 
         // if value is an array or an object, loop through it and resolve refs for each member
         if (value instanceof Array) {
             logger.debug('mergeConfigs: resolveReferences: looks like value is an array');
-            for (const member of value) {
-                if (!resolveReferences(member, references)) {
+            for (let i = 0; i < value.length; i++) {
+                // XX: explicitly check for single string members in arrays so those are resolved
+                // we should really have a better way to do this in the future (TODO)
+                if (typeof(value[i]) === 'string') {
+                    value[i] = resolveReferencesinString(value[i], references);
+                    if (value[i].includes('?ref')) {
+                        return false;
+                    }
+                } else if (!resolveReferences(value[i], references)) {
                     return false;
                 }
             }
@@ -107,27 +163,13 @@ function resolveReferences(input, references) {
         logger.debug('mergeConfigs: resolveReferences: found ?ref keyword in value: ' + value);
 
         // replace the ref
-        const refStart = value.indexOf('?ref{');
-        const refEnd = value.indexOf('}', refStart);
-        if (refStart === -1 || refEnd === -1) {
-            logger.warn('mergeConfigs: Failed to parse ref name from value: ' + value);
+        value = resolveReferencesinString(value, references);
+        if (value.includes('?ref')) {
+            logger.warn('mergeConfigs: Could not resolve all references in string: ' + input[key]);
             return false;
         }
 
-        // refStart needs to be offset by 5 (length of '?ref{')
-        const refName = value.substring(refStart+5, refEnd);
-        logger.debug('mergeConfigs: resolveReferences: ref name: ' + refName);
-
-        if (!(refName in references)) {
-            logger.warn('mergeConfigs: Failed to resolve ref: ' + refName);
-            return false;
-        }
-
-        // perform the actual string replacement
-        const refString = value.substring(refStart, refEnd+1);
-        logger.debug('mergeConfigs: resolveReferences: resolving: ' + refString + ' to: ' +
-                        references[refName]);
-        input[key] = value.replace(refString, () => { return references[refName] });
+        input[key] = value;
     }
 
     return true;
