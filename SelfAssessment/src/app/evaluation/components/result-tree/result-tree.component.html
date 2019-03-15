@@ -46,7 +46,10 @@
       <mat-icon mat-list-icon class="red-icon">close</mat-icon>
       <h4 mat-line>
           <app-formatted-text-area [rawText]="test | option: i: false"></app-formatted-text-area>
-        <mat-icon class="icon-right">exposure_zero</mat-icon>
+          <span [ngSwitch]="test.singleTest.category">
+            <span *ngSwitchCase="'multiple-choice'"><mat-icon class="icon-right">exposure_neg_1</mat-icon></span>
+            <span *ngSwitchDefault><mat-icon class="icon-right">exposure_zero</mat-icon></span>
+          </span>
       </h4>
 
     </mat-list-item>
