@@ -22,11 +22,18 @@ export class ResultPipe implements PipeTransform {
       let total = 0;
       let totalMax = 0;
       sets.forEach((set: ResultSet) => {
+        let subTotal = 0;
         set.tests.forEach(elem => {
-          total += elem.score;
+          subTotal += elem.score;
           totalMax += elem.maxScore;
         });
+        if (subTotal < 0) {
+          subTotal = 0;
+        }
+        total += subTotal;
       });
+
+
       return [total, totalMax];
 
     } else {
@@ -36,6 +43,9 @@ export class ResultPipe implements PipeTransform {
         sum += elem.maxScore;
         value += elem.score;
       });
+      if (value < 0) {
+        value = 0;
+      }
       return [value, sum];
     }
 
