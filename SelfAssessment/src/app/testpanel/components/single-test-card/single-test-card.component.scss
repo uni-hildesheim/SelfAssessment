@@ -5,6 +5,19 @@ mat-radio-button, mat-checkbox {
 mat-card {
     padding:40px;
     min-height: 200px;
+
+}
+
+mat-card-footer {
+  height: 10px;
+
+  span{
+    font-size: 10px;
+    color:lightgrey;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
 }
 
 // .text-element {
