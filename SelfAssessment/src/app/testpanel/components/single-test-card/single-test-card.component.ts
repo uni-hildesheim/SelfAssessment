@@ -115,12 +115,10 @@ export class SingleTestCardComponent implements OnChanges {
     this.timeWarning = false;
 
     if (this.singleTest.seconds &&
-      (!this.checkModel(this.journalLogService.getModelByID(this.singleTest.id)))) {
+      (this.checkModel(this.journalLogService.getModelByID(this.singleTest.id)))) {
         this.fillModel(false,
         this.journalLogService
         .getModelByID(this.singleTest.id));
-        console.log('FILLING MODEL TO BE: ');
-        console.log(this.journalLogService.getModelByID(this.singleTest.id));
     }
 
     this.injectComponent();
