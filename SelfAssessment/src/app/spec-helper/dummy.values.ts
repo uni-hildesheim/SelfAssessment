@@ -1,6 +1,5 @@
 import { Journal } from 'src/app/shared/models/state/journal.model';
 import { ConfigFile } from './../shared/models/configuration/config.file.model';
-import { SpeedComponent } from './../testpanel/components/single-test-card/categories/speed/speed.component';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
 import { JournalStructure } from './../shared/models/state/journal.structure.model';
 import { MultipleOptions } from 'src/app/shared/models/procedure/categories/multiple.options.test';
@@ -8,7 +7,7 @@ import { MultipleChoice } from './../shared/models/procedure/categories/multiple
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 import { RadioButtons } from 'src/app/shared/models/procedure/categories/radio.buttons.test';
 import { Category } from '../shared/models/procedure/enums/category.enum';
-import { Speed } from '../shared/models/procedure/categories/speed.test';
+import { Match } from '../shared/models/procedure/categories/match.test';
 import { TestSet } from '../shared/models/procedure/testset.model';
 import { ResultSet } from '../shared/models/evaluation/result.set';
 
@@ -75,17 +74,17 @@ dummyTestMultipleChoice.options = [
     }
   ];
 
-export const dummyTestSpeed = new Speed();
+export const dummyMatchTest = new Match();
 
-dummyTestSpeed.description = 'dummy speed test';
-dummyTestSpeed.category = Category.SPEED;
-dummyTestSpeed.elementType = SetElementType.TEST;
-dummyTestSpeed.seconds = 10;
-dummyTestSpeed.evaluated = true;
-dummyTestSpeed.task = 'dummy speed task';
-dummyTestSpeed.id = '1004';
-dummyTestSpeed.type = 'dummyType';
-dummyTestSpeed.options = [
+dummyMatchTest.description = 'dummy speed test';
+dummyMatchTest.category = Category.MATCH;
+dummyMatchTest.elementType = SetElementType.TEST;
+dummyMatchTest.seconds = 10;
+dummyMatchTest.evaluated = true;
+dummyMatchTest.task = 'dummy speed task';
+dummyMatchTest.id = '1004';
+dummyMatchTest.type = 'dummyType';
+dummyMatchTest.options = [
     {
       text: 'dummy first option',
       correct: 'um'
@@ -108,7 +107,7 @@ dummyFirstSet.scoreDependentTexts =  [
 
 const dummySecondSet = new TestSet();
 dummySecondSet.id = '3002';
-dummySecondSet.elements = [dummyTestSpeed, dummyTestRadioButtons];
+dummySecondSet.elements = [dummyMatchTest, dummyTestRadioButtons];
 dummySecondSet.scoreIndepentText =  'score independent text of the second dummy set';
 dummySecondSet.scoreDependentTexts =  [
   [33, 'below average message'],
@@ -158,7 +157,7 @@ export const resultSetDummy: ResultSet[] = [
         maxScore: 2,
         correctOptions: [1],
         wrongOptions: [0],
-        singleTest: dummyTestSpeed,
+        singleTest: dummyMatchTest,
         log: firstSetLog.get('1004')
       }
     ]

@@ -1,7 +1,7 @@
 import { Test } from '../test.model';
 import { Category } from '../enums/category.enum';
 
-export class Speed extends Test {
-    category: Category =  Category.SPEED;
+export class Match extends Test {
+    category: Category =  Category.MATCH;
     seconds: number;
 }
