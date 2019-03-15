@@ -27,8 +27,8 @@ $desktop: 980px;
 // the bottom position must be provided
 @mixin bottom-row($bottom-pos, $color: black) {
   text-align: center;
-  padding:15px;
-  position: fixed;
+  padding:15px 0px 15px 0px;
+  position: absolute;
   width: 100%;
   margin-top:25px;
   bottom: $bottom-pos;
