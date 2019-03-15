@@ -29,7 +29,13 @@
     "lbl-pre-eval-message": "?ref{lbl-pre-eval-message}",
     "lbl-pre-eval-done": "?ref{lbl-pre-eval-done}",
     "lbl-pre-eval-course": "?ref{lbl-pre-eval-course}",
-    "btn-pre-eval": "?ref{btn-pre-eval}"
+    "btn-pre-eval": "?ref{btn-pre-eval}",
+    "lbl-single-tests": "?ref{lbl-single-tests}",
+    "lbl-your-evaluation": "?ref{lbl-your-evaluation}",
+    "lbl-score": "?ref{lbl-score}",
+    "lbl-set": "?ref{lbl-set}",
+    "lbl-not-answered-test": "?ref{lbl-not-answered-test}"
+
 
 
   }
