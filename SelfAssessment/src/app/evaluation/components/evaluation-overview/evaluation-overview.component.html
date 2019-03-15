@@ -71,7 +71,7 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <mat-card class="set-specific-card">
+                <mat-card class="set-specific-card" *ngIf="checkForScoreDependentTexts(i)">
                   <mat-card-content>
                     <p>{{ getScoreIndependentTexts(i) }}</p>
                     <p>
@@ -97,10 +97,6 @@
       </mat-card>
     </ng-container>
   </ng-template>
-
-
-
-  <!-- The Filter by Type CARD -->
 
 
 </div>

@@ -20,10 +20,10 @@ export class TestSet {
     /**
      * The score independent evaluation texts.
      */
-    scoreIndepentText: string;
+    scoreIndepentText?: string;
 
     /**
      * The score dependent evaluation texts.
      */
-    scoreDependentTexts: [number, string][];
+    scoreDependentTexts?: [number, string][];
 }

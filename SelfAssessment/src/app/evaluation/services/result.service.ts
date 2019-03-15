@@ -41,6 +41,7 @@ export class ResultService {
 
     const resultSets: ResultSet[] =
     structure.sets
+    .filter(set => set.elements.filter(e => e.elementType.valueOf() === SetElementType.TEST.valueOf() && (<Test>e).evaluated).length > 0)
     .map((set, i) => {
       const resultSet: ResultSet = {id: set.id, tests: []};
       resultSet.tests = set.elements

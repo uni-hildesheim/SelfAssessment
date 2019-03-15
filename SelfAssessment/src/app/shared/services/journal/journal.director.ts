@@ -204,8 +204,10 @@ export class JournalDirectorService {
       const set = new TestSet();
       set.id = rawSet.id;
       set.elements = [];
-      set.scoreIndepentText = rawSet['evaluationTexts']['scoreIndependent'];
-      set.scoreDependentTexts = rawSet['evaluationTexts']['scoreDependent'];
+      if (rawSet['evaluationTexts']) {
+        set.scoreIndepentText = rawSet['evaluationTexts']['scoreIndependent'];
+        set.scoreDependentTexts = rawSet['evaluationTexts']['scoreDependent'];
+      }
 
       // check if the set has an infopage
       if (allInfopages.has(set.id)) {
