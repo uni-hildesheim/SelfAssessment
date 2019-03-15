@@ -1,7 +1,5 @@
 <mat-card>
   <mat-card-content>
-    <h3>Card for Test: {{ singleTest.id }}</h3>
-
     <h3>
       <app-formatted-text-area [rawText]="singleTest.description">
       </app-formatted-text-area>
@@ -40,4 +38,10 @@
     </div>
 
   </mat-card-content>
+  <mat-card-footer>
+    <span>{{ singleTest.id }}</span>
+  </mat-card-footer>
 </mat-card>
+
+
+
