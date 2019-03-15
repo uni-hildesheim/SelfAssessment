@@ -2,9 +2,9 @@ import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
 import { RadioButtonsComponent } from './categories/radio-buttons/radio-buttons.component';
 import { MultipleOptionsComponent } from './categories/multiple-options/multiple-options.component';
 import { MultipleChoiceComponent } from './categories/multiple-choice/multiple-choice.component';
-import { SpeedComponent } from './categories/speed/speed.component';
 import { Type } from '@angular/core';
 import { CategoryComponent } from './categorie.component';
+import { MatchComponent } from './categories/match/match.component';
 
 /**
  * This class contains a method which returns a component type for a specific [Category]{@linkCategory},
@@ -25,8 +25,8 @@ export class ExistingCategories {
               return MultipleOptionsComponent;
           case Category.MULTIPLE_CHOICE:
               return MultipleChoiceComponent;
-          case Category.SPEED:
-              return SpeedComponent;
+          case Category.MATCH:
+              return MatchComponent;
       }
     }
 }

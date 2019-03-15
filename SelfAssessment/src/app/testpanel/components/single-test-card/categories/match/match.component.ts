@@ -1,20 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
-import { Speed } from 'src/app/shared/models/procedure/categories/speed.test';
+import { Match } from 'src/app/shared/models/procedure/categories/match.test';
 import { CategoryComponent } from '../../categorie.component';
 
 @Component({
-  selector: 'app-speed',
-  templateUrl: './speed.component.html',
-  styleUrls: ['./speed.component.scss']
+  selector: 'app-match',
+  templateUrl: './match.component.html',
+  styleUrls: ['./match.component.scss']
 })
-export class SpeedComponent implements CategoryComponent, OnInit {
+export class MatchComponent implements CategoryComponent, OnInit {
 
 
   /**
-   * The speed test instance.
+   * The match test instance.
    */
-  @Input() test: Speed;
+  @Input() test: Match;
 
   /**
    * Every option splited into its individual chars.

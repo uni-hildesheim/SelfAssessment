@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpeedComponent } from './speed.component';
+import { MatchComponent } from './match.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
-import { Speed } from 'src/app/shared/models/procedure/categories/speed.test';
+import { Match } from 'src/app/shared/models/procedure/categories/match.test';
 import { By } from '@angular/platform-browser';
 
 
@@ -21,15 +21,15 @@ class FakeCountdownComponent {
   @Output() finished: EventEmitter<any> = new EventEmitter<any>();
 }
 
-xdescribe('SpeedComponent', () => {
-  let component: SpeedComponent;
-  let fixture: ComponentFixture<SpeedComponent>;
+xdescribe('MatchComponent', () => {
+  let component: MatchComponent;
+  let fixture: ComponentFixture<MatchComponent>;
   let journalLogService: JournalLogService;
 
 
-  const dummyTestSpeed: Speed = {
+  const dummyTestMatch: Match = {
     description: 'dummy speed test',
-    category: Category.SPEED,
+    category: Category.MATCH,
     elementType: SetElementType.TEST,
     seconds: 10,
     evaluated: true,
@@ -53,7 +53,7 @@ xdescribe('SpeedComponent', () => {
     const journalLogStub = { refreshJournalLog() {} };
 
     TestBed.configureTestingModule({
-      declarations: [ SpeedComponent, FakeCountdownComponent],
+      declarations: [ MatchComponent, FakeCountdownComponent],
       providers: [GlobalIndicator,
         { provide: JournalLogService, useValue: journalLogStub }
       ],
@@ -63,9 +63,9 @@ xdescribe('SpeedComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpeedComponent);
+    fixture = TestBed.createComponent(MatchComponent);
     component = fixture.componentInstance;
-    component.test = dummyTestSpeed;
+    component.test = dummyTestMatch;
     component.models = [false, false];
     journalLogService = TestBed.get(JournalLogService);
     fixture.detectChanges();

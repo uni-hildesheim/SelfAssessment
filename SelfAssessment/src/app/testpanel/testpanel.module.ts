@@ -10,13 +10,13 @@ import { SharedModule } from '../shared/shared.module';
 import { RadioButtonsComponent } from './components/single-test-card/categories/radio-buttons/radio-buttons.component';
 import { MultipleOptionsComponent } from './components/single-test-card/categories/multiple-options/multiple-options.component';
 import { MultipleChoiceComponent } from './components/single-test-card/categories/multiple-choice/multiple-choice.component';
-import { SpeedComponent } from './components/single-test-card/categories/speed/speed.component';
 import { TestDirective } from './components/single-test-card/test.directive';
+import { MatchComponent } from './components/single-test-card/categories/match/match.component';
 
 @NgModule({
-  entryComponents: [ SpeedComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent ],
+  entryComponents: [ MatchComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent ],
   declarations: [MainPanelComponent, SingleTestCardComponent, InfopageComponent,
-    SpeedComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent, TestDirective],
+    MatchComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent, TestDirective],
   imports: [
     CommonModule,
     MaterialModule,

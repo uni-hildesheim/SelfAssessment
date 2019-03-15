@@ -37,7 +37,7 @@ export class JournalLogService {
    * The model is returned by this method is a pivotal element
    * in sustaining the state across the application. It returns
    * the model for the test specific element e.g the checkbox,
-   * the radio-buttons or the strings for the speed test.
+   * the radio-buttons or the strings for the match test.
    *
    * @param id The id of the single test.
    * @returns The test specific model.
