@@ -11,7 +11,7 @@
   <div *ngIf="checkDismissed(test); else displayResult">
 
     <h3>
-      You did not answer this test. 
+      {{ "lbl-not-answered-test" | language }}
       <mat-icon color="primary" class="icon-right">warning</mat-icon>
 
     </h3>

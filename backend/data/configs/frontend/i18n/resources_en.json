@@ -23,7 +23,13 @@
     "lbl-pre-eval-message": "<p>In the study different requirements are placed on you. The tasks you are working on include the requirements of lecturers and students for successful studies in the fields of electrical engineering, computer science and computer engineering.</p><p> Your results are classified into an upper, middle and lower range. Even if you have only covered part of your knowledge and skills, you can give this feedback on your strengths and development potential. You can check the feedback later when logging in with your pin.</p>",
     "lbl-pre-eval-done": "Done! Your feedback for your SelfAssessment",
     "lbl-pre-eval-course": "Course:",
-    "btn-pre-eval": "Show my Evaluation"
+    "btn-pre-eval": "Show my Evaluation",
+    "lbl-single-tests": "Single Tests",
+    "lbl-your-evaluation": "Your Evaluation",
+    "lbl-score": "Score",
+    "lbl-set": "Set",
+    "lbl-not-answered-test": "You did not answer this test."
+
 
   }
 }
