@@ -105,6 +105,11 @@ export class EvaluationOverviewComponent implements OnInit {
     return this.journalStructure.sets[index].scoreIndepentText;
   }
 
+  public checkForScoreDependentTexts(index: number): boolean {
+    return this.journalStructure.sets[index].scoreDependentTexts !== undefined &&
+      this.journalStructure.sets[index].scoreIndepentText !== undefined;
+  }
+
   /**
    * Retrieves all the types in every test of every set.
    *
