@@ -14,6 +14,8 @@
     "lbl-pin-request": "?ref{lbl-pin-request}",
     "lbl-not-valid-pin": "?ref{lbl-not-valid-pin}",
     "lbl-selfassement-intro": "?ref{lbl-selfassement-intro}",
+    "lbl-important-information": "?ref{lbl-important-information}",
+    "lbl-read-carefully": "?ref{lbl-read-carefully}",
     "lbl-tip": "?ref{lbl-tip}",
     "list-tips-1": "?ref{list-tips-1}",
     "list-tips-2": "?ref{list-tips-2}",
@@ -34,9 +36,8 @@
     "lbl-your-evaluation": "?ref{lbl-your-evaluation}",
     "lbl-score": "?ref{lbl-score}",
     "lbl-set": "?ref{lbl-set}",
-    "lbl-not-answered-test": "?ref{lbl-not-answered-test}"
-
-
-
+    "lbl-not-answered-test": "?ref{lbl-not-answered-test}",
+    "lbl-validation-title": "?ref{lbl-validation-title}",
+    "lbl-validation-subtitle": "?ref{lbl-validation-subtitle}"
   }
 }

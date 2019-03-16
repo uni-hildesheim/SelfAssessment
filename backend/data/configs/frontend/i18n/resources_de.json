@@ -6,7 +6,7 @@
       "lbl-pin-input": "Wenn Du bereits einen PIN erhalten hast, kannst Du dich hier damit anmelden:",
       "btn-pin-input": "PIN Eingabe",
       "lbl-pin-request": "Bitte PIN eingeben.",
-      "lbl-not-valid-pin": "Kein gültiger PIN.",
+      "lbl-not-valid-pin": "Kein gültiger PIN. (8 Zahlen)",
       "lbl-selfassement-intro": "Nach dem Du das SelfAssessment gestartet hast, erhältst Du einen PIN. Mit dieser kannst Du Dein SelfAssessment - wenn gewünscht - zu einem späteren Zeitpunkt fortsetzen oder die Ergebnisse und Deine Bescheinigung abrufen. Notiere sie daher bitte für den möglichen späteren Gebrauch. Bitte beachte: Eine spätere Wiederherstellung des PINs ist nicht möglich.",
       "lbl-tip": "Bearbeitungshinweise",
       "list-tips-1": "Plane in etwa 60 Minuten für eine gewissenhafte Bearbeitung ein!",
@@ -28,6 +28,10 @@
       "lbl-your-evaluation": "Deine Bewertung",
       "lbl-score": "Punkte",
       "lbl-set": "Batterie",
-      "lbl-not-answered-test": "Dieser Test wurde nicht bearbeitet."
+      "lbl-not-answered-test": "Dieser Test wurde nicht bearbeitet.",
+      "lbl-important-information": "Wichtige Informationen",
+      "lbl-read-carefully": "Bitte aufmerksam durchlesen.",
+      "lbl-validation-title": "Hiermit ist das SelfAssessment abgeschlossen",
+      "lbl-validation-subtitle": "Glückwunsch"
     }
   }

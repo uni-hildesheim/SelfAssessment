@@ -6,7 +6,7 @@
     "lbl-pin-input": "If you already received a PIN, you can continue your test procedure:",
     "btn-pin-input": "PIN Input",
     "lbl-pin-request": "Please enter PIN.",
-    "lbl-not-valid-pin": "Not a valid pin.",
+    "lbl-not-valid-pin": "Not a valid pin. (8 digits)",
     "lbl-selfassement-intro": "After you started the Assessment you get a pin. With this pin you are able to stop the Assessment and proceed at a different time as well as revisiting the final evaluation. So please keep the pin. The pin cannot be restored should you lose it.",
     "lbl-tip": "Working Instructions ",
     "list-tips-1": "The test should take about 60 minutes!",
@@ -28,7 +28,11 @@
     "lbl-your-evaluation": "Your Evaluation",
     "lbl-score": "Score",
     "lbl-set": "Set",
-    "lbl-not-answered-test": "You did not answer this test."
+    "lbl-not-answered-test": "You did not answer this test.",
+    "lbl-important-information": "Important Information",
+    "lbl-read-carefully": "Please read carefully",
+    "lbl-validation-title": "The SelfAssessment is now complete",
+    "lbl-validation-subtitle": "Congratulations"
 
 
   }
