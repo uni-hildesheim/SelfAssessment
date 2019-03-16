@@ -1,60 +1,74 @@
-<mat-expansion-panel *ngFor="let test of tests;" class="test-result-panel">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Test: {{test.id}}
-    </mat-panel-title>
-    <mat-panel-description>
-      {{test.score}} / {{test.maxScore}}
-    </mat-panel-description>
-  </mat-expansion-panel-header>
+<mat-expansion-panel
+    *ngFor="let test of tests;"
+    class="test-result-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>Test: {{test.id}}</mat-panel-title>
+        <mat-panel-description>{{test.score}} / {{test.maxScore}}</mat-panel-description>
+    </mat-expansion-panel-header>
 
-  <div *ngIf="checkDismissed(test); else displayResult">
+    <!-- WARNING FOR NOT ANSWERED TEST -->
+    <div *ngIf="checkDismissed(test); else displayResult">
+        <h3>
+            {{ "lbl-not-answered-test" | language }}
+            <mat-icon
+                color="primary"
+                class="icon-right">
+                warning
+            </mat-icon>
+        </h3>
+    </div>
 
-    <h3>
-      {{ "lbl-not-answered-test" | language }}
-      <mat-icon color="primary" class="icon-right">warning</mat-icon>
+    <ng-template #displayResult>
 
-    </h3>
+        <h3>
+            <app-formatted-text-area [rawText]="test.singleTest.description">
+            </app-formatted-text-area>
+        </h3>
 
-  </div>
-  <ng-template #displayResult>
+        <h3>
+            <app-formatted-text-area [rawText]="test.singleTest.task">
+            </app-formatted-text-area>
+        </h3>
 
-    <h3>
-      <app-formatted-text-area [rawText]="test.singleTest.description"></app-formatted-text-area>
-    </h3>
+        <!-- CORRECT OPTION -->
+        <mat-list>
+            <mat-list-item *ngFor="let i of test.correctOptions">
+                <mat-icon
+                    mat-list-icon
+                    class="green-icon">
+                    check
+                </mat-icon>
+                <h4 mat-line>
+                    <app-formatted-text-area [rawText]="test | option: i: true">
+                    </app-formatted-text-area>
+                    <mat-icon class="icon-right">exposure_plus_1</mat-icon>
+                </h4>
+            </mat-list-item>
+        </mat-list>
 
-    <h3>
-      <app-formatted-text-area [rawText]="test.singleTest.task"></app-formatted-text-area>
-    </h3>
+        <!-- WRONG OPTION -->
+        <mat-list>
+            <mat-list-item *ngFor="let i of test.wrongOptions">
+                <mat-icon
+                    mat-list-icon
+                    class="red-icon">
+                    close
+                </mat-icon>
+                <h4 mat-line>
+                    <app-formatted-text-area [rawText]="test | option: i: false">
+                    </app-formatted-text-area>
+                    <span [ngSwitch]="test.singleTest.category">
+                        <span *ngSwitchCase="'multiple-choice'">
+                            <mat-icon class="icon-right">exposure_neg_1</mat-icon>
+                        </span>
+                        <span *ngSwitchDefault>
+                            <mat-icon class="icon-right">exposure_zero</mat-icon>
+                        </span>
+                    </span>
+                </h4>
 
-
-
-  <!-- CORRECT OPTION -->
-  <mat-list>
-    <mat-list-item *ngFor="let i of test.correctOptions">
-      <mat-icon mat-list-icon class="green-icon">check</mat-icon>
-      <h4 mat-line>
-          <app-formatted-text-area [rawText]="test | option: i: true"></app-formatted-text-area>
-        <mat-icon class="icon-right">exposure_plus_1</mat-icon>
-      </h4>
-    </mat-list-item>
-  </mat-list>
-
-  <!-- WRONG OPTION -->
-  <mat-list>
-    <mat-list-item *ngFor="let i of test.wrongOptions">
-      <mat-icon mat-list-icon class="red-icon">close</mat-icon>
-      <h4 mat-line>
-          <app-formatted-text-area [rawText]="test | option: i: false"></app-formatted-text-area>
-          <span [ngSwitch]="test.singleTest.category">
-            <span *ngSwitchCase="'multiple-choice'"><mat-icon class="icon-right">exposure_neg_1</mat-icon></span>
-            <span *ngSwitchDefault><mat-icon class="icon-right">exposure_zero</mat-icon></span>
-          </span>
-      </h4>
-
-    </mat-list-item>
-  </mat-list>
-</ng-template>
-
+            </mat-list-item>
+        </mat-list>
+    </ng-template>
 
 </mat-expansion-panel>
