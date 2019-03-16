@@ -12,13 +12,18 @@
         "file":  "config.md",
         "children": [
             {
-                "title": "Adding Definition File",
-                "file": "config-doc/definition.md"
+              "title": "Language support",
+              "file": "config-doc/language-support.md"
             },
             {
-                "title": "Adding Category",
-                "file": "config-doc/category.md"
+                "title": "Adding Course",
+                "file": "config-doc/definition.md"
             }
         ]
+
+    },
+    {
+      "title": "Introducing new Category",
+      "file": "config-doc/category.md"
     }
 ]

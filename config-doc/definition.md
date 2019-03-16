@@ -1,10 +1,8 @@
+# Adding Course
+
 The following text describes the process of creating a new test definition file for the self-assessment system. 
 
-**Important**: Read the translation manual before continuing
-
-***
-
-
+**Important**: Read the Language support section first.
 
 ## Step 1: General information
 
@@ -38,20 +36,39 @@ Every test has the following attributes.
 * **description**: The test description
 * **task**: The task of the test
 * **options**: The different answers from which a user can choose
+  * text: The content of the option
+  * correct: Whether this option is correct (boolean for most categories)
 * **evaluated**: Boolean to indicate if the test should be evaluated
+* **seconds:** If provided the test becomes a speed with the seconds attribute as the time limit
 * **category**:
 
   1. **radio-buttons:** A user can choose one of the following answers
-
   2. **multiple-choice:** A user can choose multiple answers
-
   3. **multiple-options:** Every possible answer has a number of header values
+  4. **match:** The user has to pick a substring from a text
 
-  4. **speed:** The user has to pick a substring from a text with a time limit
+> multiple-options: There needs to be another attribute: **header** for the different header values.
 
-For category 3 there needs to be another attribute: **header** for the different header values and for category 4 an attribute: **speed** for the time limit
+#### The option attribute:
 
-> The `option`  attribute has two different attributes. `text` and `correct`. For every category except the multiple-options category the correct `attribute` is a boolean. The multiple-options value is a number which indicates the correct header for the specific option.
+|         | radio-buttons | multiple-choice | multiple-options                                             | match                                                  |
+| ------- | ------------- | --------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
+| text    | The option    | The option      | The option, which is going to be paired with the respective header values | The text from which the user has to choose a substring |
+| correct | boolean       | boolean         | Index of the correct header                                  | The specific substring                                 |
+| index   | ___           | ___             | ___                                                          | Index at which the correct substring occurs            |
+
+**NOTE:** Since the matching of the text from a match-test is language sensitive it is important to reference the index as well as the substring.
+
+Example-Option for the match test:
+
+```json
+"options": [
+    {
+        "text": "?ref{1005-3}",
+        "correct": "?ref{1005-3-1}",
+        "index": "?ref{1005-3-2}"
+    }
+```
 
 Example for a radio-buttons test:
 
@@ -99,7 +116,7 @@ Example for multiple-options test:
   }
   ```
 
- Add these tests to the `tests` array in the config file (the order is irrelevant)
+ Add these tests to the `tests` array in the config file, the order is irrelevant (only here).
 
 ```json
 {
@@ -221,7 +238,7 @@ To show images inside the texts you need to add an HTML tag at the specific plac
 
 ### **LaTeX** Equations:
 
-The application supports latex equations which can be added to the different texts, options, infopages etc. Just like the images the equations should not depend on a specific language which is why they also should be added not to the language file but to the configuration file. To a latex equation within a text you need to wrap it inside two $$ signs, like that:
+The application supports latex equations which can be added to the different texts, options, infopages etc. Just like the images the equations should not depend on a specific language which is why they also should be added not to the language file but to the configuration file. To a latex equation within a text you need to wrap it inside two `$$` signs, like that:
 
 ```json
   {
