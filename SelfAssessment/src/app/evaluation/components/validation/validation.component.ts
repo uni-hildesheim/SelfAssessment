@@ -1,3 +1,4 @@
+import { tap } from 'rxjs/operators';
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
 import { Observable } from 'rxjs';
 import { CodeService } from '../../../shared/services/code.service';
@@ -13,6 +14,7 @@ import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 export class ValidationComponent implements OnInit {
 
   validation: Observable<string>;
+  validationLoading = false;
 
   constructor(
     private pinService: CodeService,
@@ -23,7 +25,14 @@ export class ValidationComponent implements OnInit {
   ngOnInit() { }
 
   createValidationCode() {
-    this.validation = this.pinService.createNewValidationCode(this.storageService.retrieveFromStorage(StorageItem.PIN));
+    this.validationLoading = true;
+    this.validation = this.pinService
+    .createNewValidationCode(this.storageService.retrieveFromStorage(StorageItem.PIN))
+    .pipe(
+      tap(() => {
+        this.validationLoading = false;
+      })
+    );
   }
 
   backToEval() {

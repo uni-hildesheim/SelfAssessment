@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PipeTransform, Pipe } from '@angular/core';
 
 describe('ValidationComponent', () => {
   let component: ValidationComponent;
@@ -19,10 +20,19 @@ describe('ValidationComponent', () => {
   const dummyValidationCode = 'ABC';
   const dummyPin = 12345678;
 
+  const strings = {};
+
+  @Pipe({ name: 'language' })
+  class MockLangPipe implements PipeTransform {
+    transform(value: string): string {
+      return strings[value];
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MaterialModule, RouterTestingModule, HttpClientTestingModule],
-      declarations: [ ValidationComponent ],
+      declarations: [ValidationComponent, MockLangPipe ],
       providers: [LocalStorageService, CodeService]
     })
     .compileComponents();
