@@ -22,7 +22,7 @@ export class Infopage implements SetElement {
      * IDs of the tests/testgroups/sets before which
      * the helptext should be displayed.
      */
-    belongs: number[];
+    belongs: any[];
 
 
 }
