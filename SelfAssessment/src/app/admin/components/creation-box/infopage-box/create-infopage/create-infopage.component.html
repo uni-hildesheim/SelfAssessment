@@ -1,0 +1,37 @@
+<app-switch-mode
+    (buildOut)="changeMode($event)"
+    (endOut)="end($event)"></app-switch-mode>
+
+<mat-tab-group (selectedIndexChange)="tabLangChanged($event)">
+
+    <mat-tab
+        *ngFor="let lang of languages"
+        [label]="lang.language">
+
+        <!-- CREATION -->
+        <div *ngIf="build">
+            <mat-form-field style="width: 100%">
+                <textarea
+                    placeholder="text"
+                    matInput
+                    [(ngModel)]="currentText.text"></textarea>
+            </mat-form-field>
+
+            <app-element-picker
+                [title]="'Elements'"
+                [tests]="true"
+                [testgroups]="true"
+                [sets]="true"
+                [elementsInParent]="infopage.belongs"></app-element-picker>
+        </div>
+
+        <!-- INFOPAGE CARD -->
+        <div
+            *ngIf="!build"
+            class="test-card">
+            <app-infopage [infopage]="getCurrentLangInfopage()"></app-infopage>
+        </div>
+
+    </mat-tab>
+
+</mat-tab-group>

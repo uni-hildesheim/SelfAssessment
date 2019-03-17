@@ -1,0 +1,14 @@
+mat-card {
+  height:100%;
+  mat-card-content {
+    max-height:400px;
+    overflow: auto;
+    padding:0px;
+  }
+}
+
+.add-button {
+  position: absolute;
+  right:15px;
+  top:10px;
+}

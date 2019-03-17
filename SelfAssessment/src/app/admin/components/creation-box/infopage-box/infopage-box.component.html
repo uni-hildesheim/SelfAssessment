@@ -1,0 +1,26 @@
+<mat-card class="basic-info-card">
+
+    <mat-card-header class="header-info-card">
+        <mat-card-title>Infopage</mat-card-title>
+        <button mat-icon-button class="add-button" (click)="addInfopage()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+    </mat-card-header>
+<mat-card-content>
+  <mat-list>
+    <mat-list-item *ngFor="let infopage of infopages">
+      <h4 mat-line>{{infopage.id}}</h4>
+      <mat-icon mat-list-icon>help</mat-icon>
+      <button mat-icon-button color="primary" (click)="buildInfopage(infopage)">
+        <mat-icon>build</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="deleteInfopage(infopage.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</mat-card-content>
+
+
+</mat-card>

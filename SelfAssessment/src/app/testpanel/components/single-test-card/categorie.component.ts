@@ -18,6 +18,8 @@ export interface CategoryComponent {
      */
     models: any[];
 
+    admin?: boolean;
+
     /**
      *
      * Every category component implements this method to handle changes to the model array.

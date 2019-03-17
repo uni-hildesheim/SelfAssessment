@@ -16,6 +16,9 @@ export class MatchComponent implements CategoryComponent, OnInit {
    */
   @Input() test: Match;
 
+  @Input() admin?: boolean;
+
+
   /**
    * Every option splited into its individual chars.
    */
@@ -29,7 +32,7 @@ export class MatchComponent implements CategoryComponent, OnInit {
   /**
    * Contains the strings of the options which the user choose.
    */
-  public models: (boolean | [number, number]) [];
+  @Input() models: (boolean | [number, number]) [];
 
   public chipModels = [];
 

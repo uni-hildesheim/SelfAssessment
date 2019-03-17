@@ -1,4 +1,3 @@
-import { isArray } from 'util';
 import { Component, Input, OnChanges, ViewChild, ComponentFactory, ViewContainerRef } from '@angular/core';
 import { Test } from 'src/app/shared/models/procedure/test.model';
 import { ExistingCategories } from './categories';
@@ -22,6 +21,10 @@ export class SingleTestCardComponent implements OnChanges {
    * The test which this card displays.
    */
   @Input() singleTest: Test;
+
+  @Input() admin?: boolean;
+  @Input() models?: any[];
+
 
   /**
    * The reference to the anchor directive.
@@ -90,7 +93,7 @@ export class SingleTestCardComponent implements OnChanges {
     // otherwise wait for the user to click the start button to inject the component
     if (!this.singleTest.seconds ||
       (this.singleTest.seconds && this.disableComponent())) {
-        this.injectComponent();
+      this.injectComponent();
     }
   }
 
@@ -102,8 +105,13 @@ export class SingleTestCardComponent implements OnChanges {
     const componentRef = this.viewContainerRef.createComponent(this.componentFactory);
     const instance = (<CategoryComponent>componentRef.instance);
     instance.test = this.singleTest;
-    const model = this.journalLogService.getModelByID(this.singleTest.id);
-    instance.models = model;
+
+    if (!this.admin) {
+      instance.models = this.journalLogService.getModelByID(this.singleTest.id);
+    } else {
+      instance.models = this.models;
+      instance.admin = true;
+    }
   }
 
   /**
@@ -116,12 +124,13 @@ export class SingleTestCardComponent implements OnChanges {
 
     if (this.singleTest.seconds &&
       (this.checkModel(this.journalLogService.getModelByID(this.singleTest.id)))) {
-        this.fillModel(false,
+      this.fillModel(false,
         this.journalLogService
-        .getModelByID(this.singleTest.id));
-    }
+          .getModelByID(this.singleTest.id));
 
-    this.injectComponent();
+
+      this.injectComponent();
+    }
   }
 
   /**

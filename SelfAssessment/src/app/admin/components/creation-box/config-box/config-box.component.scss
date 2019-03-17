@@ -1,0 +1,22 @@
+.config-card-wrapper {
+  display: flex;
+  padding:20px;
+  mat-form-field{
+    margin-right:10px;
+  }
+
+  .part-1, .part-2 {
+    width: 50%;
+  }
+
+  .part-2 {
+    border-left: 1px solid lightgrey;
+  }
+}
+
+mat-card {
+  height:100%;
+  mat-card-content {
+    max-height:200px !important;
+  }
+}

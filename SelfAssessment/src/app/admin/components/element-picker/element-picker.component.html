@@ -1,0 +1,21 @@
+<mat-list>
+  <mat-list-item>
+    <span style="width:100%;">{{title}}</span>
+    <button mat-icon-button color="primary" [matMenuTriggerFor]="menu">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+<button mat-menu-item (click)="addElement(element)" *ngFor="let element of getPossibleElements()">
+        {{ element.id }}
+      </button>
+    </mat-menu>
+  </mat-list-item>
+
+
+  <mat-list-item *ngFor="let element of elementsInParent">
+    <a mat-line>{{element.id}}</a>
+    <button mat-icon-button color="primary" (click)="removeElement(element)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-list>

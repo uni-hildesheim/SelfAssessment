@@ -19,10 +19,12 @@ export class MultipleChoiceComponent implements CategoryComponent {
    */
   @Input() test: MultipleChoice;
 
+  @Input() admin?: boolean;
+
   /**
    * The models array which contains an array of booleans of the checked answers.
    */
-  public models: boolean[];
+  @Input() models: boolean[];
 
   constructor(
     private journalLogService: JournalLogService
@@ -32,6 +34,11 @@ export class MultipleChoiceComponent implements CategoryComponent {
    * Adjusts the model if a checkbox has been checked and refresh the journal log.
    */
   public handleModelChange(checked: boolean, i: number): void {
+
+    if (this.admin) {
+      return;
+    }
+
     this.models[i] = checked;
     this.journalLogService.refreshJournalLog();
   }

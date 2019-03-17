@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
 import {
   MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule,
   MatIconModule, MatButtonModule, MatProgressBarModule, MatGridListModule,
   MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
   MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule, MatExpansionModule,
-  MatBottomSheetModule, MatTreeModule, MatBadgeModule, MatTooltipModule,
+  MatBottomSheetModule, MatTreeModule, MatBadgeModule, MatTooltipModule, MatTabsModule, MatSlideToggle, MatSlideToggleModule, MatMenuModule,
 } from '@angular/material';
 @NgModule({
   declarations: [],
@@ -33,7 +35,12 @@ import {
     MatSelectModule,
     MatBottomSheetModule,
     MatExpansionModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatTabsModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    DragDropModule
+
   ]
 })
 export class MaterialModule { }

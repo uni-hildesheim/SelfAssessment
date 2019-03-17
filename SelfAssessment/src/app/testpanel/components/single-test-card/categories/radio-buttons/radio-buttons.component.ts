@@ -20,10 +20,12 @@ export class RadioButtonsComponent implements CategoryComponent, OnInit {
    */
   @Input() test: RadioButtons;
 
+  @Input() admin?: boolean;
+
   /**
    * The models array which contains an array of booleans of the checked answers.
    */
-  public models: boolean[];
+  @Input() models: boolean[];
 
   constructor(
     private journalLogService: JournalLogService
@@ -35,6 +37,10 @@ export class RadioButtonsComponent implements CategoryComponent, OnInit {
    * Adjusts the model if a radio button has been checked.
    */
   public handleModelChange(checked: boolean, i: number): void {
+
+    if (this.admin) {
+      return;
+    }
 
     // Set all radio buttons to false to prevent mulitple answers in the model.
     this.models.fill(false);

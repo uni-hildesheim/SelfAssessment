@@ -1,0 +1,52 @@
+<mat-card class="basic-info-card">
+
+    <mat-card-header class="header-info-card">
+        <mat-card-title>Testgroups</mat-card-title>
+        <button
+            mat-icon-button
+            class="add-button"
+            (click)="addTestgroup()">
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </mat-card-header>
+
+    <mat-card-content>
+
+        <mat-list>
+            <div *ngFor="let group of testgroups">
+
+                <mat-list-item style="margin-top:15px;">
+                    <mat-form-field style="width: 50%">
+                        <input
+                            placeholder="ID"
+                            matInput
+                            [(ngModel)]="group.id">
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 50%">
+                        <input
+                            placeholder="select"
+                            matInput
+                            [(ngModel)]="group.select">
+                    </mat-form-field>
+                    <button
+                        mat-icon-button
+                        (click)="deleteTestgroup(group)">
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+
+                </mat-list-item>
+
+                <app-element-picker
+                    [title]="'Elements'"
+                    [tests]="true"
+                    [elementsInParent]="group.tests"></app-element-picker>
+
+                <div style="padding-bottom: 25px;"></div>
+
+            </div>
+        </mat-list>
+
+    </mat-card-content>
+
+</mat-card>

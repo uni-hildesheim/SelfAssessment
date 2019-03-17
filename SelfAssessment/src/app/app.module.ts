@@ -1,3 +1,4 @@
+import { AdminModule } from './admin/admin.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -21,7 +22,8 @@ export function resourceProviderFactory(provider: ResourceService) {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    AdminModule
   ],
   providers: [
     ResourceService,

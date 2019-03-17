@@ -19,11 +19,13 @@ export class MultipleOptionsComponent implements CategoryComponent,  OnInit {
    */
   @Input() test: MultipleOptions;
 
+  @Input() admin?: boolean;
+
   /**
    * The model for the multiple options test is a two dimensional array, since for every options
    * there are *n* possibilities with *n* beeing the number of [headers]{@link MultipleOptions#header}.
    */
-  public models: boolean[][];
+  @Input() models: boolean[][];
 
 
   constructor(
@@ -36,6 +38,10 @@ export class MultipleOptionsComponent implements CategoryComponent,  OnInit {
    * Adjusts the model if a radio button has been checked and refreshes the journal log.
    */
   public handleModelChange(checked: boolean, i: number, j: number): void {
+
+    if (this.admin) {
+      return;
+    }
 
     // Set all radio buttons for the specific header to false to prevent mulitple
     // answers in the model for the category multiple-options.

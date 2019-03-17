@@ -1,3 +1,8 @@
+import { InfopageBlock } from './../../../admin/models/infopage.block.model';
+import { CreateCategoryComponent } from './../../../admin/components/category/create-category/create-category.component';
+import { TestBlock } from './../../../admin/models/test.block.model';
+import { CreateInfopageComponent } from './../../../admin/components/creation-box/infopage-box/create-infopage/create-infopage.component';
+import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 import { PinDialogComponent } from '../../components/dialogs/pin-dialog/pin-dialog.component';
 import {
   CourseLanguageBottomSheetComponent
@@ -49,6 +54,28 @@ export class MaterialOverlayService {
       data: data
     });
   }
+
+  openBuildTestDialog(test: TestBlock): Observable<any> {
+
+    return this.dialog
+      .open(CreateCategoryComponent, {
+      minWidth: '400px',
+      disableClose: true,
+      data: test
+    })
+    .afterClosed();
+  }
+
+  openBuildInfopageDialog(page: InfopageBlock): Observable<any> {
+    return this.dialog
+    .open(CreateInfopageComponent, {
+      minWidth: '400px',
+      disableClose: true,
+      data: page
+    })
+    .afterClosed();
+  }
+
 
 
 

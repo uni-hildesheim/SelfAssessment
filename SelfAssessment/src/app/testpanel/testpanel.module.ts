@@ -26,7 +26,10 @@ import { MatchComponent } from './components/single-test-card/categories/match/m
     GlobalIndicator
   ],
   exports: [
-    MainPanelComponent
+    MainPanelComponent,
+    SingleTestCardComponent,
+    InfopageComponent,
+    MatchComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent
   ]
 })
 export class TestpanelModule { }

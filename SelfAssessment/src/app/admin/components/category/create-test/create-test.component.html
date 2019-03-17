@@ -1,0 +1,112 @@
+<div>
+    <div *ngIf="build">
+
+        <!-- BASIC INFORMATION -->
+        <div>
+            <mat-form-field style="width: 100%">
+                <input
+                    placeholder="ID"
+                    matInput
+                    [(ngModel)]="test.id">
+            </mat-form-field>
+            <mat-form-field style="width: 100%">
+                <input
+                    placeholder="type"
+                    matInput
+                    [(ngModel)]="langSpecific.type">
+            </mat-form-field>
+            <mat-form-field style="width: 100%">
+                <textarea
+                    placeholder="description"
+                    matInput
+                    [(ngModel)]="langSpecific.description"></textarea>
+            </mat-form-field>
+            <mat-form-field style="width: 100%">
+                <textarea
+                    placeholder="task"
+                    matInput
+                    [(ngModel)]="langSpecific.task"></textarea>
+            </mat-form-field>
+            <mat-slide-toggle
+                [labelPosition]="'before'"
+                [(ngModel)]="test.evaluated"
+                color="primary">
+                <h5>Evaluated</h5>
+            </mat-slide-toggle>
+        </div>
+
+        <!-- OPTION CREATION -->
+        <div class="option">
+            <div style="display: flex">
+                <h5>Options:</h5>
+                <button
+                    mat-icon-button
+                    color="primary"
+                    style="margin-right:10px;"
+                    (click)="addOption()">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+            <span *ngFor="let option of langSpecific.options; index as i; trackBy: customTrackBy">
+                <mat-form-field
+                    style="width: 100%"
+                    appearance="fill">
+                    <input
+                        placeholder="Option"
+                        matInput
+                        [(ngModel)]="langSpecific.options[i].text">
+                    <button
+                        mat-button
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="deleteOpt(option)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                <mat-slide-toggle
+                    [labelPosition]="'before'"
+                    [(ngModel)]="langSpecific.options[i].correct"
+                    color="primary">
+                    correct
+                </mat-slide-toggle>
+                <br>
+            </span>
+        </div>
+
+        <!-- HEADER CREATION: ONLY FOR MULTIPLE-OPTIONS -->
+        <div *ngIf="test.category == 'multiple-options'">
+            <div style="display: flex">
+                <h5>Header:</h5>
+                <button
+                    mat-icon-button
+                    color="primary"
+                    style="margin-right:10px;"
+                    (click)="addHeader()">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+            <span *ngFor="let head of langSpecific.header; index as i; trackBy: customTrackBy">
+                <mat-form-field
+                    style="width: 100%"
+                    appearance="fill">
+                    <input
+                        placeholder="Header"
+                        matInput
+                        [(ngModel)]="langSpecific.header[i]">
+                    <button
+                        mat-button
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="deleteHeader(head)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                <br>
+            </span>
+        </div>
+
+    </div>
+
+</div>

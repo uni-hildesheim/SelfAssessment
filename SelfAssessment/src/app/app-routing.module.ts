@@ -1,3 +1,4 @@
+import { WorkbenchComponent } from './admin/components/workbench/workbench.component';
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'testpanel', component: MainPanelComponent },
   { path: 'evaluation', component: EvaluationOverviewComponent},
   { path: 'validation', component: ValidationComponent},
+  { path: 'admin', component: WorkbenchComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', component: DashboardComponent }
 
