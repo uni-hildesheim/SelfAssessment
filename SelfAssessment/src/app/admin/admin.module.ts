@@ -15,10 +15,11 @@ import { ConfigBoxComponent } from './components/creation-box/config-box/config-
 import { SwitchModeComponent } from './components/category/switch-mode/switch-mode.component';
 import { CreateCategoryComponent } from './components/category/create-category/create-category.component';
 import { ElementPickerComponent } from './components/element-picker/element-picker.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   entryComponents: [CreateInfopageComponent, CreateCategoryComponent],
-  declarations: [WorkbenchComponent, CreateTestComponent,
+  declarations: [WorkbenchComponent, CreateTestComponent, UserComponent,
      TestBoxComponent, InfopageBoxComponent, CreateInfopageComponent, SetBoxComponent, TestgroupBoxComponent,
      ConfigBoxComponent, SwitchModeComponent, CreateCategoryComponent, ElementPickerComponent],
   imports: [

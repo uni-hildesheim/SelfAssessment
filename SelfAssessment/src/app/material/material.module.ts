@@ -9,6 +9,8 @@ import {
   MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
   MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule, MatExpansionModule,
   MatBottomSheetModule, MatTreeModule, MatBadgeModule, MatTooltipModule, MatTabsModule, MatSlideToggle, MatSlideToggleModule, MatMenuModule,
+  MatTableModule, MatPaginatorModule
+
 } from '@angular/material';
 @NgModule({
   declarations: [],
@@ -39,8 +41,9 @@ import {
     MatTabsModule,
     MatSlideToggleModule,
     MatMenuModule,
-    DragDropModule
-
+    DragDropModule,
+    MatTableModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }
