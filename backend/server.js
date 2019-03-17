@@ -16,6 +16,7 @@ const logger = require('./app/utils/logger');
 const router = require('./app/core');
 const overlord = require('./app/utils/overseer');
 const error = require('./app/shared/error');
+const CrashReporter = require('./app/utils/crashreporter');
 
 // static configuration
 let APP_LISTEN_PORT = 8000;
@@ -46,6 +47,12 @@ function loadEnvironment() {
     const GC_USER_DONE = process.env.GC_USER_DONE;
     const GC_USER_LAST_UPDATE = process.env.GC_USER_LAST_UPDATE;
     const OVERLORD_ENABLE = process.env.OVERLORD_ENABLE;
+    const CRASHREPORT_ENABLE = process.env.CRASHREPORT_ENABLE;
+    const CRASHREPORT_SMTP_HOST = process.env.CRASHREPORT_SMTP_HOST;
+    const CRASHREPORT_SMTP_PORT = process.env.CRASHREPORT_SMTP_PORT;
+    const CRASHREPORT_SMTP_USER = process.env.CRASHREPORT_SMTP_USER;
+    const CRASHREPORT_SMTP_PASS = process.env.CRASHREPORT_SMTP_PASS;
+    const CRASHREPORT_MAIL_RECIPIENT = process.env.CRASHREPORT_MAIL_RECIPIENT;
 
     if (DB_URI) {
         logger.info('env: DB_URI=' + DB_URI);
@@ -156,6 +163,24 @@ function loadEnvironment() {
     if (!OVERLORD_ENABLE) {
         overlord.options.enableWrapping = false;
     }
+
+    if (CRASHREPORT_ENABLE) {
+        if (!CRASHREPORT_SMTP_HOST || !CRASHREPORT_SMTP_PORT || !CRASHREPORT_SMTP_USER
+            || !CRASHREPORT_SMTP_PASS || !CRASHREPORT_MAIL_RECIPIENT) {
+            logger.warn('Missing parameters for crash report feature!\n'
+                        + 'Required: CRASHREPORT_SMTP_HOST, CRASHREPORT_SMTP_PORT,'
+                        + ' CRASHREPORT_SMTP_USER, CRASHREPORT_SMTP_PASS,'
+                        + ' CRASHREPORT_MAIL_RECIPIENT');
+        } else {
+            const transport = new CrashReporter.Transport.EmailTransport(CRASHREPORT_MAIL_RECIPIENT);
+            const auth = {
+                user: CRASHREPORT_SMTP_USER,
+                pass: CRASHREPORT_SMTP_PASS
+            }
+            transport.configure(CRASHREPORT_SMTP_HOST, CRASHREPORT_SMTP_PORT, auth);
+            CrashReporter.addTransport(transport);
+        }
+    }
 }
 
 function createApp() {
@@ -176,6 +201,8 @@ function createApp() {
             logger.error(err);
             res.status(500).json({ error: error.ServerError.E_UNKNOWN }).send();
         }
+
+        CrashReporter.sendReport(err, CrashReporter.ReportType.GENERIC);
     })
 
     return app;
@@ -514,11 +541,17 @@ async function main() {
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);
     try {
-        await db.connect(db.config.uri, db.config.options);
+        const connection = await db.connect(db.config.uri, db.config.options);
+        connection.on('error', function (err) {
+            CrashReporter.sendReport(err, CrashReporter.ReportType.DB);
+        });
     } catch (err) {
         logger.error('Failed to connect to MongoDB: ' + err);
         return;
     }
+
+    // TEST DEBUG
+    CrashReporter.sendReport('TESTING!!', CrashReporter.ReportType.GENERIC);
 
     // sync frontend resource configs
     loadFrontendResources('./data/configs/frontend');
