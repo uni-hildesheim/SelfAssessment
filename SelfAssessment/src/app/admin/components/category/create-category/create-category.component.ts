@@ -2,7 +2,7 @@ import { Test } from 'src/app/shared/models/procedure/test.model';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ConfigDataService } from 'src/app/admin/services/config-data.service';
 import { Language } from 'src/app/admin/models/language.model';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef } from '@angular/core';
 import { TestBlock } from 'src/app/admin/models/test.block.model';
 
 @Component({
@@ -31,9 +31,10 @@ export class CreateCategoryComponent implements OnInit {
     this.createFakeModel();
  }
 
-  tabLangChanged(index) {
-    this.currentLanguage = this.languages[index];
+  langChange(lang){
+    this.currentLanguage = lang;
   }
+
 
   changeMode(val) {
     this.build = val;
@@ -50,8 +51,8 @@ export class CreateCategoryComponent implements OnInit {
     return this.model = this.configData.createFakeModel(this.test, this.currentLanguage);
   }
 
-  getCurrentLangTest(lang: Language): Test {
-    return this.configData.getCurrentLangTest(lang, this.test);
+  getCurrentLangTest(): Test {
+    return this.configData.getCurrentLangTest(this.currentLanguage, this.test);
   }
 
 

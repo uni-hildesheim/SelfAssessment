@@ -37,6 +37,7 @@ export class RadioButtonsComponent implements CategoryComponent, OnInit {
    * Adjusts the model if a radio button has been checked.
    */
   public handleModelChange(checked: boolean, i: number): void {
+    console.log('HANDLE MODEL CHANGE');
 
     if (this.admin) {
       return;

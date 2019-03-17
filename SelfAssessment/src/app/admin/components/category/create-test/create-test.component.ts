@@ -13,17 +13,19 @@ import { MultipleOptions } from 'src/app/shared/models/procedure/categories/mult
   templateUrl: './create-test.component.html',
   styleUrls: ['./create-test.component.scss']
 })
-export class CreateTestComponent implements OnInit {
+export class CreateTestComponent implements OnInit, OnChanges {
 
   @Input() test: TestBlock;
   @Input() language: Language;
   langSpecific: LanguageSpecific;
 
-  @Input() build: boolean;
-
   constructor() { }
 
   ngOnInit() {
+    this.langSpecific = this.test.langSpecific.find(ls => ls.language.id === this.language.id);
+  }
+
+  ngOnChanges(){
     this.langSpecific = this.test.langSpecific.find(ls => ls.language.id === this.language.id);
   }
 

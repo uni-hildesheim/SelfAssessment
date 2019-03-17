@@ -13,6 +13,7 @@ import { Test } from 'src/app/shared/models/procedure/test.model';
 import { Injectable } from '@angular/core';
 import { BasicConfig } from '../models/basic.config.interface';
 import { TestBlock } from '../models/test.block.model';
+import { Match } from 'src/app/shared/models/procedure/categories/match.test';
 
 @Injectable({
   providedIn: 'root'
@@ -154,6 +155,18 @@ export class ConfigDataService {
       test.options = langSpec.options;
       test.type = langSpec.type;
       test.header = langSpec.header;
+      test.task = langSpec.task;
+      return test;
+    } else if(testBlock.category.valueOf() === Category.MATCH.valueOf()){
+      const test = new Match();
+      test.category = testBlock.category;
+      test.elementType = testBlock.elementType;
+      test.evaluated = testBlock.evaluated;
+      test.id = testBlock.id;
+      const langSpec: LanguageSpecific = testBlock.langSpecific.find(ls => ls.language === lang);
+      test.description = langSpec.description;
+      test.options = langSpec.options;
+      test.type = langSpec.type;
       test.task = langSpec.task;
       return test;
     }

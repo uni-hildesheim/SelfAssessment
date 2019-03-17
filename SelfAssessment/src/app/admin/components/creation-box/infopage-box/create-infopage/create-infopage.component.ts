@@ -3,7 +3,7 @@ import { Language } from './../../../../models/language.model';
 import { InfopageBlock } from './../../../../models/infopage.block.model';
 import { ConfigDataService } from 'src/app/admin/services/config-data.service';
 import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -11,7 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './create-infopage.component.html',
   styleUrls: ['./create-infopage.component.scss']
 })
-export class CreateInfopageComponent implements OnInit {
+export class CreateInfopageComponent implements OnInit, OnChanges {
 
   infopage: InfopageBlock;
   currentText: LanguageSpecificInfoText;
@@ -29,6 +29,11 @@ export class CreateInfopageComponent implements OnInit {
     this.infopage = this.data;
     this.languages = this.configData.config.languages;
     this.currentLanguage = this.languages[0];
+    this.currentText = this.infopage.text.find(o => o.language.id === this.currentLanguage.id);
+
+  }
+
+  ngOnChanges(){
     this.currentText = this.infopage.text.find(o => o.language.id === this.currentLanguage.id);
 
   }
@@ -54,11 +59,10 @@ export class CreateInfopageComponent implements OnInit {
     this.infopage.belongs = this.infopage.belongs.filter(e => e.id !== id);
   }
 
-
-  tabLangChanged(index) {
-    this.currentLanguage = this.languages[index];
-    this.currentText = this.infopage.text.find(o => o.language.id === this.currentLanguage.id);
+  langChange(val){
+    this.currentLanguage = val;
   }
+
 
   changeMode(val) {
     this.build = val;

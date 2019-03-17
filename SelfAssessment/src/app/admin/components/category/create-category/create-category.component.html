@@ -1,33 +1,26 @@
+
+<!-- CONTROL SETTINGS -->
 <app-switch-mode
     (buildOut)="changeMode($event)"
-    (endOut)="end($event)"></app-switch-mode>
+    (endOut)="end($event)"
+    (langChangeOut)="langChange($event)">
+</app-switch-mode>
 
-<mat-tab-group (selectedIndexChange)="tabLangChanged($event)">
+<!-- CREATION CARD -->
+<div *ngIf="build">
+    <app-create-test
+        [test]="test"
+        [language]="currentLanguage"
+        (endOut)="end($event)">
+    </app-create-test>
+</div>
 
-    <mat-tab
-        *ngFor="let lang of languages"
-        [label]="lang.language">
+<!-- TEST CARD -->
+<div *ngIf="!build">
+    <app-single-test-card
+        [singleTest]="getCurrentLangTest()"
+        [admin]="true"
+        [models]="model">
+    </app-single-test-card>
+</div>
 
-        <!-- CREATION CARD -->
-        <div>
-            <app-create-test
-                [test]="test"
-                [language]="lang"
-                [build]="build"
-                (buildOut)="changeMode($event)"
-                (endOut)="end($event)">
-            </app-create-test>
-        </div>
-
-        <!-- TEST CARD -->
-        <div *ngIf="!build" class="test-card">
-            <app-single-test-card
-                [singleTest]="getCurrentLangTest(lang)"
-                [admin]="true"
-                [models]="model">
-            </app-single-test-card>
-        </div>
-
-    </mat-tab>
-
-</mat-tab-group>

@@ -1,22 +1,41 @@
 <div style="display: flex; flex-direction: row-reverse;">
 
-  <!-- CHANGE MODE BUTTON -->
-  <button
-    mat-icon-button
-    mat-raised-button
-    class="edit-button"
-    color="primary"
-    style="margin-left:10px;"
-    (click)="changeMode()">
-    <mat-icon>create</mat-icon>
-  </button>
 
-  <!-- DONE BUTTON -->
-  <button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    (click)="endBuild()">
-    <mat-icon>done</mat-icon>
-  </button>
+    <!-- CHANGE MODE BUTTON -->
+    <button
+        mat-icon-button
+        mat-raised-button
+        class="edit-button"
+        color="primary"
+        style="margin-left:10px;"
+        (click)="changeMode()">
+        <mat-icon>create</mat-icon>
+    </button>
+
+
+    <!-- DONE BUTTON -->
+    <button
+        mat-icon-button
+        mat-raised-button
+        color="primary"
+        (click)="endBuild()">
+        <mat-icon>done</mat-icon>
+    </button>
+
+    <span class="fill-space"></span>
+
+    <!-- CHANGE LANGUAGE BOX -->
+    <mat-form-field>
+        <mat-select
+            placeholder="Language"
+            [value]="currentLanguage"
+            (selectionChange)="langChange($event.value)">
+            <mat-option
+                *ngFor="let lang of languages"
+                [value]="lang">
+                {{lang.language}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
 </div>
