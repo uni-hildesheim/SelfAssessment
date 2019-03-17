@@ -25,9 +25,7 @@ let CORS_OPTIONS = {
 }
 
 let LOG_OPTIONS = {
-    level: logger.Level.INFO,
-    limit: 0,
-    trace: false
+    limit: 0
 }
 
 let GC_OPTIONS = {
@@ -54,27 +52,12 @@ function loadEnvironment() {
     const CRASHREPORT_SMTP_PASS = process.env.CRASHREPORT_SMTP_PASS;
     const CRASHREPORT_MAIL_RECIPIENT = process.env.CRASHREPORT_MAIL_RECIPIENT;
 
-    if (DB_URI) {
-        logger.info('env: DB_URI=' + DB_URI);
-        db.config.uri = DB_URI;
-    }
-
-    if (DB_USER) {
-        logger.info('env: DB_USER=' + DB_USER);
-        db.config.options.user = DB_USER;
-    }
-
-    if (DB_PASS) {
-        logger.info('env: DB_PASS=' + DB_PASS);
-        db.config.options.pass = DB_PASS;
-    }
-
     if (LOG_LEVEL) {
         if (!(LOG_LEVEL in logger.Level)) {
-            logger.warn('Invalid log level specified: ' + LOG_LEVEL);
+            logger.all('Invalid log level specified: ' + LOG_LEVEL);
         } else {
+            logger.setLogLevel(LOG_LEVEL);
             logger.info('env: LOG_LEVEL=' + LOG_LEVEL);
-            LOG_OPTIONS.level = LOG_LEVEL;
         }
     }
 
@@ -89,7 +72,22 @@ function loadEnvironment() {
     }
 
     if (LOG_TRACE) {
-        LOG_OPTIONS.trace = true;
+        logger.enableTracing();
+    }
+
+    if (DB_URI) {
+        logger.info('env: DB_URI=' + DB_URI);
+        db.config.uri = DB_URI;
+    }
+
+    if (DB_USER) {
+        logger.info('env: DB_USER=' + DB_USER);
+        db.config.options.user = DB_USER;
+    }
+
+    if (DB_PASS) {
+        logger.info('env: DB_PASS=' + DB_PASS);
+        db.config.options.pass = DB_PASS;
     }
 
     if (APP_PORT) {
@@ -513,12 +511,6 @@ async function main() {
     // create the app
     const app = createApp();
 
-    // setup logger
-    logger.setLogLevel(LOG_OPTIONS.level);
-    if (LOG_OPTIONS.trace) {
-        logger.enableTracing();
-    }
-
     // log to a file
     const logFiles = fs.readdirSync('./data/logs/');
 
@@ -531,9 +523,8 @@ async function main() {
         logFileIndex++;
     }
 
+    // add file transport to global logger
     const logFilePath = './data/logs/' + logFileName + "_" + logFileIndex + logFilePostfix;
-
-
     const fileTransport = new logger.Transport.FileTransport(logFilePath);
     fileTransport.limit = LOG_OPTIONS.limit;
     logger.addTransport(fileTransport);
