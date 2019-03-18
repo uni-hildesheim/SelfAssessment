@@ -9,8 +9,7 @@
     "test-headless": "ng test --watch=false --browsers=ChromeHeadless",
     "coverage": "ng test --no-watch --code-coverage --browsers ChromeHeadless",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "doc": "compodoc -p src/tsconfig.app.json -s --customLogo src/assets/images/logo.png"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

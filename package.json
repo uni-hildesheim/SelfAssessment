@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "doc": "compodoc -p SelfAssessment/src/tsconfig.app.json --hideGenerator --includes ./ -n SelfAssessment",
+    "doc": "compodoc -p SelfAssessment/src/tsconfig.app.json",
     "doc serve": "compodoc -s"
   }
 }
