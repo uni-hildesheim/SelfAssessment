@@ -12,28 +12,20 @@ import { Match } from 'src/app/shared/models/procedure/categories/match.test';
 import { By } from '@angular/platform-browser';
 
 
-@Component({
-  selector: 'app-countdown',
-  template: ''
-})
-class FakeCountdownComponent {
-  @Input() seconds: number;
-  @Output() finished: EventEmitter<any> = new EventEmitter<any>();
-}
 
-xdescribe('MatchComponent', () => {
+describe('MatchComponent', () => {
   let component: MatchComponent;
   let fixture: ComponentFixture<MatchComponent>;
   let journalLogService: JournalLogService;
 
 
   const dummyTestMatch: Match = {
-    description: 'dummy speed test',
+    description: 'dummy match test',
     category: Category.MATCH,
     elementType: SetElementType.TEST,
     seconds: 10,
     evaluated: true,
-    task: 'dummy speed task',
+    task: 'dummy match task',
     id: '1004',
     type: 'dummyType',
     options: [
@@ -53,7 +45,7 @@ xdescribe('MatchComponent', () => {
     const journalLogStub = { refreshJournalLog() {} };
 
     TestBed.configureTestingModule({
-      declarations: [ MatchComponent, FakeCountdownComponent],
+      declarations: [ MatchComponent],
       providers: [GlobalIndicator,
         { provide: JournalLogService, useValue: journalLogStub }
       ],
@@ -105,15 +97,15 @@ xdescribe('MatchComponent', () => {
 
   });
 
-  // it('should add clicked chars and remove the option on click', () => {
-  //   spyOn(journalLogService, 'refreshJournalLog');
-  //   component.handleModelChange(true, 0, 5);
-  //   expect(component.models[0]).toEqual('y ');
-  //   expect(journalLogService.refreshJournalLog).toHaveBeenCalled();
+  it('should add clicked chars and remove the option on click', () => {
+    spyOn(journalLogService, 'refreshJournalLog');
+    component.handleModelChange(true, 0, 5);
+    expect(component.models[0]).toEqual([4, 6]);
+    expect(journalLogService.refreshJournalLog).toHaveBeenCalled();
 
-  //   component.removeOption(0);
-  //   expect(component.models[0]).toEqual(false);
-  // });
+    component.removeOption(0);
+    expect(component.models[0]).toEqual([-1, -1]);
+  });
 
 
 

@@ -69,4 +69,43 @@ describe('SingleTestCardComponent', () => {
 
   });
 
+
+  it('should check the model', () => {
+
+    // check one dimensional model
+
+    let fakeModel: any[] = [null, null, false, null, null];
+    expect(component.checkModel(fakeModel)).toBeFalsy();
+
+    fakeModel = [null, null, null, null, null];
+    expect(component.checkModel(fakeModel)).toBeTruthy();
+
+    // check two dimensional model
+
+    fakeModel = [ [null, null, false], [ null, null, null], [null, null, null] ];
+    expect(component.checkModel(fakeModel)).toBeFalsy();
+
+    fakeModel = [ [null, null, null], [ null, null, null], [null, null, null] ];
+    expect(component.checkModel(fakeModel)).toBeTruthy();
+
+  });
+
+  it('should fill the model', () => {
+
+    // fill one dimensional model
+
+    let fakeModel: any[] = [null, null, null, null, null];
+    component.fillModel(false, fakeModel);
+    expect(fakeModel.every(e => e === false)).toBeTruthy();
+
+    // fill two dimensional model
+
+    fakeModel = [[null, null, null], [null, null, null], [null, null, null]];
+    component.fillModel(false, fakeModel);
+    expect(fakeModel[0].every(e => e === false)).toBeTruthy();
+    expect(fakeModel[1].every(e => e === false)).toBeTruthy();
+    expect(fakeModel[2].every(e => e === false)).toBeTruthy();
+
+  });
+
 });
