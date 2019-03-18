@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { timer } from 'rxjs';
+import { take, map } from 'rxjs/operators';
+
 
 /**
  * Component that realizes a countdown.
@@ -30,11 +33,6 @@ export class CountdownComponent implements OnInit {
    */
   public counter: number;
 
-  /**
-   * The interval instance.
-   */
-  public interval: any;
-
 
   constructor() { }
 
@@ -51,24 +49,22 @@ export class CountdownComponent implements OnInit {
    * Starts the countdown.
    */
   public startTimer(): void {
-    this.interval = setInterval(() => {
 
-      if (this.counter < this.seconds) {
-        this.counter++;
-        this.current = Math.ceil((this.counter / this.seconds) * 100);
+    const obs = timer(100, 1000)
+    .pipe(
+      map(i => this.seconds - i),
+      take(this.seconds + 1)
+    );
 
-      } else {
-        this.notifyObservers();
-        clearInterval(this.interval);
+    obs.subscribe({
+      next: x => {
+        this.counter = x;
+        this.current = Math.ceil((x / this.seconds) * 100);
+      },
+      complete: () => {
+        this.finished.emit(true);
       }
-
-    }, 1000);
+    });
   }
 
-  /**
-   * Notifies the component which embedded this component.
-   */
-  public notifyObservers(): void {
-    this.finished.emit(true);
-  }
 }

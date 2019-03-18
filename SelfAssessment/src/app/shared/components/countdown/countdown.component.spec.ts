@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, discardPeriodicTasks } from '@angular/core/testing';
 
 import { CountdownComponent } from './countdown.component';
 import { MaterialModule } from 'src/app/material/material.module';
 
-xdescribe('CountdownComponent', () => {
+describe('CountdownComponent', () => {
   let component: CountdownComponent;
   let fixture: ComponentFixture<CountdownComponent>;
 
@@ -27,15 +27,11 @@ xdescribe('CountdownComponent', () => {
 
   it('should execute countdown', fakeAsync(() => {
     spyOn(component, 'startTimer').and.callThrough();
-    spyOn(component, 'notifyObservers').and.callThrough();
-    component.seconds = 0.5;
+    spyOn(component.finished, 'emit');
+    component.seconds = 2;
     component.startTimer();
-    tick(0.6);
-    // fixture.detectChanges();
-    // tick(0.6);
-    // fixture.detectChanges();
-    expect(component.startTimer).toHaveBeenCalled();
-    // expect(component.notifyObservers).toHaveBeenCalled();
+    tick(3000);
+    expect(component.finished.emit).toHaveBeenCalled();
   }));
 
 });
