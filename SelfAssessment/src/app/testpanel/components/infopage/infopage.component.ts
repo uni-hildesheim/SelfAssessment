@@ -9,15 +9,16 @@ import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
   templateUrl: './infopage.component.html',
   styleUrls: ['./infopage.component.scss']
 })
-export class InfopageComponent implements OnInit {
+export class InfopageComponent {
 
   /**
    * The infopage instance.
    */
   @Input() infopage: Infopage;
 
+  /**
+   * Empty constructor for infopage.
+   */
   constructor() { }
-
-  ngOnInit() { }
 
 }

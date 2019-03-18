@@ -15,16 +15,28 @@ import { JournalDirectorService } from './journal/journal.director';
 })
 export class LocalStorageService {
 
+  /**
+   * Constructor for the storage service.
+   */
   constructor(
     private logging: LoggingService,
     private journalDirector: JournalDirectorService,
     private router: Router
   ) { }
 
-  public checkPinInStorage() {
+  /**
+   * Method which checks if the storage contains a pin.
+   */
+  public checkPinInStorage(): any {
     return localStorage.getItem(StorageItem.PIN);
   }
 
+  /**
+   * Retrieves a specific item from the local storage.
+   *
+   * @param item Item to retrieve.
+   * @returns The parsed item.
+   */
   public retrieveFromStorage(item: StorageItem): any {
     let result;
     try {
@@ -48,6 +60,12 @@ export class LocalStorageService {
     }
   }
 
+  /**
+   * Persists a specific item in the local storage.
+   *
+   * @param item The type of item to persist.
+   * @param value The actual item.
+   */
   public persistInStorage(item: StorageItem, value: any): any {
     // special case for the journal log because for some reason
     // javascript does not allow maps in the local storage
@@ -58,6 +76,10 @@ export class LocalStorageService {
     }
   }
 
+  /**
+   * Retrieves the journal from the local storage.
+   * @returns The journal.
+   */
   public retrieveJournal(): Journal {
     const journal = new Journal();
     journal.log = this.retrieveFromStorage(StorageItem.JOURNAL_LOG);
@@ -65,12 +87,18 @@ export class LocalStorageService {
     return journal;
   }
 
-  public persistJournal(journal: Journal) {
+  /**
+   * Persists the journal in the local storage.
+   * @param journal The journal instance.
+   */
+  public persistJournal(journal: Journal): void {
     this.persistInStorage(StorageItem.JOURNAL_LOG, journal.log);
     this.persistInStorage(StorageItem.JOURNAL_STRUCTURE, journal.structure);
   }
 
-
+  /**
+   * Clears all the items stored in the local storage.
+   */
   public clearStorage(): void {
     localStorage.clear();
   }

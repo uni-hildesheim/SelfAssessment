@@ -1,3 +1,7 @@
+/**
+ * The log level definition.
+ * To avoid ambiguities this definition is the same as the one in the backend.
+ */
 export const Level = {
   ALL: 0,
   ERROR: 1,
