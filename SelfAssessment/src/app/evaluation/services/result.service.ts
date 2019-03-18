@@ -58,11 +58,21 @@ export class ResultService {
     const journalLog: JournalLog = this.storage.retrieveFromStorage(StorageItem.JOURNAL_LOG);
     const structure: JournalStructure = this.storage.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
 
+    // workaround for bug: filtering out the unevaluated sets messes up the order
+    // of the journal log instance, so that the journal log is undefined for some tests
+    const flatJournalLog = new Map();
+    for (const logMap of journalLog.sets) {
+      logMap.forEach((v, k) => {
+        flatJournalLog.set(k, v);
+      });
+    }
+
+
     const resultSets: ResultSet[] =
     structure.sets
     // ignore all sets that only have unevaluated tests
     .filter(set => set.elements.filter(e => e.elementType.valueOf() === SetElementType.TEST.valueOf() && (<Test>e).evaluated).length > 0)
-    .map((set, i) => {
+    .map(set => {
       const resultSet: ResultSet = {id: set.id, tests: []};
       resultSet.tests = set.elements
       // ignore all tests that are unevaluated
@@ -70,7 +80,7 @@ export class ResultService {
       .map(e => {
         const resultTest: ResultTest = data.find(t => e.id.toString() === t.id) as ResultTest;
         resultTest.singleTest = e as Test;
-        resultTest.log = journalLog.sets[i].get(e.id);
+        resultTest.log = flatJournalLog.get(e.id);
         return resultTest;
       });
       return resultSet;
