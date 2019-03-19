@@ -71,16 +71,17 @@ function mergeObjects(input) {
  * @returns {String} Output string where references have been resolved
  */
 function resolveReferencesinString(input, references) {
-    if (typeof(input) !== 'string') {
-        return false;
-    }
-
+    let inputString = input;
     let refStart;
     let refEnd;
 
+    if (typeof(inputString) !== 'string') {
+        return false;
+    }
+
     do {
-        refStart = input.indexOf('?ref{');
-        refEnd = input.indexOf('}', refStart);
+        refStart = inputString.indexOf('?ref{');
+        refEnd = inputString.indexOf('}', refStart);
 
         if (refStart >= 0 && refEnd === -1) {
             logger.warn('mergeConfigs: Failed to parse ref name from input: ' + input);
@@ -93,7 +94,7 @@ function resolveReferencesinString(input, references) {
         }
 
         // refStart needs to be offset by 5 (length of '?ref{')
-        const refName = input.substring(refStart+5, refEnd);
+        const refName = inputString.substring(refStart+5, refEnd);
         logger.debug('mergeConfigs: resolveReferences: ref name: ' + refName);
 
         if (!(refName in references)) {
@@ -102,13 +103,13 @@ function resolveReferencesinString(input, references) {
         }
 
         // perform the actual string replacement
-        const refString = input.substring(refStart, refEnd+1);
+        const refString = inputString.substring(refStart, refEnd+1);
         logger.debug('mergeConfigs: resolveReferences: resolving: ' + refString + ' to: ' +
                         references[refName]);
-        input = input.replace(refString, () => { return references[refName] });
+        inputString = inputString.replace(refString, () => { return references[refName] });
     } while (refStart !== -1 && refEnd !== -1);
 
-    return input;
+    return inputString;
 }
 
 /**
