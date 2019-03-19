@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
+import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 
 
 
@@ -96,6 +97,15 @@ describe('MainPanelComponent', () => {
       @Input() singleTest: Test;
     }
 
+
+    @Component({
+      selector: 'app-infopage',
+      template: ''
+    })
+    class InfopageCardMockComponent {
+      @Input() infopage: Infopage;
+    }
+
     const journalServiceMock = {
       saveJournalLog(log: JournalLog): Observable<any>  {
         return of('DONE');
@@ -111,7 +121,8 @@ describe('MainPanelComponent', () => {
 
 
     TestBed.configureTestingModule({
-      declarations: [MainPanelComponent, InfopageComponent, LoadingComponentDirective, SingleTestCardMockComponent, MockPipe],
+      declarations: [MainPanelComponent, LoadingComponentDirective, InfopageCardMockComponent,
+         SingleTestCardMockComponent, MockPipe],
       providers: [GlobalIndicator, GlobalIndicator, LoggingService,
         {provide: JournalLogService, useClass: JournalLogServiceMock},
         {provide: JournalService, useValue: journalServiceMock},

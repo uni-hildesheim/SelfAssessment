@@ -2,7 +2,9 @@
 
     <mat-card-content>
 
-      <h3>{{infopage.text}}</h3>
+      <p>
+        <app-formatted-text-area [rawText]="infopage.text"></app-formatted-text-area>
+      </p>
 
     </mat-card-content>
 

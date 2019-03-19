@@ -1,3 +1,4 @@
+import { SharedModule } from 'src/app/shared/shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfopageComponent } from './infopage.component';
@@ -11,7 +12,7 @@ describe('InfopageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ InfopageComponent ],
-      imports: [MaterialModule]
+      imports: [MaterialModule, SharedModule]
     })
     .compileComponents();
   }));
