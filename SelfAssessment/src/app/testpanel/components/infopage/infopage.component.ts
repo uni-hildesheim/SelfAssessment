@@ -7,7 +7,8 @@ import { Infopage } from 'src/app/shared/models/procedure/infopage.model';
 @Component({
   selector: 'app-infopage',
   templateUrl: './infopage.component.html',
-  styleUrls: ['./infopage.component.scss']
+  styleUrls: ['./infopage.component.scss', '../../../../scss/panel-cards.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class InfopageComponent {
 
