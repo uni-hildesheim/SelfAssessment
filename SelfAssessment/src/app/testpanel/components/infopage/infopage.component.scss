@@ -1,6 +1,6 @@
 mat-card-footer {
     height: 10px;
-  
+
     span{
       font-size: 10px;
       color:lightgrey;
@@ -9,3 +9,11 @@ mat-card-footer {
       bottom: 10px;
     }
   }
+
+
+mat-card {
+  padding:40px;
+  min-height: auto;
+  overflow:hidden;
+
+}
