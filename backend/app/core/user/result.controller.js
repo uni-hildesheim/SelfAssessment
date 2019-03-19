@@ -140,6 +140,76 @@ function calculate(config, journal) {
 }
 
 /**
+ * Generate a validation code for a given schema.
+ *
+ * @param {String} schema schema containing a number or valid tokens
+ * @returns Validation code as string (elements of schema that are unknown are not replaced) 
+ */
+function generateValidationCode(schema) {
+    let code = schema;
+    // tokens that need to be parsed and handled individually
+    const metaTokens = ['%', '(', ')'];
+    // tokens which can be replaced
+    const replaceTokens = ['[0-9]', '[A-Z]', '[a-z]'];
+    // valid characters for token replacement
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // replace the tokens
+    for (const token of replaceTokens) {
+        while (code.includes(token)) {
+            let replacement = '';
+
+            if (token === '[0-9]') {
+                replacement = Math.floor(Math.random() * 10);
+            } else if (token === '[A-Z]') {
+                const index = Math.floor(Math.random() * alphabet.length);
+                replacement = alphabet.substring(index, index+1);
+            } else if (token === '[a-z]') {
+                const index = Math.floor(Math.random() * alphabet.length);
+                replacement = alphabet.substring(index, index+1).toLowerCase();
+            }
+
+            // perform the actual replacement
+            code = code.replace(token, () => { return replacement; });
+        }
+    }
+
+    // scan for meta tokens and handle them
+    for (const token of metaTokens) {
+        while (code.includes(token)) {
+            let tokenIndex = 0;
+            for (let i = 0; i < code.length; i++) {
+                if (token === code.substr(i, 1)) {
+                    tokenIndex = i;
+                    break;
+                }
+            }
+
+            // handle token
+            if ((token === '%') && (tokenIndex < code.length-1)) {
+                // get the next element
+                const modulo = code.substr(tokenIndex+1, tokenIndex+2);
+                let number;
+                do {
+                    number = Math.floor(Math.random() * 10);
+                } while (number % modulo !== 0);
+
+                // replace token
+                code = code.replace(token + modulo, () => { return number; });
+            } else if (token === '(') {
+                // TODO: do something meaningful here
+                code = code.replace(token, '');
+            } else if (token === ')') {
+                // TODO: do something meaningful here
+                code = code.replace(token, '');
+            }
+        }
+    }
+
+    return code;
+}
+
+/**
  * Express.js controller.
  * Load the results for a given user (pin) and return them in the response object.
  * HTTP 200 will be set on success, HTTP 404 if no result object exists for the user,
@@ -249,7 +319,7 @@ async function lock(req, res, next) {
         return;
     }
 
-    const validationCode = user.generateValidationCode(courseConfig['validationSchema']);
+    const validationCode = generateValidationCode(courseConfig['validationSchema']);
 
     db.User.updateOne({ pin: bodyPin }, {
         'result.validationCode': validationCode
