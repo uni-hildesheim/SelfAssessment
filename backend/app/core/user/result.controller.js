@@ -5,6 +5,7 @@ const error = require('../../shared/error');
 
 module.exports = {
     calculate,
+    generateValidationCode,
     load,
     lock,
     update
@@ -150,61 +151,121 @@ function generateValidationCode(schema) {
     // tokens that need to be parsed and handled individually
     const metaTokens = ['%', '(', ')'];
     // tokens which can be replaced
-    const replaceTokens = ['[0-9]', '[A-Z]', '[a-z]'];
+    const regexTokens = ['[0-9]', '[A-Z]', '[a-z]'];
     // valid characters for token replacement
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    // capture group
+    let captureGroup = {
+        start: -1,
+        end: -1,
+        string: ''
+    };
 
-    // replace the tokens
-    for (const token of replaceTokens) {
-        while (code.includes(token)) {
-            let replacement = '';
+    let token;
+    let tokenIndex;
 
-            if (token === '[0-9]') {
-                replacement = Math.floor(Math.random() * 10);
-            } else if (token === '[A-Z]') {
-                const index = Math.floor(Math.random() * alphabet.length);
-                replacement = alphabet.substring(index, index+1);
-            } else if (token === '[a-z]') {
-                const index = Math.floor(Math.random() * alphabet.length);
-                replacement = alphabet.substring(index, index+1).toLowerCase();
-            }
+    // scan for regex tokens and handle them
+    do {
+        token = '';
+        tokenIndex = -1;
 
-            // perform the actual replacement
-            code = code.replace(token, () => { return replacement; });
-        }
-    }
-
-    // scan for meta tokens and handle them
-    for (const token of metaTokens) {
-        while (code.includes(token)) {
-            let tokenIndex = 0;
-            for (let i = 0; i < code.length; i++) {
-                if (token === code.substr(i, 1)) {
+        for (let i = 0; i < code.length; i++) {
+            for (const regexToken of regexTokens) {
+                if (code.substr(i, regexToken.length) === regexToken) {
+                    token = regexToken;
                     tokenIndex = i;
+                    // break out of outer loop as well
+                    i = code.length;
                     break;
                 }
             }
+        }
 
-            // handle token
-            if ((token === '%') && (tokenIndex < code.length-1)) {
-                // get the next element
-                const modulo = code.substr(tokenIndex+1, tokenIndex+2);
-                let number;
-                do {
-                    number = Math.floor(Math.random() * 10);
-                } while (number % modulo !== 0);
+        if (tokenIndex === -1) {
+            // no token found in code, bail out
+            break;
+        }
 
-                // replace token
-                code = code.replace(token + modulo, () => { return number; });
-            } else if (token === '(') {
-                // TODO: do something meaningful here
-                code = code.replace(token, '');
-            } else if (token === ')') {
-                // TODO: do something meaningful here
-                code = code.replace(token, '');
+        let replacement = '';
+
+        if (token === '[0-9]') {
+            replacement = Math.floor(Math.random() * 10);
+        } else if (token === '[A-Z]') {
+            const index = Math.floor(Math.random() * alphabet.length);
+            replacement = alphabet.substring(index, index+1);
+        } else if (token === '[a-z]') {
+            const index = Math.floor(Math.random() * alphabet.length);
+            replacement = alphabet.substring(index, index+1).toLowerCase();
+        }
+
+        // perform the actual replacement
+        code = code.replace(token, () => { return replacement; });
+    } while (tokenIndex > -1);
+
+    // scan for meta tokens and handle them
+    do {
+        token = '';
+        tokenIndex = -1;
+
+        for (let i = 0; i < code.length; i++) {
+            for (const metaToken of metaTokens) {
+                if (code.substr(i, metaToken.length) === metaToken) {
+                    token = metaToken;
+                    tokenIndex = i;
+                    // break out of outer loop as well
+                    i = code.length;
+                    break;
+                }
             }
         }
-    }
+
+        if (tokenIndex === -1) {
+            // no token found in code, bail out
+            break;
+        }
+
+        // handle token
+        if ((token === '%') && (tokenIndex < code.length-1)) {
+            // modulo means: we take the most recent capture group, sum all the Unicode char
+            // codes at each position (if it's a char) or the number (if it's a number) and
+            // compute the modulo with the given operator from the schema
+            const moduloOperand = code.substr(tokenIndex+1, tokenIndex+2);
+            let moduloResult = 0;
+
+            if (captureGroup.string.length > 0) {
+                let number = 0;
+                for (let j = 0; j < captureGroup.string.length; j++) {
+                    number += captureGroup.string.charCodeAt(j);
+                }
+
+                try {
+                    moduloResult = Number.parseInt(number) % Number.parseInt(moduloOperand);
+                } catch (err) {
+                    // swallow
+                }
+
+                // reset captureGroup properties
+                captureGroup.start = -1;
+                captureGroup.end = -1;
+                captureGroup.string = '';
+            } else {
+                logger.warn('Missing or malformed capture group for modulo operator in'
+                            + ' schema: ' + schema + ', forcing 0 as modulo result');
+            }
+
+            // replace token
+            code = code.replace(token + moduloOperand, () => { return moduloResult; });
+        } else if (token === '(') {
+            captureGroup.start = tokenIndex;
+            code = code.replace(token, '');
+        } else if (token === ')') {
+            captureGroup.end = tokenIndex;
+            if (captureGroup.end > captureGroup.start) {
+                captureGroup.string = code.substring(captureGroup.start, captureGroup.end);
+            }
+            code = code.replace(token, '');
+        }
+    } while (tokenIndex > -1);
 
     return code;
 }

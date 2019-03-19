@@ -91,6 +91,31 @@ describe('ResultController', () => {
         });
     });
 
+    describe('.generateValidationCode(schema)', () => {
+        it('should return AIAFHadegh73 for schema: "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])"', () => {
+            const schema = 'AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])';
+            const code = ResultController.generateValidationCode(schema);
+
+            expect(code).toMatch(schema);
+        });
+
+        it('should return AIAFHadegh73[x] for schema: "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9"', () => {
+            const schema = 'AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9';
+            const code = ResultController.generateValidationCode(schema);
+            let unicodeNumber = 0;
+
+            // extract the number in the capture group
+            for (let i = 2; i < code.length-1; i++) {
+                unicodeNumber += code.charCodeAt(i);
+            }
+
+            // first, match the regex part (everything but the %n part) of the schema
+            expect(code.substr(0, code.length-1)).toMatch(schema.substr(0, schema.length-2));
+            // now check the checksum part (%n)
+            expect(Number.parseInt(code.charAt(code.length-1))).toEqual(unicodeNumber % Number.parseInt(schema.charAt(schema.length-1)));
+        });
+    });
+
     describe('.load(req, res)', () => {
         it('should return HTTP 404 for invalid pin', async () => {
             sinon.stub(CourseModel, 'findOne').resolves(null);
