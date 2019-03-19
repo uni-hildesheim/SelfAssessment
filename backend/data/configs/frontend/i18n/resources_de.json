@@ -32,6 +32,8 @@
       "lbl-important-information": "Wichtige Informationen",
       "lbl-read-carefully": "Bitte aufmerksam durchlesen.",
       "lbl-validation-title": "Hiermit ist das SelfAssessment abgeschlossen",
-      "lbl-validation-subtitle": "Glückwunsch"
+      "lbl-validation-subtitle": "Glückwunsch",
+      "warning-speed-test-left": "Diese Aufgabe muss innerhalb von ",
+      "warning-speed-test-right": " Sekunden bearbeitet werden."
     }
   }

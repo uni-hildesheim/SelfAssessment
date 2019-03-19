@@ -32,7 +32,9 @@
     "lbl-important-information": "Important Information",
     "lbl-read-carefully": "Please read carefully",
     "lbl-validation-title": "The SelfAssessment is now complete",
-    "lbl-validation-subtitle": "Congratulations"
+    "lbl-validation-subtitle": "Congratulations",
+    "warning-speed-test-left": "This task must be solved within ",
+    "warning-speed-test-right": " seconds."
 
 
   }

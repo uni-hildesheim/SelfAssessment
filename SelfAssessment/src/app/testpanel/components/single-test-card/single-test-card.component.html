@@ -15,11 +15,12 @@
       <!-- WARNING MESSAGE & START BTN -->
       <div *ngIf="timeWarning" class="time-warning">
         <h3>
-          Diese Aufgabe muss innerhalb von {{ singleTest.seconds }} Sekunden
-          bearbeitet werden.
+          {{ 'warning-speed-test-left' | language }}
+          {{ singleTest.seconds }}
+          {{ 'warning-speed-test-right' | language }}
         </h3>
         <button mat-raised-button color="primary" (click)="startTask()">
-          Starte die Aufgabe
+          {{ 'btn-start' | language }}
         </button>
       </div>
 

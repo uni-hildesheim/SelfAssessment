@@ -38,6 +38,8 @@
     "lbl-set": "?ref{lbl-set}",
     "lbl-not-answered-test": "?ref{lbl-not-answered-test}",
     "lbl-validation-title": "?ref{lbl-validation-title}",
-    "lbl-validation-subtitle": "?ref{lbl-validation-subtitle}"
+    "lbl-validation-subtitle": "?ref{lbl-validation-subtitle}",
+    "warning-speed-test-left": "?ref{warning-speed-test-left}",
+    "warning-speed-test-right": "?ref{warning-speed-test-right}"
   }
 }
