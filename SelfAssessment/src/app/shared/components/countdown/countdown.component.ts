@@ -58,7 +58,7 @@ export class CountdownComponent implements OnInit {
 
     obs.subscribe({
       next: x => {
-        this.counter = x;
+        this.counter = this.seconds - x;
         this.current = Math.ceil((x / this.seconds) * 100);
       },
       complete: () => {
