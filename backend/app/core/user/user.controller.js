@@ -7,9 +7,14 @@ module.exports = {
 }
 
 /**
- * Create a new user.
- * @param {*} req HTTP request (unused)
+ * Express.js controller.
+ * Create a new user, identified by the pincode.
+ * Right now, the pincode is hardcoded to eight digits.
+ * HTTP 201 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
  * @param {*} res HTTP response
+ * @param {*} next ...
  */
 async function create(req, res, next) {
     // length of the pin code, where each element is a digit

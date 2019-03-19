@@ -50,12 +50,25 @@ const Overseeable = {
 };
 
 class OverseeableObject {
+    /**
+     * Object that can be tracked via an Overseer instance.
+     * Initializes its type to 'Unknown' and really only serves as a base class.
+     */
     constructor() {
         this.type = Overseeable.UNKNOWN;
     }
 }
 
 class OverseeableFunction extends OverseeableObject {
+    /**
+     * Function that can be tracked via an Overseer instance.
+     * Tracks stats such as the function call count, execution time and more.
+     * Unfortunately, callbacks etc executed inside those functions cannot be taken into account
+     * because that's just not possible. Thus, function execution time is a metric to be taken with
+     * a grain of salt.
+     *
+     * @param {function} target Function that can be tracked via an Overseer instance.
+     */
     constructor(target) {
         super();
         this.type = Overseeable.FUNCTION;
@@ -73,6 +86,9 @@ class OverseeableFunction extends OverseeableObject {
         this.wrapper = null;
     }
 
+    /**
+     * Wrap the function to track statistics such as call count, execution time etc.
+     */
     wrap() {
         const originalFunc = this.originalFunc;
         const stats = this.stats;
@@ -110,6 +126,10 @@ class OverseeableFunction extends OverseeableObject {
         return this.wrapper;
     }
 
+    /**
+     * Undo function wrapping, restoring the original function.
+     * That means the wrapper will now point to the original function again.
+     */
     unwrap() {
         if (this.wrapper !== null) {
             this.wrapper = this.originalFunc;
@@ -118,6 +138,9 @@ class OverseeableFunction extends OverseeableObject {
 }
 
 class Overseer {
+    /**
+     * Overseer object that can be used to track objects (and more specifically, functions).
+     */
     constructor() {
         // map with module filenames as keys
         this.modules = {};
@@ -127,6 +150,12 @@ class Overseer {
         }
     }
 
+    /**
+     * Wrap a JS function and create an OverseeableFunction instance, adding it to the internally
+     * tracked list.
+     *
+     * @param {function} target Function that can be tracked via an Overseer instance.
+     */
     wrapFunction(target) {
         if (!this.options.enableWrapping) {
             logger.debug('Overseer: wrapping disabled; not wrapping function: ' + target.name);

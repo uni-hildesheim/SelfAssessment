@@ -5,7 +5,15 @@ module.exports = {
     log
 }
 
-// log a message to all transports registered on the global logger
+/**
+ * Express.js controller.
+ * Log one or multiple lines to the backend logger.
+ * HTTP 200 will be set on success, HTTP 400 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function log(req, res) {
     const level = req.body.level;
     let message = req.body.message;

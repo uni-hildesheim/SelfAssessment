@@ -9,6 +9,12 @@ module.exports = {
     deleteMany
 }
 
+/**
+ * Create a SHA512 hash adn compare it to process.env.ADMIN_SECRET_HASH.
+ *
+ * @param {string} secret Password string in plain text
+ * @returns true if the hashes match, false otherwise
+ */
 function validateSecret(secret) {
     let secretSha512;
 
@@ -24,6 +30,15 @@ function validateSecret(secret) {
     return false;
 }
 
+/**
+ * Express.js controller.
+ * Find user objects in the database and return them in the response object.
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function find(req, res, next) {
     const query = req.body.query;
     const secret = req.body.secret;
@@ -62,6 +77,15 @@ function find(req, res, next) {
     });
 }
 
+/**
+ * Express.js controller.
+ * Delete user objects from the database and return the number in the response object.
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function deleteMany(req, res, next) {
     const query = req.body.query;
     const secret = req.body.secret;

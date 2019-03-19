@@ -6,7 +6,16 @@ module.exports = {
     resources
 }
 
-// fetch all resources necessary for the frontend (static texts, images) from the DB
+/**
+ * Express.js controller.
+ * Load resources for the frontend such as translated texts or image references from the database
+ * and return them in the response object.
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function resources(req, res, next) {
     db.Frontend.find({
         // empty filter to get all objects

@@ -7,7 +7,15 @@ module.exports = {
     showCourses
 }
 
-// load a course from the DB
+/**
+ * Express.js controller.
+ * Load course configurations from the database and return them in the response object.
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function loadConfig(req, res, next) {
     const name = req.body.name;
     const language = req.body.language;
@@ -38,7 +46,16 @@ function loadConfig(req, res, next) {
     });
 }
 
-// show all courses that are available
+/**
+ * Express.js controller.
+ * List available course configurations from the database and return name, icon and languages in
+ * the response object.
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function showCourses(req, res, next) {
     db.Course.find({
         // wildcard filter

@@ -9,7 +9,16 @@ module.exports = {
     saveStructure
 }
 
-// load a journal log (JSON object)
+/**
+ * Express.js controller.
+ * Load the journal log for a given user (pin) and return it in the response object.
+ * HTTP 200 will be set on success, HTTP 404 if the user or the journal do not exist,
+ * HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function loadLog(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
@@ -36,7 +45,16 @@ function loadLog(req, res, next) {
     });
 }
 
-// load a journal structure (JSON object)
+/**
+ * Express.js controller.
+ * Load the journal structure for a given user (pin) and return it in the response object.
+ * HTTP 200 will be set on success, HTTP 404 if the user or the journal do not exist,
+ * HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function loadStructure(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
@@ -63,7 +81,15 @@ function loadStructure(req, res, next) {
     });
 }
 
-// save a journal log (JSON object)
+/**
+ * Express.js controller.
+ * Save the journal log for a given user (pin).
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function saveLog(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 
@@ -81,7 +107,15 @@ function saveLog(req, res, next) {
     });
 }
 
-// save a journal structure (JSON object)
+/**
+ * Express.js controller.
+ * Save the journal log for a given user (pin).
+ * HTTP 200 will be set on success, HTTP 500 otherwise.
+ *
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
+ */
 function saveStructure(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
 

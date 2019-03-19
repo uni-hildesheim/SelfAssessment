@@ -140,10 +140,14 @@ function calculate(config, journal) {
 }
 
 /**
- * Load results for a user (by pin).
+ * Express.js controller.
+ * Load the results for a given user (pin) and return them in the response object.
+ * HTTP 200 will be set on success, HTTP 404 if no result object exists for the user,
+ * HTTP 500 otherwise.
  *
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
  */
 function load(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
@@ -168,11 +172,15 @@ function load(req, res, next) {
 }
 
 /**
+ * Express.js controller.
  * Lock results for a user (by pin).
  * This makes the result immutable to any further update API calls.
+ * HTTP 200 will be set on success, HTTP 404 if the user or the course do not exist,
+ * HTTP 500 otherwise.
  *
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
  */
 async function lock(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);
@@ -256,11 +264,15 @@ async function lock(req, res, next) {
 }
 
 /**
+ * Express.js controller.
  * Update results for a user (by pin).
  * If a result is locked (by calling the lock API), this returns an error.
+ * HTTP 200 will be set on success, HTTP 404 if the user or the course do not exist,
+ * HTTP 500 otherwise.
  *
- * @param {Object} req Express.js request object
- * @param {Object} res Express.js response object
+ * @param {*} req HTTP request
+ * @param {*} res HTTP response
+ * @param {*} next ...
  */
 async function update(req, res, next) {
     const bodyPin = Number.parseInt(req.body.pin);

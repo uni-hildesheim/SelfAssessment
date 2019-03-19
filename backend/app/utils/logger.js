@@ -53,9 +53,20 @@ const Color = {
 };
 
 class ConsoleTransport {
+    /**
+     * Create a new console transport.
+     *
+     * @param {number} priority Transport priority (transports with a higher priority are served first)
+     */
     constructor(priority = 1) {
         this.priority = priority;
     }
+
+    /**
+     * 
+     * @param {number} level Log level, used for colored output
+     * @param {string} message Log message
+     */
     log(level, message) {
         let fn = console.log;
         let color = '';
@@ -75,6 +86,12 @@ class ConsoleTransport {
 }
 
 class FileTransport {
+    /**
+     * Create a new console transport.
+     *
+     * @param {string} path Path to the log file that shall be created
+     * @param {number} priority Transport priority (transports with a higher priority are served first)
+     */
     constructor(path, priority = 1) {
         this.priority = priority;
         this.path = path;
@@ -92,6 +109,12 @@ class FileTransport {
             this.good = false;
         });
     }
+
+    /**
+     * 
+     * @param {number} level Log level, unused at the moment
+     * @param {string} message Log message
+     */
     log(level, message) {
         if (!this.good) {
             return;
@@ -104,6 +127,10 @@ class FileTransport {
             this.rotate();
         }
     }
+
+    /**
+     * Rotate the log buffer, creating a new file and writing to the new file from now on.
+     */
     rotate() {
         const logDir = path.posix.dirname(this.path);
         const logFile = path.posix.basename(this.path);
@@ -177,6 +204,9 @@ function _getStack() {
 }
 
 class Logger {
+    /**
+     * Logger object, can handle multiple transports.
+     */
     constructor() {
         this.level = Level.ERROR;
         this.transports = [];
