@@ -12,7 +12,9 @@
   padding: 34.5px;
 }
 
+
 :host /deep/ .mat-horizontal-content-container {
+  overflow: inherit;
   @include sm {
     padding:5px;
     padding-bottom: 30px;
