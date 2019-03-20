@@ -5,7 +5,11 @@
     },
     {
         "title": "Frontend",
-        "file": "./SelfAssessment/README.md"
+        "file": "../SelfAssessment/README.md"
+    },
+    {
+      "title": "Continuous integration",
+      "file": "continuous-integration.md"
     },
     {
         "title": "Configuration",
