@@ -1,13 +1,17 @@
 # Self Assessment
-[![Build Status](https://travis-ci.com/uni-hildesheim/SelfAssessment.svg?branch=master)](https://travis-ci.com/uni-hildesheim/SelfAssessment)
-
-Self assessment web application, designed for aspiring students of the University of Hildesheim.
 
 ### Table of Contents
 1. [Project Structure](#structure)  
 2. [Code Style](#style)  
 3. [Contributor guide](#contributing)  
 4. [Continuous Integration](#travis)  
+
+If you do not want to generate the full compodoc documentation, here are the links to the extra documentation:
+
+* [Configuration](compodoc/config-doc/config.md)
+  * [Language Support](compodoc/config-doc/language-support.md)
+  * [Adding new Course](compodoc/config-doc/definition.md)
+  * [Introducing new Category](compodoc/config-doc/category.md)
 
 <a name="structure"></a>
 ## 1. Project Structure

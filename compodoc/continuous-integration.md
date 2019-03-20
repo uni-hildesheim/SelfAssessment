@@ -1,6 +1,6 @@
 # Continuous integration
 
-![](./images/photo_2019-03-20_10-04-16.jpg)
+![](../images/photo_2019-03-20_10-04-16.jpg)
 
 > One of the best ways to keep your project bug free is through a test suite, but it's easy to forget to run tests all the time. Continuous integration (CI) servers let you set up your project repository so that your tests run on every commit and pull request.
 >
@@ -14,10 +14,10 @@ This application uses the free version of Travis CI, for open source projects, t
 - build (npm run build)
 - test (npm run test)
 
-![1553071863981](./images/photo_2019-03-20_10-04-28.jpg)
+![1553071863981](../images/photo_2019-03-20_10-04-28.jpg)
 
 
 
 Travis checks every pushed commit on every branch. The left sidepanel shows the remaining commits that have not yet been tested and are still running.
 
-![1553071952399](./images/photo_2019-03-20_10-04-32.jpg)
+![1553071952399](../images/photo_2019-03-20_10-04-32.jpg)
