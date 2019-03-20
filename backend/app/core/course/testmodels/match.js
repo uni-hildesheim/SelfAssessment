@@ -6,7 +6,7 @@ const BaseTest = require('./base');
 
 class MatchTest extends BaseTest {
     constructor(config) {
-        super(config); // noop
+        super();
         this.name = 'match';
         this.config = config;
 

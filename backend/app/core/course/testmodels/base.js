@@ -1,5 +1,5 @@
 class BaseTest {
-    constructor(config) { // eslint-disable-line no-unused-vars
+    constructor() {
         if (new.target === BaseTest) {
             throw new TypeError('Cannot construct BaseTest instances');
         }
