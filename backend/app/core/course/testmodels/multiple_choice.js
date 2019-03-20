@@ -6,7 +6,7 @@ const BaseTest = require('./base');
 
 class MultipleChoiceTest extends BaseTest {
     constructor(config) {
-        super(config); // noop
+        super();
         this.config = config;
 
         if (!this.loadConfig(config)) {
