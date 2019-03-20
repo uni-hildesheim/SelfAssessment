@@ -11,7 +11,7 @@
 
 
       <div class="navigate-btn">
-        <button [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"
+        <button id="navigate-left" [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"
           (click)="moveToNextSetElement(false, stepper)">
           <mat-icon>arrow_back</mat-icon>
         </button>
@@ -36,7 +36,7 @@
       </div>
 
       <div class="navigate-btn">
-        <button mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
+        <button id="navigate-right" mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </div>
