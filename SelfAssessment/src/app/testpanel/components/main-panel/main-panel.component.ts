@@ -12,6 +12,23 @@ import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * Handles the testing procedure.
+ *
+ * The component uses a material-stepper to show the progress accross sets, the progress
+ * within a set is displayed using the progress-bar.
+ *
+ * Every [SetElement]{@link SetElement} is shown inside the respective mat-step.
+ * The template differentiates between [Tests]{@link Test} and [Infopages]{@link Infopage}.
+ * The Tests are updated dynamically during the procedure, so that per set there is only one
+ * component ({@link SingleTestCardComponent}), for every set which displays them.
+ *
+ * The user can navigate forward and backward via the navigation-buttons.
+ * It is possible to jump accross the sets using the material-stepper-labels.
+ * The users progress is contained inside the [JournalLog]{@link JournalLog} which is updated every
+ * time the users moves from one test to another (provided he changed something in his answer).
+ *
+ * The overall progress is tracked via the `GlobalIndicator` injectable which is also used inside
+ * other services.
+ *
  */
 @Component({
   selector: 'app-main-panel',
@@ -50,7 +67,9 @@ export class MainPanelComponent implements OnInit {
 
   setElementType = SetElementType;
 
-
+  /**
+   * Constructor for this component.
+   */
   constructor(
     private journalService: JournalService,
     private journalLogService: JournalLogService,
@@ -60,6 +79,11 @@ export class MainPanelComponent implements OnInit {
     private router: Router
   ) { }
 
+  /**
+   * Get the journal structure from the storage. Subscribe to the journal log behaviour subject, so
+   * that every time the journal log changes (user checks/unchecks answer) the updateProtocol
+   * variable is set.
+   */
   ngOnInit() {
 
     this.journalStructure = this.storageService.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);

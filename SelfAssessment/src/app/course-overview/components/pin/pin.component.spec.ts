@@ -48,7 +48,6 @@ describe('PinComponent', () => {
     initJournalLogFromPin(resultSet: ResultSet[]) {}
   }
 
-
   beforeEach(async(() => {
 
      TestBed.configureTestingModule({

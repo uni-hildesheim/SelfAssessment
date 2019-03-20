@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
 import { ResultService } from 'src/app/evaluation/services/result.service';
 import { of } from 'rxjs';
 
+/**
+ * Component which aks the user for a pin, takes the provided pin and loads either the current test
+ * progress or the evaluation. After that it navigates to the corresponding component.
+ */
 @Component({
   selector: 'app-pin',
   templateUrl: './pin.component.html',
@@ -13,11 +17,14 @@ import { of } from 'rxjs';
 })
 export class PinComponent implements OnInit {
 
-/**
+  /**
    * The pin.
    */
   public pin: string;
 
+  /**
+   * The constructor for this component.
+   */
   constructor(
     private overlaySerivce: MaterialOverlayService,
     private router: Router,
@@ -43,6 +50,11 @@ export class PinComponent implements OnInit {
   }
 
 
+  /**
+   * Initiates the navigation based on the passed data from the dialog.
+   *
+   * @param data The raw loaded data from the dialog.
+   */
   public initateNavigation(data: Object): void {
     this.storageService.persistJournal(data['journal']);
     this.resultService.loadResults(data['pin']).subscribe(

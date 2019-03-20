@@ -8,7 +8,7 @@ import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 
 /**
- * Realizes the Dashboard which displays all the courses.
+ * Implements the dashboard which displays all the courses.
  */
 @Component({
   selector: 'app-dashboard',
@@ -22,11 +22,13 @@ export class DashboardComponent implements OnInit {
    */
   public courses: Observable<Object>;
 
+  /**
+   * Constructor for this component.
+   */
   constructor(
     private configService: ConfigService,
     private router: Router,
-    private storageService: LocalStorageService,
-    private logging: LoggingService
+    private storageService: LocalStorageService
   ) { }
 
   /**

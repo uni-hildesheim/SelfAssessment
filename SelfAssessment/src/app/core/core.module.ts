@@ -13,6 +13,11 @@ import { EvaluationModule } from '../evaluation/evaluation.module';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 
+/**
+ * The core module contains the core elements used throughout the application.
+ * It contains the resource service, the http-interceptors and the skeletal structure for the user
+ * interface, e.g the header component and the footer component.
+ */
 @NgModule({
   declarations: [EntryComponent, FooterComponent, HeaderComponent],
   imports: [

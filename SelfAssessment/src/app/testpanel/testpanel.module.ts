@@ -13,6 +13,9 @@ import { MultipleChoiceComponent } from './components/single-test-card/categorie
 import { TestDirective } from './components/single-test-card/test.directive';
 import { MatchComponent } from './components/single-test-card/categories/match/match.component';
 
+/**
+ * Main module which implements the actual testing procedure.
+ */
 @NgModule({
   entryComponents: [ MatchComponent, RadioButtonsComponent, MultipleOptionsComponent, MultipleChoiceComponent ],
   declarations: [MainPanelComponent, SingleTestCardComponent, InfopageComponent,

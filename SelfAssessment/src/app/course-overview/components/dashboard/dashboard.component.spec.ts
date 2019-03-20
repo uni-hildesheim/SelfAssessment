@@ -85,9 +85,5 @@ describe('DashboardComponent', () => {
     expect(component.startTheTest).toHaveBeenCalledWith(mockCourse);
     expect(storageService.persistInStorage).toHaveBeenCalledWith(StorageItem.COURSE, mockCourse);
     expect(router.navigate).toHaveBeenCalledWith(['/test-start', mockCourse]);
-
   });
-
-
-
 });

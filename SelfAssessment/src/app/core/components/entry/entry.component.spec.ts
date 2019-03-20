@@ -10,7 +10,6 @@ describe('EntryComponent', () => {
   let component: EntryComponent;
   let fixture: ComponentFixture<EntryComponent>;
 
-
   beforeEach(async(() => {
 
     @Component({

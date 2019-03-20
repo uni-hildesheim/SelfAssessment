@@ -10,13 +10,9 @@ import { ResourceService } from '../../services/resource.service';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 import { Resource } from 'src/app/shared/models/resources/resources.model';
 
-
-
 const strings = {
   'language': 'English'
 };
-
-
 
 const resourceDummy: Resource = {
   header: 'myheader',
@@ -42,7 +38,6 @@ const resourceDummy2: Resource = {
   }
 };
 
-
 @Pipe({name: 'resources'})
 class MockResourcePipe implements PipeTransform {
     transform(value: string, args?: any): string {
@@ -61,22 +56,17 @@ class MockLangPipe implements PipeTransform {
     }
 }
 
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let resourceService: ResourceService;
 
-
   beforeEach(async(() => {
-
-
     const storageStub = {
       retrieveFromStorage(item: StorageItem): Resource[] {
         return [resourceDummy, resourceDummy2];
       }
     };
-
 
     TestBed.configureTestingModule({
       declarations: [ HeaderComponent, MockResourcePipe, MockLangPipe ],
