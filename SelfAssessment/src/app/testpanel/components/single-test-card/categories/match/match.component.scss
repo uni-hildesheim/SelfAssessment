@@ -3,31 +3,9 @@ mat-card {
     min-height: 200px;
 }
 
-
-
-.mat-div-replacement{
-    display: flex;
-    flex-direction: row;
-    flex-flow: wrap;
-    justify-content: space-between;
-    // max-width: 350px;
-}
-
-
 .options-container{
     margin-top: 40px;
 }
-
-.li-option {
-    order: 1;
-    max-width: 380px;
-
-}
-
-.li-chip {
-    order: 2;
-}
-
 
 ul{
     padding:0px;
@@ -36,7 +14,6 @@ ul{
         margin-bottom: 30px;
         font-size: 14px;
         list-style: none;
-
     }
 }
 
@@ -45,8 +22,20 @@ ul{
     cursor: pointer;
 }
 
-
 .disabled-test-card{
     pointer-events: none;
     opacity: 0.5;
   }
+
+.mat-div-replacement {
+  display: flex;
+  justify-content: space-between;
+}
+
+.li-chip {
+  min-width: 100px;
+}
+
+.li-option {
+  min-height: 35px;
+}
