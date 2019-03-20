@@ -1,50 +1,65 @@
-<mat-horizontal-stepper #stepper [appLoadComp]="loading" (selectionChange)="jumpToNextSet($event.selectedIndex)">
-
+<mat-horizontal-stepper
+  #stepper
+  [appLoadComp]="loading"
+  (selectionChange)="jumpToNextSet($event.selectedIndex)">
   <mat-step *ngFor="let set of journalStructure.sets">
+    <div *ngIf="loading" class="loading-bar">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
 
-      <div *ngIf="loading" class="loading-bar">
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
+    <div
+      [ngClass]="{ 'loading-content': loading }"
+      class="wrapper-main"
+      *ngIf="set === journalStructure.sets[setIndex]">
 
-    <div [ngClass]="{'loading-content': loading}" class="wrapper-main" *ngIf="set === journalStructure.sets[setIndex]">
-
-
-
+      <!-- LEFT NAVIGATE BTN -->
       <div class="navigate-btn">
-        <button id="navigate-left" [disabled]="setIndex === 0 && setElemIndex === 0" mat-icon-button mat-raised-button color="primary"
+        <button
+          id="navigate-left"
+          [disabled]="setIndex === 0 && setElemIndex === 0"
+          mat-icon-button
+          mat-raised-button
+          color="primary"
           (click)="moveToNextSetElement(false, stepper)">
           <mat-icon>arrow_back</mat-icon>
         </button>
       </div>
 
       <div class="main-test" *ngIf="set.elements[setElemIndex]">
-        <p>{{'lbl-set-progess' | language}}</p>
-        <mat-progress-bar mode="determinate" [value]="progressVal"></mat-progress-bar>
+        <p>{{ "lbl-set-progess" | language }}</p>
+        <mat-progress-bar
+          mode="determinate"
+          [value]="progressVal">
+        </mat-progress-bar>
         <div [ngSwitch]="set.elements[setElemIndex].elementType">
 
           <!-- SHOW TEST -->
           <div class="single-test" *ngSwitchCase="setElementType.TEST">
-            <app-single-test-card [singleTest]="set.elements[setElemIndex]"></app-single-test-card>
+            <app-single-test-card
+              [singleTest]="set.elements[setElemIndex]">
+            </app-single-test-card>
           </div>
 
           <!-- SHOW INFOPAGE -->
           <div class="single-test" *ngSwitchCase="setElementType.INFOPAGE">
-            <app-infopage [infopage]="set.elements[setElemIndex]"></app-infopage>
+            <app-infopage
+              [infopage]="set.elements[setElemIndex]">
+            </app-infopage>
           </div>
-
         </div>
       </div>
 
+      <!-- RIGHT NAVIGATE BTN -->
       <div class="navigate-btn">
-        <button id="navigate-right" mat-icon-button mat-raised-button color="primary" (click)="moveToNextSetElement(true, stepper)">
+        <button
+          id="navigate-right"
+          mat-icon-button
+          mat-raised-button
+          color="primary"
+          (click)="moveToNextSetElement(true, stepper)">
           <mat-icon>arrow_forward</mat-icon>
         </button>
       </div>
-
-
-
     </div>
-
   </mat-step>
-
 </mat-horizontal-stepper>

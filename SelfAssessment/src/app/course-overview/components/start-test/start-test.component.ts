@@ -14,6 +14,11 @@ import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
  * The component displayed before the actual test procedure.
+ * Here the inital procedure is initiated:
+ * 1. User chooses course language
+ * 2. Loads language specific config
+ * 2. Initiatates journal creation
+ * 3. Saves journal for future use
  */
 @Component({
   selector: 'app-start-test',
@@ -37,14 +42,14 @@ export class StartTestComponent implements OnInit {
    */
   public pin: number;
 
+  /**
+   * Pin loading indicator.
+   */
   public pinloading = true;
 
   /**
-   * The desired language.
+   * Constructor for this component.
    */
-  // public language: string;
-
-
   constructor(
     private configService: ConfigService,
     private router: Router,
@@ -65,6 +70,7 @@ export class StartTestComponent implements OnInit {
 
     this.course = this.storageService.retrieveFromStorage(StorageItem.COURSE);
 
+    // append the list-labels to the array
     this.notes = [];
     for (let i = 0; i < 5; i++) {
       this.notes[i] = `list-tips-${i + 1}`;

@@ -1,61 +1,49 @@
-
 <div class="start-test-wrapper">
-
-<mat-card class="basic-info-card">
-
-  <mat-card-header class="header-info-card">
-    <mat-card-title>
-{{'lbl-important-information' | language}}
-  </mat-card-title>
-  <mat-card-subtitle>
-{{'lbl-read-carefully' | language}}
-  </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-
-
-
-      <p>{{'lbl-selfassement-intro' | language}}</p>
+  <mat-card class="basic-info-card">
+    <mat-card-header class="header-info-card">
+      <mat-card-title>
+        {{ "lbl-important-information" | language }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ "lbl-read-carefully" | language }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ "lbl-selfassement-intro" | language }}</p>
 
       <div class="info-content">
+        <mat-list role="list">
+          <h3 mat-header>{{ "lbl-tip" | language }}</h3>
+          <mat-list-item role="listitem" *ngFor="let note of notes">
+            <mat-icon matListIcon>done</mat-icon> {{ note | language }}
+          </mat-list-item>
+        </mat-list>
 
-
-
-      <mat-list role="list">
-        <h3 mat-header>{{'lbl-tip' | language}}</h3>
-        <mat-list-item role="listitem" *ngFor="let note of notes">
-          <mat-icon matListIcon>done</mat-icon> {{ note | language}}
-        </mat-list-item>
-      </mat-list>
-
-      <div class="info-img" *ngIf="course">
+        <div class="info-img" *ngIf="course">
           <img appImg [src]="course.icon" />
         </div>
-    </div>
+      </div>
 
-
-      <h4>{{'lbl-encouragement' | language}}</h4>
-    <div class="pin-note">
-      <i>{{'lbl-note' | language}}</i>
-      <p>
-          {{'lbl-note-text' | language}}
-      </p>
-      <p>
-        <b *ngIf="!pinloading;else spin">PIN: {{this.pin}}</b>
-        <ng-template #spin>
-          <mat-spinner [diameter]="20"></mat-spinner>
-        </ng-template>
-      </p>
-    </div>
-
-</mat-card-content>
-  <mat-card-actions>
-
+      <h4>{{ "lbl-encouragement" | language }}</h4>
+      <div class="pin-note">
+        <i>{{ "lbl-note" | language }}</i>
+        <p>
+          {{ "lbl-note-text" | language }}
+        </p>
+        <p>
+          <b *ngIf="!pinloading; else spin">PIN: {{ this.pin }}</b>
+          <ng-template #spin>
+            <mat-spinner [diameter]="20"></mat-spinner>
+          </ng-template>
+        </p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
       <mat-divider></mat-divider>
 
-
-    <button mat-flat-button color="primary" (click)="startSelfAssessment()">{{'btn-start-assessment' | language}}</button>
-
-  </mat-card-actions>
-</mat-card>
+      <button mat-flat-button color="primary" (click)="startSelfAssessment()">
+        {{ "btn-start-assessment" | language }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>

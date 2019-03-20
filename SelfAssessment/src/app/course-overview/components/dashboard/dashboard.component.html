@@ -1,6 +1,9 @@
 <div class="course-view">
-  <div *ngFor="let course of courses | async">
-    <app-course-card [course]="course" (start)="startTheTest($event)"></app-course-card>
+  <div *ngFor="let course of (courses | async)">
+    <app-course-card
+      [course]="course"
+      (start)="startTheTest($event)">
+    </app-course-card>
   </div>
 </div>
 

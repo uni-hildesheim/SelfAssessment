@@ -1,15 +1,15 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Course } from 'src/app/shared/models/configuration/course.model';
 
 /**
- * Displays a course.
+ * Displays a course card.
  */
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
   styleUrls: ['./course-card.component.scss']
 })
-export class CourseCardComponent implements OnInit {
+export class CourseCardComponent {
 
   /**
    * The course object.
@@ -21,12 +21,8 @@ export class CourseCardComponent implements OnInit {
    */
   @Output() start = new EventEmitter<Course>();
 
-
+  /** Empty constructor */
   constructor( ) { }
-
-  ngOnInit() {
-  }
-
 
   /**
    * Emits the event and tells the parent component that the user choose this course.

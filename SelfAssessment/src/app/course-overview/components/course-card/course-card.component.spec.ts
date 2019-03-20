@@ -60,7 +60,4 @@ describe('CourseCardComponent', () => {
     expect(component.start.emit).toHaveBeenCalled();
     expect(component.start.emit).toHaveBeenCalledWith(mockCourse);
   });
-
-
-
 });

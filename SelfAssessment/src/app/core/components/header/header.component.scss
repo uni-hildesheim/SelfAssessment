@@ -7,7 +7,6 @@
   @include sm { display: inline-block; }
 }
 
-
 .fill-space{
     flex: 1 1 auto;
 }
@@ -31,10 +30,10 @@ mat-toolbar {
     box-shadow: 0 15px 30px 0 rgba(0,0,0,.11),0 5px 15px 0 rgba(0,0,0,.08) !important;
     outline: none;
 }
+
 .logo:hover{
     cursor: pointer;
 }
-
 
 .header {
     margin-left: 20px;

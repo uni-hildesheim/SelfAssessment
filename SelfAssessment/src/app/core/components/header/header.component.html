@@ -1,15 +1,27 @@
 <mat-toolbar color="primary">
-  <img [routerLink]="['/dashboard']" class="logo" appImg [src]="'vendor' | resources:'logo'"/>
 
-<span class="header">{{'header' | resources}}</span>
-<span class="fill-space"></span>
-<span class="lang-icon" (click)="langSelect.open()"><mat-icon>language</mat-icon></span>
-<mat-form-field appearance="legacy" >
-  <mat-select #langSelect [placeholder]="'language'| language" [value]="'language' | resources" (selectionChange)="langChange($event.value)">
-    <mat-option *ngFor="let la of lang" [value]="la">
-      {{la}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <!-- LOGO: LINK TO DASHBOARD -->
+  <img
+    [routerLink]="['/dashboard']"
+    class="logo"
+    appImg
+    [src]="'vendor' | resources: 'logo'"/>
+
+  <span class="header">{{ "header" | resources }}</span>
+  <span class="fill-space"></span>
+  <span class="lang-icon" (click)="langSelect.open()">
+    <mat-icon>language</mat-icon></span>
+
+  <!-- SELECT BOX FOR LANGUAGE -->
+  <mat-form-field appearance="legacy">
+    <mat-select
+      #langSelect
+      [placeholder]="'language' | language"
+      [value]="'language' | resources"
+      (selectionChange)="langChange($event.value)">
+      <mat-option *ngFor="let la of lang" [value]="la">
+        {{ la }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-toolbar>
-

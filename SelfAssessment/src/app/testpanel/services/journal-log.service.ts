@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GlobalIndicator } from '../global.indicators';
-import { JournalStructure } from 'src/app/shared/models/state/journal.structure.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { JournalLog } from 'src/app/shared/models/state/journal.log.model';
-import { SetElement } from 'src/app/shared/models/procedure/set.element.model';
-import { Test } from 'src/app/shared/models/procedure/test.model';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { LoggingService } from 'src/app/shared/logging/logging.service';
-import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
-import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
-import { MultipleOptions } from 'src/app/shared/models/procedure/categories/multiple.options.test';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
 
 /**
@@ -34,7 +28,7 @@ export class JournalLogService {
   ) { }
 
   /**
-   * The model is returned by this method is a pivotal element
+   * The model returned by this method is a pivotal element
    * in sustaining the state across the application. It returns
    * the model for the test specific element e.g the checkbox,
    * the radio-buttons or the strings for the match test.

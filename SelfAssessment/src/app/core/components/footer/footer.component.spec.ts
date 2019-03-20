@@ -4,8 +4,6 @@ import { FooterComponent } from './footer.component';
 import { Resource } from 'src/app/shared/models/resources/resources.model';
 import { Pipe, PipeTransform } from '@angular/core';
 
-
-
 const resourceDummy: Resource = {
   header: '',
   footer: 'myfooter',
@@ -17,8 +15,6 @@ const resourceDummy: Resource = {
     name: ''
   }
 };
-
-
 
 @Pipe({name: 'resources'})
 class MockResourcePipe implements PipeTransform {
