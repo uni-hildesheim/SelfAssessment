@@ -4,5 +4,6 @@
   "tsconfig": "./SelfAssessment/src/tsconfig.app.json",
   "customFavicon": "./SelfAssessment/src/favicon.ico",
   "hideGenerator": true,
-  "includes": "./compodoc/"
+  "includes": "./compodoc/",
+  "assetsFolder": "./compodoc/images"
 }

@@ -32,12 +32,10 @@ The `resources.json` contains all the replaceable strings off the application.
 
 ```json
 {
-  // ...
   "strings": {
     "language": "?ref{language}",
     "btn-start": "?ref{btn-start}",
     "lbl-pin-request": "?ref{lbl-pin-request}"
-
   }
 }
 
@@ -47,7 +45,6 @@ The `resources_de.json` contains all the german translations.
 
 ```json
 {
-  // ...
   "strings": {
     "language": "Deutsch",
     "btn-start": "Starten",
@@ -61,7 +58,6 @@ The `resources_en.json` contains all the english translations.
 
 ```json
 {
-  // ...
   "strings": {
     "language": "English",
     "btn-start": "Start",
@@ -96,7 +92,6 @@ The `imit_en.json` file contains all the refs which you can use inside the `imit
 Inside `imit.json` file you can reference the refs like that:
 
 ```json
-// ...  
 "tests": [
     {
       "id": 1001,
@@ -119,14 +114,15 @@ Inside `imit.json` file you can reference the refs like that:
 
 **NOTE**: You can also break down text by using multiple refs inside a string. That is particularly useful if you have some language-independent content e.g. a complex latex equation. For example:
 
-```json
-// refs:
-    "1008-1": "This is a long language specifc text before the equation.",
-    "1008-2": "I Am also a very long text but i come after the equation."
-// used like that:
-    "description": "?ref{1008-1} $$\\sum_{i=1}^{n}\\frac{12}{i}$$ ?ref{1008-2}",
+refs:
 
+```json
+"1008-1": "This is a long language specifc text before the equation.",
+"1008-2": "I Am also a very long text but i come after the equation."
 ```
 
+used like that:
 
-
+```json
+"description": "?ref{1008-1} $$\\sum_{i=1}^{n}\\frac{12}{i}$$ ?ref{1008-2}",
+```

@@ -2,17 +2,26 @@
 
 The following text describes the process of creating a new test definition file for the self-assessment system. 
 
-**Important**: Read the Language support section first.
+**Important**: Read the Language section first.
+
+### Table of Contents
+1. [Step 1: General information](#general)
+2. [Step 2: Creating the tests](#test)
+3. [Step 3: Creating testgroups](#testgroup)  
+4. [Step 4: Assembling the test sets](#set)  
+5. [Step 5: Add Infopages](#infopages)  
+6. [Additional Information](#info) 
+	* [Images](#image)
+	* [LaTeX Equations](#latex)
+7. [Autodeploy feature](#autodeploy)
+
+<a name="general"></a>
 
 ## Step 1: General information
 
-Create a new file for example: `my-test-definition.json`
+Create a new file for example: `imit.json`
 
 This file has the following base structure:
-
-1. Choose a course title
-2. Create a validation schema
-3. Pick a course image
 
 ```json
 {
@@ -24,7 +33,7 @@ This file has the following base structure:
 ```
 
 
-
+<a name="test"></a>
 ## Step 2: Creating the tests
 
 After the `icon` attribute provide all the tests that you want to display (or potentially display) across the application.
@@ -35,11 +44,9 @@ Every test has the following attributes.
 * **type**: A type to group different tests together
 * **description**: The test description
 * **task**: The task of the test
-* **options**: The different answers from which a user can choose
-  * text: The content of the option
-  * correct: Whether this option is correct (boolean for most categories)
+* **options**: The different answers from which a user can choose *(see table below)*
 * **evaluated**: Boolean to indicate if the test should be evaluated
-* **seconds:** If provided the test becomes a speed with the seconds attribute as the time limit
+* **seconds:** If provided the test becomes a speed test with the seconds attribute as its time limit
 * **category**:
 
   1. **radio-buttons:** A user can choose one of the following answers
@@ -123,19 +130,12 @@ Example for multiple-options test:
   "title": "IMIT",
   "validationSchema": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
   "icon": "imit.jpg",
-  "tests": [
-      {
-          // Add the test 1001
-      },
-      {
-          // Add the test 1002
-      }
-  ]
+  "tests": [ ]
 }
 ```
 
 
-
+<a name="testgroup"></a>
 ## Step 3: Creating testgroups
 
 A `testgroup` is an arrangement of multiple tests.  Every group has the following attributes:
@@ -161,13 +161,13 @@ Example for the testgroup:
 Add this `testgroup` array below the `tests` array.
 
 
-
+<a name="set"></a>
 ## Step 4: Assembling the test sets
 
 A test `set` is a grouping of tests and testgroups. It has the following attributes:
 
 *  **id**: A unique id to reference the set, can be a string although a number is encouraged
-* **elements**:  The set elements which can be test or a testgroup
+* **elements**:  The set elements which can be a test or a testgroup
 *  **evaluationTexts**: Set specific texts to show the user during the evaluation
   * **scoreIndependent**:  Text that is shown to every user
   * **scoreDependent**: Array of score dependent text, from which one text is shown to the user depending on the users score. See the example below: *33* means that the text in that array is shown to every user who achieved a score of 33% or less. 66% means that the text in that array is shown to every user who's score is greater than 33% but smaller than 66% etc.
@@ -195,7 +195,7 @@ Example for a test set:
 ```
 
 
-
+<a name="infopage"></a>
 ## Step 5: Add Infopages
 
 An `infopage` provides a help text that is shown before a `test`, `testgroup` or a `set`. It has the following attributes:
@@ -219,24 +219,31 @@ Example for an infopage:
 ```
 
 
+<a name="info"></a>
+## Additional Information
+<a name="image"></a>
+### Images
 
-## Additional Information:
+The image should be placed inside the following directory (if course is not deployed using the autodeploy feature):
 
-### Images:
+```
+/SelfAssessment/backend/data/assets/public
+```
 
-To show images inside the texts you need to add an HTML tag at the specific place. Because the image should not change for different languages make sure you add the tag not the language files, but to the actual configuration file like that:
+To show images inside the texts you just need to wrap the name of the image inside two backticks.
+
+Because the image should not change for different languages make sure you add the tag not the language files, but to the actual configuration file like that:
 
 ```json
   {
     "id": 1001,
-    "description": "?ref{1001-1} <img src='name-of-img.png'/>",
-	...
+    "description": "?ref{1001-1} ``name_of_img.jpg``",
   }
 ```
 
+<a name="latex"></a>
 
-
-### **LaTeX** Equations:
+### **LaTeX** Equations
 
 The application supports latex equations which can be added to the different texts, options, infopages etc. Just like the images the equations should not depend on a specific language which is why they also should be added not to the language file but to the configuration file. To a latex equation within a text you need to wrap it inside two `$$` signs, like that:
 
@@ -244,6 +251,24 @@ The application supports latex equations which can be added to the different tex
   {
     "id": 1001,
     "description": "?ref{1001-1} $$\\sum_{i=1}^nx_i$$  ref{1001-2}/>",
-	...
   }
 ```
+
+<a name="autodeploy"></a>
+
+## Autodeploy feature
+
+This features allows for uploading bundles containing config files assets (such as icons/images) at the same time. Files are processed and then removed from the directory.
+
+Basic example of a valid zip file bundle:
+
+```
+ new.zip
+ |
+ |-- assets/public/imit.png
+ |-- assets/public/winf.png
+ |-- configs/imit.json
+ |-- configs/winf.json
+```
+
+A zip file may contain multiple configs at the same time. The files have been deployed, the configs are forcibly in the database (and existing configs are dropped).

@@ -29,4 +29,5 @@ The application uses a custom material theme which can be changed just like in a
 
 ### Language and Course Expansion
 
-See the extra documentation.
+[Language](config-doc/language-support.md) & [Adding new Course](config-doc/definition.md)
+
