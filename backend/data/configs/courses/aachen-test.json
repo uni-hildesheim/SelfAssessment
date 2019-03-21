@@ -1,0 +1,519 @@
+{
+    "title":"Elektrotechnik und Informatik",
+    "validationSchema":"AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+    "icon": "Aachen.jpg",
+    "tests": [
+         {
+          "id": 1006,
+          "type": "logic",
+          "category": "multiple-options",
+          "description": "?ref{1006-1}",
+          "task": "?ref{1006-2}",
+          "options": [
+              {
+                "text": "?ref{1006-3}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1006-4}",
+                "correct": 2
+              },
+              {
+                "text": "?ref{1006-5}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1006-6}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1006-7}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1006-8}",
+                "correct": 0
+              }
+            ],
+            "header": [
+              "?ref{1006-9}",
+              "?ref{1006-10}"
+            ],
+          "evaluated": true
+        },
+        {
+          "id": 1007,
+          "type": "logic",
+          "category": "multiple-options",
+          "description": "?ref{1007-1}",
+          "task": "?ref{1007-2}",
+          "options": [
+              {
+                "text": "?ref{1007-3}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-4}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-5}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-6}",
+                "correct": 2
+              },
+              {
+                "text": "?ref{1007-7}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-8}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-9}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1007-10}",
+                "correct": 0
+              }
+            ],
+            "header": [
+              "?ref{1007-11}",
+              "?ref{1007-12}"
+            ],
+            "evaluated": true
+        },
+        {
+          "id": 1008,
+          "type": "motivation",
+          "category": "multiple-options",
+          "description": "?ref{1008-1}",
+          "task": "?ref{1008-2}",
+          "options": [
+              {
+                "text": "?ref{1008-3}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-4}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-5}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-6}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-7}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-8}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1008-9}",
+                "correct": 0
+              }
+            ],
+            "header": [
+              "?ref{1008-10}",
+              "?ref{1008-11}",
+              "?ref{1008-12}",
+              "?ref{1008-13}"
+            ],
+            "evaluated": false
+          },
+          {
+            "id": 1009,
+            "type": "motivation",
+            "category": "multiple-options",
+            "description": "?ref{1009-1}",
+            "task": "?ref{1009-2}",
+            "options": [
+              {
+                "text": "?ref{1009-3}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-4}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-5}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-6}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-7}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-8}",
+                "correct": 0
+              },
+              {
+                "text": "?ref{1009-9}",
+                "correct": 0
+              }
+            ],
+            "header": [
+              "?ref{1009-10}",
+              "?ref{1009-11}",
+              "?ref{1009-12}",
+              "?ref{1009-13}"
+            ],
+            "evaluated": false
+          },
+          {
+            "id": 1010,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1010-1}",
+            "task": "?ref{1010-2}",
+            "options": [
+                {
+                  "text": "?ref{1010-3}"
+                },
+                {
+                  "text": "?ref{1010-4}",
+                  "correct": true
+                },
+                {
+                  "text": "?ref{1010-5}"
+                },
+                {
+                  "text": "?ref{1010-6}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1011,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1011-1}",
+            "task": "?ref{1011-2}",
+            "options": [
+                {
+                  "text": "?ref{1011-3}",
+                  "correct": true
+                },
+                {
+                  "text": "?ref{1011-4}"
+                },
+                {
+                  "text": "?ref{1011-5}"
+                },
+                {
+                  "text": "?ref{1011-6}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1012,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1012-1}",
+            "task": "?ref{1012-2}",
+            "options": [
+                {
+                  "text": "?ref{1012-3}"
+                },
+                {
+                  "text": "?ref{1012-4}"
+                },
+                {
+                  "text": "?ref{1012-5}",
+                  "correct": true
+                },
+                {
+                  "text": "?ref{1012-6}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1013,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1013-1}",
+            "task": "?ref{1013-2}",
+            "options": [
+                {
+                  "text": "?ref{1013-3}"
+                },
+                {
+                  "text": "?ref{1013-4}",
+                  "correct": true
+                },
+                {
+                  "text": "?ref{1013-5}"
+                },
+                {
+                  "text": "?ref{1013-6}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1014,
+            "type": "concentration",
+            "category": "match",
+            "seconds": 30,
+            "description": "?ref{1014-1}",
+            "task": "?ref{1014-2}",
+            "options": [
+                {
+                  "text": "?ref{1014-3}",
+                  "correct": "?ref{1014-3-1}",
+                  "index": "?ref{1014-3-2}"
+
+                },
+                {
+                  "text": "?ref{1014-4}",
+                  "correct": "?ref{1014-4-1}",
+                  "index": "?ref{1014-4-2}"
+                },
+                {
+                  "text": "?ref{1014-5}",
+                  "correct": "?ref{1014-5-1}",
+                  "index": "?ref{1014-5-2}"
+                },
+                {
+                  "text": "?ref{1014-6}",
+                  "correct": "?ref{1014-6-1}",
+                  "index": "?ref{1014-6-2}"
+                },
+                {
+                  "text": "?ref{1014-7}",
+                  "correct": "?ref{1014-7-1}",
+                  "index": "?ref{1014-7-2}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1015,
+            "type": "concentration",
+            "category": "match",
+            "seconds": 30,
+            "description": "?ref{1015-1}",
+            "task": "?ref{1015-2}",
+            "options": [
+                {
+                  "text": "?ref{1015-3}",
+                  "correct": "?ref{1015-3-1}",
+                  "index": "?ref{1015-3-2}"
+                },
+                {
+                  "text": "?ref{1015-4}",
+                  "correct": "?ref{1015-4-1}",
+                  "index": "?ref{1015-4-2}"
+                },
+                {
+                  "text": "?ref{1015-5}",
+                  "correct": "?ref{1015-5-1}",
+                  "index": "?ref{1015-5-2}"
+                },
+                {
+                  "text": "?ref{1015-6}",
+                  "correct": "?ref{1015-6-1}",
+                  "index": "?ref{1015-6-2}"
+                },
+                {
+                  "text": "?ref{1015-7}",
+                  "correct": "?ref{1015-7-1}",
+                  "index": "?ref{1015-7-2}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1016,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1016-1}",
+            "task": "?ref{1016-2}",
+            "options": [
+                {
+                  "text": "?ref{1016-3}"
+                },
+                {
+                  "text": "?ref{1016-4}",
+                  "correct": true
+                },
+                {
+                  "text": "?ref{1016-5}"
+                }
+              ],
+            "evaluated": true
+          },
+          {
+            "id": 1017,
+            "type": "motivation",
+            "category": "radio-buttons",
+            "description": "?ref{1017-1}",
+            "task": "?ref{1017-2}",
+            "options": [
+                {
+                  "text": "?ref{1017-3}"
+                },
+                {
+                  "text": "?ref{1017-4}"
+                },
+                {
+                  "text": "?ref{1017-5}"
+                }
+              ],
+            "evaluated": false
+          },
+          {
+            "id": 1018,
+            "type": "maths",
+            "category": "radio-buttons",
+            "description": "?ref{1018-1}",
+            "task": "?ref{1018-2}",
+            "options": [
+                {
+                  "text": "?ref{1017-3}"
+                },
+                {
+                  "text": "?ref{1018-4}"
+                },
+                {
+                  "text": "?ref{1018-5}"
+                }
+              ],
+            "evaluated": false
+          },
+          {
+            "id": 1019,
+            "type": "logic",
+            "category": "radio-buttons",
+            "description": "?ref{1019-1}",
+            "task": "?ref{1019-2}",
+            "options": [
+                {
+                  "text": "?ref{1019-3}"
+                },
+                {
+                  "text": "?ref{1019-4}"
+                },
+                {
+                  "text": "?ref{1019-5}"
+                }
+              ],
+              "evaluated": false
+            }
+    ],
+    "sets": [
+      {
+        "id": 3003,
+        "elements": [
+          1006,
+          1007,
+          1016
+        ],
+        "evaluationTexts": {
+          "scoreIndependent": "?ref{3003-1}",
+          "scoreDependent": [
+            [33, "?ref{3003-2}"],
+            [66, "?ref{3003-3}"],
+            [100, "?ref{3003-4}"]
+          ]
+        }
+      },
+      {
+        "id": 3004,
+        "elements": [
+          1008,
+          1009,
+          1017
+        ],
+        "evaluationTexts": {
+          "scoreIndependent": "?ref{3004-1}",
+          "scoreDependent": [
+            [33, "?ref{3004-2}"],
+            [66, "?ref{3004-3}"],
+            [100, "?ref{3004-4}"]
+          ]
+        }
+      },
+      {
+        "id": 3005,
+        "elements": [
+          1010,
+          1011,
+          1012,
+          1013,
+          1018
+        ],
+        "evaluationTexts": {
+          "scoreIndependent": "?ref{3005-1}",
+          "scoreDependent": [
+            [33, "?ref{3005-2}"],
+            [66, "?ref{3005-3}"],
+            [100, "?ref{3005-4}"]
+          ]
+        }
+      },
+      {
+        "id": 3006,
+        "elements": [
+          1014,
+          1015,
+          1019
+        ],
+        "evaluationTexts": {
+          "scoreIndependent": "?ref{3006-1}",
+          "scoreDependent": [
+            [33, "?ref{3006-2}"],
+            [66, "?ref{3006-3}"],
+            [100, "?ref{3006-4}"]
+          ]
+        }
+      }
+    ],
+    "infopages":[
+      {
+        "id": 4002,
+        "text": "?ref{4002-1}",
+        "belongs": [
+         3003
+        ]
+      },
+      {
+        "id": 4003,
+        "text": "?ref{4003-1}",
+        "belongs": [
+          3004
+        ]
+      },
+      {
+        "id": 4004,
+        "text": "?ref{4004-1}",
+        "belongs": [
+          3005
+        ]
+      },
+      {
+        "id": 4005,
+        "text": "?ref{4005-1}",
+        "belongs": [
+          3006
+        ]
+      }
+    ]
+}
