@@ -6,5 +6,8 @@
     "ng": "ng",
     "doc": "compodoc -p SelfAssessment/src/tsconfig.app.json",
     "doc serve": "compodoc -s"
+  },
+  "dependencies": {
+    "compodoc": "0.0.41"
   }
 }
