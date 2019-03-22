@@ -1,23 +1,45 @@
 mat-card {
-  width: 300px - 2 * 16px;
-  height: 300px;
-  padding-bottom: 5px;
+  width: 300px;
+  height: 320px;
+  // padding-bottom: 5px;
+  padding:0px !important;
   margin: 40px 27px 0px 27px;
+
+  .mat-card-image {
+    margin:0px !important;
+  }
+
+  mat-card-footer {
+    margin: 0px !important;
+  }
   img {
     width: 300px;
     height: 200px;
     object-fit: cover;
   }
-  .mat-card-footer {
-    padding-left: 15px;
-    p {
-      height: 36px;
-      margin-top: 0px;
-    }
-    button {
-      position: absolute;
-      right: 10px;
-    }
+
+  button {
+    width: 100%;
+    border-radius: 0px;
+    position: absolute;
+    bottom:0px;
   }
+  p {
+    line-height: 20px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+  }
+
+  // .mat-card-footer {
+  //   padding-left: 15px;
+  //   p {
+  //     height: 36px;
+  //     margin-top: 0px;
+  //   }
+  //   button {
+  //     position: absolute;
+  //     right: 10px;
+  //   }
+  // }
 }
 
