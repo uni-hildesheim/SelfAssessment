@@ -1,10 +1,14 @@
-<div class="course-view">
-  <div *ngFor="let course of (courses | async)">
-    <app-course-card
-      [course]="course"
-      (start)="startTheTest($event)">
-    </app-course-card>
-  </div>
+<div class="course-view" *ngIf="(courses$ | async) as courses; else loading">
+    <div *ngFor="let course of courses">
+      <app-course-card
+        [course]="course"
+        (start)="startTheTest($event)">
+      </app-course-card>
+    </div>
 </div>
+
+<ng-template #loading>
+  <mat-progress-spinner style="margin: auto;" mode="indeterminate" color="primary"></mat-progress-spinner>
+</ng-template>
 
 <app-pin></app-pin>
