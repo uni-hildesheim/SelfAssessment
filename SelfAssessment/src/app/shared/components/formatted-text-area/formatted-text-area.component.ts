@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
+import { environment } from 'src/environments/environment.prod';
 
 /**
  * Component which can be used to format text, e.g to filter latex expressions.
@@ -25,12 +26,23 @@ export class FormattedTextAreaComponent implements OnInit, OnChanges {
    */
   latexRegex = /\$\$([^\$]*)\$\$/g;
 
+  /**
+   * The regex to find the images.
+   */
+  imgRegex = /``([^`]*)``/g;
+
+  /**
+   * The backend api url.
+   */
+  backendUrl = environment.apiUrl;
+
   constructor() { }
 
   /**
    * Reformat the equations if the component is reloaded.
    */
   ngOnInit() {
+    this.formatImages();
     this.formatEquations();
   }
 
@@ -39,6 +51,13 @@ export class FormattedTextAreaComponent implements OnInit, OnChanges {
    */
   ngOnChanges() {
     this.ngOnInit();
+  }
+
+  /**
+   * Create the correct image path and set the attribute.
+   */
+  formatImages() {
+    this.rawText = this.rawText.replace(this.imgRegex, `<img src=${this.backendUrl}/$1>`);
   }
 
   /**
