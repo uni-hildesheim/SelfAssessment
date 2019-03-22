@@ -1,4 +1,5 @@
 <mat-horizontal-stepper
+  labelPosition="bottom"
   #stepper
   [appLoadComp]="loading"
   (selectionChange)="jumpToNextSet($event.selectedIndex)">
@@ -6,7 +7,6 @@
     <div *ngIf="loading" class="loading-bar">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
-
     <div
       [ngClass]="{ 'loading-content': loading }"
       class="wrapper-main"
