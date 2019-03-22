@@ -59,11 +59,11 @@ export class MatchComponent implements CategoryComponent, OnInit {
   }
 
   /**
-   * Highlights 3 chars left and right from the hoverd char.
+   * Highlights x chars left and right from the hoverd char.
    */
   public spanMouseAction(over: boolean, i: number, j: number): void {
 
-    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
+    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0) + 2;
 
     j = this.adjustTheDistance(i, j, distance);
 
@@ -99,7 +99,7 @@ export class MatchComponent implements CategoryComponent, OnInit {
    */
   public handleModelChange(value: any, i: number, j: number): void {
 
-    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0);
+    const distance = Math.ceil(this.test.options[i].correct.toString().length / 2.0) + 2;
 
     j = this.adjustTheDistance(i, j, distance);
 
