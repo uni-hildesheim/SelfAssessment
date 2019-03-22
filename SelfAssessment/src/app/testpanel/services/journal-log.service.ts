@@ -40,7 +40,10 @@ export class JournalLogService {
     return this.journalLogInstance.sets[this.globals.setIndex].get(id);
   }
 
-
+  /**
+   * Initalizes the journal log behaviour subject from a parsed value.
+   * @param journalLog The journal log.
+   */
   public initJournalLog(journalLog: JournalLog): void {
     this.journalLog = new BehaviorSubject(journalLog);
   }

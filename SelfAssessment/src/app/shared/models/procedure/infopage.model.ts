@@ -6,6 +6,9 @@ import { SetElementType } from './enums/element.type.enum';
  */
 export class Infopage implements SetElement {
 
+    /**
+     * Set the element type.
+     */
     elementType: SetElementType = SetElementType.INFOPAGE;
 
     /**

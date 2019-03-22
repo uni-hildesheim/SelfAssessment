@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
 
 /**
@@ -10,16 +10,17 @@ import { ResultTest } from 'src/app/shared/models/evaluation/result.test';
   templateUrl: './result-tree.component.html',
   styleUrls: ['./result-tree.component.scss']
 })
-export class TestResultPanelComponent implements OnInit {
+export class TestResultPanelComponent {
 
   /**
    * The result set which contains all the set-specific tests.
    */
   @Input() tests: ResultTest[];
 
+  /**
+   * Constructor for this component.
+   */
   constructor() {}
-
-  ngOnInit() {}
 
   /**
    * Checks whether the user actually choose an answer.

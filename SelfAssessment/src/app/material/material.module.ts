@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule,
-  MatIconModule, MatButtonModule, MatProgressBarModule, MatGridListModule,
-  MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule, MatProgressSpinnerModule,
-  MatSnackBarModule, MatChipsModule, MatOptionModule, MatSelectModule, MatExpansionModule,
-  MatBottomSheetModule, MatTreeModule, MatBadgeModule, MatTooltipModule,
+  MatStepperModule, MatCardModule, MatRadioModule, MatCheckboxModule, MatExpansionModule,
+  MatIconModule, MatButtonModule, MatProgressBarModule, MatProgressSpinnerModule,
+  MatListModule, MatToolbarModule, MatDialogModule, MatInputModule, MatFormFieldModule,
+  MatChipsModule, MatOptionModule, MatSelectModule,
+  MatBottomSheetModule, MatBadgeModule,
 } from '@angular/material';
 @NgModule({
   declarations: [],
