@@ -10,8 +10,14 @@ import { Category } from './enums/category.enum';
  */
 export abstract class Test implements SetElement {
 
+    /**
+     * Set the appropriate set element type.
+     */
     elementType: SetElementType =  SetElementType.TEST;
 
+    /**
+     * The specific test-category.
+     */
     category: Category;
 
     /**
@@ -40,11 +46,14 @@ export abstract class Test implements SetElement {
     options: TestOption[];
 
     /**
-     * Indicates whether or not the test should be
-     * part of the Evaluation.
+     * Indicates whether or not the test should be part of the Evaluation.
      */
     evaluated: boolean;
 
+    /**
+     * The number of seconds that the user has to complete the task. If provided the test becomes
+     * a `speedtest`.
+     */
     seconds?: number;
 
 }

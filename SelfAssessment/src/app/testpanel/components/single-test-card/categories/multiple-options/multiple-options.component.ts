@@ -25,7 +25,9 @@ export class MultipleOptionsComponent implements CategoryComponent,  OnInit {
    */
   public models: boolean[][];
 
-
+  /**
+   * Constructor for this component.
+   */
   constructor(
     private journalLogService: JournalLogService
   ) { }

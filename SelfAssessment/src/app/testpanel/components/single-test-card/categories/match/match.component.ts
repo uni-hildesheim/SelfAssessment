@@ -3,6 +3,9 @@ import { JournalLogService } from 'src/app/testpanel/services/journal-log.servic
 import { Match } from 'src/app/shared/models/procedure/categories/match.test';
 import { CategoryComponent } from '../../categorie.component';
 
+/**
+ * Component which realizes the match functionality.
+ */
 @Component({
   selector: 'app-match',
   templateUrl: './match.component.html',
@@ -31,12 +34,18 @@ export class MatchComponent implements CategoryComponent, OnInit {
    */
   public models: (boolean | [number, number]) [];
 
+  /**
+   * Choosen substrings which are displayed inside chips.
+   */
   public chipModels = [];
 
 
   constructor(private journalLogService: JournalLogService) { }
 
-
+  /**
+   * Splits up the options into their respective chars, so that the user can hover over them and
+   * choose a substring of chars.
+   */
   ngOnInit() {
     this.test.options.forEach(rawOpt => {
       const opt = rawOpt.text;
@@ -63,6 +72,14 @@ export class MatchComponent implements CategoryComponent, OnInit {
     }
   }
 
+  /**
+   * Ajust the distance of a hovered/clicked substring. E.g if the user hovers the first letter of
+   * the option that means the chars to the right are highlighted times the distance.
+   *
+   * @param i The option index.
+   * @param j The char which was clicked/hovered.
+   * @param distance The distance of the option.
+   */
   public adjustTheDistance(i: number, j: number, distance: number) {
     if (j < distance) {
       return distance;
@@ -102,7 +119,12 @@ export class MatchComponent implements CategoryComponent, OnInit {
     this.journalLogService.refreshJournalLog();
   }
 
-  checkSubstringFromModel(i: number) {
+  /**
+   * Prepares the clicked options so that the chips inside the view can display them.
+   * @param i The option index.
+   * @returns The clicked substring.
+   */
+  checkSubstringFromModel(i: number): any {
     if (!this.models[i]) {
       return null;
     }

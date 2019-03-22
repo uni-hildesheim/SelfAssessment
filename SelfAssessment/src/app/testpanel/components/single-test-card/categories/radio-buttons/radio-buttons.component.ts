@@ -25,6 +25,9 @@ export class RadioButtonsComponent implements CategoryComponent, OnInit {
    */
   public models: boolean[];
 
+  /**
+   * Constructor for this component.
+   */
   constructor(
     private journalLogService: JournalLogService
   ) { }
