@@ -68,7 +68,7 @@ describe('DashboardComponent', () => {
 
 
   it('should have course list defined from observable', () => {
-    component.courses.subscribe(course => {
+    component.courses$.subscribe(course => {
       expect(course[0]).toBeDefined();
       expect(course[0]).toEqual(mockCourse);
     });

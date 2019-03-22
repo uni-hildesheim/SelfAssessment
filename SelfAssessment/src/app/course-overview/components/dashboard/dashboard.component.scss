@@ -1,3 +1,5 @@
+@import "src/scss/mixins.scss";
+
 .course-view{
     display: flex;
     flex-direction: row;
@@ -5,5 +7,11 @@
     padding-bottom: 140px;
     margin: auto;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
+    @include md {
+      justify-content: center;
+    }
+    @include sm {
+      justify-content: center;
+    }
 }

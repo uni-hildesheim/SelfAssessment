@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   /**
    * Observable containing the courses.
    */
-  public courses: Observable<Object>;
+  public courses$: Observable<Object>;
 
   /**
    * Constructor for this component.
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
    * Get all the courses from the config service.
    */
   ngOnInit() {
-    this.courses = this.configService.getAllCourses();
+    this.courses$ = this.configService.getAllCourses();
   }
 
   /**
