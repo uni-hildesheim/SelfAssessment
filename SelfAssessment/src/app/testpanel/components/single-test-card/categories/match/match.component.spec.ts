@@ -1,15 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MatchComponent } from './match.component';
 import { MaterialModule } from 'src/app/material/material.module';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { GlobalIndicator } from 'src/app/testpanel/global.indicators';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JournalLogService } from 'src/app/testpanel/services/journal-log.service';
 import { Category } from 'src/app/shared/models/procedure/enums/category.enum';
 import { SetElementType } from 'src/app/shared/models/procedure/enums/element.type.enum';
 import { Match } from 'src/app/shared/models/procedure/categories/match.test';
-import { By } from '@angular/platform-browser';
 
 
 
@@ -73,7 +70,7 @@ describe('MatchComponent', () => {
     component.spanMouseAction(true, 0, 5);
     expect(component.coloredOptions).toEqual(
       [
-        [false, false, false, false, true, true, false, false,
+        [false, false, true, true, true, true, true, true,
            false, false, false, false, false, false, false, false, false, false ],
         [false, false, false, false, false, false, false, false,
            false, false, false, false, false, false, false, false, false, false, false ]
@@ -100,7 +97,7 @@ describe('MatchComponent', () => {
   it('should add clicked chars and remove the option on click', () => {
     spyOn(journalLogService, 'refreshJournalLog');
     component.handleModelChange(true, 0, 5);
-    expect(component.models[0]).toEqual([4, 6]);
+    expect(component.models[0]).toEqual([2, 8]);
     expect(journalLogService.refreshJournalLog).toHaveBeenCalled();
 
     component.removeOption(0);
