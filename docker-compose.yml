@@ -1,0 +1,34 @@
+version: "3"
+services:
+  selfassessment-frontend:
+    container_name: selfassessment-frontend
+    restart: always
+    image: selfassessment-frontend
+    build: SelfAssessment
+    ports:
+      - "80:80"
+    links:
+      - selfassessment-backend
+  selfassessment-backend:
+    container_name: selfassessment-backend
+    restart: always
+    image: selfassessment-backend
+    build: backend
+    volumes:
+      - ./backend/.env:/usr/src/app/.env
+      - ./backend/data/autodeploy:/usr/src/app/data/autodeploy
+      - ./backend/data/assets:/usr/src/app/data/assets
+      - ./backend/data/configs:/usr/src/app/data/configs
+      - ./backend/data/logs:/usr/src/app/data/logs
+    ports:
+      - "8000:8000"
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo
+    volumes:
+      - ./backend/data/db:/data/db
+    ports:
+      - "27017:27017"
