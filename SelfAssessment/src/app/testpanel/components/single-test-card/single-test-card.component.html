@@ -1,12 +1,12 @@
 <mat-card>
   <mat-card-content>
     <p>
-      <app-formatted-text-area [rawText]="singleTest.description">
+      <app-formatted-text-area [rawText]="singleTest.description" class='description'>
       </app-formatted-text-area>
     </p>
 
     <p>
-      <app-formatted-text-area [rawText]="singleTest.task">
+      <app-formatted-text-area [rawText]="singleTest.task" class='task'>
       </app-formatted-text-area>
     </p>
 
@@ -40,7 +40,7 @@
 
   </mat-card-content>
   <mat-card-footer>
-    <span>{{ singleTest.id }}</span>
+    <span class=''testcardID>{{ singleTest.id }}</span>
   </mat-card-footer>
 </mat-card>
 
