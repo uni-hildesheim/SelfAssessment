@@ -156,31 +156,28 @@ class MatchTest extends BaseTest {
             const selectedText = testOptions[i]['text'].substring(userSelectionStart,
                 userSelectionEnd);
             const occurences = [];
-            let index = 0;
-            while (index !== -1) {
-                index = searchString.indexOf(correctOption);
-                if (index !== -1) {
-                    searchString = searchString.slice(index + correctOption.length);
+            for (let i = 0; i < searchString.length; i++) {
+                if (searchString.substr(i, correctOption.length) === correctOption) {
                     occurences.push({
-                        start: index,
-                        end: index + correctOption.length
+                        start: i,
+                        end: i + correctOption.length
                     });
                 }
             }
 
-            // a point is awarded if:
-            //      1. the selected text includes the correct text (as defined in the config)
-            //      2. the text is the n-th occurence (as defined in the config)
-            let selectedOccurence = -1;
-            for (let i = 0; i < occurences.length; i++) {
-                if (userSelectionStart <= occurences[i].start
-                        && userSelectionEnd >= occurences[i].end) {
-                    selectedOccurence = i;
-                }
+            if (correctOptionIndex >= occurences.length) {
+                logger.error('MatchTest: correct option index (from config) is: '
+                             + correctOptionIndex + ', but we only found ' + occurences.length
+                             + ' occurences');
+                continue;
             }
 
+            // a point is awarded if:
+            //      1. the selected text includes the correct text (as defined in the config)
+            //      2. the selected text includes the n-th occurence (as defined in the config)
             if (selectedText.includes(correctOption)
-                    && selectedOccurence === correctOptionIndex) {
+                    && userSelectionStart <= occurences[correctOptionIndex].start
+                    && userSelectionEnd >= occurences[correctOptionIndex].end) {
                 // correct option was selected, award a point
                 result.correct.push(i);
                 result.score++;
