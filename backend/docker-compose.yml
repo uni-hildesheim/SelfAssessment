@@ -7,8 +7,10 @@ services:
     build: .
     volumes:
       - ./.env:/usr/src/app/.env
+      - ./data/autodeploy:/usr/src/app/data/autodeploy
       - ./data/assets:/usr/src/app/data/assets
       - ./data/configs:/usr/src/app/data/configs
+      - ./data/logs:/usr/src/app/data/logs
     ports:
       - "8000:8000"
     links:
