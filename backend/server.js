@@ -505,14 +505,20 @@ function setupAutodeploy(inputPath, outputPath) {
     });
 }
 
-async function main() {
-    loadEnvironment();
+/**
+ * Initialize the global logger.
+ * Adds file based logging in the specified logdir.
+ * @param {string} logdir Directory where log files are stored.
+ */
+function setupLogger(logdir) {
+    let logFiles;
 
-    // create the app
-    const app = createApp();
-
-    // log to a file
-    const logFiles = fs.readdirSync('./data/logs/');
+    try {
+        logFiles = fs.readdirSync(logdir);
+    } catch (err) {
+        logger.error(err);
+        return;
+    }
 
     const date = new Date();
     let logFileName = date.getFullYear() + '-' + date.getMonth()+1 + '-' + date.getDate();
@@ -524,10 +530,20 @@ async function main() {
     }
 
     // add file transport to global logger
-    const logFilePath = './data/logs/' + logFileName + "_" + logFileIndex + logFilePostfix;
+    const logFilePath = logdir + logFileName + "_" + logFileIndex + logFilePostfix;
     const fileTransport = new logger.Transport.FileTransport(logFilePath);
     fileTransport.limit = LOG_OPTIONS.limit;
     logger.addTransport(fileTransport);
+}
+
+async function main() {
+    loadEnvironment();
+
+    // create the app
+    const app = createApp();
+
+    // log to a file
+    setupLogger('./data/logs/');
 
     // connect to DB
     logger.info('MongoDB URI: ' + db.config.uri);
