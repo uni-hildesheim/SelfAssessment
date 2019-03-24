@@ -1,7 +1,7 @@
 {
-  "title": "IMIT",
-  "validationSchema": "AI([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
-  "icon": "imit.jpg",
+  "title": "Example",
+  "validationSchema": "EX([A-Z][A-Z][A-Z][a-z][a-z][a-z][a-z][a-z][0-9][0-9])%9",
+  "icon": "example.png",
   "tests": [
     {
       "id": 1001,
