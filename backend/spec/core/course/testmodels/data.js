@@ -41,7 +41,8 @@ const RadioButtonTestConfig = {
     description: "",
     task: "",
     options: [{
-        text: ""
+        text: "",
+        correct: true
     }],
     evaluated: false
 };
@@ -55,6 +56,15 @@ const MatchTestConfig = {
     options: [{
         text: "ABC DEF GHI DEF",
         correct: "DEF",
+        index: "1"
+    }, {
+        text: "Yes No Maybe",
+        correct: " ",
+        index: "0"
+    },
+    {
+        text: "McMahon, M (2002). Using qualitative assessment in career counselling. International Journal for Educational and Vocational Guidance, 2(6), 51-66. ",
+        correct: " ",
         index: "1"
     }],
     evaluated: false,

@@ -95,4 +95,18 @@ describe('MultipleChoiceTest', () => {
             expect(ret).toBe(true);
         });
     });
+
+    describe('.calculateResult(log)', () => {
+        it('should calculate correct result', () => {
+            const log = [
+                true,
+                false
+            ];
+            const result = this.MultipleChoiceTestInstance.calculateResult(log);
+
+            expect(result.score).toEqual(1);
+            expect(result.correct.length).toEqual(1);
+            expect(result.wrong.length).toEqual(0);
+        });
+    });
 });
