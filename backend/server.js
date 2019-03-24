@@ -557,9 +557,6 @@ async function main() {
         return;
     }
 
-    // TEST DEBUG
-    CrashReporter.sendReport('TESTING!!', CrashReporter.ReportType.GENERIC);
-
     // sync frontend resource configs
     loadFrontendResources('./data/configs/frontend');
 
