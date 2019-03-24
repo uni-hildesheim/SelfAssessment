@@ -1,5 +1,6 @@
 const AdmZip = require('adm-zip');
 const fs = require('fs');
+const path = require('path');
 
 const db = require('../../db/db');
 const JSONUtils = require('./../../utils/json');
@@ -14,17 +15,17 @@ module.exports = {
  * Load course configuration files from the local filesystem, erasing any configuration that is
  * currently present/cached in the DB.
  *
- * @param {string} path Path to course configuration files.
- *                      This path should include several .json files, one for each course.
- *                      Additionally, each course can have localized strings, which must reside in
- *                      their own respective .json files in path/i18n/<json>.
+ * @param {string} inputPath Path to course configuration files.
+ *     This path should include several .json files, one for each course.
+ *     Additionally, each course can have localized strings, which must reside in their own
+ *     respective .json files in path/i18n/<json>.
  */
-function loadCourses(path) {
+function loadCourses(inputPath) {
     let configFiles = [];
     let languageFiles = [];
 
     // TODO: Make this configurable
-    const i18nPath = path + '/i18n';
+    const i18nPath = path.join(inputPath, '/i18n');
 
     // drop all current course configs from the db
     db.Course.deleteMany({
@@ -37,7 +38,7 @@ function loadCourses(path) {
 
     try {
         // read available configs from local data dir
-        configFiles = fs.readdirSync(path);
+        configFiles = fs.readdirSync(inputPath);
     } catch (err) {
         logger.error(err);
         return;
@@ -61,7 +62,7 @@ function loadCourses(path) {
 
         let courseConfig;
         try {
-            courseConfig = JSON.parse(fs.readFileSync(path + '/' + item));
+            courseConfig = JSON.parse(fs.readFileSync(path.join(inputPath, item)));
         } catch (err) {
             logger.warn('Not a valid JSON file: ' + item + ': ' + err);
             continue;
@@ -87,7 +88,7 @@ function loadCourses(path) {
 
             let languageConfig;
             try {
-                languageConfig = JSON.parse(fs.readFileSync(i18nPath + '/' + lang));
+                languageConfig = JSON.parse(fs.readFileSync(path.join(i18nPath, lang)));
             } catch (err) {
                 logger.warn('Not a valid JSON file: ' + lang + ': ' + err);
                 continue;
@@ -158,16 +159,24 @@ function setupAutodeploy(inputPath, outputPath) {
             return;
         }
 
+        // this ugly try/catch block is necessary because of sudden file removals which we cannot
+        // detect - see the comment above - due to inconsistent library behavior
+        try {
+            fs.accessSync(path.join(inputPath, filename));
+        } catch (err) {
+            logger.warn('autodeply: Cannot access ' + filename + ' for reading');
+            return;
+        }
+
         let zip;
         let zipEntries;
         let extractZip = true;
 
-        // this ugly try/catch block is necessary because of sudden file removals which we cannot
-        // detect - see the comment above - due to inconsistent library behavior
         try {
-            zip = new AdmZip(inputPath + '/' + filename);
+            zip = new AdmZip(path.join(inputPath, filename));
             zipEntries = zip.getEntries();
         } catch (err) {
+            logger.warn('autodeply: Failed to extract zip: ' + filename);
             return;
         }
 
@@ -191,7 +200,7 @@ function setupAutodeploy(inputPath, outputPath) {
             const isTopLevelDir = (zipEntry.entryName.split('/').length - 1 == 2) &&
                 (zipEntry.isDirectory);
             if (isTopLevelDir) {
-                if (!fs.existsSync(outputPath + '/' + zipEntry.entryName)) {
+                if (!fs.existsSync(path.join(outputPath, zipEntry.entryName))) {
                     logger.warn('autodeploy: top-level directory entry: ' +
                         zipEntry.entryName + ' does not exist in local filesystem: ' + outputPath +
                         ' is not a zip file');
@@ -213,6 +222,6 @@ function setupAutodeploy(inputPath, outputPath) {
         }
 
         // remove the zip in all cases
-        fs.unlinkSync(inputPath + '/' + filename);
+        fs.unlinkSync(path.join(inputPath, filename));
     });
 }
