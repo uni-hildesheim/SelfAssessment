@@ -298,10 +298,10 @@ The backend server follows a strict set of rules for communication. Clients shou
 
 Below is a table describing the possible REST API responses:
 
-     | Success  | Error
----- | -------- | --------
-HTTP | 200/201  | 401/403/404/500
-JSON | Optional | { <br> &nbsp;&nbsp;error: { <br> &nbsp;&nbsp;&nbsp;&nbsp;number: ... <br> &nbsp;&nbsp;&nbsp;&nbsp;message: ... <br> &nbsp;&nbsp;} <br> }
+|      | Success  | Error    |
+| ---- | -------- | -------- |
+| HTTP | 200/201  | 401/403/404/500
+| JSON | Optional | { <br> &nbsp;&nbsp;error: { <br> &nbsp;&nbsp;&nbsp;&nbsp;number: ... <br> &nbsp;&nbsp;&nbsp;&nbsp;message: ... <br> &nbsp;&nbsp;} <br> } |
 
 Error numbers and default messages are defined in app/shared/error.js. The frontend can check for the error number to find out what went wrong when accessing an API.
 
