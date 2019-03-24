@@ -93,4 +93,19 @@ describe('MatchTest', () => {
             expect(ret).toBe(true);
         });
     });
+
+    describe('.calculateResult(log)', () => {
+        it('should calculate correct result', () => {
+            const log = [
+                [10, 15],
+                [2, 5],
+                [7, 13]
+            ];
+            const result = this.MatchTestInstance.calculateResult(log);
+
+            expect(result.score).toEqual(3);
+            expect(result.correct.length).toEqual(3);
+            expect(result.wrong.length).toEqual(0);
+        });
+    });
 });
