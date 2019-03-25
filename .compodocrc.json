@@ -5,5 +5,5 @@
   "customFavicon": "./SelfAssessment/src/favicon.ico",
   "hideGenerator": true,
   "includes": "./compodoc/",
-  "assetsFolder": "./compodoc/images"
+  "assetsFolder": "./images"
 }

@@ -58,11 +58,11 @@ Every test has the following attributes.
 
 #### The option attribute:
 
-|         | radio-buttons | multiple-choice | multiple-options                                             | match                                                  |
-| ------- | ------------- | --------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
+|    -     | radio-buttons | multiple-choice | multiple-options                                                          | match                                                  |
+|---------|---------------|-----------------|---------------------------------------------------------------------------|--------------------------------------------------------|
 | text    | The option    | The option      | The option, which is going to be paired with the respective header values | The text from which the user has to choose a substring |
-| correct | boolean       | boolean         | Index of the correct header                                  | The specific substring                                 |
-| index   | ___           | ___             | ___                                                          | Index at which the correct substring occurs            |
+| correct | boolean       | boolean         | Index of the correct header                                               | The specific substring                                 |
+| index   | -             | -               | -                                                                         | Index at which the correct substring occurs            |
 
 **NOTE:** Since the matching of the text from a match-test is language sensitive it is important to reference the index as well as the substring.
 
