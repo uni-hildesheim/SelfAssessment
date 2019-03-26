@@ -21,6 +21,10 @@ export class AssessmentPage {
         return element.all(by.css('app-course-card mat-card mat-card-footer p')).get(0).getText();
     }
 
+    getAachenTitlebyText() {
+        return element(by.cssContainingText('.mat-footer', 'Elektrotechnik und Informatik'));
+    }
+
     getAachenCourseCardButtonText() {
         return element.all(by.css('app-course-card mat-card mat-card-footer button')).get(1).getText();
     }
@@ -76,71 +80,120 @@ export class AssessmentPage {
     clickTheStartTestButton() {
         return element(by.css('.languageSelection')).click();
     }
-
-    isPresentMatDialog() {
-        return element(by.css('mat-card-dialog')).isPresent();
+    // Find it outside the app
+    isPresentTestLanguageSelection() {
+        return element(by.css( '.mat-form-field')).isPresent();
     }
 
-    getSelectionLanguageText() {
-        return element.all(by.css('.languageSelection')).get(0).getText();
+    clickTestLanguageSelection() {
+        return element(by.css(' .mat-select-placeholder')).click();
     }
 
-    selectGermanyAsLanguage() {
-        return element.all(by.css('.languageSelection')).first().click();
+    getTestLanguageGermany() {
+      return element.all(by.css('.mat-option-text')).get(0).getText();
     }
 
+    clickTestLanguageGermany() {
+      //  return element.all(by.css('.mat-option-ripple')).get(0).click();
+      return element.all(by.cssContainingText('.mat-option-text', 'Deutsch')).click();
+    }
     // checking the testpanel view
     isPresentMatHeader() {
-        return element('app-header mat-toolbar').isPresent();
+        return element(by.css('app-header mat-toolbar')).isPresent();
     }
 
     isPresentMatFooter() {
-        return element('app-footer').isPresent();
+        return element(by.css('app-footer')).isPresent();
     }
 
     isPresentMainPanel() {
-        return element('div app-main-panel').isPresent();
+        return element(by.css('div app-main-panel')).isPresent();
     }
 
     getMatStepperHeader() {
-         return element.all('div app-main-panel mat-horizontal-stepper div mat-step-header');
+         return element.all(by.css('div app-main-panel mat-horizontal-stepper div mat-step-header'));
     }
 
     getTestPanelButtons() {
-        return element.all('div app-main-panel button');
+        return element.all(by.css('div app-main-panel button'));
     }
     // Testing the infopage card
     isPresentAppInfopage() {
-        return element('app-main-panel app-infopage').isPresent();
+        return element(by.css('app-main-panel app-infopage')).isPresent();
     }
 
     getAppInfopageNumber() {
-        return element('.infopageID').getText();
+        return element(by.css('.infopageID')).getText();
     }
     // Change the card
     changeTestCard() {
-        return element('.changeCard').click();
+        return element(by.css('.changeCard')).click();
+    }
+    changeTestCardFiveTime() {
+        element(by.css('.changeCard')).click();
+        element(by.css('.changeCard')).click();
+        element(by.css('.changeCard')).click();
+        element(by.css('.changeCard')).click();
+        return element(by.css('.changeCard')).click();
+    }
+
+    clickThroughAllTestCard() {
+        element(by.css('.changecard')).click();
     }
 
     // testing the radiobuttons
 
     getTestCardNumber() {
-        return element('.testcardID').getText();
+        return element(by.css('.testcardID')).getText();
     }
 
     isPresentDescription() {
-        return element('.description').isPresent();
+        return element(by.css('.description')).isPresent();
     }
 
     isPresentTask() {
-        return element('.task').isPresent();
+        return element(by.css('.task')).isPresent();
     }
-
+    // Radio buttons
     getRadioButtons() {
-        return element.all('mat-radio-button');
+        return element.all(by.css('mat-radio-button'));
     }
 
     getMultiOptions() {
-        return element.all('mat-radio-button');
+        return element.all(by.css('mat-radio-button'));
     }
+
+    // Evaluation
+
+    isPresentEvalutionText() {
+        return element(by.css('mat-card mat-card-content')).isPresent();
+    }
+
+    isPresentEvalutionButton() {
+        return element(by.css('.showEval')).isPresent();
+    }
+    clickEvaluationButton() {
+        return element(by.css('.showEval')).click();
+    }
+    getExpensionPanel() {
+        return element.all(by.css('app-evaluation-overview div mat-card mat-card-content mat-accordian mat-expansion-panel'));
+    }
+
+    clickValidationButton() {
+        return element(by.css('showVal')).click();
+    }
+    getValidationButtons() {
+        return element.all(by.css('app-validation div mat-card mat-card-actions button'));
+    }
+
+    clickValditionCodeButton() {
+        return element.all(by.css('app-validation div mat-card mat-card-actions button')).get(1).click();
+    }
+
+    isPresentValidtionCode() {
+        return element(by.css('app-validation div mat-card mat-card-content div')).isPresent();
+    }
+    // Validation
+
+
 }

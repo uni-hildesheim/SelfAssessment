@@ -11,6 +11,4 @@ describe('Evaluation View', function() {
         it('should have a mat-card', () => {
             expect(page.isPresentMatCard()).toBe(true);
         });
-
-
 });
