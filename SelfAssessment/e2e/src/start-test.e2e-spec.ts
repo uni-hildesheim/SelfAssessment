@@ -9,7 +9,7 @@ describe('test-start view', function() {
         });
 
         it('should have a mat-card-title', () => {
-            expect(page.isPresentMatCardTitle()).toBe(false);
+            expect(page.isPresentMatCardTitle()).toBe(true);
         });
 
         it('shouldnot display any content', () => {
@@ -25,7 +25,7 @@ describe('test-start view', function() {
         });
         // This test doesnot works in the right way
         it('should have a mat-card-action', () => {
-            expect(page.isPresentMatCardAction()).toBe(false);
+            expect(page.isPresentMatCardAction()).toBe(true);
         });
 
         it('should display a mat-flat-button', () => {

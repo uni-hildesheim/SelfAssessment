@@ -98,11 +98,11 @@ export class AssessmentPage {
     }
 
     isPresentMainPanel() {
-        return element(by.css('div app-main-panel')).isPresent();
+        return element(by.css('.app-main-panel')).isPresent();
     }
 
     getMatStepperHeader() {
-         return element.all(by.css('div app-main-panel mat-horizontal-stepper div mat-step-header'));
+         return element.all(by.css('.mat-step-header'));
     }
 
     getTestPanelButtons() {
@@ -114,11 +114,11 @@ export class AssessmentPage {
     }
 
     getAppInfopageNumber() {
-        return element(by.css('.infopageID')).getText();
+        return element(by.css('.infopage')).getText();
     }
     // Change the card
     changeTestCard() {
-        return element(by.css('.changeCard')).click();
+        return element(by.id('navigate-right')).click();
     }
     changeTestCardFiveTime() {
         element(by.css('.changeCard')).click();

@@ -26,69 +26,69 @@ describe('Aachen selfassessment view', () => {
         expect(page.getAachenCourseCardButtonText()).toBe('Start');
     });
     // Leave the view by button click
-    it('should change the page to test-start', () => {
+    xit('should change the page to test-start', () => {
        page.clickAachenCourseCardButton();
         expect(browser.getCurrentUrl()).toMatch('/test-start;name=Elektrotechnik%20und%20Informatik;' +
         'icon=Aachen.jpg;languages=Deutsch,English');
     });
     // Second checking the start-test view
-    it('should stay on start-test and should display a mat-card', () => {
+    xit('should stay on start-test and should display a mat-card', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    it('should stay on start-test and should display a header content', () => {
+    xit('should stay on start-test and should display a header content', () => {
         page.clickAachenCourseCardButton();
         expect(page.getMatCardHeaderText()).toBe('Important Information');
     });
 
-    xit('should stay on start-test and should display a mat-card-content', () => {
+    it('should stay on start-test and should display a mat-card-content', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    xit('should stay on start-test and should display a mat-list with notes', () => {
+    it('should stay on start-test and should display a mat-list with notes', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    xit('should stay on start-test and should display a mat-list with more than zero notes', () => {
+    it('should stay on start-test and should display a mat-list with more than zero notes', () => {
         page.clickAachenCourseCardButton();
         expect(page.getMatCardListElements().count()).toBeGreaterThan(0);
     });
 
-    xit('should stay on start-test and should display a image', () => {
+    it('should stay on start-test and should display a image', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentImg()).toBe(true);
     });
 
-    xit('should stay on start-test and should display a h4 header', () => {
+    it('should stay on start-test and should display a h4 header', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentHeaderH4()).toBe(true);
     });
 
-    xit('should stay on start-test and should display the pin-code', () => {
+    it('should stay on start-test and should display the pin-code', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentPinCode()).toBe(true);
     });
 
-    xit('should stay on start-test and should have a mat-card-action area', () => {
+    it('should stay on start-test and should have a mat-card-action area', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatAction()).toBe(true);
     });
 
-    xit('should stay on start-test and should have a mat-card-action button', () => {
+    it('should stay on start-test and should have a mat-card-action button', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentTestStartButton()).toBe(true);
     });
 
-    xit('should stay on start-test and after the button click it display a mat-card-dialog', () => {
+    it('should stay on start-test and after the button click it display a mat-card-dialog', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         expect(page.isPresentTestLanguageSelection()).toBe(true);
     });
 
-    it('should select germany as language on the start-test and than should change the page to testpanel', () => {
+    xit('should select germany as language on the start-test and than should change the page to testpanel', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -98,7 +98,7 @@ describe('Aachen selfassessment view', () => {
         expect(browser.getCurrentUrl()).toMatch('/testpanel');
     });
 // Testing the testpanel
-    xit('should stay on testpanel and should have a mat-header', () => {
+    it('should stay on testpanel and should have a mat-header', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -108,7 +108,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatHeader()).toBe(true);
     });
 
-    xit('should stay on testpanel and should have a mat-footer', () => {
+    it('should stay on testpanel and should have a mat-footer', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -118,17 +118,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatFooter()).toBe(true);
     });
 
-    xit('should stay on testpanel and should have a app-main-panel', () => {
-        page.clickAachenCourseCardButton();
-        page.clickTheStartTestButton();
-        page.clickTestLanguageSelection();
-        page.clickTestLanguageGermany();
-        browser.pause();
-
-        expect(page.isPresentMainPanel()).toBe(true);
-    });
-
-    xit('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
+    it('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -138,7 +128,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getMatStepperHeader().count()).toBeGreaterThanOrEqual(0);
     });
 
-    xit('should stay on testpanel and should display more than zero buttons', () => {
+    it('should stay on testpanel and should display more than zero buttons', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -147,17 +137,20 @@ describe('Aachen selfassessment view', () => {
 
         expect(page.getTestPanelButtons().count()).toBeGreaterThanOrEqual(0);
     });
-/**
-    // Testing the content cards
 
+    // Testing the content card
     // Testing first infopage
     xit('should stay on testpanel and should display the infopage with the number 4002', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
+        page.clickTestLanguageSelection();
+        page.clickTestLanguageGermany();
+        browser.pause();
+
         expect(page.isPresentAppInfopage()).toBe(true);
         expect(page.getAppInfopageNumber()).toBe('4002');
     });
-
+/**
     // tests the first radio button test
     xit('should stay on testpanel and should display the first test card with multiple-options', () => {
         page.clickAachenCourseCardButton();
