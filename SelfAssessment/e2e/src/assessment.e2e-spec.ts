@@ -19,25 +19,25 @@ describe('Aachen selfassessment view', () => {
     });
 
     xit('should display the aachen course card title', () => {
-       expect(page.getAachenCourseCardTitle()).toBe('Elektrotechnik und Informatik');
+      expect(page.getAachenCourseCardTitle()).toBe('Elektrotechnik und Informatik');
     });
 
     xit('should display the aachen course card button', () => {
         expect(page.getAachenCourseCardButtonText()).toBe('Start');
     });
     // Leave the view by button click
-    xit('should change the page to test-start', () => {
+    it('should change the page to test-start', () => {
        page.clickAachenCourseCardButton();
         expect(browser.getCurrentUrl()).toMatch('/test-start;name=Elektrotechnik%20und%20Informatik;' +
         'icon=Aachen.jpg;languages=Deutsch,English');
     });
     // Second checking the start-test view
-    xit('should stay on start-test and should display a mat-card', () => {
+    it('should stay on start-test and should display a mat-card', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    xit('should stay on start-test and should display a header content', () => {
+    it('should stay on start-test and should display a header content', () => {
         page.clickAachenCourseCardButton();
         expect(page.getMatCardHeaderText()).toBe('Important Information');
     });
@@ -88,7 +88,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentTestLanguageSelection()).toBe(true);
     });
 
-    xit('should select germany as language on the start-test and than should change the page to testpanel', () => {
+    it('should select germany as language on the start-test and than should change the page to testpanel', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -98,7 +98,7 @@ describe('Aachen selfassessment view', () => {
         expect(browser.getCurrentUrl()).toMatch('/testpanel');
     });
 // Testing the testpanel
-    it('should stay on testpanel and should have a mat-header', () => {
+    xit('should stay on testpanel and should have a mat-header', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -108,7 +108,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatHeader()).toBe(true);
     });
 
-    it('should stay on testpanel and should have a mat-footer', () => {
+    xit('should stay on testpanel and should have a mat-footer', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -118,7 +118,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatFooter()).toBe(true);
     });
 
-    it('should stay on testpanel and should have a app-main-panel', () => {
+    xit('should stay on testpanel and should have a app-main-panel', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -128,7 +128,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMainPanel()).toBe(true);
     });
 
-    it('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
+    xit('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -138,7 +138,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getMatStepperHeader().count()).toBeGreaterThanOrEqual(0);
     });
 
-    it('should stay on testpanel and should display more than zero buttons', () => {
+    xit('should stay on testpanel and should display more than zero buttons', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();

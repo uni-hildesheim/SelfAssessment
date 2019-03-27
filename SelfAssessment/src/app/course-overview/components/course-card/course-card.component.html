@@ -1,9 +1,9 @@
 <mat-card>
   <img mat-card-image appImg [src]="course.icon" />
   <mat-card-footer>
-    <p>{{ course.name }}</p>
-    <button mat-raised-button color="primary" (click)="startTest()">
-      {{ "btn-start" | language }}
+    <p class='coursename'>{{course.name}}</p>
+    <button  mat-raised-button color="primary" (click)="startTest()" id="{{course.name}}">
+      {{'btn-start' | language}}
     </button>
   </mat-card-footer>
 </mat-card>

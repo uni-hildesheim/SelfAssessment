@@ -18,22 +18,14 @@ export class AssessmentPage {
     }
 
     getAachenCourseCardTitle() {
-        return element.all(by.css('app-course-card mat-card mat-card-footer p')).get(0).getText();
-    }
-
-    getAachenTitlebyText() {
-        return element(by.cssContainingText('.mat-footer', 'Elektrotechnik und Informatik'));
+        return element(by.cssContainingText('.coursename', 'Elektrotechnik und Informatik')).getText();
     }
 
     getAachenCourseCardButtonText() {
-        return element.all(by.css('app-course-card mat-card mat-card-footer button')).get(1).getText();
-    }
-
-    getAachenCourseCardButton() {
-        return element.all(by.css('app-course-card mat-card mat-card-footer button')).first();
+      return element(by.id('Elektrotechnik und Informatik')).getText();
     }
     clickAachenCourseCardButton() {
-        return element.all(by.css('app-course-card mat-card mat-card-footer button')).first().click();
+        return element(by.id('Elektrotechnik und Informatik')).click();
     }
     // Checking the start-test view
     isPresentMatCard() {
@@ -73,7 +65,6 @@ export class AssessmentPage {
     }
 
     isPresentTestStartButton() {
-       //  return element(by.css('app-start-test mat-card mat-card-actions button')).isPresent();
        return element(by.css('.languageSelection')).isPresent();
     }
 
