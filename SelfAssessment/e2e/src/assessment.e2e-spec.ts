@@ -42,47 +42,47 @@ describe('Aachen selfassessment view', () => {
         expect(page.getMatCardHeaderText()).toBe('Important Information');
     });
 
-    it('should stay on start-test and should display a mat-card-content', () => {
+    xit('should stay on start-test and should display a mat-card-content', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    it('should stay on start-test and should display a mat-list with notes', () => {
+    xit('should stay on start-test and should display a mat-list with notes', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatCard()).toBe(true);
     });
 
-    it('should stay on start-test and should display a mat-list with more than zero notes', () => {
+    xit('should stay on start-test and should display a mat-list with more than zero notes', () => {
         page.clickAachenCourseCardButton();
         expect(page.getMatCardListElements().count()).toBeGreaterThan(0);
     });
 
-    it('should stay on start-test and should display a image', () => {
+    xit('should stay on start-test and should display a image', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentImg()).toBe(true);
     });
 
-    it('should stay on start-test and should display a h4 header', () => {
+    xit('should stay on start-test and should display a h4 header', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentHeaderH4()).toBe(true);
     });
 
-    it('should stay on start-test and should display the pin-code', () => {
+    xit('should stay on start-test and should display the pin-code', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentPinCode()).toBe(true);
     });
 
-    it('should stay on start-test and should have a mat-card-action area', () => {
+    xit('should stay on start-test and should have a mat-card-action area', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentMatAction()).toBe(true);
     });
 
-    it('should stay on start-test and should have a mat-card-action button', () => {
+    xit('should stay on start-test and should have a mat-card-action button', () => {
         page.clickAachenCourseCardButton();
         expect(page.isPresentTestStartButton()).toBe(true);
     });
 
-    it('should stay on start-test and after the button click it display a mat-card-dialog', () => {
+    xit('should stay on start-test and after the button click it display a mat-card-dialog', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         expect(page.isPresentTestLanguageSelection()).toBe(true);
@@ -98,7 +98,7 @@ describe('Aachen selfassessment view', () => {
         expect(browser.getCurrentUrl()).toMatch('/testpanel');
     });
 // Testing the testpanel
-    it('should stay on testpanel and should have a mat-header', () => {
+    xit('should stay on testpanel and should have a mat-header', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -108,7 +108,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatHeader()).toBe(true);
     });
 
-    it('should stay on testpanel and should have a mat-footer', () => {
+    xit('should stay on testpanel and should have a mat-footer', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -118,7 +118,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentMatFooter()).toBe(true);
     });
 
-    it('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
+    xit('should stay on testpanel and should display a mat-horizontal stepper with more than zero elements', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -128,7 +128,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getMatStepperHeader().count()).toBeGreaterThanOrEqual(0);
     });
 
-    it('should stay on testpanel and should display more than zero buttons', () => {
+    xit('should stay on testpanel and should display more than zero buttons', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -140,7 +140,7 @@ describe('Aachen selfassessment view', () => {
 
     // Testing the content card
     // Testing first infopage
-    xit('should stay on testpanel and should display the infopage with the number 4002', () => {
+    xit('should stay on testpanel and should display the infopage with the number 4001', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -148,20 +148,35 @@ describe('Aachen selfassessment view', () => {
         browser.pause();
 
         expect(page.isPresentAppInfopage()).toBe(true);
-        expect(page.getAppInfopageNumber()).toBe('4002');
+        expect(page.getAppInfopageNumber()).toBe('4001');
     });
-/**
-    // tests the first radio button test
-    xit('should stay on testpanel and should display the first test card with multiple-options', () => {
+
+    xit('should stay on testpanel and should display the right navigation side with a button', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
+        page.clickTestLanguageSelection();
+        page.clickTestLanguageGermany();
+        browser.pause();
+
+        expect(page.getDivWithButton()).toBe(true);
+    });
+
+    // tests the first radio button test
+    it('should stay on testpanel and should display the first test card with multiple-options', () => {
+        page.clickAachenCourseCardButton();
+        page.clickTheStartTestButton();
+        page.clickTestLanguageSelection();
+        page.clickTestLanguageGermany();
+        browser.pause();
         // change the main panel content by button click.
-        page.changeTestCard();
-        expect(page.getAppInfopageNumber()).toBe('1006');
+        page.changeCardConentbyClickTheButton();
+        expect(page.getTestCardNumber()).toBe('1001');
         expect(page.isPresentDescription()).toBe(true);
         expect(page.isPresentTask()).toBe(true);
-        expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
+        // expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
+
+/**
     // The second radio button test
     xit('should stay on testpanel and should display the second test card with multiple-options', () => {
         page.clickAachenCourseCardButton();
