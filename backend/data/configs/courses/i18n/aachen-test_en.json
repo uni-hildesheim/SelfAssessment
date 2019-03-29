@@ -55,32 +55,16 @@
 
       "1005-1": "<h3>Mathematics</h3>",
       "1005-2": "<p> For which X in R is the following unequalution correct?</p> $$\\frac{5-3 \\cdot x}{7} \\lenq \\frac{3 \\cdot x + 4}{5} $$",
-      "1005-3": "$$ x \\leq 12 $$",
-      "1005-4": "$$ x \\geq - \\frac{1}{12} $$",
-      "1005-5": "$$ x \\leq -3 $$",
-      "1005-6": "$$ x \\leq {\\frac{1}{12}} $$",
 
       "1006-1": "<h3>Mathematics</h3>",
-      "1006-2": "<p>Which transformation of the following term is correct?</p> $$\\frac{k^6 \\cdot n^3 - m^3 \\cdot l^3}{m^3 \\cdot n^3} + \\sqrt[5]{s}  \\cdot \\sqrt[5]{p}$$",
-      "1006-3": "$$ (\\frac{k^2}{m})^3 - (\\frac{l}{m})^3 + \\sqrt[5]{s \\cdot{p}} $$",
-      "1006-4": "$$  (\\frac{k}{m})^3 - (\\frac{l}{n})^3 + \\sqrt[10]{s \\cdot{p}}  $$",
-      "1006-5": "$$ k^2 - l^3 + \\sqrt[10]{s \\cdot{p}} $$",
-      "1006-6": "$$ k^6 -l^3 $$",
+      "1006-2": "<p>Which transformation of the following term is correct?</p>",
 
       "1007-1": "<h3>Mathematics</h3>",
       "1007-2": "<p> A cyclist fights against a scooter and drivers in average with 40 km/h.The scooters drivers in average with 70 km/h and starts one hour later after the cyclist.</p> <p><b> How many km have they reach, when they meets?</b></p>",
-      "1007-3": "$$ \\frac{245}{3} \\approx 82.67km $$",
-      "1007-4": "70 km",
-      "1007-5": "$$ \\frac{140}{3} \\approx 46.67km $$",
-      "1007-6": "40 km",
 
       "1008-1": "<h3>Mathematics</h3>",
       "1008-2": "<p> Based on an idea from the physicist Ernst Mach, the Mach number is the base rate for the airspeed. The Mach number is the relationsship between the airspeed and the speed of sound. For a temperature of 20 °C, the Mach number is 330 m/s.</p><p><b> How fast flights a supersonic airplane with Mach 3? (Answers based on km /h)</b></p>",
-      "1008-3": "ca 2800 km/h",
-      "1008-4": "ca 3240 km/h",
-      "1008-5": "ca 1200 km/h",
-      "1008-6": "ca 396 km/h",
-
+  
       "1009-1": "<h3>Citation<h3>",
       "1009-2": "<p>Correct citation:</p> Clary, E. G. (1998). Understanding and Assessing the Motivations of Volunteers. Journal of Personality and Social Psychology, 74(6), 1516-1530.",
       "1009-3": "Rolfs H. (2002). Berufliche Interessenkongruenz und das Erleben im Studium. Zeitschrift für Arbeits- und Organisationspsychologie, 46(3), 137-149.",

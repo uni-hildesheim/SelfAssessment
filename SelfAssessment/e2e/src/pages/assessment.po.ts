@@ -114,28 +114,22 @@ export class AssessmentPage {
     }
 
     getAppInfopageNumber() {
-        return element(by.css('.infopage')).getText();
+        return element(by.css('.mat-card-footer span')).getText();
+    }
+
+    getDivWithButton() {
+        return element(by.css('.navigate-btn .mat-icon-button')).isPresent();
     }
     // Change the card
-    changeTestCard() {
-        return element(by.id('navigate-right')).click();
-    }
-    changeTestCardFiveTime() {
-        element(by.css('.changeCard')).click();
-        element(by.css('.changeCard')).click();
-        element(by.css('.changeCard')).click();
-        element(by.css('.changeCard')).click();
-        return element(by.css('.changeCard')).click();
-    }
-
-    clickThroughAllTestCard() {
-        element(by.css('.changecard')).click();
-    }
-
+   changeCardConentbyClickTheButton() {
+       return element.all(by.css('.navigate-btn .mat-icon-button')).get(1).click();
+   }
     // testing the radiobuttons
-
+   getMatFooter() {
+       return element(by.css('.mat-card-footer span')).isPresent();
+   }
     getTestCardNumber() {
-        return element(by.css('.testcardID')).getText();
+        return element(by.css('.mat-card-footer span')).getText();
     }
 
     isPresentDescription() {
@@ -147,11 +141,19 @@ export class AssessmentPage {
     }
     // Radio buttons
     getRadioButtons() {
-        return element.all(by.css('mat-radio-button'));
+        return element.all(by.css('.mat-radio-button'));
+    }
+    // Click on the radio-buttons
+    clickRadioButtons() {
+        return element.all(by.css('.mat-radio-button')).get(0).click();
+    }
+    // Later
+    getRadioButtonChange() {
+        return element.all(by.css('.mat-radio-button .ng-reflect-checked')).get(0).getCssValue('');
     }
 
     getMultiOptions() {
-        return element.all(by.css('mat-radio-button'));
+        return element.all(by.css('.mat-radio-button'));
     }
 
     // Evaluation

@@ -1,4 +1,5 @@
 import { StartTestPage } from './pages/start-test.po';
+import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 
 describe('test-start view', function() {
         let page: StartTestPage;
@@ -6,10 +7,6 @@ describe('test-start view', function() {
         beforeEach(() => {
             page = new StartTestPage();
             page.navigateTo();
-        });
-
-        it('should have a mat-card-title', () => {
-            expect(page.isPresentMatCardTitle()).toBe(true);
         });
 
         it('shouldnot display any content', () => {
@@ -23,10 +20,6 @@ describe('test-start view', function() {
         it('should display an image', () => {
             expect(page.isPresentImg()).toBe(true);
         });
-        // This test doesnot works in the right way
-        it('should have a mat-card-action', () => {
-            expect(page.isPresentMatCardAction()).toBe(true);
-        });
 
         it('should display a mat-flat-button', () => {
             expect(page.isPresentButton()).toBe(true);
@@ -36,5 +29,4 @@ describe('test-start view', function() {
             const button = page.getButtonElement();
             expect(button.isEnabled()).toBe(true);
         });
-
 });

@@ -54,32 +54,16 @@
       "1004-13": "trifft überhaupt nicht zu",
 
       "1005-1": "<h3>Mathematik</h3>",
-      "1005-2": "<p> Für welche X in R ist die folgende Ungleichung korrekt? </p> $$\\frac{5-3 \\cdot x}{7} \\lenq \\frac{3 \\cdot x + 4}{5} $$",
-      "1005-3": "$$ x \\leq 12 $$",
-      "1005-4": "$$ x \\geq - \\frac{1}{12} $$",
-      "1005-5": "$$ x \\leq -3 $$",
-      "1005-6": "$$ x \\leq {\\frac{1}{12}} $$",
+      "1005-2": "<p> Für welche X in R ist die folgende Ungleichung korrekt?</p>",
 
       "1006-1": "<h3>Mathematik</h3>",
-      "1006-2": "<p> Welche Umformung des Terms ist korrekt?</p> $$\\frac{k^6 \\cdot n^3 - m^3 \\cdot l^3}{m^3 \\cdot n^3} + \\sqrt[5]{s}  \\cdot \\sqrt[5]{p}$$",
-      "1006-3": "$$ (\\frac{k^2}{m})^3 - (\\frac{l}{m})^3 + \\sqrt[5]{s \\cdot{p}} $$",
-      "1006-4": "$$  (\\frac{k}{m})^3 - (\\frac{l}{n})^3 + \\sqrt[10]{s \\cdot{p}}  $$",
-      "1006-5": "$$ k^2 - l^3 + \\sqrt[10]{s \\cdot{p}} $$",
-      "1006-6": "$$ k^6 -l^3 $$",
+      "1006-2": "<p> Welche Umformung des Terms ist korrekt?</p>",
 
       "1007-1": "<h3>Mathematik</h3>",
       "1007-2": "<p>Ein Radrennfahrer tritt gegen ein Motorrollerfahrer an und erzielt durchschnittlich 40 km/h. Der Motorroller erreicht im Mittel 70 km/h und startet eine Stunde nach dem Radfahrer.</p> <p><b> Wie viel Strecke haben die haben jeweils zurückgelegt, wenn sie sich treffen?</b></p>",
-      "1007-3": "$$ \\frac{245}{3} \\approx 82.67km $$",
-      "1007-4": "70 km",
-      "1007-5": "$$ \\frac{140}{3} \\approx 46.67km $$",
-      "1007-6": "40 km",
-
+    
       "1008-1": "<h3>Mathematik</h3>",
       "1008-2": "<p> Als Maßeinheit für die dimensionslose Angabe der Fluggeschwindigkeit wird nach dem Philosophen und Physiker Ernst Mach die MachZahl verwendet. Die Flugmachzahl ist das Verhältnis der Fluggeschwindigkeit zur Schallgeschwindigkeit, die bei der Temperatur von 20 °C etwa 330 m/s beträgt. </p><p><b> Wie hoch ist die Geschwindigkeit eines Überschallflugzeuges in km/h, das mit Mach 3 fliegt?</b></p>",
-      "1008-3": "etwa 2800 km/h",
-      "1008-4": "etwa 3240 km/h",
-      "1008-5": "etwa 1200 km/h",
-      "1008-6": "etwa 396 km/h",
 
       "1009-1": "<h3>Konzentration</h3>",
       "1009-2": "<p>korrekte Zitierweise</p> Clary, E. G. (1998). Understanding and Assessing the Motivations of Volunteers. Journal of Personality and Social Psychology, 74(6), 1516-1530.",
