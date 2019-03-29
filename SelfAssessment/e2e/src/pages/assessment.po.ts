@@ -114,7 +114,7 @@ export class AssessmentPage {
     }
 
     getAppInfopageNumber() {
-        return element(by.css('.infopage')).getText();
+        return element(by.css('.mat-card-footer span')).getText();
     }
 
     getDivWithButton() {
@@ -142,6 +142,14 @@ export class AssessmentPage {
     // Radio buttons
     getRadioButtons() {
         return element.all(by.css('.mat-radio-button'));
+    }
+    // Click on the radio-buttons
+    clickRadioButtons() {
+        return element.all(by.css('.mat-radio-button')).get(0).click();
+    }
+    // Later
+    getRadioButtonChange() {
+        return element.all(by.css('.mat-radio-button .ng-reflect-checked')).get(0).getCssValue('');
     }
 
     getMultiOptions() {
