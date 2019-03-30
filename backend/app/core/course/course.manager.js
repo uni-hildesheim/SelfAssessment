@@ -20,7 +20,7 @@ module.exports = {
  *     Additionally, each course can have localized strings, which must reside in their own
  *     respective .json files in path/i18n/<json>.
  */
-function loadCourses(inputPath) {
+async function loadCourses(inputPath) {
     let configFiles = [];
     let languageFiles = [];
 
@@ -28,13 +28,14 @@ function loadCourses(inputPath) {
     const i18nPath = path.join(inputPath, '/i18n');
 
     // drop all current course configs from the db
-    db.Course.deleteMany({
-        // wildcard filter
-    }).then(res => { // eslint-disable-line no-unused-vars
-        // swallow
-    }).catch(err => {
+    try {
+        await db.Course.deleteMany({
+            // wildcard filter
+        });
+    } catch(err) {
         logger.warn('Failed to drop course documents from db: ' + err);
-    });
+        return;
+    }
 
     try {
         // read available configs from local data dir
@@ -122,19 +123,24 @@ function loadCourses(inputPath) {
             continue;
         }
 
-        db.Course.create({
-            name: courseConfig['title'],
-            icon: courseConfig['icon'],
-            configs: courseConfigs
-        }).then(course => {
-            let languageNames = []
-            for (const obj of course.configs) {
-                languageNames.push(obj.language);
-            }
-            logger.info('Created course in db: ' + course.name + ', languages: ' + languageNames);
-        }).catch(err => {
-            logger.error(err);
-        });
+        // create the new course in the db
+        let course;
+        try {
+            course = await db.Course.create({
+                name: courseConfig['title'],
+                icon: courseConfig['icon'],
+                configs: courseConfigs
+            });
+        } catch(err) {
+            logger.warn('Failed to create course in db: ' + err);
+            return;
+        }
+
+        let languageNames = []
+        for (const obj of course.configs) {
+            languageNames.push(obj.language);
+        }
+        logger.info('Created course in db: ' + course.name + ', languages: ' + languageNames);
     }
 }
 
