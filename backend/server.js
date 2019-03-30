@@ -206,21 +206,22 @@ function createApp() {
     return app;
 }
 
-function loadFrontendResources(path) {
+async function loadFrontendResources(path) {
     let configFiles = [];
     let languageFiles = [];
 
     // TODO: Make this configurable
     const i18nPath = path + '/i18n';
 
-    // drop all current course configs from the db
-    db.Frontend.deleteMany({
-        // wildcard filter
-    }).then(res => { // eslint-disable-line no-unused-vars
-        // swallow
-    }).catch(err => {
-        logger.warn('Failed to drop frontend resources from db: ' + err);
-    });
+    // drop current frontend config from the db
+    try {
+        await db.Frontend.deleteMany({
+            // wildcard filter
+        });
+    } catch(err) {
+        logger.error('Failed to drop frontend resources from db: ' + err);
+        return;
+    }
 
     try {
         // read available configs from local data dir
@@ -299,20 +300,25 @@ function loadFrontendResources(path) {
             resourceConfigs.push(mergedConfig);
         }
 
-        db.Frontend.create({
-            name: resourceConfig['name'],
-            created: new Date(),
-            configs: resourceConfigs
-        }).then(resource => {
-            let languageNames = []
-            for (const obj of resource.configs) {
-                languageNames.push(obj.language);
-            }
-            logger.info('Created frontend resource config in db: ' + resource.name +
-                        ', languages: ' + languageNames);
-        }).catch(err => {
-            logger.error(err);
-        });
+        // drop current frontend config from the db
+        let resource;
+        try {
+            resource = await db.Frontend.create({
+                name: resourceConfig['name'],
+                created: new Date(),
+                configs: resourceConfigs
+            });
+        } catch(err) {
+            logger.error('Failed to create frontend resource config in db: ' + err);
+            return;
+        }
+
+        let languageNames = []
+        for (const obj of resource.configs) {
+            languageNames.push(obj.language);
+        }
+        logger.info('Created frontend resource config in db: ' + resource.name +
+                    ', languages: ' + languageNames);
     }
 }
 
@@ -369,10 +375,10 @@ async function main() {
     }
 
     // sync frontend resource configs
-    loadFrontendResources('./data/configs/frontend');
+    await loadFrontendResources('./data/configs/frontend');
 
     // sync course configs
-    CourseManager.loadCourses('./data/configs/courses');
+    await CourseManager.loadCourses('./data/configs/courses');
 
     // enable autodeploy support
     CourseManager.setupAutodeploy('./data/autodeploy', './data');
