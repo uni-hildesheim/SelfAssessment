@@ -23,7 +23,8 @@ html, body {
 }
 
 .hide-stepper {
-  display: none !important;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .basic-info-card {

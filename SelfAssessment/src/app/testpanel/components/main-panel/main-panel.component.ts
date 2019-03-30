@@ -67,6 +67,8 @@ export class MainPanelComponent implements OnInit {
 
   setElementType = SetElementType;
 
+  modeProgressBar = 'determinate';
+
   /**
    * Constructor for this component.
    */
@@ -107,13 +109,17 @@ export class MainPanelComponent implements OnInit {
     // update the journal log if the current set element is a test and changes occured
     if (this.currentElements[this.setElemIndex].elementType === SetElementType.TEST && this.updateProtocol) {
       this.loading = true;
+      this.modeProgressBar = 'indeterminate';
       this.journalService.saveJournalLog(this.journalLogService.journalLogInstance).subscribe(
         () => {
           this.updateProtocol = false;
           this.adjustIndices(forward, stepper);
         },
         err => this.logging.error('Error occurred', err)
-      ).add(() => this.loading = false);
+      ).add(() => {
+        this.modeProgressBar = 'determinate';
+        this.loading = false;
+      });
     } else {
       this.adjustIndices(forward, stepper);
     }
