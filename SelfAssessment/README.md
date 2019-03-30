@@ -37,3 +37,8 @@ $ npm run coverage
 Open the index.html inside the generated converage directory to see the report:
 
 ![Frontend models](../images/coverage_frontend.png)
+
+
+
+### e2e Tests 
+

@@ -97,6 +97,8 @@ describe('Aachen selfassessment view', () => {
 
         expect(browser.getCurrentUrl()).toMatch('/testpanel');
     });
+
+
 // Testing the testpanel
     it('should stay on testpanel and should have a mat-header', () => {
         page.clickAachenCourseCardButton();
@@ -141,7 +143,7 @@ describe('Aachen selfassessment view', () => {
 
     // Testing the content card
     // Testing first infopage
-    xit('should stay on testpanel and should display the infopage with the number 4001', () => {
+    it('should stay on testpanel and should display the infopage with the number 4001', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -152,7 +154,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getAppInfopageNumber()).toBe('4001');
     });
 
-    xit('should stay on testpanel and should display the right navigation side with a button', () => {
+    it('should stay on testpanel and should display the right navigation side with a button', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -163,7 +165,7 @@ describe('Aachen selfassessment view', () => {
     });
 
     // tests the first radio button test
-    xit('should stay on testpanel and should display the first test card with multiple-options', () => {
+    it('should stay on testpanel and should display the first test card with multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -178,7 +180,7 @@ describe('Aachen selfassessment view', () => {
     });
 
     // The second radio button test
-    xit('should stay on testpanel and should display the second test card with multiple-options', () => {
+    it('should stay on testpanel and should display the second test card with multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -188,14 +190,13 @@ describe('Aachen selfassessment view', () => {
         page.changeCardConentbyClickTheButton();
         page.changeCardConentbyClickTheButton();
         browser.pause();
-
         expect(page.getTestCardNumber()).toBe('1002');
         expect(page.isPresentDescription()).toBe(true);
         expect(page.isPresentTask()).toBe(true);
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
 
-    xit('should stay on testpanel and should display the third test card with multi-options', () => {
+    it('should stay on testpanel and should display the third test card with multi-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -212,7 +213,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
      // The second infopage
-    xit('should stay on testpanel and should display the second info page for motivation', () => {
+    it('should stay on testpanel and should display the second info page for motivation', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -227,7 +228,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getAppInfopageNumber()).toBe('4002');
     });
 
-    xit('should stay on testpanel and should display the test card four as multiple-options', () => {
+    it('should stay on testpanel and should display the test card four as multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -246,7 +247,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
 
-    xit('should stay on testpanel and should display the test card five as multiple-options', () => {
+    it('should stay on testpanel and should display the test card five as multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -266,7 +267,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
 
-    xit('should stay on testpanel and should display the test card six as multiple-options', () => {
+    it('should stay on testpanel and should display the test card six as multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -287,7 +288,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
 
-    xit('should stay on testpanel and should display the third infopage card', () => {
+    it('should stay on testpanel and should display the third infopage card', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -306,7 +307,7 @@ describe('Aachen selfassessment view', () => {
         expect(page.getAppInfopageNumber()).toBe('4003');
     });
 // Checking the first math test
-    xit('should stay on testpanel and should display the test card seven as multiple-options', () => {
+    it('should stay on testpanel and should display the test card seven as multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
         page.clickTestLanguageSelection();
@@ -329,10 +330,11 @@ describe('Aachen selfassessment view', () => {
         expect(page.isPresentTask()).toBe(true);
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
+
 /**
  * The follewing e2e test are present, but are not working yet.
  */
-
+/**
     xit('should stay on testpanel and should display the test card eight as multiple-options', () => {
         page.clickAachenCourseCardButton();
         page.clickTheStartTestButton();
@@ -694,5 +696,5 @@ describe('Aachen selfassessment view', () => {
         page.clickValditionCodeButton();
         expect(page.isPresentValidtionCode()).toBe(true);
     });
-
+    */
 });
