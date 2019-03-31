@@ -18,8 +18,8 @@ import {browser, element, by, Key} from 'protractor';
             return element.all(by.css('app-course-card'));
         }
 
-        getSingleCourseCard() {
-            return element(by.css('app-course-card'));
+        isPresentSingleCourseCard() {
+            return element.all(by.css('app-course-card')).get(0).isPresent();
         }
 
         getUrl() {

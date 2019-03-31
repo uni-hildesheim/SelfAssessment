@@ -37,3 +37,45 @@ $ npm run coverage
 Open the index.html inside the generated converage directory to see the report:
 
 ![Frontend models](../images/coverage_frontend.png)
+
+
+
+### e2e Tests without config files ###
+
+This project have e2e test without a dependence to a specific test config file. To run the tests for the frontend do the following  inside `SelfAssessment/SelfAssessment:`
+
+```bash
+$ ng e2e
+```
+
+This runs all specs in the `chromeHeadless` mode.
+
+
+
+To leave the  `chromeHeadless` mode and switch it to non headless mode, type the following code inside`SelfAssessment/SelfAssessment/e2e/protractor.config.js` at the line 12 and delete the old code:
+
+```javascript
+'browserName': 'chrome'
+```
+
+
+
+To switch back to `chromeHeadless` mode the following code must stand inside `SelfAssessment/SelfAssessment/e2e/protractor.config.js` at the lines 12 to 15:
+
+```javascript
+'browserName': 'chrome',
+'chromeOptions':  {
+   args: ["--headless"] 
+}
+```
+
+The results after the tests have finished, should look like the following result on the bash:
+
+![Frontend models](..\images\e2eTest_example_headless_frontend.jpg)
+
+
+
+
+
+
+
