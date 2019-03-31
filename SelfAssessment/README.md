@@ -71,7 +71,10 @@ To switch back to `chromeHeadless` mode the following code must stand inside `Se
 
 The results after the tests have finished, should look like the following result on the bash:
 
-![Frontend models](C:\Users\paul4\Desktop\WebTechProjekt\staging-paul\SelfAssessment\images\e2eTest_example_headless_frontend.jpg)
+![Frontend models](..\images\e2eTest_example_headless_frontend.jpg)
+
+
+
 
 
 
