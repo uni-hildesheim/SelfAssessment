@@ -1,12 +1,12 @@
 import { ValidationPage } from './pages/validation.po';
 
-describe('Validation view', function() {
+xdescribe('Validation view', function() {
     let page: ValidationPage;
 
     beforeEach(() => {
         page = new ValidationPage();
     });
-
+/**
     it('should have a header card', () => {
         page.navigateTo();
         expect(page.isPresentCardContent()).toBe(true);
@@ -31,5 +31,5 @@ describe('Validation view', function() {
         page.navigateTo();
         expect(page.isPresentCode()).toBe(true);
     });
-
+*/
 });

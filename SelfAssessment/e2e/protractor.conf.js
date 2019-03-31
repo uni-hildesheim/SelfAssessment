@@ -9,14 +9,10 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-  'browserName': 'chrome',
-  'chromeOptions':  {
-      args: ["--headless"] 
-  } 
-  /**  'browserName': 'firefox',
+   'browserName': 'firefox',
     'moz:firefoxOptions': {
       args: ['--headless']
-    } */
+    } 
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
@@ -32,18 +28,4 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
-   // Add support for code coverage
-  // See also https://github.com/edvlucas/angular-e2e-coverage
- /* onComplete() {
-    console.log('E2E finished - retrieving coverage from browser');
-    browser.executeScript('return JSON.stringify(window.__coverage__);').then((v) => {
-      console.log(`Script executed - coverage info length is ${v.length}`);
-      require('fs').writeFile("../../coverage-output/.nyc_output/coverage.json", v, function (err) {
-        if (err) {
-          return console.log(err);
-        }
-        console.log("Coverage file extracted from server and saved to coverage.json");
-      });
-    })
-} */
 };
