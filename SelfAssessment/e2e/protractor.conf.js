@@ -9,16 +9,15 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    // The chrome browser doesnot works headless, so we are using
-    // firefox headless instand.
-  /** 'browserName': 'chrome',
+  'browserName': 'chrome',
     chromeOptions: {
-      args: [ "--headless" ]
-    } */
+      args: [ '--headless' ]
+    } 
+   /** 
    'browserName': 'firefox',
     'moz:firefoxOptions': {
       args: ['--headless']
-    } 
+    } */
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',

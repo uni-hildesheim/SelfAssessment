@@ -20,9 +20,8 @@ describe('selfassessment dashboard view', function() {
         expect(page.getCourseCardElements().count()).toBeGreaterThan(0);
     });
 
-    xit('should be able to perfom a click on a course card', () => {
-        const coursecard = page.getSingleCourseCard();
-        expect(coursecard.click());
+    it('should display a single course card with content', () => {
+        expect(page.isPresentSingleCourseCard()).toBe(true);
     });
 
 });
