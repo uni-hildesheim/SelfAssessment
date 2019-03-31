@@ -10,11 +10,10 @@ exports.config = {
   ],
   capabilities: {
   'browserName': 'chrome',
-    chromeOptions: {
-      args: [ '--headless' ]
-    } 
-   /** 
-   'browserName': 'firefox',
+  'chromeOptions':  {
+      args: ["--headless"] 
+  } 
+  /**  'browserName': 'firefox',
     'moz:firefoxOptions': {
       args: ['--headless']
     } */

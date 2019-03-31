@@ -331,7 +331,7 @@ xdescribe('Aachen selfassessment view', () => {
         expect(page.isPresentTask()).toBe(true);
         expect(page.getRadioButtons().count()).toBeGreaterThanOrEqual(0);
     });
-/**
+
 /**
  * The follewing e2e test are present, but are not working yet.
     xit('should stay on testpanel and should display the test card eight as multiple-options', () => {
