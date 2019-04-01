@@ -40,6 +40,8 @@
     "lbl-validation-title": "?ref{lbl-validation-title}",
     "lbl-validation-subtitle": "?ref{lbl-validation-subtitle}",
     "warning-speed-test-left": "?ref{warning-speed-test-left}",
-    "warning-speed-test-right": "?ref{warning-speed-test-right}"
+    "warning-speed-test-right": "?ref{warning-speed-test-right}",
+    "lbl-validation": "?ref{lbl-validation}",
+    "text-validation": "?ref{text-validation}"
   }
 }

@@ -1,40 +1,47 @@
-
 <div class="validation-content">
-<mat-card class="basic-info-card">
-    <mat-card-header class="header-info-card">
-<mat-card-title>{{'lbl-validation-title'| language}}</mat-card-title>
-<mat-card-subtitle>{{'lbl-validation-subtitle'| language}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos
-et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor
-sit amet.
-      </p>
+    <mat-card class="basic-info-card">
+        <mat-card-header class="header-info-card">
+            <mat-card-title>{{'lbl-validation-title'| language}}</mat-card-title>
+            <mat-card-subtitle>{{'lbl-validation-subtitle'| language}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
 
-<div *ngIf="validation !== undefined || validationLoading" class="code-note">
-  <b *ngIf="validation !== undefined">Validation Code: {{validation | async}}</b>
-  <div *ngIf="validationLoading" style="display: inline-block">
-  <mat-spinner [diameter]="20"></mat-spinner>
-  </div>
-</div>
+            <div style="display: inline-block">
+                <app-formatted-text-area [rawText]="'text-validation' | language"></app-formatted-text-area>
+            </div>
 
-  </mat-card-content>
+            <div
+                *ngIf="validation !== undefined || validationLoading"
+                class="code-note">
+                <b *ngIf="validation !== undefined">Validation Code: {{validation | async}}</b>
+                <div
+                    *ngIf="validationLoading"
+                    style="display: inline-block">
+                    <mat-spinner [diameter]="20"></mat-spinner>
+                </div>
+            </div>
 
-  <mat-card-actions>
-<mat-divider></mat-divider>
+        </mat-card-content>
 
-<button mat-flat-button color="primary" (click)="backToEval()">{{'lbl-your-evaluation' | language}}</button>
+        <mat-card-actions>
+            <mat-divider></mat-divider>
 
-      <button mat-flat-button color="primary" (click)="createValidationCode()">Validation Code</button>
+            <button
+                mat-flat-button
+                color="primary"
+                (click)="backToEval()">
+                {{'lbl-your-evaluation' | language}}
+            </button>
 
-  </mat-card-actions>
+            <button
+                mat-flat-button
+                color="primary"
+                (click)="createValidationCode()">
+                {{'lbl-validation' | language}}
+            </button>
 
-</mat-card>
+        </mat-card-actions>
 
-
+    </mat-card>
 
 </div>

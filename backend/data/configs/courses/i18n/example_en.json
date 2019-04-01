@@ -29,10 +29,10 @@
     "1006-4": "Yellow",
     "1006-5": "Tasty",
     "4001-1": "Select one of the radio buttons.",
-    "3001-1": "You have before Statements based logic all Conclusions assessed. It had you the opportunity too check how good it is you succeed, information logically interpret.",
+    "3001-1": "This is the score independent text for the logic set. It is shown to every user regardless of their score. It can contain some general information about the set or give advice about any topic covered in this set.",
     "3001-2": "Your results are below average.",
     "3001-3": "Your results are average.",
     "3001-4": "Your results are above average",
-    "3002-1": "To yours mathematical Basic knowledge too check, you have imprevious SelfAssessment different math problems processed."
+    "3002-1": "This is the score independent text for the maths set. It is shown to every user regardless of their score. It can contain some general information about the set or give advice about any topic covered in this set."
   }
 }
