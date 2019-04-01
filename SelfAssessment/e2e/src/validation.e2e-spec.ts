@@ -2,7 +2,7 @@ import { ValidationPage } from './pages/validation.po';
 /**
  * This testfile shows the tests for the validation page without a specific config file.
  */
-describe('Validation view', function() {
+xdescribe('Validation view', function() {
     let page: ValidationPage;
 
     beforeEach(() => {

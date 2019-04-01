@@ -1,6 +1,6 @@
 import { DashboardPage } from './pages/dashboard.po';
 
-describe('selfassessment dashboard view', function() {
+xdescribe('selfassessment dashboard view', function() {
     let page: DashboardPage;
 
     beforeEach(() => {
