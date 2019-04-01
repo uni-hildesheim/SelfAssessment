@@ -100,7 +100,14 @@ export class LocalStorageService {
    * Clears all the items stored in the local storage.
    */
   public clearStorage(): void {
-    localStorage.clear();
+    const keys = Object.keys(localStorage);
+    let i = keys.length - 1;
+    while (i >= 0) {
+      if (keys[i] !== StorageItem.RESOURCES && keys[i] !== StorageItem.LANGUAGE) {
+        localStorage.removeItem(keys[i]);
+      }
+      i--;
+    }
   }
 
 }

@@ -14,13 +14,13 @@ import { of } from 'rxjs';
 import { PinComponent } from '../pin/pin.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
-const strings = { };
+const strings = {};
 
-@Pipe({name: 'language'})
+@Pipe({ name: 'language' })
 class MockPipe implements PipeTransform {
-    transform(value: string): string {
-        return strings[value];
-    }
+  transform(value: string): string {
+    return strings[value];
+  }
 }
 
 describe('DashboardComponent', () => {
@@ -41,12 +41,18 @@ describe('DashboardComponent', () => {
       getAllCourses() { return of([mockCourse]); }
     };
 
+    const StorageStub = {
+      persistInStorage(item: StorageItem, value: any): any { },
+      clearStorage() { }
+    };
+
     TestBed.configureTestingModule({
       imports: [MaterialModule, HttpClientModule, RouterTestingModule
-    ],
+      ],
       declarations: [DashboardComponent, CourseCardComponent, PinComponent, MockPipe],
-      providers: [GlobalIndicator, LocalStorageService,
-        {provide: ConfigService, useValue: ConfigServiceStub}
+      providers: [GlobalIndicator,
+        { provide: LocalStorageService, useValue: StorageStub },
+        { provide: ConfigService, useValue: ConfigServiceStub }
       ]
     })
       .compileComponents();
