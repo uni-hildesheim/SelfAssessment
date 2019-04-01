@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PipeTransform, Pipe } from '@angular/core';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('ValidationComponent', () => {
   let component: ValidationComponent;
@@ -20,9 +21,11 @@ describe('ValidationComponent', () => {
   const dummyValidationCode = 'ABC';
   const dummyPin = 12345678;
 
-  const strings = {};
+  const strings = {
+    'text-validation': 'example text'
+  };
 
-  @Pipe({ name: 'language' })
+  @Pipe({ name: 'language'})
   class MockLangPipe implements PipeTransform {
     transform(value: string): string {
       return strings[value];
@@ -31,7 +34,7 @@ describe('ValidationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [MaterialModule, RouterTestingModule, HttpClientTestingModule, SharedModule],
       declarations: [ValidationComponent, MockLangPipe ],
       providers: [LocalStorageService, CodeService]
     })
