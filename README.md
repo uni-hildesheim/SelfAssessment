@@ -74,6 +74,8 @@ It is also possible to filter the entirety of questions by their respective type
 
 ***
 
+*All pictures for this project were gathered from [pexels.com](https://www.pexels.com/photo-license/).*
+
 <a name="started"></a>
 
 ## 2. Getting Started
