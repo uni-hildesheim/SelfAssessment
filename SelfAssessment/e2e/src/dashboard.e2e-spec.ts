@@ -1,13 +1,13 @@
 import { DashboardPage } from './pages/dashboard.po';
 
-xdescribe('selfassessment dashboard view', function() {
+describe('selfassessment dashboard view', function() {
     let page: DashboardPage;
 
     beforeEach(() => {
         page = new DashboardPage();
         page.navigateTo();
     });
-/**
+
     it('should display the pin code', () => {
         expect(page.isPresentAppPin()).toBeTruthy();
     });
@@ -23,5 +23,5 @@ xdescribe('selfassessment dashboard view', function() {
     it('should display a single course card with content', () => {
         expect(page.isPresentSingleCourseCard()).toBe(true);
     });
-*/
+
 });

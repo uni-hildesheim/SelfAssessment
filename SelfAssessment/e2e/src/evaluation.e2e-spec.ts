@@ -1,14 +1,15 @@
 import { EvaluationPage } from './pages/evaluation.po';
-
-xdescribe('Evaluation View', function() {
+/**
+ * This testfile shows the tests for the evaluation page without a specific config file.
+ */
+describe('Evaluation View', function() {
         let page: EvaluationPage;
 
         beforeEach(() => {
             page = new EvaluationPage();
             page.navigateTo();
         });
-/**
         it('should have a mat-card', () => {
             expect(page.isPresentMatCard()).toBe(true);
-        });*/
+        });
 });

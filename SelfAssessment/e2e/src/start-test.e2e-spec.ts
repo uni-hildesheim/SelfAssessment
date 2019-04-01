@@ -1,14 +1,15 @@
 import { StartTestPage } from './pages/start-test.po';
 import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
-
-xdescribe('test-start view', function() {
+/**
+ * This testfile shows the tests for the test-start page without a specific config file.
+ */
+describe('test-start view', function() {
         let page: StartTestPage;
 
         beforeEach(() => {
             page = new StartTestPage();
             page.navigateTo();
         });
-/**
         it('shouldnot display any content', () => {
             expect(page.getMatCardTitleContent()).toBe('');
         });
@@ -29,5 +30,4 @@ xdescribe('test-start view', function() {
             const button = page.getButtonElement();
             expect(button.isEnabled()).toBe(true);
         });
-        */
 });

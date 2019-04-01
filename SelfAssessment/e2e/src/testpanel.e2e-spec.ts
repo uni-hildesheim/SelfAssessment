@@ -1,15 +1,15 @@
 import { TestpanelPage } from './pages/testpanel.po';
 /**
- * This testfile tests the testpanelpage without the impact of a loading config file.
+ * This testfile shows the tests for the testpanel page without a specific config file.
  */
-xdescribe('Testpanel view', function() {
+describe('Testpanel view', function() {
     let page: TestpanelPage;
 
     beforeEach(() => {
         page = new TestpanelPage();
         page.navigateTo();
     });
-/**
+
     it('should not have a mat-step', () => {
         expect(page.isPresentMatStep()).toBe(false);
     });
@@ -28,5 +28,4 @@ xdescribe('Testpanel view', function() {
     it('should display more than zero mat-icons', () => {
         expect(page.getAllMatIcon().count()).toBeGreaterThanOrEqual(1);
     });
-    */
 });

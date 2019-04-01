@@ -1,12 +1,14 @@
 import { ValidationPage } from './pages/validation.po';
-
-xdescribe('Validation view', function() {
+/**
+ * This testfile shows the tests for the validation page without a specific config file.
+ */
+describe('Validation view', function() {
     let page: ValidationPage;
 
     beforeEach(() => {
         page = new ValidationPage();
     });
-/**
+
     it('should have a header card', () => {
         page.navigateTo();
         expect(page.isPresentCardContent()).toBe(true);
@@ -31,5 +33,5 @@ xdescribe('Validation view', function() {
         page.navigateTo();
         expect(page.isPresentCode()).toBe(true);
     });
-*/
+
 });
