@@ -35,6 +35,7 @@ export class DashboardComponent implements OnInit {
    * Get all the courses from the config service.
    */
   ngOnInit() {
+    this.storageService.clearStorage();
     this.courses$ = this.configService.getAllCourses();
   }
 
