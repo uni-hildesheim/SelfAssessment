@@ -88,6 +88,10 @@ export class MainPanelComponent implements OnInit {
    */
   ngOnInit() {
 
+    // reset globals, necessary if component is reloaded
+    this.globals.setElemIndex = 0;
+    this.globals.setIndex = 0;
+
     this.journalStructure = this.storageService.retrieveFromStorage(StorageItem.JOURNAL_STRUCTURE);
     this.journalLogService.getJournalLogAsObservable().subscribe(
       (data) => {
