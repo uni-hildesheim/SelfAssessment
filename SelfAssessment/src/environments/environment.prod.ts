@@ -14,7 +14,7 @@ export const environment = {
   apiUrl: 'http://localhost:8000',
 
   logSettings: {
-    level: 0,
+    level: 1,
     logtime: true,
     logBufferSize: 5
   },
