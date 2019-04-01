@@ -2,7 +2,7 @@ import { TestpanelPage } from './pages/testpanel.po';
 /**
  * This testfile shows the tests for the testpanel page without a specific config file.
  */
-describe('Testpanel view', function() {
+xdescribe('Testpanel view', function() {
     let page: TestpanelPage;
 
     beforeEach(() => {

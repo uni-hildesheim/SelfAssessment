@@ -2,7 +2,7 @@ import { EvaluationPage } from './pages/evaluation.po';
 /**
  * This testfile shows the tests for the evaluation page without a specific config file.
  */
-describe('Evaluation View', function() {
+xdescribe('Evaluation View', function() {
         let page: EvaluationPage;
 
         beforeEach(() => {

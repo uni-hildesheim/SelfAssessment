@@ -3,7 +3,7 @@ import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 /**
  * This testfile shows the tests for the test-start page without a specific config file.
  */
-describe('test-start view', function() {
+xdescribe('test-start view', function() {
         let page: StartTestPage;
 
         beforeEach(() => {
