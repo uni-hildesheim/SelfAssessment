@@ -6,6 +6,14 @@ module.exports = {
     create
 }
 
+// length of the pin code, where each element is a digit
+// 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
+let PINCODE_LENGTH = Number.parseInt(process.env.PINCODE_LENGTH);
+if (isNaN(PINCODE_LENGTH)) {
+    logger.warn('Failed to get PINCODE_LENGTH from env, using 8');
+    PINCODE_LENGTH = 8;
+}
+
 /**
  * Express.js controller.
  * Create a new user, identified by the pincode.
@@ -17,10 +25,7 @@ module.exports = {
  * @param {*} next ...
  */
 async function create(req, res, next) {
-    // length of the pin code, where each element is a digit
-    // 8 --> 10*10*10*10*10*10*10*10 = 100.000.000 possibilities
-    const LENGTH = 8
-    const MAX_PINCODES = Math.pow(10, LENGTH);
+    const MAX_PINCODES = Math.pow(10, PINCODE_LENGTH);
 
     // get all current users
     let users;
@@ -48,11 +53,11 @@ async function create(req, res, next) {
     }
 
     // generate a new, unique pin code
-    var digits = new Array(LENGTH)
+    var digits = new Array(PINCODE_LENGTH)
     var string = ''
     do {
         string = ''
-        for (let i = 0; i < LENGTH; i++) {
+        for (let i = 0; i < PINCODE_LENGTH; i++) {
             // first digit must not be zero
             if (i === 0) {
                 digits[i] = Math.ceil(Math.random() * 9);
