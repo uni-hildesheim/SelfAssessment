@@ -4,6 +4,7 @@ import { Validators, FormControl } from '@angular/forms';
 import { JournalService } from 'src/app/shared/services/journal/journal.service';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import { StorageItem } from 'src/app/shared/services/local.storage.values.enum';
+import { LoggingService } from 'src/app/shared/logging/logging.service';
 
 /**
  * Realizes the Pin Dialog.
@@ -39,7 +40,8 @@ export class PinDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<PinDialogComponent>,
     private journalService: JournalService,
-    private storageService: LocalStorageService
+    private storageService: LocalStorageService,
+    private logging: LoggingService
   ) { }
 
   /**
@@ -62,7 +64,7 @@ export class PinDialogComponent {
         if (err.status === 404) {
           this.errorMessage = 'The PIN does not exist.';
         } else {
-          console.log(err);
+          this.logging.error(err);
           this.errorMessage = 'Contact your admin.';
         }
       }
