@@ -84,6 +84,9 @@ export class JournalService {
     return this.loadMinJournalStructure(pin)
     .pipe(
       switchMap((structure: JournalStructureMinimal) => {
+        // store name of course in local storage, this information is lost after the proper
+        // structure object is created from the minimal representation
+        this.storageService.persistInStorage(StorageItem.COURSE, {name: structure.course});
         return this.configService.loadConfigFromCourse(structure.course, structure.language)
         .pipe(
           map((configFile: ConfigFile) => {
